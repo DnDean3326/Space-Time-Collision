@@ -45,9 +45,9 @@ public class BattleEntities
     public int speed;
     public int luck;
 
-    public void SetEntityValue(string entityName, int entityMaxHealth, int entityCurrentHealth, int entityMaxSpirit,
-        int entityCurrentSpirit, int entityMaxDefense, int entityMaxArmor, int entityPower, int entitySkill, int entityWit, 
-        int entityMind, int entitySpeed, int entityLuck)
+    public void SetEntityValue(string entityName, int entityLevel, int entityMaxHealth, int entityCurrentHealth,
+        int entityMaxSpirit, int entityCurrentSpirit, int entityMaxDefense, int entityMaxArmor, int entityPower,
+        int entitySkill, int entityWit, int entityMind, int entitySpeed, int entityLuck)
     {
         name = entityName;
         level = entityLevel;
@@ -60,5 +60,7 @@ public class BattleEntities
         currentDefense = maxDefense;
         maxArmor = entityMaxArmor;
         currentArmor = maxArmor;
+        
+        
     }
 }
