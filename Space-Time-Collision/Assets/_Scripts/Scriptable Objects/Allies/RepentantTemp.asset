@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7286e639bc0ef9a4a9a974c478cad697, type: 3}
+  m_Name: RepentantTemp
+  m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
+  allyName: Repentant
+  baseHealth: 0
+  baseDefense: 0
+  baseArmor: 0
+  baseSpirit: 0
+  basePower: 0
+  baseSkill: 0
+  baseWit: 0
+  baseMind: 0
+  baseSpeed: 0
+  baseLuck: 0
+  allyBattleVisualPrefab: {fileID: 0}
+  allyMapVisualPrefab: {fileID: 0}
