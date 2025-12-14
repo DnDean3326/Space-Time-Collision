@@ -18,9 +18,10 @@ public class PartyManager : MonoBehaviour
             Destroy(gameObject);
         } else {
             _instance = gameObject;
+            AddMemberToPartyByName(defaultPartyMember.allyName);
         }
         
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     public void AddMemberToPartyByName(string memberName)
@@ -39,7 +40,7 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.maxArmor = allMembers[i].baseArmor;
                 newPartyMember.currentArmor = newPartyMember.maxArmor;
                 newPartyMember.maxSpirit = allMembers[i].baseSpirit;
-                newPartyMember.currentSpirit = newPartyMember.maxDefense;
+                newPartyMember.currentSpirit = newPartyMember.maxSpirit;
                 
                 newPartyMember.power = allMembers[i].basePower;
                 newPartyMember.skill = allMembers[i].baseSkill;
@@ -57,7 +58,7 @@ public class PartyManager : MonoBehaviour
         
     }
 
-    List<PartyMember> GetCurrentParty()
+    public List<PartyMember> GetCurrentParty()
     {
         List<PartyMember> aliveParty = new List<PartyMember>();
         aliveParty = currentParty;
@@ -73,6 +74,11 @@ public class PartyManager : MonoBehaviour
     public void SaveHealth(int partyMember, int health)
     {
         currentParty[partyMember].currentHealth = health;
+    }
+
+    public void SaveSpirit(int partyMember, int spirit)
+    {
+        currentParty[partyMember].currentSpirit = spirit;
     }
     
 }

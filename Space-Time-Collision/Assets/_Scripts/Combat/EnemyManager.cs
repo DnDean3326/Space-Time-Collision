@@ -18,13 +18,14 @@ public class EnemyManager : MonoBehaviour
             _instance = gameObject;
         }
         
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
+    // TODO This will need to be revised down the line to use set encounters
     public void GenerateEnemiesByEncounter(Encounter[] encounters, int maxNumEnemies)
     {
         currentEnemies.Clear();
-        int numEnemies = Random.Range(0, maxNumEnemies + 1);
+        int numEnemies = Random.Range(1, maxNumEnemies + 1);
 
         for (int i = 0; i < numEnemies; i++) {
             Encounter tempEncounter = encounters[Random.Range(0, encounters.Length)];
@@ -59,7 +60,7 @@ public class EnemyManager : MonoBehaviour
                 newEnemy.speed = Mathf.RoundToInt(allEnemies[i].baseSpeed + (allEnemies[i].baseSpeed * levelModifier));
                 newEnemy.luck = Mathf.RoundToInt(allEnemies[i].baseLuck + (allEnemies[i].baseLuck * levelModifier));
                 
-                newEnemy.allyBattleVisualPrefab = allEnemies[i].allyBattleVisualPrefab;
+                newEnemy.enemyVisualPrefab = allEnemies[i].allyBattleVisualPrefab;
                 
                 currentEnemies.Add(newEnemy);
             }
@@ -97,5 +98,5 @@ public class Enemy
     public int speed;
     public int luck;
     
-    public GameObject allyBattleVisualPrefab; // what will be displayed in the battle scene
+    public GameObject enemyVisualPrefab; // what will be displayed in the battle scene
 }
