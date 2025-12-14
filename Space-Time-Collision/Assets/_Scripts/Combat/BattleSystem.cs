@@ -49,6 +49,16 @@ public class BattleEntities
         int entityCurrentSpirit, int entityMaxDefense, int entityMaxArmor, int entityPower, int entitySkill, int entityWit, 
         int entityMind, int entitySpeed, int entityLuck)
     {
+        name = entityName;
+        level = entityLevel;
         
+        maxHealth = entityMaxHealth;
+        currentHealth = entityCurrentHealth;
+        maxSpirit = entityMaxSpirit;
+        currentSpirit = entityCurrentSpirit;
+        maxDefense = entityMaxDefense;
+        currentDefense = maxDefense;
+        maxArmor = entityMaxArmor;
+        currentArmor = maxArmor;
     }
 }
