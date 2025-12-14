@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360c2d98c31379b4d968bbe8ba200b37, type: 3}
+  m_Name: EnemyInfo
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
+  enemyName: Martin
+  baseHealth: 20
+  baseDefense: 0
+  baseArmor: 0
+  baseSpirit: 12
+  basePower: 4
+  baseSkill: 3
+  baseWit: 1
+  baseMind: 3
+  baseSpeed: 4
+  baseLuck: 10
+  allyBattleVisualPrefab: {fileID: 0}

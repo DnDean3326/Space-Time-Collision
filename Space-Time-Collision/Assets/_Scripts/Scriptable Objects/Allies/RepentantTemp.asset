@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: RepentantTemp
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
   allyName: Repentant
-  baseHealth: 0
+  baseHealth: 32
   baseDefense: 0
-  baseArmor: 0
-  baseSpirit: 0
-  basePower: 0
-  baseSkill: 0
-  baseWit: 0
-  baseMind: 0
-  baseSpeed: 0
-  baseLuck: 0
-  allyBattleVisualPrefab: {fileID: 0}
+  baseArmor: 2
+  baseSpirit: 24
+  basePower: 5
+  baseSkill: 4
+  baseWit: 4
+  baseMind: 5
+  baseSpeed: 6
+  baseLuck: 2
+  allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 63880d098158e7e40b9d9a5cc2fc5a7c, type: 3}
   allyMapVisualPrefab: {fileID: 0}
