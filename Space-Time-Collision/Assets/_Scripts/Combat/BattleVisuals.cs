@@ -15,9 +15,9 @@ public class BattleVisuals : MonoBehaviour
     private int armor;
     private Animator myAnimator;
 
-    private const string IS_ATTACK_PARAM = "IsAttack";
-    private const string IS_HIT_PARAM = "IsHit";
-    private const string IS_DEAD_PARAM = "IsDead";
+    private const string IS_ATTACK_PARAM = "AttackTrigger";
+    private const string IS_HIT_PARAM = "HitTrigger";
+    private const string IS_DEAD_PARAM = "DeadTrigger";
     private const string MY_TURN_BOOL = "IsMyTurn";
 
     private void Awake()
@@ -80,8 +80,7 @@ public class BattleVisuals : MonoBehaviour
 
     public void PlayAttackAnimation()
     {
-        //myAnimator.SetTrigger(IS_ATTACK_PARAM);
-        print("Attack Animation Trigger");
+        myAnimator.SetTrigger(IS_ATTACK_PARAM);
     }
 
     public void PlayHitAnimation()

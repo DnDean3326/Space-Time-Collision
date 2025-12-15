@@ -43,9 +43,11 @@ public class BattleSystem : MonoBehaviour
     
     private const float COMBAT_BEGIN_DELAY = 1f;
     private const float TURN_ACTION_DELAY = 1.5f;
+    private const float DEATH_DELAY = 3f;
     private const int TURN_START_THRESHOLD = 200;
     private const int BASE_INITIATIVE_GAIN = 20;
     private const int MAX_INITIATIVE_START = 100;
+    private const string MAP_SCENE = "BaseScene";
     
     // Animator Constants
     private const string BATTLE_START_END = "EndTrigger";
@@ -78,8 +80,8 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
             combatStartUIAnimator.SetTrigger(BATTLE_START_END);
             yield return new WaitForSeconds(0.2f);
-            yield return StartCoroutine(BattleRoutine());
             state = BattleState.Battle;
+            StartCoroutine(BattleRoutine());
         } else {
             print("Start Routine called but the battle system is not in the start state.");
             yield break;
@@ -89,6 +91,8 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator BattleRoutine()
     {
         if (state == BattleState.Battle) {
+            RemoveDeadCombatants();
+            print("Battle Routine called");
             print("Battle Routine called");
             do {
                 for (int i = 0; i < allCombatants.Count; i++) {
@@ -105,8 +109,8 @@ public class BattleSystem : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
             } while (preparedCombatants.Count <= 0);
 
-            yield return StartCoroutine(OrderRoutine());
             state = BattleState.Ordering;
+            StartCoroutine(OrderRoutine());
         } else {
             print("Battle Routine called but the battle system is not in the Battle state.");
             yield break;
@@ -116,19 +120,35 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator OrderRoutine()
     {
         if (state == BattleState.Ordering) {
+            // if no party members remain -> battle is lost
+            if (partyCombatants.Count <= 0) {
+                state = BattleState.Lost;
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
+                print("GAME OVER! \n Go to game over screen.");
+            }
+            // if no enemies remain -> battle is won
+            if (enemyCombatants.Count <= 0) {
+                state = BattleState.Won;
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
+                SceneManager.LoadScene(MAP_SCENE);
+            }
             
-            if (preparedCombatants.Count >= 0) {
+            RemoveDeadCombatants();
+            if (preparedCombatants.Count > 0) {
                 // Sorts prepared combatants by initiative from highest to lowest
                 preparedCombatants.Sort((bi1, bi2) => -bi1.initiative.CompareTo(bi2.initiative));
                 
                 int characterIndex = allCombatants.IndexOf(preparedCombatants[0]);
                 if (preparedCombatants[0].isPlayer) {
-                    yield return StartCoroutine(PlayerTurnRoutine(characterIndex));
                     state = BattleState.PlayerTurn;
+                    StartCoroutine(PlayerTurnRoutine(characterIndex));
                 } else if (!preparedCombatants[0].isPlayer) {
-                    yield return StartCoroutine(EnemyTurnRoutine(characterIndex));
                     state = BattleState.EnemyTurn;
+                    StartCoroutine(EnemyTurnRoutine(characterIndex));
                 }
+            } else {
+                state = BattleState.Battle;
+                StartCoroutine(BattleRoutine());
             }
                 
         } else {
@@ -142,14 +162,20 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.PlayerTurn) {
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
             allCombatants[characterIndex].initiative -= TURN_START_THRESHOLD;
+            preparedCombatants.RemoveAt(0);
             print("Player turn has begun. " + allCombatants[characterIndex].name + " Is the active character.");
-        
-            yield return StartCoroutine(OrderRoutine());
+            
+            
+            
+            /*allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(false);
             state = BattleState.Ordering;
+            StartCoroutine(OrderRoutine());*/
         }  else {
             print("Player Turn Routine called but the battle system is not in the Player Turn state.");
             yield break;
         }
+
+        yield break;
     }
 
     private IEnumerator EnemyTurnRoutine(int characterIndex)
@@ -157,16 +183,17 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.EnemyTurn) {
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
             allCombatants[characterIndex].initiative -= TURN_START_THRESHOLD;
+            preparedCombatants.RemoveAt(0);
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
             print("Enemy turn has begun. " + allCombatants[characterIndex].name + " Is the active enemy.");
         
             allCombatants[characterIndex].target = GetRandomPartyMember();
-            DamageAction(allCombatants[characterIndex], allCombatants[allCombatants[characterIndex].target]);
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+            yield return StartCoroutine(DamageAction(allCombatants[characterIndex], 
+                allCombatants[allCombatants[characterIndex].target]));
 
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(false);
-            yield return StartCoroutine(OrderRoutine());
             state = BattleState.Ordering;
+            StartCoroutine(OrderRoutine());
         } else {
             print("Enemy Turn Routine called but the battle system is not in the Enemy Turn state.");
             yield break;
@@ -282,14 +309,30 @@ public class BattleSystem : MonoBehaviour
     
     // TODO Damage function needed here
     
-    private void DamageAction(BattleEntities attacker, BattleEntities attackTarget)
+    private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget)
     {
         int damage = attacker.power; // get damage (can use a formula)
         attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
-        attackTarget.currentHealth -= damage; // deal the damage
         attackTarget.battleVisuals.PlayHitAnimation(); // target plays on hit animation
+        yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        attackTarget.currentHealth -= damage; // deal the damage
         attackTarget.UpdateUI(); // update the UI
         print(string.Format("{0} attacks {1} dealing {2} damage.", attacker.name, attackTarget.name, damage));
+        
+        if (attackTarget.currentHealth <= 0) {
+            yield return new WaitForSeconds(DEATH_DELAY);
+            
+            // For some reason in the tutorial allies and enemies are never removed from allCombatants on death. Unsure if that's intentional...
+            if (attackTarget.isPlayer) {
+                partyCombatants.Remove(attackTarget);
+                
+            } else if (!attackTarget.isPlayer) {
+                enemyCombatants.Remove(attackTarget);
+                
+            }
+            
+        }
+        
         SaveResources();
     }
     
