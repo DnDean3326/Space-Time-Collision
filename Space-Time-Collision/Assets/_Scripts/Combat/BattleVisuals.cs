@@ -81,7 +81,7 @@ public class BattleVisuals : MonoBehaviour
     public void PlayAttackAnimation()
     {
         //myAnimator.SetTrigger(IS_ATTACK_PARAM);
-        print("");
+        print("Attack Animation Trigger");
     }
 
     public void PlayHitAnimation()

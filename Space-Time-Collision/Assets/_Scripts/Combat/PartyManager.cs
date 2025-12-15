@@ -18,20 +18,20 @@ public class PartyManager : MonoBehaviour
             Destroy(gameObject);
         } else {
             _instance = gameObject;
-            AddMemberToPartyByName(defaultPartyMember.allyName);
+            AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
         }
         
         DontDestroyOnLoad(gameObject);
     }
 
-    public void AddMemberToPartyByName(string memberName)
+    public void AddMemberToPartyByName(string memberName, int level)
     {
         for (int i = 0; i < allMembers.Length; i++) {
             if (allMembers[i].allyName == memberName) {
                 PartyMember newPartyMember = new PartyMember();
                 
                 newPartyMember.memberName = allMembers[i].allyName;
-                newPartyMember.level = BASE_LEVEL;
+                newPartyMember.level = level;
                 
                 newPartyMember.maxHealth = allMembers[i].baseHealth;
                 newPartyMember.currentHealth = newPartyMember.maxHealth;

@@ -42,7 +42,7 @@ public class BattleSystem : MonoBehaviour
     private int currentPlayer;
     
     private const float COMBAT_BEGIN_DELAY = 1f;
-    private const float TURN_ACTION_DELAY = 2f;
+    private const float TURN_ACTION_DELAY = 1.5f;
     private const int TURN_START_THRESHOLD = 200;
     private const int BASE_INITIATIVE_GAIN = 20;
     private const int MAX_INITIATIVE_START = 100;
@@ -71,76 +71,106 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.Start) {
             for (int i = 0; i < allCombatants.Count; i++) {
-                allCombatants[i].initiative = Random.Range(90, MAX_INITIATIVE_START + 1);
+                allCombatants[i].initiative = Random.Range(0, MAX_INITIATIVE_START + 1);
                 print(allCombatants[i].name + "'s starting initiative is " +  allCombatants[i].initiative);
             }
 
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
             combatStartUIAnimator.SetTrigger(BATTLE_START_END);
             yield return new WaitForSeconds(0.2f);
+            yield return StartCoroutine(BattleRoutine());
             state = BattleState.Battle;
-            StartCoroutine(BattleRoutine());
-            yield return null;
         } else {
             print("Start Routine called but the battle system is not in the start state.");
+            yield break;
         }
-        yield return null;
     }
 
     private IEnumerator BattleRoutine()
     {
-        print("Battle Routine called");
-        do {
-            for (int i = 0; i < allCombatants.Count; i++) {
-                if (state == BattleState.Battle) {
-                    allCombatants[i].initiative += BASE_INITIATIVE_GAIN + allCombatants[i].speed;
-                    print(allCombatants[i].name + "'s new initiative is " +  allCombatants[i].initiative);
-                    if (allCombatants[i].initiative >= TURN_START_THRESHOLD) {
-                        preparedCombatants.Add(allCombatants[i]);
-                        //allCombatants[i].initiative -= TURN_START_THRESHOLD;
-                        print(allCombatants[i].name + " has been prepared.");
+        if (state == BattleState.Battle) {
+            print("Battle Routine called");
+            do {
+                for (int i = 0; i < allCombatants.Count; i++) {
+                    if (state == BattleState.Battle) {
+                        allCombatants[i].initiative += BASE_INITIATIVE_GAIN + allCombatants[i].speed;
+                        print(allCombatants[i].name + "'s new initiative is " + allCombatants[i].initiative);
+                        if (allCombatants[i].initiative >= TURN_START_THRESHOLD) {
+                            preparedCombatants.Add(allCombatants[i]);
+                            print(allCombatants[i].name + " has been prepared.");
+                        }
                     }
                 }
-            }
-            yield return new WaitForSeconds(0.5f);
-        } while (preparedCombatants.Count <= 0);
 
-        state = BattleState.Ordering;
-        StartCoroutine(OrderRoutine());
-        yield return null;
+                yield return new WaitForSeconds(0.5f);
+            } while (preparedCombatants.Count <= 0);
+
+            yield return StartCoroutine(OrderRoutine());
+            state = BattleState.Ordering;
+        } else {
+            print("Battle Routine called but the battle system is not in the Battle state.");
+            yield break;
+        }
     }
 
     private IEnumerator OrderRoutine()
     {
         if (state == BattleState.Ordering) {
-            // Sorts prepared combatants by initiative from highest to lowest
-            preparedCombatants.Sort((bi1, bi2) => -bi1.initiative.CompareTo(bi2.initiative));
-            int characterIndex = allCombatants.IndexOf(preparedCombatants[0]);
-            if (preparedCombatants[0].isPlayer) {
-                state = BattleState.PlayerTurn;
-                StartCoroutine(PartyTurnRoutine(characterIndex));
-            } else if (!preparedCombatants[0].isPlayer) {
-                state = BattleState.EnemyTurn;
-                StartCoroutine(EnemyTurnRoutine(characterIndex));
+            
+            if (preparedCombatants.Count >= 0) {
+                // Sorts prepared combatants by initiative from highest to lowest
+                preparedCombatants.Sort((bi1, bi2) => -bi1.initiative.CompareTo(bi2.initiative));
+                
+                int characterIndex = allCombatants.IndexOf(preparedCombatants[0]);
+                if (preparedCombatants[0].isPlayer) {
+                    yield return StartCoroutine(PlayerTurnRoutine(characterIndex));
+                    state = BattleState.PlayerTurn;
+                } else if (!preparedCombatants[0].isPlayer) {
+                    yield return StartCoroutine(EnemyTurnRoutine(characterIndex));
+                    state = BattleState.EnemyTurn;
+                }
             }
                 
+        } else {
+            print("Start Order called but the battle system is not in the Order state.");
+            yield break;
         }
-        yield return null;
     }
 
-    private IEnumerator PartyTurnRoutine(int characterIndex)
+    private IEnumerator PlayerTurnRoutine(int characterIndex)
     {
-        allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
-        print("Player turn has begun. " + allCombatants[characterIndex].name + " Is the active character.");
-        yield return null;
+        if (state == BattleState.PlayerTurn) {
+            allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
+            allCombatants[characterIndex].initiative -= TURN_START_THRESHOLD;
+            print("Player turn has begun. " + allCombatants[characterIndex].name + " Is the active character.");
+        
+            yield return StartCoroutine(OrderRoutine());
+            state = BattleState.Ordering;
+        }  else {
+            print("Player Turn Routine called but the battle system is not in the Player Turn state.");
+            yield break;
+        }
     }
 
     private IEnumerator EnemyTurnRoutine(int characterIndex)
     {
-        allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
-        print("Enemy turn has begun. " + allCombatants[characterIndex].name + " Is the active enemy.");
-        allCombatants[characterIndex].target = GetRandomPartyMember();
-        yield return null;
+        if (state == BattleState.EnemyTurn) {
+            allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
+            allCombatants[characterIndex].initiative -= TURN_START_THRESHOLD;
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+            print("Enemy turn has begun. " + allCombatants[characterIndex].name + " Is the active enemy.");
+        
+            allCombatants[characterIndex].target = GetRandomPartyMember();
+            DamageAction(allCombatants[characterIndex], allCombatants[allCombatants[characterIndex].target]);
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+
+            allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(false);
+            yield return StartCoroutine(OrderRoutine());
+            state = BattleState.Ordering;
+        } else {
+            print("Enemy Turn Routine called but the battle system is not in the Enemy Turn state.");
+            yield break;
+        }
     }
 
     private void CreatePartyEntities()
@@ -211,10 +241,11 @@ public class BattleSystem : MonoBehaviour
         }
     }
     
-    private void SaveHealth()
+    private void SaveResources()
     {
         for (int i = 0; i < partyCombatants.Count; i++) {
             partyManager.SaveHealth(i, partyCombatants[i].currentHealth);
+            partyManager.SaveSpirit(i, partyCombatants[i].currentSpirit);
         }
             
     }
@@ -251,7 +282,28 @@ public class BattleSystem : MonoBehaviour
     
     // TODO Damage function needed here
     
+    private void DamageAction(BattleEntities attacker, BattleEntities attackTarget)
+    {
+        int damage = attacker.power; // get damage (can use a formula)
+        attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
+        attackTarget.currentHealth -= damage; // deal the damage
+        attackTarget.battleVisuals.PlayHitAnimation(); // target plays on hit animation
+        attackTarget.UpdateUI(); // update the UI
+        print(string.Format("{0} attacks {1} dealing {2} damage.", attacker.name, attackTarget.name, damage));
+        SaveResources();
+    }
+    
     // TODO Heal function needed here
+    private void HealAction(BattleEntities healer, BattleEntities healTarget)
+    {
+        int restore = healer.power; // get damage (can use a formula)
+        //healer.battleVisuals.PlayAttackAnimation(); // play the attack animation
+        healTarget.currentHealth += restore; // deal the damage
+        healTarget.battleVisuals.PlayHitAnimation(); // target plays on hit animation
+        healTarget.UpdateUI(); // update the UI
+        print(string.Format("{0} heals {1} restoring {2} toughness.", healer.name, healTarget.name, restore));
+        SaveResources();
+    }
 }
 
 [System.Serializable]

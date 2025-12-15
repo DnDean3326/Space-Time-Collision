@@ -42,7 +42,7 @@ public class EnemyManager : MonoBehaviour
 
                 newEnemy.enemyName = allEnemies[i].enemyName;
                 newEnemy.level = level;
-                float levelModifier = (LEVEL_MODIFIER * newEnemy.level);
+                float levelModifier = (LEVEL_MODIFIER * (newEnemy.level - 1));
                 
                 newEnemy.maxHealth = Mathf.RoundToInt(allEnemies[i].baseHealth + (allEnemies[i].baseHealth * levelModifier));
                 newEnemy.currentHealth = newEnemy.maxHealth;
