@@ -130,13 +130,16 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator PartyTurnRoutine(int characterIndex)
     {
+        allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
         print("Player turn has begun. " + allCombatants[characterIndex].name + " Is the active character.");
         yield return null;
     }
 
     private IEnumerator EnemyTurnRoutine(int characterIndex)
     {
+        allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
         print("Enemy turn has begun. " + allCombatants[characterIndex].name + " Is the active enemy.");
+        allCombatants[characterIndex].target = GetRandomPartyMember();
         yield return null;
     }
 
@@ -220,7 +223,31 @@ public class BattleSystem : MonoBehaviour
     
     // TODO Select enemy function needed here
     
-    // TODO Random targeting needed here
+    // TODO Replace the random targeting methods here with ones that accommodates the grid
+    
+    private int GetRandomPartyMember()
+    {
+        List<int> partyMembers = new List<int>(); // create a temporary list of type int (index)
+        // find all the party members -> add them to list
+        for (int i = 0; i < allCombatants.Count; i++) {
+            if (allCombatants[i].isPlayer) {
+                partyMembers.Add(i);
+            }
+        }
+        return partyMembers[Random.Range(0, partyMembers.Count)]; // return a random party member
+    }
+    
+    private int GetRandomEnemy()
+    {
+        List<int> enemies = new List<int>(); // create a temporary list of type int (index)
+        // find all the party members -> add them to list
+        for (int i = 0; i < allCombatants.Count; i++) {
+            if (!allCombatants[i].isPlayer) {
+                enemies.Add(i);
+            }
+        }
+        return enemies[Random.Range(0, enemies.Count)]; // return a random party member
+    }
     
     // TODO Damage function needed here
     
