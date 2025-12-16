@@ -18,4 +18,6 @@ public class EnemyInfo : ScriptableObject
     public int baseLuck;
     
     public GameObject allyBattleVisualPrefab; // what will be displayed in the battle scene
+    
+    public Ability abilityOne;
 }

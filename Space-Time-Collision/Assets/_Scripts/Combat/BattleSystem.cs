@@ -92,30 +92,34 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.Battle;
             StartCoroutine(BattleRoutine());
         } else {
-            print("Start Routine called but the battle system is not in the start state.");
+            print("Battle Routine called but the battle system is in the " + state + " state.");
             yield break;
         }
     }
 
     private IEnumerator BattleRoutine()
     {
+        print("Battle state was called");
+        
+        // if no party members remain -> battle is lost
+        if (partyCombatants.Count <= 0) {
+            state = BattleState.Lost;
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
+            print("GAME OVER! \n Go to game over screen.");
+            SceneManager.LoadScene(BASE_SCENE);
+        }
+        // if no enemies remain -> battle is won
+        if (enemyCombatants.Count <= 0) {
+            state = BattleState.Won;
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
+            print("Your party prevailed!");
+            SceneManager.LoadScene(MAP_SCENE);
+        }
+        // Remove any dead combatants from the combat
+        RemoveDeadCombatants();
+        
         if (state == BattleState.Battle) {
-            // if no party members remain -> battle is lost
-            if (partyCombatants.Count <= 0) {
-                state = BattleState.Lost;
-                yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
-                print("GAME OVER! \n Go to game over screen.");
-                SceneManager.LoadScene(BASE_SCENE);
-            }
-            // if no enemies remain -> battle is won
-            if (enemyCombatants.Count <= 0) {
-                state = BattleState.Won;
-                yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
-                print("Your party prevailed!");
-                SceneManager.LoadScene(MAP_SCENE);
-            }
-            // Remove any dead combatants from the combat
-            RemoveDeadCombatants();
+            
             
             while (preparedCombatants.Count <= 0) {
                 for (int i = 0; i < allCombatants.Count; i++) {
@@ -132,7 +136,7 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.Ordering;
             StartCoroutine(OrderRoutine());
         } else {
-            print("Battle Routine called but the battle system is not in the Battle state.");
+            print("Battle Routine called but the battle system is in the " + state + " state.");
             yield break;
         }
     }
@@ -159,7 +163,7 @@ public class BattleSystem : MonoBehaviour
             }
                 
         } else {
-            print("Start Order called but the battle system is not in the Order state.");
+            print("Battle Routine called but the battle system is in the " + state + " state.");
             yield break;
         }
     }
@@ -171,7 +175,7 @@ public class BattleSystem : MonoBehaviour
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
             allCombatants[characterIndex].initiative -= TURN_START_THRESHOLD;
             preparedCombatants.RemoveAt(preparedCombatants.IndexOf(allCombatants[characterIndex]));
-            print("Player turn has begun. " + allCombatants[characterIndex].entityName + " Is the active character.");
+            print("Player turn has begun. " + allCombatants[characterIndex].myName + " Is the active character.");
 
             abilitySelected = false;
             ShowAbilitySelectMenu(characterIndex);
@@ -211,7 +215,7 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.Battle;
             StartCoroutine(BattleRoutine());
         }  else {
-            print("Player Turn Routine called but the battle system is not in the Player Turn state.");
+            print("Battle Routine called but the battle system is in the " + state + " state.");
             yield break;
         }
 
@@ -229,6 +233,7 @@ public class BattleSystem : MonoBehaviour
             
         
             allCombatants[characterIndex].target = GetRandomPartyMember();
+            allCombatants[characterIndex].activeAbility = 0; // TODO replace this ability with enemy brain function
             yield return StartCoroutine(DamageAction(allCombatants[characterIndex], 
                 allCombatants[allCombatants[characterIndex].target], allCombatants[characterIndex].activeAbility));
 
@@ -236,7 +241,7 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.Battle;
             StartCoroutine(BattleRoutine());
         } else {
-            print("Enemy Turn Routine called but the battle system is not in the Enemy Turn state.");
+            print("Battle Routine called but the battle system is in the " + state + " state.");
             yield break;
         }
     }
@@ -292,7 +297,7 @@ public class BattleSystem : MonoBehaviour
                 currentEnemies[i].skill, currentEnemies[i].wit, currentEnemies[i].mind, currentEnemies[i].speed, currentEnemies[i].luck, false);
             
             // Spawn the visuals
-            // Right now it sets to a set position based on instatiate order, this will eventually need to be updated to place on the selected grid position
+            // TODO have enemies spawned at a specific grid position
             BattleVisuals tempBattleVisuals = Instantiate(currentEnemies[i].enemyVisualPrefab, enemyGridTransform[i].position,
                 Quaternion.identity).GetComponent<BattleVisuals>();
             
@@ -300,6 +305,8 @@ public class BattleSystem : MonoBehaviour
             tempBattleVisuals.SetStartingValues(currentEnemies[i].maxHealth, currentEnemies[i].currentHealth, currentEnemies[i].maxDefense, currentEnemies[i].maxArmor);
             // Assign said visuals to the battle entity
             tempEntity.battleVisuals = tempBattleVisuals;
+            // Give the enemy their abilities
+            tempEntity.myAbilities = enemyManager.GetAbilities(i);
             
             // Add the allied combatant to the all combatants and party combatant lists
             allCombatants.Add(tempEntity);
@@ -371,7 +378,7 @@ public class BattleSystem : MonoBehaviour
             for (int i = 0; i < enemyCombatants.Count; i++) {
                 allCombatants[characterIndex].targetButtons[i].SetActive(true);
                 // Change the button's text
-                allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = enemyCombatants[i].entityName;
+                allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = enemyCombatants[i].myName;
                 
             }
         } else {
@@ -379,7 +386,7 @@ public class BattleSystem : MonoBehaviour
             for (int i = 0; i < partyCombatants.Count; i++) {
                 allCombatants[characterIndex].targetButtons[i].SetActive(true);
                 // Change the button's text
-                allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = partyCombatants[i].entityName;
+                allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = partyCombatants[i].myName;
             }
         }
         
@@ -403,6 +410,7 @@ public class BattleSystem : MonoBehaviour
     {
         BattleEntities currentPlayerEntity = allCombatants[currentPlayer];
         allCombatants[currentPlayer].currentAbilityType = currentPlayerEntity.myAbilities[abilityIndex].abilityType.ToString();
+        allCombatants[currentPlayer].activeAbility = abilityIndex;
         abilitySelected = true;
     }
     
@@ -438,43 +446,43 @@ public class BattleSystem : MonoBehaviour
         // Calculate damage dealt
         int damage;
         
-        string damageKey = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].keyStat.ToString();
-        int damageKeyMod = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].statModifier;
+        string damageKey = attacker.myAbilities[activeAbilityIndex].keyStat.ToString();
+        int damageKeyMod = attacker.myAbilities[activeAbilityIndex].statModifier;
         int damageModifier;
         
         switch (damageKey)
         {
             case "Power":
-                damageModifier = allCombatants[currentPlayer].power * damageKeyMod;
+                damageModifier = attacker.power * damageKeyMod;
                 break;
             case "Skill":
-                damageModifier = allCombatants[currentPlayer].skill * damageKeyMod;
+                damageModifier = attacker.skill * damageKeyMod;
                 break;
             case "Wit":
-                damageModifier = allCombatants[currentPlayer].wit * damageKeyMod;
+                damageModifier = attacker.wit * damageKeyMod;
                 break;
             case "Mind":
-                damageModifier = allCombatants[currentPlayer].mind * damageKeyMod;
+                damageModifier = attacker.mind * damageKeyMod;
                 break;
             case "Speed":
-                damageModifier = allCombatants[currentPlayer].speed * damageKeyMod;
+                damageModifier = attacker.speed * damageKeyMod;
                 break;
             case "Luck":
-                damageModifier = allCombatants[currentPlayer].luck * damageKeyMod;
+                damageModifier = attacker.luck * damageKeyMod;
                 break;
             default:
                 print("Invalid damage key of " +  damageKey + " supplied");
                 yield break;
         }
         
-        int minDamageRange = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].dmgMin;
-        int maxDamageRange = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].dmgMax;
-        int critChance =  allCombatants[currentPlayer].myAbilities[activeAbilityIndex].critChance;
+        int minDamageRange = attacker.myAbilities[activeAbilityIndex].dmgMin;
+        int maxDamageRange = attacker.myAbilities[activeAbilityIndex].dmgMax;
+        int critChance =  attacker.myAbilities[activeAbilityIndex].critChance;
 
         if (Random.Range(1, 101) > critChance) {
             damage = Random.Range(minDamageRange, maxDamageRange + 1) + damageModifier;
         } else {
-            print(allCombatants[currentPlayer].entityName + " scored a critical hit!");
+            print(attacker.myName + " scored a critical hit!");
             damage = (int)((maxDamageRange + damageModifier) * CRIT_DAMAGE_MODIFIER);
         }
         
@@ -495,22 +503,11 @@ public class BattleSystem : MonoBehaviour
         } else {
             attackTarget.currentHealth -= damage;
         }
-
-        switch (attackTarget.isPlayer) {
-            // Update the UI
-            case true:
-                attackTarget.UpdatePlayerUI();
-                break;
-            case false:
-                attackTarget.UpdateEnemyUI();
-                break;
-        }
-        print(string.Format("{0} attacks {1} dealing {2} damage.", attacker.entityName, attackTarget.entityName, damage));
         
+        print(string.Format("{0} attacks {1} dealing {2} damage.", attacker.myName, attackTarget.myName, damage));
         if (attackTarget.currentHealth <= 0) {
             yield return new WaitForSeconds(DEATH_DELAY);
             
-            // For some reason in the tutorial allies and enemies are never removed from allCombatants on death. Unsure if that's intentional...
             if (attackTarget.isPlayer) {
                 partyCombatants.Remove(attackTarget);
                 
@@ -518,10 +515,16 @@ public class BattleSystem : MonoBehaviour
                 enemyCombatants.Remove(attackTarget);
                 
             }
-            
         }
-        
+        //yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
         SaveResources();
+        if (attackTarget.isPlayer) {
+            attackTarget.UpdatePlayerUI();
+            attacker.UpdateEnemyUI();
+        } else if (!attackTarget.isPlayer) {
+            attackTarget.UpdateEnemyUI();
+            attacker.UpdatePlayerUI();
+        }
     }
     
     private IEnumerator HealAction(BattleEntities healer, BattleEntities healTarget, int activeAbilityIndex)
@@ -529,43 +532,43 @@ public class BattleSystem : MonoBehaviour
         // Calculate damage dealt
         int restore;
         
-        string restoreKey = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].keyStat.ToString();
-        int restoreKeyMod = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].statModifier;
+        string restoreKey = healer.myAbilities[activeAbilityIndex].keyStat.ToString();
+        int restoreKeyMod = healer.myAbilities[activeAbilityIndex].statModifier;
         int restoreModifier;
         
         switch (restoreKey)
         {
             case "Power":
-                restoreModifier = allCombatants[currentPlayer].power * restoreKeyMod;
+                restoreModifier = healer.power * restoreKeyMod;
                 break;
             case "Skill":
-                restoreModifier = allCombatants[currentPlayer].skill * restoreKeyMod;
+                restoreModifier = healer.skill * restoreKeyMod;
                 break;
             case "Wit":
-                restoreModifier = allCombatants[currentPlayer].wit * restoreKeyMod;
+                restoreModifier = healer.wit * restoreKeyMod;
                 break;
             case "Mind":
-                restoreModifier = allCombatants[currentPlayer].mind * restoreKeyMod;
+                restoreModifier = healer.mind * restoreKeyMod;
                 break;
             case "Speed":
-                restoreModifier = allCombatants[currentPlayer].speed * restoreKeyMod;
+                restoreModifier = healer.speed * restoreKeyMod;
                 break;
             case "Luck":
-                restoreModifier = allCombatants[currentPlayer].luck * restoreKeyMod;
+                restoreModifier = healer.luck * restoreKeyMod;
                 break;
             default:
                 print("Invalid restore key of " +  restoreKey + " supplied");
                 yield break;
         }
         
-        int minDamageRange = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].dmgMin;
-        int maxDamageRange = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].dmgMax;
-        int critChance =  allCombatants[currentPlayer].myAbilities[activeAbilityIndex].critChance;
+        int minDamageRange = healer.myAbilities[activeAbilityIndex].dmgMin;
+        int maxDamageRange = healer.myAbilities[activeAbilityIndex].dmgMax;
+        int critChance =  healer.myAbilities[activeAbilityIndex].critChance;
 
         if (Random.Range(1, 101) > critChance) {
             restore = Random.Range(minDamageRange, maxDamageRange + 1) + restoreModifier;
         } else {
-            print(allCombatants[currentPlayer].entityName + " scored a critical heal!");
+            print(healer.myName + " scored a critical heal!");
             restore = (int)((maxDamageRange + restoreModifier) * CRIT_DAMAGE_MODIFIER);
         }
         
@@ -573,15 +576,65 @@ public class BattleSystem : MonoBehaviour
         healTarget.currentDefense += restore; // deal the damage
         healTarget.battleVisuals.PlayHealAnimation(); // target plays on hit animation
         yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        
+        print(string.Format("{0} heals {1} restoring {2} defense.", healer.myName, healTarget.myName, restore));
+        //StartCoroutine(ConsumeResources(activeAbilityIndex));
+        SaveResources();
         // Update the UI
         if (healTarget.isPlayer) {
             healTarget.UpdatePlayerUI();
+            healer.UpdatePlayerUI();
         } else if (!healTarget.isPlayer) {
             healTarget.UpdateEnemyUI();
+            healer.UpdateEnemyUI();
         }
-        
-        print(string.Format("{0} heals {1} restoring {2} defense.", healer.entityName, healTarget.entityName, restore));
-        SaveResources();
+    }
+
+    private IEnumerator ConsumeResources(int activeAbilityIndex)
+    {
+        // Reduce the user's resource 
+        string resourceConsumed = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costResource.ToString();
+        int resourceCost = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costAmount;
+
+        switch (resourceConsumed)
+        {
+            case "Null":
+                break;
+            case "Spirit":
+                allCombatants[currentPlayer].currentSpirit -= resourceCost;
+                break;
+            case "Health":
+                allCombatants[currentPlayer].currentHealth -= resourceCost;
+                break;
+            case "Defense":
+                allCombatants[currentPlayer].currentHealth -= resourceCost;
+                break;
+            case "Selfdmg":
+                if (allCombatants[currentPlayer].currentDefense > 0) {
+                    if (resourceCost > allCombatants[currentPlayer].currentDefense) {
+                        int overflowDamage = resourceCost - allCombatants[currentPlayer].currentDefense;
+                        allCombatants[currentPlayer].currentDefense = 0;
+                        allCombatants[currentPlayer].currentHealth -= overflowDamage;
+                    }
+                    allCombatants[currentPlayer].currentDefense -= resourceCost;
+                } else {
+                    allCombatants[currentPlayer].currentHealth -= resourceCost;
+                }
+                allCombatants[currentPlayer].currentHealth -= resourceCost;
+                break;
+            case "Armor":
+                allCombatants[currentPlayer].currentArmor -= resourceCost;
+                break;
+            // TODO Implement special resource consumption
+            case "Special":
+                //attacker.currentHealth -= resourceCost;
+                print("Special resource called for consumption.");
+                break;
+            default:
+                print("Invalid resource " + resourceConsumed + " called for consumption.");
+                break;
+        }
+        yield break;
     }
 }
 
@@ -596,7 +649,7 @@ public class BattleEntities
 
     public Action battleAction;
 
-    public string entityName;
+    public string myName;
     public string currentAbilityType;
     public bool isPlayer;
     public int target;
@@ -631,7 +684,7 @@ public class BattleEntities
         int entityMaxSpirit, int entityCurrentSpirit, int entityMaxDefense, int entityMaxArmor, int entityPower,
         int entitySkill, int entityWit, int entityMind, int entitySpeed, int entityLuck, bool entityIsPlayer)
     {
-        this.entityName = entityName;
+        myName = entityName;
         isPlayer = entityIsPlayer;
         level = entityLevel;
 

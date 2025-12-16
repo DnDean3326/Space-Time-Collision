@@ -40,10 +40,12 @@ public class CombatMenuVisuals : MonoBehaviour
         UpdateSpiritBar();
     }
     
-    public void UpdateSpiritBar()
+    private void UpdateSpiritBar()
     {
         spiritBar.maxValue = maxSpirit;
         spiritBar.value = currentSpirit;
+        
+        spText.text = "SP: " + currentSpirit + " / " + maxSpirit;
     }
     
     public void ChangeSpirit(int newSpirit)

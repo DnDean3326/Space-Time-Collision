@@ -62,6 +62,8 @@ public class EnemyManager : MonoBehaviour
                 
                 newEnemy.enemyVisualPrefab = allEnemies[i].allyBattleVisualPrefab;
                 
+                newEnemy.abilities = new List<Ability> { allEnemies[i].abilityOne };
+                
                 currentEnemies.Add(newEnemy);
             }
         }
@@ -73,6 +75,11 @@ public class EnemyManager : MonoBehaviour
         return currentEnemies;
     }
     
+    public List<Ability> GetAbilities(int enemyIndex)
+    {
+        List<Ability> abilities = currentEnemies[enemyIndex].abilities;
+        return abilities;
+    }
 }
 
 [System.Serializable]
@@ -99,4 +106,6 @@ public class Enemy
     public int luck;
     
     public GameObject enemyVisualPrefab; // what will be displayed in the battle scene
+    
+    public List<Ability> abilities;
 }

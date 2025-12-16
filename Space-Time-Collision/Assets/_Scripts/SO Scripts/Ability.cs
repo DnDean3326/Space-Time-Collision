@@ -22,9 +22,10 @@ public class Ability : ScriptableObject
     public enum CostResource
     {
         Null,
-        Health,
         Spirit,
+        Health,
         Defense,
+        SelfDmg,
         Armor,
         Special
     }

@@ -1519,14 +1519,6 @@ MonoBehaviour:
   - {fileID: 932921065880379330}
   - {fileID: 6467426896946217159}
   - {fileID: 4585531653966087112}
-  actionButtonsText:
-  - {fileID: 4737835899499641230}
-  - {fileID: 1650170584789043650}
-  - {fileID: 1002093004097629946}
-  - {fileID: 2234215038221337904}
-  - {fileID: 7401158387194012789}
-  - {fileID: 4616426122668691356}
-  - {fileID: 3032876523345892054}
   targetButtons:
   - {fileID: 6386248063424520329}
   - {fileID: 1709658592981906942}
@@ -1535,14 +1527,6 @@ MonoBehaviour:
   - {fileID: 3212388555878703002}
   - {fileID: 3077068607191960180}
   - {fileID: 7384133658516363098}
-  targetButtonsText:
-  - {fileID: 1154147492873106657}
-  - {fileID: 3870543302900388285}
-  - {fileID: 8621346754802259025}
-  - {fileID: 7763975696687672139}
-  - {fileID: 8540935978524611095}
-  - {fileID: 734747814213176506}
-  - {fileID: 1059088807963157443}
   abilityEffectText: {fileID: 7002683659396874930}
   hitChanceText: {fileID: 12838581192484736}
   dmgRangeText: {fileID: 9075196244444941785}
@@ -2448,7 +2432,7 @@ RectTransform:
   m_Father: {fileID: 7091842298330612789}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -5, y: -5}
   m_Pivot: {x: 0.5, y: 0.5}

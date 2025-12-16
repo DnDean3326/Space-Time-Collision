@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityName: Reinforce
   abilityType: 1
   abilityWeight: 0
-  costResource: 2
+  costResource: 1
   costAmount: 5
   cooldown: 2
   range: 2
@@ -24,4 +24,4 @@ MonoBehaviour:
   dmgMin: 2
   dmgMax: 5
   critChance: 15
-  description: A basic heal, just restores HP.
+  description: 'MP Cost: 5'
