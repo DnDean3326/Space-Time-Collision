@@ -20,7 +20,7 @@ public class PartyManager : MonoBehaviour
         } else {
             _instance = gameObject;
             AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
-            //AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
+            AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
             //AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
             //AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
         }

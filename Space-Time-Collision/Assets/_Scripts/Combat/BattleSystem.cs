@@ -78,7 +78,7 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.Start) {
             for (int i = 0; i < allCombatants.Count; i++) {
-                allCombatants[i].initiative = Random.Range(0, MAX_INITIATIVE_START + 1);
+                allCombatants[i].initiative = Random.Range(100, MAX_INITIATIVE_START + 1);
                 print(allCombatants[i].name + "'s starting initiative is " +  allCombatants[i].initiative);
             }
 
@@ -114,8 +114,7 @@ public class BattleSystem : MonoBehaviour
             // Remove any dead combatants from the combat
             RemoveDeadCombatants();
             
-            
-            do {
+            while (preparedCombatants.Count <= 0) {
                 for (int i = 0; i < allCombatants.Count; i++) {
                     if (state == BattleState.Battle) {
                         allCombatants[i].initiative += BASE_INITIATIVE_GAIN + allCombatants[i].speed;
@@ -128,7 +127,7 @@ public class BattleSystem : MonoBehaviour
                 }
 
                 yield return new WaitForSeconds(0.5f);
-            } while (preparedCombatants.Count <= 0);
+            }
 
             state = BattleState.Ordering;
             StartCoroutine(OrderRoutine());
@@ -171,16 +170,18 @@ public class BattleSystem : MonoBehaviour
             currentPlayer = characterIndex;
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
             allCombatants[characterIndex].initiative -= TURN_START_THRESHOLD;
-            preparedCombatants.RemoveAt(0);
-            print("Player turn has begun. " + allCombatants[characterIndex].name + " Is the active character.");
+            preparedCombatants.RemoveAt(preparedCombatants.IndexOf(allCombatants[characterIndex]));
+            
             if (preparedCombatants.Count > 0) {
-                for (int i = 1; i < preparedCombatants.Count; i++) {
+                for (int i = 0; i < preparedCombatants.Count; i++) {
                     print(preparedCombatants[i].name + " is still prepared and their initiative is " +
                           preparedCombatants[i].initiative);
-                } 
+                }
             } else {
                 print("No other characters are prepared.");
             }
+            
+            print("Player turn has begun. " + allCombatants[characterIndex].name + " Is the active character.");
 
             abilitySelected = false;
             ShowAbilitySelectMenu(characterIndex);
@@ -232,11 +233,11 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.EnemyTurn) {
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
             allCombatants[characterIndex].initiative -= TURN_START_THRESHOLD;
-            preparedCombatants.RemoveAt(0);
+            preparedCombatants.RemoveAt(preparedCombatants.IndexOf(allCombatants[characterIndex]));
             
             print("Enemy turn has begun. " + allCombatants[characterIndex].name + " Is the active enemy.");
             if (preparedCombatants.Count > 0) {
-                for (int i = 1; i < preparedCombatants.Count; i++) {
+                for (int i = 0; i < preparedCombatants.Count; i++) {
                     print(preparedCombatants[i].name + " is still prepared and their initiative is " +
                           preparedCombatants[i].initiative);
                 } 
