@@ -19,6 +19,16 @@ public class Ability : ScriptableObject
         Free
     }
 
+    public enum CostResource
+    {
+        Null,
+        Health,
+        Spirit,
+        Defense,
+        Armor,
+        Special
+    }
+    
     public enum KeyStat
     {
         Power,
@@ -34,7 +44,7 @@ public class Ability : ScriptableObject
     public AbilityType abilityType;
     public AbilityWeight abilityWeight;
 
-    public string costResource;
+    public CostResource costResource;
     public int costAmount;
     public int cooldown;
     public int range;

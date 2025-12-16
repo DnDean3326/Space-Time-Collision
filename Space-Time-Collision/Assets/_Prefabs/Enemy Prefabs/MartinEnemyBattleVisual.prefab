@@ -221,19 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleVisuals
   healthBar: {fileID: 541000752386190979}
   defenseBar: {fileID: 3444253405171276002}
-  spiritBar: {fileID: 0}
-  spText: {fileID: 0}
   armorText: {fileID: 3433213937950003770}
-  abilitySelectUI: {fileID: 0}
-  targetSelectUI: {fileID: 0}
-  abilityButtons: []
-  actionButtonsText: []
-  targetButtons: []
-  targetButtonsText: []
-  abilityEffectText: {fileID: 0}
-  hitChanceText: {fileID: 0}
-  dmgRangeText: {fileID: 0}
-  critChanceText: {fileID: 0}
 --- !u!1 &3753080932157075140
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,7 +960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8, g: 0.78322786, b: 0, a: 1}
+  m_Color: {r: 0.3254902, g: 0.7176471, b: 0.47843137, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

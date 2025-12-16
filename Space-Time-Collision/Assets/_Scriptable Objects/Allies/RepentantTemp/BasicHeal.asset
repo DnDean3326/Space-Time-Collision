@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
   m_Name: BasicHeal
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Basic Heal
+  abilityName: Reinforce
   abilityType: 1
   abilityWeight: 0
-  costResource: null
-  costAmount: 0
-  cooldown: 0
+  costResource: 2
+  costAmount: 5
+  cooldown: 2
   range: 2
-  keyStat: mind
+  keyStat: 3
   statModifier: 1
   dmgMin: 2
   dmgMax: 5
