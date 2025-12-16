@@ -14,9 +14,7 @@ public class CombatMenuVisuals : MonoBehaviour
     
     [Header("UI Buttons")]
     [SerializeField] private GameObject[] abilityButtons;
-    [SerializeField] private TextMeshProUGUI[] actionButtonsText;
     [SerializeField] private GameObject[] targetButtons;
-    [SerializeField] private TextMeshProUGUI[] targetButtonsText;
     
     [Header("UI Text")]
     [SerializeField] private TextMeshProUGUI abilityEffectText;
@@ -33,7 +31,7 @@ public class CombatMenuVisuals : MonoBehaviour
     {
         battleSystem = FindFirstObjectByType<BattleSystem>();
     }
-
+    
     public void SetMenuStartingValues(int maxSpirit, int currentSpirit)
     {
         this.maxSpirit = maxSpirit;
@@ -69,6 +67,11 @@ public class CombatMenuVisuals : MonoBehaviour
         abilityEffectText.gameObject.SetActive(visible);
     }
 
+    public GameObject[] GetAbilityButtons()
+    {
+        return abilityButtons;
+    }
+    
     public GameObject[] GetTargetButtons()
     {
         return targetButtons;

@@ -18,6 +18,16 @@ public class Ability : ScriptableObject
         Light,
         Free
     }
+
+    public enum KeyStat
+    {
+        Power,
+        Skill,
+        Wit,
+        Mind,
+        Speed,
+        Luck
+    }
     
     public string abilityName;
     //public Sprite abilityIcon;
@@ -29,7 +39,7 @@ public class Ability : ScriptableObject
     public int cooldown;
     public int range;
     
-    public string keyStat;
+    public KeyStat keyStat;
     public int statModifier;
     public int dmgMin;
     public int dmgMax;

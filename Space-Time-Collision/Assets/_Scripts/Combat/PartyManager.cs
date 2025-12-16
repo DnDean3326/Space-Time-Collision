@@ -57,15 +57,13 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.allyMapVisualPrefab = allMembers[i].allyMapVisualPrefab;
 
                 // TODO Remove this once ability selection is implements
-                newPartyMember.activeAbilities = new List<Ability> { allMembers[i].abilityOne,  allMembers[i].abilityTwo };
+                newPartyMember.activeAbilities = new List<Ability> { allMembers[i].abilityOne,  allMembers[i].abilityTwo, allMembers[i].abilityThree, allMembers[i].abilityFour };
                 
                 currentParty.Add(newPartyMember);
             }
         }
     }
     
-    
-
     // TODO Build a function to allow the election of abilities from a list
 
     public List<PartyMember> GetCurrentParty()
