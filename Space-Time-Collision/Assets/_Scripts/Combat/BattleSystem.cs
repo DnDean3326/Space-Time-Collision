@@ -116,6 +116,7 @@ public class BattleSystem : MonoBehaviour
             SceneManager.LoadScene(MAP_SCENE);
         }
         // Remove any dead combatants from the combat
+        yield return StartCoroutine(FixResources());
         RemoveDeadCombatants();
         
         if (state == BattleState.Battle) {
@@ -498,13 +499,23 @@ public class BattleSystem : MonoBehaviour
                 int overflowDamage = damage - attackTarget.currentDefense;
                 attackTarget.currentDefense = 0;
                 attackTarget.currentHealth -= overflowDamage;
+            } else {
+                attackTarget.currentDefense -= damage;
             }
-            attackTarget.currentDefense -= damage;
         } else {
             attackTarget.currentHealth -= damage;
         }
-        
         print(string.Format("{0} attacks {1} dealing {2} damage.", attacker.myName, attackTarget.myName, damage));
+        
+        yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+        SaveResources();
+        if (attackTarget.isPlayer) {
+            attackTarget.UpdatePlayerUI();
+            attacker.UpdateEnemyUI();
+        } else if (!attackTarget.isPlayer) {
+            attackTarget.UpdateEnemyUI();
+            attacker.UpdatePlayerUI();
+        }
         if (attackTarget.currentHealth <= 0) {
             yield return new WaitForSeconds(DEATH_DELAY);
             
@@ -515,15 +526,6 @@ public class BattleSystem : MonoBehaviour
                 enemyCombatants.Remove(attackTarget);
                 
             }
-        }
-        //yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-        SaveResources();
-        if (attackTarget.isPlayer) {
-            attackTarget.UpdatePlayerUI();
-            attacker.UpdateEnemyUI();
-        } else if (!attackTarget.isPlayer) {
-            attackTarget.UpdateEnemyUI();
-            attacker.UpdatePlayerUI();
         }
     }
     
@@ -573,12 +575,12 @@ public class BattleSystem : MonoBehaviour
         }
         
         //healer.battleVisuals.PlayAttackAnimation(); // play the attack animation
-        healTarget.currentDefense += restore; // deal the damage
+        healTarget.currentDefense += restore; // restore HP
         healTarget.battleVisuals.PlayHealAnimation(); // target plays on hit animation
         yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
         print(string.Format("{0} heals {1} restoring {2} defense.", healer.myName, healTarget.myName, restore));
-        //StartCoroutine(ConsumeResources(activeAbilityIndex));
+        yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
         SaveResources();
         // Update the UI
         if (healTarget.isPlayer) {
@@ -609,18 +611,18 @@ public class BattleSystem : MonoBehaviour
             case "Defense":
                 allCombatants[currentPlayer].currentHealth -= resourceCost;
                 break;
-            case "Selfdmg":
+            case "SelfDmg":
                 if (allCombatants[currentPlayer].currentDefense > 0) {
                     if (resourceCost > allCombatants[currentPlayer].currentDefense) {
                         int overflowDamage = resourceCost - allCombatants[currentPlayer].currentDefense;
                         allCombatants[currentPlayer].currentDefense = 0;
                         allCombatants[currentPlayer].currentHealth -= overflowDamage;
+                    } else {
+                        allCombatants[currentPlayer].currentDefense -= resourceCost;
                     }
-                    allCombatants[currentPlayer].currentDefense -= resourceCost;
                 } else {
                     allCombatants[currentPlayer].currentHealth -= resourceCost;
                 }
-                allCombatants[currentPlayer].currentHealth -= resourceCost;
                 break;
             case "Armor":
                 allCombatants[currentPlayer].currentArmor -= resourceCost;
@@ -636,6 +638,44 @@ public class BattleSystem : MonoBehaviour
         }
         yield break;
     }
+
+    private IEnumerator FixResources()
+    {
+        for (int i = 0; i < allCombatants.Count; i++) {
+            if (allCombatants[i].currentHealth < 0) {
+                allCombatants[i].currentHealth = 0;
+            } else if (allCombatants[i].currentHealth > allCombatants[i].maxHealth) {
+                allCombatants[i].currentHealth = allCombatants[i].maxHealth;
+            }
+            if (allCombatants[i].currentSpirit < 0) {
+                allCombatants[i].currentSpirit = 0;
+            } else if (allCombatants[i].currentSpirit > allCombatants[i].maxSpirit) {
+                allCombatants[i].currentSpirit = allCombatants[i].maxSpirit;
+            }
+            if (allCombatants[i].currentDefense < 0) {
+                allCombatants[i].currentDefense = 0;
+            } else if (allCombatants[i].currentDefense > allCombatants[i].maxDefense) {
+                allCombatants[i].currentDefense = allCombatants[i].maxDefense;
+            }
+            if (allCombatants[i].currentArmor < 0) {
+                allCombatants[i].currentArmor = 0;
+            } else if (allCombatants[i].currentArmor > allCombatants[i].maxArmor) {
+                allCombatants[i].currentArmor = allCombatants[i].maxArmor;
+            }
+            
+        }
+        yield break;
+    }
+    /*
+    public int maxHealth;
+    public int currentHealth;
+    public int maxSpirit;
+    public int currentSpirit;
+    public int maxDefense;
+    public int currentDefense;
+    public int maxArmor;
+    public int currentArmor;
+    */
 }
 
 [System.Serializable]
