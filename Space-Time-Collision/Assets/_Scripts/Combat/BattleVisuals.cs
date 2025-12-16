@@ -4,19 +4,21 @@ using TMPro;
 
 public class BattleVisuals : MonoBehaviour
 {
+    [Header("Resource Displays")]
     [SerializeField] private Slider healthBar;
-    [SerializeField] private Slider spiritBar;
+    [SerializeField] private Slider defenseBar;
     [SerializeField] private TextMeshProUGUI armorText;
 
     private int maxHealth;
     private int currentHealth;
-    private int maxSpirit;
-    private int currentSpirit;
+    private int maxDefense;
+    private int currentDefense;
     private int armor;
     private Animator myAnimator;
 
     private const string IS_ATTACK_PARAM = "AttackTrigger";
     private const string IS_HIT_PARAM = "HitTrigger";
+    private const string IS_HEALED_PARAM = "HealedTrigger";
     private const string IS_DEAD_PARAM = "DeadTrigger";
     private const string MY_TURN_BOOL = "IsMyTurn";
 
@@ -25,16 +27,17 @@ public class BattleVisuals : MonoBehaviour
         myAnimator = GetComponent<Animator>();
     }
 
-    public void SetStartingValues(int maxHealth, int currentHealth, int maxSpirit, int currentSpirit,  int armor)
+    public void SetStartingValues(int maxHealth, int currentHealth, int maxDefense,  int armor)
     {
         this.maxHealth = maxHealth;
         this.currentHealth = currentHealth;
-        this.maxSpirit = maxSpirit;
-        this.currentSpirit = currentSpirit;
+        this.maxDefense = maxDefense;
+        this.currentDefense = this.maxDefense;
         this.armor = armor;
+        
         armorText.text = armor.ToString();
         UpdateHealthBar();
-        UpdateSpiritBar();
+        UpdateDefenseBar();
         UpdateArmor();
     }
 
@@ -44,10 +47,10 @@ public class BattleVisuals : MonoBehaviour
         healthBar.value = currentHealth;
     }
     
-    public void UpdateSpiritBar()
+    public void UpdateDefenseBar()
     {
-        spiritBar.maxValue = maxSpirit;
-        spiritBar.value = currentSpirit;
+        defenseBar.maxValue = maxDefense;
+        defenseBar.value = currentDefense;
     }
 
     public void UpdateArmor()
@@ -65,11 +68,11 @@ public class BattleVisuals : MonoBehaviour
             Destroy(gameObject, 1f);
         }
     }
-    
-    public void ChangeSpirit(int newSpirit)
+
+    public void ChangeDefense(int newDefense)
     {
-        currentSpirit = newSpirit;
-        UpdateSpiritBar();
+        currentDefense = newDefense;
+        UpdateDefenseBar();
     }
 
     public void ChangeArmor(int newArmor)
@@ -85,7 +88,12 @@ public class BattleVisuals : MonoBehaviour
 
     public void PlayHitAnimation()
     {
-        //myAnimator.SetTrigger(IS_HIT_PARAM);
+        myAnimator.SetTrigger(IS_HIT_PARAM);
+    }
+    
+    public void PlayHealAnimation()
+    {
+        myAnimator.SetTrigger(IS_HEALED_PARAM);
     }
 
     public void PlayDeathAnimation()

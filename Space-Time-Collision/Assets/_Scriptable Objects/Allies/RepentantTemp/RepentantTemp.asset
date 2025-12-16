@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
   allyName: Repentant
   baseHealth: 32
-  baseDefense: 0
+  baseDefense: 18
   baseArmor: 2
   baseSpirit: 24
   basePower: 5
@@ -24,4 +24,6 @@ MonoBehaviour:
   baseSpeed: 6
   baseLuck: 2
   allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 63880d098158e7e40b9d9a5cc2fc5a7c, type: 3}
-  allyMapVisualPrefab: {fileID: 0}
+  allyMapVisualPrefab: {fileID: 4016972724149583921, guid: c23495ac638deae4697c21e55bd7c475, type: 3}
+  abilityOne: {fileID: 11400000, guid: 028778e2f9f8ce5498181fdaa0d40ef7, type: 2}
+  abilityTwo: {fileID: 11400000, guid: 21e4f35a6e571a34cb70afa7442eabe8, type: 2}

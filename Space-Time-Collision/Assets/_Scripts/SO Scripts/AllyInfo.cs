@@ -19,4 +19,12 @@ public class AllyInfo : ScriptableObject
     
     public GameObject allyBattleVisualPrefab; // what will be displayed in the battle scene
     public GameObject allyMapVisualPrefab; // what will be displayed on the map
+
+    public Ability abilityOne;
+    public Ability abilityTwo;
+    //public Ability abilityThree;
+    //public Ability abilityFour;
+    //public Ability abilityFive;
+    //public Ability abilitySix;
+    //public Ability abilitySeven;
 }

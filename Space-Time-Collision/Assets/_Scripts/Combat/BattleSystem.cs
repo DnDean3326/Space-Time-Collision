@@ -37,9 +37,13 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private Animator combatStartUIAnimator;
     
     private PartyManager partyManager;
-    
     private EnemyManager enemyManager;
+    
     private int currentPlayer;
+    private bool abilitySelected;
+    private bool targetSelected;
+    private bool targetIsEnemy;
+    private string currentAbilityType;
     
     private const float COMBAT_BEGIN_DELAY = 1f;
     private const float TURN_ACTION_DELAY = 1.5f;
@@ -48,6 +52,7 @@ public class BattleSystem : MonoBehaviour
     private const int BASE_INITIATIVE_GAIN = 20;
     private const int MAX_INITIATIVE_START = 100;
     private const string MAP_SCENE = "BaseScene";
+    private const string BASE_SCENE = "BaseScene";
     
     // Animator Constants
     private const string BATTLE_START_END = "EndTrigger";
@@ -80,6 +85,7 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
             combatStartUIAnimator.SetTrigger(BATTLE_START_END);
             yield return new WaitForSeconds(0.2f);
+            Destroy(combatStartUI);
             state = BattleState.Battle;
             StartCoroutine(BattleRoutine());
         } else {
@@ -91,9 +97,24 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator BattleRoutine()
     {
         if (state == BattleState.Battle) {
+            // if no party members remain -> battle is lost
+            if (partyCombatants.Count <= 0) {
+                state = BattleState.Lost;
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
+                print("GAME OVER! \n Go to game over screen.");
+                SceneManager.LoadScene(BASE_SCENE);
+            }
+            // if no enemies remain -> battle is won
+            if (enemyCombatants.Count <= 0) {
+                state = BattleState.Won;
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
+                print("Your party prevailed!");
+                SceneManager.LoadScene(MAP_SCENE);
+            }
+            // Remove any dead combatants from the combat
             RemoveDeadCombatants();
-            print("Battle Routine called");
-            print("Battle Routine called");
+            
+            
             do {
                 for (int i = 0; i < allCombatants.Count; i++) {
                     if (state == BattleState.Battle) {
@@ -120,20 +141,7 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator OrderRoutine()
     {
         if (state == BattleState.Ordering) {
-            // if no party members remain -> battle is lost
-            if (partyCombatants.Count <= 0) {
-                state = BattleState.Lost;
-                yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
-                print("GAME OVER! \n Go to game over screen.");
-            }
-            // if no enemies remain -> battle is won
-            if (enemyCombatants.Count <= 0) {
-                state = BattleState.Won;
-                yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
-                SceneManager.LoadScene(MAP_SCENE);
-            }
             
-            RemoveDeadCombatants();
             if (preparedCombatants.Count > 0) {
                 // Sorts prepared combatants by initiative from highest to lowest
                 preparedCombatants.Sort((bi1, bi2) => -bi1.initiative.CompareTo(bi2.initiative));
@@ -160,16 +168,57 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator PlayerTurnRoutine(int characterIndex)
     {
         if (state == BattleState.PlayerTurn) {
+            currentPlayer = characterIndex;
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
             allCombatants[characterIndex].initiative -= TURN_START_THRESHOLD;
             preparedCombatants.RemoveAt(0);
             print("Player turn has begun. " + allCombatants[characterIndex].name + " Is the active character.");
+            if (preparedCombatants.Count > 0) {
+                for (int i = 1; i < preparedCombatants.Count; i++) {
+                    print(preparedCombatants[i].name + " is still prepared and their initiative is " +
+                          preparedCombatants[i].initiative);
+                } 
+            } else {
+                print("No other characters are prepared.");
+            }
+
+            abilitySelected = false;
+            ShowAbilitySelectMenu(characterIndex);
+            yield return new WaitUntil(() => abilitySelected);
             
-            
-            
-            /*allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(false);
-            state = BattleState.Ordering;
-            StartCoroutine(OrderRoutine());*/
+            switch (currentAbilityType) {
+                case "Damage":
+                    targetIsEnemy = true;
+                    ShowTargetMenu(characterIndex, targetIsEnemy);
+                    targetSelected = false;
+                    yield return new WaitUntil(() => targetSelected);
+                    
+                    allCombatants[characterIndex].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+                    yield return StartCoroutine(DamageAction(allCombatants[characterIndex],
+                        allCombatants[allCombatants[characterIndex].target]));
+                    break;
+                case "Heal":
+                    targetIsEnemy = false;
+                    ShowTargetMenu(characterIndex, targetIsEnemy);
+                    targetSelected = false;
+                    yield return new WaitUntil(() => targetSelected);
+                    
+                    allCombatants[characterIndex].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+                    yield return StartCoroutine(HealAction(allCombatants[characterIndex],
+                        allCombatants[allCombatants[characterIndex].target]));
+                    break;
+                default:
+                    print("Unsupported ability type of " + currentAbilityType + " supplied.");
+                    allCombatants[characterIndex].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+                    break;
+            }
+
+            allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(false);
+            state = BattleState.Battle;
+            StartCoroutine(BattleRoutine());
         }  else {
             print("Player Turn Routine called but the battle system is not in the Player Turn state.");
             yield break;
@@ -184,16 +233,27 @@ public class BattleSystem : MonoBehaviour
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
             allCombatants[characterIndex].initiative -= TURN_START_THRESHOLD;
             preparedCombatants.RemoveAt(0);
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+            
             print("Enemy turn has begun. " + allCombatants[characterIndex].name + " Is the active enemy.");
+            if (preparedCombatants.Count > 0) {
+                for (int i = 1; i < preparedCombatants.Count; i++) {
+                    print(preparedCombatants[i].name + " is still prepared and their initiative is " +
+                          preparedCombatants[i].initiative);
+                } 
+            } else {
+                print("No other characters are prepared.");
+            }
+            
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+            
         
             allCombatants[characterIndex].target = GetRandomPartyMember();
             yield return StartCoroutine(DamageAction(allCombatants[characterIndex], 
                 allCombatants[allCombatants[characterIndex].target]));
 
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(false);
-            state = BattleState.Ordering;
-            StartCoroutine(OrderRoutine());
+            state = BattleState.Battle;
+            StartCoroutine(BattleRoutine());
         } else {
             print("Enemy Turn Routine called but the battle system is not in the Enemy Turn state.");
             yield break;
@@ -214,15 +274,22 @@ public class BattleSystem : MonoBehaviour
                 currentParty[i].skill, currentParty[i].wit, currentParty[i].mind, currentParty[i].speed, currentParty[i].luck, true);
             
             // Spawn the visuals
-            // Right now it sets to a set position based on instatiate order, this will eventually need to be updated to place on the selected grid position
+            // TODO Right now it sets to a set position based on instatiate order, this will eventually need to be updated to place on the selected grid position
             BattleVisuals tempBattleVisuals = Instantiate(currentParty[i].allyBattleVisualPrefab, partyGridTransform[i].position,
                 Quaternion.identity).GetComponent<BattleVisuals>();
+            CombatMenuVisuals tempCombatMenuVisuals = Instantiate(currentParty[i].allyMapVisualPrefab, Vector2.zero,
+                Quaternion.identity).GetComponent<CombatMenuVisuals>();
             
             // Set the visuals' starting values
-            tempBattleVisuals.SetStartingValues(currentParty[i].maxHealth, currentParty[i].currentHealth, currentParty[i].maxSpirit,
-                currentParty[i].currentSpirit, currentParty[i].maxArmor);
+            tempBattleVisuals.SetStartingValues(currentParty[i].maxHealth, currentParty[i].currentHealth, currentParty[i].maxDefense, currentParty[i].maxArmor);
+            tempCombatMenuVisuals.SetMenuStartingValues(currentParty[i].maxSpirit, currentParty[i].currentSpirit);
             // Assign said visuals to the battle entity
             tempEntity.battleVisuals = tempBattleVisuals;
+            tempEntity.combatMenuVisuals = tempCombatMenuVisuals;
+            tempEntity.targetButtons = tempEntity.combatMenuVisuals.GetTargetButtons();
+            
+            // Assign abilities to character TODO Make this also update visuals
+            tempEntity.myAbilities = partyManager.GetActiveAbilities(i);
             
             // Add the allied combatant to the all combatants and party combatant lists
             allCombatants.Add(tempEntity);
@@ -248,8 +315,7 @@ public class BattleSystem : MonoBehaviour
                 Quaternion.identity).GetComponent<BattleVisuals>();
             
             // Set the visuals' starting values
-            tempBattleVisuals.SetStartingValues(currentEnemies[i].maxHealth, currentEnemies[i].currentHealth, currentEnemies[i].maxSpirit,
-                currentEnemies[i].currentSpirit, currentEnemies[i].maxArmor);
+            tempBattleVisuals.SetStartingValues(currentEnemies[i].maxHealth, currentEnemies[i].currentHealth, currentEnemies[i].maxDefense, currentEnemies[i].maxArmor);
             // Assign said visuals to the battle entity
             tempEntity.battleVisuals = tempBattleVisuals;
             
@@ -279,7 +345,68 @@ public class BattleSystem : MonoBehaviour
     
     // TODO Method to make battle UI visible and functional needed here
     
-    // TODO Select enemy function needed here
+    public void ShowAbilitySelectMenu(int characterIndex)
+    {
+        // Set whose turn it is
+        allCombatants[characterIndex].combatMenuVisuals.ChangeAbilitySelectUIVisibility(true);
+        //allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(true);
+    }
+    
+    public void ShowTargetMenu(int characterIndex, bool targetEnemy)
+    {
+        allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(true);
+        allCombatants[characterIndex].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
+        SetTargetButtons(characterIndex, targetEnemy);
+        allCombatants[characterIndex].combatMenuVisuals.ChangeTargetSelectUIVisibility(true);
+    }
+    
+    // TODO Enemy selection functions needs to reference and defer to grid range
+    
+    private void SetTargetButtons(int characterIndex, bool targetEnemy)
+    {
+        // Disable all buttons
+        for (int i = 0; i < allCombatants[characterIndex].targetButtons.Length; i++) {
+            allCombatants[characterIndex].targetButtons[i].SetActive(false); 
+        }
+        if (targetEnemy) {
+            // Enable buttons for each present enemy
+            for (int i = 0; i < enemyCombatants.Count; i++) {
+                allCombatants[characterIndex].targetButtons[i].SetActive(true);
+                // Change the button's text
+                allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = enemyCombatants[i].name;
+                
+            }
+        } else {
+            // Enable buttons for each present ally
+            for (int i = 0; i < partyCombatants.Count; i++) {
+                allCombatants[characterIndex].targetButtons[i].SetActive(true);
+                // Change the button's text
+                allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = partyCombatants[i].name;
+            }
+        }
+        
+    }
+    
+    public void SelectTarget(int currentTarget)
+    {
+        // Set the current member's target
+        BattleEntities currentPlayerEntity = allCombatants[currentPlayer];
+        
+        if (targetIsEnemy) {
+            currentPlayerEntity.SetTarget(allCombatants.IndexOf(enemyCombatants[currentTarget]));
+        } else {
+            currentPlayerEntity.SetTarget(allCombatants.IndexOf(partyCombatants[currentTarget]));
+        }
+        
+        targetSelected = true;
+    }
+
+    public void SetCurrentAbilityType(int abilityIndex)
+    {
+        BattleEntities currentPlayerEntity = allCombatants[currentPlayer];
+        currentAbilityType = currentPlayerEntity.myAbilities[abilityIndex].abilityType.ToString();
+        abilitySelected = true;
+    }
     
     // TODO Replace the random targeting methods here with ones that accommodates the grid
     
@@ -295,6 +422,7 @@ public class BattleSystem : MonoBehaviour
         return partyMembers[Random.Range(0, partyMembers.Count)]; // return a random party member
     }
     
+    // Unsure if this function will be needed as characters take their turn when it happens, not upfront like in FF
     private int GetRandomEnemy()
     {
         List<int> enemies = new List<int>(); // create a temporary list of type int (index)
@@ -307,16 +435,34 @@ public class BattleSystem : MonoBehaviour
         return enemies[Random.Range(0, enemies.Count)]; // return a random party member
     }
     
-    // TODO Damage function needed here
-    
     private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget)
     {
-        int damage = attacker.power; // get damage (can use a formula)
+        int damage = attacker.power; // get damage (can use a formula) TODO make this read and use ability damage ranges and modifiers
         attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
         attackTarget.battleVisuals.PlayHitAnimation(); // target plays on hit animation
         yield return new WaitForSeconds(TURN_ACTION_DELAY);
-        attackTarget.currentHealth -= damage; // deal the damage
-        attackTarget.UpdateUI(); // update the UI
+        // Deal the damage to defense, or if the target has none, to HP
+        if (attackTarget.currentDefense > 0) {
+            // If the damage dealt is greater than the target's defense, deal the rest to their HP
+            if (damage > attackTarget.currentDefense) {
+                int overflowDamage = damage - attackTarget.currentDefense;
+                attackTarget.currentDefense = 0;
+                attackTarget.currentHealth -= overflowDamage;
+            }
+            attackTarget.currentDefense -= damage;
+        } else {
+            attackTarget.currentHealth -= damage;
+        }
+
+        switch (attackTarget.isPlayer) {
+            // Update the UI
+            case true:
+                attackTarget.UpdatePlayerUI();
+                break;
+            case false:
+                attackTarget.UpdateEnemyUI();
+                break;
+        }
         print(string.Format("{0} attacks {1} dealing {2} damage.", attacker.name, attackTarget.name, damage));
         
         if (attackTarget.currentHealth <= 0) {
@@ -336,15 +482,21 @@ public class BattleSystem : MonoBehaviour
         SaveResources();
     }
     
-    // TODO Heal function needed here
-    private void HealAction(BattleEntities healer, BattleEntities healTarget)
+    private IEnumerator HealAction(BattleEntities healer, BattleEntities healTarget)
     {
-        int restore = healer.power; // get damage (can use a formula)
+        int restore = healer.mind; // get damage (can use a formula)
         //healer.battleVisuals.PlayAttackAnimation(); // play the attack animation
-        healTarget.currentHealth += restore; // deal the damage
-        healTarget.battleVisuals.PlayHitAnimation(); // target plays on hit animation
-        healTarget.UpdateUI(); // update the UI
-        print(string.Format("{0} heals {1} restoring {2} toughness.", healer.name, healTarget.name, restore));
+        healTarget.currentDefense += restore; // deal the damage
+        healTarget.battleVisuals.PlayHealAnimation(); // target plays on hit animation
+        yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        // Update the UI
+        if (healTarget.isPlayer) {
+            healTarget.UpdatePlayerUI();
+        } else if (!healTarget.isPlayer) {
+            healTarget.UpdateEnemyUI();
+        }
+        
+        print(string.Format("{0} heals {1} restoring {2} defense.", healer.name, healTarget.name, restore));
         SaveResources();
     }
 }
@@ -362,6 +514,7 @@ public class BattleEntities
 
     public string name;
     public bool isPlayer;
+    public int target;
     public int level;
     public int initiative;
 
@@ -382,8 +535,10 @@ public class BattleEntities
     public int luck;
     
     public BattleVisuals battleVisuals;
+    public CombatMenuVisuals combatMenuVisuals;
 
-    public int target;
+    public GameObject[] targetButtons;
+    public List<Ability> myAbilities;
 
     public void SetEntityValue(string entityName, int entityLevel, int entityMaxHealth, int entityCurrentHealth,
         int entityMaxSpirit, int entityCurrentSpirit, int entityMaxDefense, int entityMaxArmor, int entityPower,
@@ -415,10 +570,20 @@ public class BattleEntities
         target = entityTarget;
     }
 
-    public void UpdateUI()
+    public void UpdatePlayerUI()
     {
         battleVisuals.ChangeHealth(currentHealth);
-        battleVisuals.ChangeSpirit(currentSpirit);
+        battleVisuals.ChangeDefense(currentDefense);
+        battleVisuals.ChangeArmor(currentArmor);
+        combatMenuVisuals.ChangeSpirit(currentSpirit);
+    }
+
+    public void UpdateEnemyUI()
+    {
+        battleVisuals.ChangeHealth(currentHealth);
+        battleVisuals.ChangeDefense(currentDefense);
         battleVisuals.ChangeArmor(currentArmor);
     }
+    
+    
 }

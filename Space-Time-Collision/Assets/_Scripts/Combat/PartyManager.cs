@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PartyManager : MonoBehaviour
@@ -19,6 +20,9 @@ public class PartyManager : MonoBehaviour
         } else {
             _instance = gameObject;
             AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
+            //AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
+            //AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
+            //AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
         }
         
         DontDestroyOnLoad(gameObject);
@@ -51,12 +55,18 @@ public class PartyManager : MonoBehaviour
                 
                 newPartyMember.allyBattleVisualPrefab = allMembers[i].allyBattleVisualPrefab;
                 newPartyMember.allyMapVisualPrefab = allMembers[i].allyMapVisualPrefab;
+
+                // TODO Remove this once ability selection is implements
+                newPartyMember.activeAbilities = new List<Ability> { allMembers[i].abilityOne,  allMembers[i].abilityTwo };
                 
                 currentParty.Add(newPartyMember);
             }
         }
-        
     }
+    
+    
+
+    // TODO Build a function to allow the election of abilities from a list
 
     public List<PartyMember> GetCurrentParty()
     {
@@ -69,6 +79,12 @@ public class PartyManager : MonoBehaviour
         }
         return aliveParty;
         
+    }
+
+    public List<Ability> GetActiveAbilities(int partyIndex)
+    {
+        List<Ability> activeAbilities = currentParty[partyIndex].activeAbilities;
+        return activeAbilities;
     }
 
     public void SaveHealth(int partyMember, int health)
@@ -110,5 +126,7 @@ public class PartyMember
     
     public GameObject allyBattleVisualPrefab; // what will be displayed in the battle scene
     public GameObject allyMapVisualPrefab; // what will be displayed on the map
-    
+
+    public List<Ability> activeAbilities;
+
 }
