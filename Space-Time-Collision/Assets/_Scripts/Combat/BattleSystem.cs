@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -389,6 +390,47 @@ public class BattleSystem : MonoBehaviour
                 partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
                 partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
             }
+            switch (partyCombatants[characterIndex].myAbilities[i].costResource.ToString()) {
+                case "Null":
+                    break;
+                case "Spirit":
+                    if (partyCombatants[characterIndex].currentSpirit <
+                        partyCombatants[characterIndex].myAbilities[i].costAmount) {
+                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+                    }
+                    break;
+                case "Health":
+                    if (partyCombatants[characterIndex].currentSpirit <
+                        partyCombatants[characterIndex].myAbilities[i].costAmount) {
+                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+                    }
+                    break;
+                case "Defense":
+                    if (partyCombatants[characterIndex].currentSpirit <
+                        partyCombatants[characterIndex].myAbilities[i].costAmount) {
+                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+                    }
+                    break;
+                case "Selfdmg":
+                    break;
+                case "Armor":
+                    if (partyCombatants[characterIndex].currentSpirit <
+                        partyCombatants[characterIndex].myAbilities[i].costAmount) {
+                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+                    }
+                    break;
+                case "Special":
+                    print("Special resource type was called but isn't programmed in yet.");
+                    break;
+                default:
+                    print("Invalid resource of " +  partyCombatants[characterIndex].myAbilities[i].costResource + " supplied");
+                    break;
+            }
+            
         }
     }
     
