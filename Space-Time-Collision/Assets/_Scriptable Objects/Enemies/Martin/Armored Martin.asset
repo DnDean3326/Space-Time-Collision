@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360c2d98c31379b4d968bbe8ba200b37, type: 3}
+  m_Name: Armored Martin
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
+  enemyName: Armored Martin
+  baseHealth: 25
+  baseDefense: 0
+  baseArmor: 3
+  baseSpirit: 12
+  basePower: 5
+  baseSkill: 3
+  baseWit: 1
+  baseMind: 3
+  baseSpeed: 3
+  baseLuck: 10
+  allyBattleVisualPrefab: {fileID: 3665415145152625354, guid: 8579febc9fac36e4a834241a0b0ffe9e, type: 3}
+  abilityOne: {fileID: 11400000, guid: 3767aad1552622547a34574e3fd3c574, type: 2}

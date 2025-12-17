@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EncounterSystem
   enemiesInScene:
-  - enemy: {fileID: 11400000, guid: 20e1cdbec28fb1a4ca62aa669f7b7c1d, type: 2}
+  - enemy: {fileID: 11400000, guid: 26f7472d970e39241a4be687dcc0e5b1, type: 2}
     levelMin: 1
     levelMax: 1
   maxNumEnemies: 1
@@ -770,7 +770,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
   allEnemies:
   - {fileID: 11400000, guid: 26f7472d970e39241a4be687dcc0e5b1, type: 2}
-  - {fileID: 11400000, guid: 20e1cdbec28fb1a4ca62aa669f7b7c1d, type: 2}
   currentEnemies: []
 --- !u!1 &1267142159
 GameObject:
@@ -1010,7 +1009,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.8
+  m_fontSize: 69.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

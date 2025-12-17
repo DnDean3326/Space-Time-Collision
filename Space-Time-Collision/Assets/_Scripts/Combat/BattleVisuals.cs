@@ -7,6 +7,7 @@ public class BattleVisuals : MonoBehaviour
     [SerializeField] private Slider healthBar;
     [SerializeField] private Slider defenseBar;
     [SerializeField] private TextMeshProUGUI armorText;
+    [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private GameObject targetIndicator;
 
     private int maxHealth;
@@ -91,14 +92,16 @@ public class BattleVisuals : MonoBehaviour
         myAnimator.SetTrigger(IS_ATTACK_PARAM);
     }
 
-    public void PlayHitAnimation()
+    public void PlayHitAnimation(int damageDealt)
     {
         myAnimator.SetTrigger(IS_HIT_PARAM);
+        damageText.text = damageDealt.ToString();
     }
     
-    public void PlayHealAnimation()
+    public void PlayHealAnimation(int restoreApplied)
     {
         myAnimator.SetTrigger(IS_HEALED_PARAM);
+        damageText.text = restoreApplied.ToString();
     }
 
     public void PlayDeathAnimation()

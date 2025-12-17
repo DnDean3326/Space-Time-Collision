@@ -113,7 +113,7 @@ public class CombatMenuVisuals : MonoBehaviour
 
     public void BackButton()
     {
-        
+        battleSystem.BackToAbilities();
     }
     
     // Button OnHover methods
@@ -121,11 +121,13 @@ public class CombatMenuVisuals : MonoBehaviour
     public void AbilityEffect(int selectedAbility)
     {
         abilityEffectText.text = battleSystem.SetAbilityDescription(selectedAbility);
+        battleSystem.PreviewResourceValue(selectedAbility);
     }
 
-    public void AbilityEffectRemove()
+    public void AbilityEffectRemove(int selectedAbility)
     {
         abilityEffectText.text = "";
+        battleSystem.EndResourcePreview(selectedAbility);
     }
 
     public void TargetIndicate(int hoveredTarget)
