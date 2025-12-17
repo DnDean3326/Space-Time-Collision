@@ -24,4 +24,4 @@ MonoBehaviour:
   dmgMin: 4
   dmgMax: 8
   critChance: 20
-  description: 'MP Cost: 3'
+  description: 'Deal damage \nRange: 5 \nMP Cost: 3'

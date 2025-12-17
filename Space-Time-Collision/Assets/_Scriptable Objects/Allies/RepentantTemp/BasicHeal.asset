@@ -24,4 +24,4 @@ MonoBehaviour:
   dmgMin: 2
   dmgMax: 5
   critChance: 15
-  description: 'MP Cost: 5 \n Cooldown: 2'
+  description: 'Restore HP \nRange: 2 \nMP Cost: 5 \nCooldown: 2'

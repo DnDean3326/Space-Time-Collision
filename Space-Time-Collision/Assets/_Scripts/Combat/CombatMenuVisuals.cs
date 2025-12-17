@@ -15,6 +15,7 @@ public class CombatMenuVisuals : MonoBehaviour
     [Header("UI Buttons")]
     [SerializeField] private GameObject[] abilityButtons;
     [SerializeField] private GameObject[] targetButtons;
+    [SerializeField] private GameObject backButton;
     
     [Header("UI Text")]
     [SerializeField] private TextMeshProUGUI abilityEffectText;
@@ -34,6 +35,7 @@ public class CombatMenuVisuals : MonoBehaviour
     
     public void SetMenuStartingValues(int maxSpirit, int currentSpirit)
     {
+        abilityEffectText.text = "";
         this.maxSpirit = maxSpirit;
         this.currentSpirit = currentSpirit;
         
@@ -69,6 +71,24 @@ public class CombatMenuVisuals : MonoBehaviour
         abilityEffectText.gameObject.SetActive(visible);
     }
 
+    public void ChangeBackButtonVisibility(bool visible)
+    {
+        backButton.SetActive(visible);
+    }
+
+    public void SetAbilityValues(float hitChance, int dmgMin, int dmgMax, int critChance, bool isDamage)
+    {
+        string type;
+        if (isDamage) {
+            type = "DMG";
+        } else {
+            type = "Heal";
+        }
+        hitChanceText.text = hitChance + "%" + '\n' + "Hit"; 
+        dmgRangeText.text = dmgMin + "-" + dmgMax + '\n'+ type;
+        critChanceText.text = critChance + "%" + '\n' + "Crit";
+    }
+
     public GameObject[] GetAbilityButtons()
     {
         return abilityButtons;
@@ -79,6 +99,8 @@ public class CombatMenuVisuals : MonoBehaviour
         return targetButtons;
     }
 
+    // Button OnClick methods
+    
     public void ChooseAbilityButton(int selectedAbility)
     {
         battleSystem.SetCurrentAbilityType(selectedAbility);
@@ -88,4 +110,33 @@ public class CombatMenuVisuals : MonoBehaviour
     {
         battleSystem.SelectTarget(currentTarget);
     }
+
+    public void BackButton()
+    {
+        
+    }
+    
+    // Button OnHover methods
+
+    public void AbilityEffect(int selectedAbility)
+    {
+        abilityEffectText.text = battleSystem.SetAbilityDescription(selectedAbility);
+    }
+
+    public void AbilityEffectRemove()
+    {
+        abilityEffectText.text = "";
+    }
+
+    public void TargetIndicate(int hoveredTarget)
+    {
+        battleSystem.IndicateTarget(hoveredTarget);
+    }
+    
+    public void TargetIndicateRemove(int hoveredTarget)
+    {
+        battleSystem.StopIndicatingTarget(hoveredTarget);
+    }
+    
+    // TODO create OnHover methods for targeted enemy damage ranges
 }

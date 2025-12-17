@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class BattleSystem : MonoBehaviour
@@ -184,27 +182,58 @@ public class BattleSystem : MonoBehaviour
             UpdateAbilityBar(characterIndex);
             ShowAbilitySelectMenu(characterIndex);
             yield return new WaitUntil(() => abilitySelected);
-            
+
+            int tempTarget;
+            int abilityModifier = GetAbilityModifier(allCombatants[characterIndex].activeAbility);
+            int min;
+            int max;
+            int crit;
             switch (allCombatants[characterIndex].currentAbilityType) {
                 case "Damage":
                     targetIsEnemy = true;
-                    ShowTargetMenu(characterIndex, targetIsEnemy);
+                    
+                    // TODO Make the below update in response to dodge and blind tokens
+                    min = allCombatants[characterIndex].myAbilities[allCombatants[characterIndex].activeAbility].dmgMin + abilityModifier;
+                    max = allCombatants[characterIndex].myAbilities[allCombatants[characterIndex].activeAbility].dmgMax + abilityModifier;
+                    crit = allCombatants[characterIndex].myAbilities[allCombatants[characterIndex].activeAbility].critChance;
+                    allCombatants[characterIndex].combatMenuVisuals.SetAbilityValues(100f, 
+                        min, max, crit, true);
+                    
+                    ShowTargetMenu(characterIndex);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
                     
                     allCombatants[characterIndex].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
                     allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+                    allCombatants[characterIndex].combatMenuVisuals.ChangeBackButtonVisibility(false);
+                    
+                    tempTarget = allCombatants[characterIndex].target;
+                    StopIndicatingTarget(enemyCombatants.IndexOf(allCombatants[tempTarget]));
+                    
                     yield return StartCoroutine(DamageAction(allCombatants[characterIndex],
                         allCombatants[allCombatants[characterIndex].target], allCombatants[characterIndex].activeAbility));
                     break;
                 case "Heal":
                     targetIsEnemy = false;
-                    ShowTargetMenu(characterIndex, targetIsEnemy);
+                    
+                    // TODO Make the below update in response to dodge and blind tokens
+                    min = allCombatants[characterIndex].myAbilities[allCombatants[characterIndex].activeAbility].dmgMin + abilityModifier;
+                    max = allCombatants[characterIndex].myAbilities[allCombatants[characterIndex].activeAbility].dmgMax + abilityModifier;
+                    crit = allCombatants[characterIndex].myAbilities[allCombatants[characterIndex].activeAbility].critChance;
+                    allCombatants[characterIndex].combatMenuVisuals.SetAbilityValues(100f, 
+                        min, max, crit, false);
+                    
+                    ShowTargetMenu(characterIndex);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
                     
                     allCombatants[characterIndex].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
                     allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+                    allCombatants[characterIndex].combatMenuVisuals.ChangeBackButtonVisibility(false);
+                    
+                    tempTarget = allCombatants[characterIndex].target;
+                    StopIndicatingTarget(partyCombatants.IndexOf(allCombatants[tempTarget]));
+                    
                     yield return StartCoroutine(HealAction(allCombatants[characterIndex],
                         allCombatants[allCombatants[characterIndex].target], allCombatants[characterIndex].activeAbility));
                     break;
@@ -212,6 +241,7 @@ public class BattleSystem : MonoBehaviour
                     print("Unsupported ability type of " + allCombatants[characterIndex].currentAbilityType + " supplied.");
                     allCombatants[characterIndex].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
                     allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+                    allCombatants[characterIndex].combatMenuVisuals.ChangeBackButtonVisibility(false);
                     break;
             }
 
@@ -356,15 +386,15 @@ public class BattleSystem : MonoBehaviour
     {
         // Set whose turn it is
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilitySelectUIVisibility(true);
-        //allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(true);
+        allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(true);
     }
     
-    public void ShowTargetMenu(int characterIndex, bool targetEnemy)
+    public void ShowTargetMenu(int characterIndex)
     {
-        allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
-        SetTargetButtons(characterIndex, targetEnemy);
+        SetTargetButtons(characterIndex);
         allCombatants[characterIndex].combatMenuVisuals.ChangeTargetSelectUIVisibility(true);
+        allCombatants[characterIndex].combatMenuVisuals.ChangeBackButtonVisibility(true);
     }
     
     private IEnumerator SetAbilityBar()
@@ -433,16 +463,30 @@ public class BattleSystem : MonoBehaviour
             
         }
     }
+
+    public string SetAbilityDescription(int abilityIndex)
+    {
+        BattleEntities currentPlayerEntity = allCombatants[currentPlayer];
+        return currentPlayerEntity.myAbilities[abilityIndex].description;
+    }
+    
+    public void SetCurrentAbilityType(int abilityIndex)
+    {
+        BattleEntities currentPlayerEntity = allCombatants[currentPlayer];
+        currentPlayerEntity.currentAbilityType = currentPlayerEntity.myAbilities[abilityIndex].abilityType.ToString();
+        currentPlayerEntity.activeAbility = abilityIndex;
+        abilitySelected = true;
+    }
     
     // TODO Enemy selection functions needs to reference and defer to grid range
     
-    private void SetTargetButtons(int characterIndex, bool targetEnemy)
+    private void SetTargetButtons(int characterIndex)
     {
         // Disable all buttons
         for (int i = 0; i < allCombatants[characterIndex].targetButtons.Length; i++) {
             allCombatants[characterIndex].targetButtons[i].SetActive(false); 
         }
-        if (targetEnemy) {
+        if (targetIsEnemy) {
             // Enable buttons for each present enemy
             for (int i = 0; i < enemyCombatants.Count; i++) {
                 allCombatants[characterIndex].targetButtons[i].SetActive(true);
@@ -460,6 +504,30 @@ public class BattleSystem : MonoBehaviour
         }
         
     }
+
+    public void IndicateTarget(int hoveredTarget)
+    {
+        // Check if target is ally or enemy
+        if (targetIsEnemy) {
+            int target = allCombatants.IndexOf(enemyCombatants[hoveredTarget]);
+            allCombatants[target].battleVisuals.TargetEnemyActive();
+        } else {
+            int target = allCombatants.IndexOf(partyCombatants[hoveredTarget]);
+            allCombatants[target].battleVisuals.TargetAllyActive();
+        }
+    }
+    
+    public void StopIndicatingTarget(int hoveredTarget)
+    {
+        // Check if target is ally or enemy
+        if (targetIsEnemy) {
+            int target = allCombatants.IndexOf(enemyCombatants[hoveredTarget]);
+            allCombatants[target].battleVisuals.TargetInactive();
+        } else {
+            int target = allCombatants.IndexOf(partyCombatants[hoveredTarget]);
+            allCombatants[target].battleVisuals.TargetInactive();
+        }
+    }
     
     public void SelectTarget(int currentTarget)
     {
@@ -473,14 +541,6 @@ public class BattleSystem : MonoBehaviour
         }
         
         targetSelected = true;
-    }
-
-    public void SetCurrentAbilityType(int abilityIndex)
-    {
-        BattleEntities currentPlayerEntity = allCombatants[currentPlayer];
-        allCombatants[currentPlayer].currentAbilityType = currentPlayerEntity.myAbilities[abilityIndex].abilityType.ToString();
-        allCombatants[currentPlayer].activeAbility = abilityIndex;
-        abilitySelected = true;
     }
     
     // TODO Replace the random targeting methods here with ones that accommodates the grid
@@ -509,50 +569,57 @@ public class BattleSystem : MonoBehaviour
         }
         return enemies[Random.Range(0, enemies.Count)]; // return a random party member
     }
+
+    private int GetAbilityModifier(int activeAbilityIndex)
+    {
+        string abilityKey = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].keyStat.ToString();
+        int abilityKeyMod = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].statModifier;
+        int abilityModifier;
+        
+        switch (abilityKey)
+        {
+            case "Power":
+                abilityModifier = allCombatants[currentPlayer].power * abilityKeyMod;
+                break;
+            case "Skill":
+                abilityModifier = allCombatants[currentPlayer].skill * abilityKeyMod;
+                break;
+            case "Wit":
+                abilityModifier = allCombatants[currentPlayer].wit * abilityKeyMod;
+                break;
+            case "Mind":
+                abilityModifier = allCombatants[currentPlayer].mind * abilityKeyMod;
+                break;
+            case "Speed":
+                abilityModifier = allCombatants[currentPlayer].speed * abilityKeyMod;
+                break;
+            case "Luck":
+                abilityModifier = allCombatants[currentPlayer].luck * abilityKeyMod;
+                break;
+            default:
+                abilityModifier = 0;
+                print("Invalid damage key of " +  abilityKey + " supplied");
+                break;
+        }
+        return abilityModifier;
+    }
     
     private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget, int activeAbilityIndex)
     {
         // Calculate damage dealt
         int damage;
+
+        int damageModifier = GetAbilityModifier(activeAbilityIndex);
         
-        string damageKey = attacker.myAbilities[activeAbilityIndex].keyStat.ToString();
-        int damageKeyMod = attacker.myAbilities[activeAbilityIndex].statModifier;
-        int damageModifier;
-        
-        switch (damageKey)
-        {
-            case "Power":
-                damageModifier = attacker.power * damageKeyMod;
-                break;
-            case "Skill":
-                damageModifier = attacker.skill * damageKeyMod;
-                break;
-            case "Wit":
-                damageModifier = attacker.wit * damageKeyMod;
-                break;
-            case "Mind":
-                damageModifier = attacker.mind * damageKeyMod;
-                break;
-            case "Speed":
-                damageModifier = attacker.speed * damageKeyMod;
-                break;
-            case "Luck":
-                damageModifier = attacker.luck * damageKeyMod;
-                break;
-            default:
-                print("Invalid damage key of " +  damageKey + " supplied");
-                yield break;
-        }
-        
-        int minDamageRange = attacker.myAbilities[activeAbilityIndex].dmgMin;
-        int maxDamageRange = attacker.myAbilities[activeAbilityIndex].dmgMax;
+        int minDamageRange = attacker.myAbilities[activeAbilityIndex].dmgMin + damageModifier;
+        int maxDamageRange = attacker.myAbilities[activeAbilityIndex].dmgMax + damageModifier;
         int critChance =  attacker.myAbilities[activeAbilityIndex].critChance;
 
         if (Random.Range(1, 101) > critChance) {
-            damage = Random.Range(minDamageRange, maxDamageRange + 1) + damageModifier;
+            damage = Random.Range(minDamageRange, maxDamageRange + 1);
         } else {
             print(attacker.myName + " scored a critical hit!");
-            damage = (int)((maxDamageRange + damageModifier) * CRIT_DAMAGE_MODIFIER);
+            damage = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
         }
         
         // Play combat animations
@@ -602,34 +669,7 @@ public class BattleSystem : MonoBehaviour
         // Calculate damage dealt
         int restore;
         
-        string restoreKey = healer.myAbilities[activeAbilityIndex].keyStat.ToString();
-        int restoreKeyMod = healer.myAbilities[activeAbilityIndex].statModifier;
-        int restoreModifier;
-        
-        switch (restoreKey)
-        {
-            case "Power":
-                restoreModifier = healer.power * restoreKeyMod;
-                break;
-            case "Skill":
-                restoreModifier = healer.skill * restoreKeyMod;
-                break;
-            case "Wit":
-                restoreModifier = healer.wit * restoreKeyMod;
-                break;
-            case "Mind":
-                restoreModifier = healer.mind * restoreKeyMod;
-                break;
-            case "Speed":
-                restoreModifier = healer.speed * restoreKeyMod;
-                break;
-            case "Luck":
-                restoreModifier = healer.luck * restoreKeyMod;
-                break;
-            default:
-                print("Invalid restore key of " +  restoreKey + " supplied");
-                yield break;
-        }
+        int restoreModifier = GetAbilityModifier(activeAbilityIndex);
         
         int minDamageRange = healer.myAbilities[activeAbilityIndex].dmgMin;
         int maxDamageRange = healer.myAbilities[activeAbilityIndex].dmgMax;

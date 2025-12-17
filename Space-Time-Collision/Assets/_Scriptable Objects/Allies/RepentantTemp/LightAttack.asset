@@ -24,4 +24,4 @@ MonoBehaviour:
   dmgMin: 3
   dmgMax: 6
   critChance: 10
-  description: 
+  description: 'Deal damage \nRange: 3'

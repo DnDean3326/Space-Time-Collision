@@ -4,10 +4,10 @@ using TMPro;
 
 public class BattleVisuals : MonoBehaviour
 {
-    [Header("Resource Displays")]
     [SerializeField] private Slider healthBar;
     [SerializeField] private Slider defenseBar;
     [SerializeField] private TextMeshProUGUI armorText;
+    [SerializeField] private GameObject targetIndicator;
 
     private int maxHealth;
     private int currentHealth;
@@ -15,6 +15,7 @@ public class BattleVisuals : MonoBehaviour
     private int currentDefense;
     private int armor;
     private Animator myAnimator;
+    private Animator indicatorAnimator;
 
     private const string IS_ATTACK_PARAM = "AttackTrigger";
     private const string IS_HIT_PARAM = "HitTrigger";
@@ -22,9 +23,13 @@ public class BattleVisuals : MonoBehaviour
     private const string IS_DEAD_PARAM = "DeadTrigger";
     private const string MY_TURN_BOOL = "IsMyTurn";
 
+    private const string TARGET_ENEMY_ACTIVE = "TargetingEnemy";
+    private const string TARGET_ALLY_ACTIVE = "TargetingAlly";
+
     private void Awake()
     {
         myAnimator = GetComponent<Animator>();
+        indicatorAnimator = targetIndicator.GetComponent<Animator>();
     }
 
     public void SetStartingValues(int maxHealth, int currentHealth, int maxDefense,  int armor)
@@ -105,5 +110,23 @@ public class BattleVisuals : MonoBehaviour
     {
         myAnimator.SetBool(MY_TURN_BOOL, myTurn);
     }
-    
+
+    public void TargetEnemyActive()
+    {
+        targetIndicator.SetActive(true);
+        indicatorAnimator.SetBool(TARGET_ENEMY_ACTIVE, true);
+    }
+
+    public void TargetAllyActive()
+    {
+        targetIndicator.SetActive(true);
+        indicatorAnimator.SetBool(TARGET_ALLY_ACTIVE, true);
+    }
+
+    public void TargetInactive()
+    {
+        targetIndicator.SetActive(false);
+        indicatorAnimator.SetBool(TARGET_ENEMY_ACTIVE, false);
+        indicatorAnimator.SetBool(TARGET_ALLY_ACTIVE, false);
+    }
 }

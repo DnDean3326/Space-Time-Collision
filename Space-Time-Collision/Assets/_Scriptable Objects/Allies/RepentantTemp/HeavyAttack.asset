@@ -24,4 +24,4 @@ MonoBehaviour:
   dmgMin: 4
   dmgMax: 6
   critChance: 15
-  description: 'Self DMG: 5 \n Cooldown: 1'
+  description: 'Deal damage \nRange: 3 \nSelf DMG: 5 \nCooldown: 1'
