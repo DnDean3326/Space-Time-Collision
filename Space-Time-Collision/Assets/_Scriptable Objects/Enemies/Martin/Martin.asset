@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   enemyName: Martin
   baseHealth: 20
-  baseDefense: 0
+  baseDefense: 10
   baseArmor: 0
   baseSpirit: 12
   basePower: 4

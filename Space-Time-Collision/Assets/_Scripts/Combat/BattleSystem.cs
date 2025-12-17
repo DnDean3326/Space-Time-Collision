@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class BattleSystem : MonoBehaviour
 {
@@ -179,6 +180,7 @@ public class BattleSystem : MonoBehaviour
             print("Player turn has begun. " + allCombatants[characterIndex].myName + " Is the active character.");
 
             abilitySelected = false;
+            UpdateAbilityBar(characterIndex);
             ShowAbilitySelectMenu(characterIndex);
             yield return new WaitUntil(() => abilitySelected);
             
@@ -212,6 +214,16 @@ public class BattleSystem : MonoBehaviour
                     break;
             }
 
+            // Reduce Cooldowns of all unused abilities by one
+            for (int i = 0; i < allCombatants[characterIndex].abilityCooldowns.Count; i++) {
+                if (allCombatants[characterIndex].abilityCooldowns[i] > 0) {
+                    allCombatants[characterIndex].abilityCooldowns[i] -= 1;
+                }
+            }
+            // Start the cooldown of the used ability
+            allCombatants[characterIndex].abilityCooldowns[allCombatants[characterIndex].activeAbility] +=
+                allCombatants[characterIndex].myAbilities[allCombatants[characterIndex].activeAbility].cooldown;
+            
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(false);
             state = BattleState.Battle;
             StartCoroutine(BattleRoutine());
@@ -278,6 +290,10 @@ public class BattleSystem : MonoBehaviour
             
             // Assign abilities to character TODO Make this also update visuals
             tempEntity.myAbilities = partyManager.GetActiveAbilities(i);
+            tempEntity.abilityCooldowns = new List<int>();
+            for (int j = 0; j < tempEntity.myAbilities.Count; j++) {
+                tempEntity.abilityCooldowns.Add(0);
+            }
             
             // Add the allied combatant to the all combatants and party combatant lists
             allCombatants.Add(tempEntity);
@@ -364,6 +380,16 @@ public class BattleSystem : MonoBehaviour
         }
 
         yield break;
+    }
+
+    private void UpdateAbilityBar(int characterIndex)
+    {
+        for (int i = 0; i < partyCombatants[characterIndex].myAbilities.Count; i++) {
+            if (partyCombatants[characterIndex].abilityCooldowns[i] > 0) {
+                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+            }
+        }
     }
     
     // TODO Enemy selection functions needs to reference and defer to grid range
@@ -719,6 +745,7 @@ public class BattleEntities
     public GameObject[] abilityButtons;
     public GameObject[] targetButtons;
     public List<Ability> myAbilities;
+    public List<int> abilityCooldowns;
 
     public void SetEntityValue(string entityName, int entityLevel, int entityMaxHealth, int entityCurrentHealth,
         int entityMaxSpirit, int entityCurrentSpirit, int entityMaxDefense, int entityMaxArmor, int entityPower,
