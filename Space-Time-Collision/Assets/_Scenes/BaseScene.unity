@@ -267,10 +267,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EncounterSystem
   enemiesInScene:
+  - enemy: {fileID: 11400000, guid: 26f7472d970e39241a4be687dcc0e5b1, type: 2}
+    levelMin: 1
+    levelMax: 1
   - enemy: {fileID: 11400000, guid: 20e1cdbec28fb1a4ca62aa669f7b7c1d, type: 2}
     levelMin: 1
     levelMax: 1
-  maxNumEnemies: 1
+  maxNumEnemies: 4
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

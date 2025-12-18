@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
   m_Name: LightAttack
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Cut
+  abilityName: Quick Cut
   abilityType: 0
   abilityWeight: 1
   costResource: 0
@@ -24,4 +24,18 @@ MonoBehaviour:
   dmgMin: 3
   dmgMax: 6
   critChance: 10
-  description: 'Deal damage \nRange: 3'
+  targetTokensApplied: 0
+  targetTokenOne: {fileID: 11400000, guid: e59c79b23dfd2a645bb8b0fc651dbeb5, type: 2}
+  targetTokenOneCount: 1
+  targetTokenTwo: {fileID: 0}
+  targetTokenTwoCount: 0
+  targetTokenThree: {fileID: 0}
+  targetTokenThreeCount: 0
+  selfTokensApplied: 0
+  selfTokenOne: {fileID: 0}
+  selfTokenOneCount: 0
+  selfTokenTwo: {fileID: 0}
+  selfTokenTwoCount: 0
+  selfTokenThree: {fileID: 0}
+  selfTokenThreeCount: 0
+  description: 'Deal damage and gain Dodge I\nRange: 3'

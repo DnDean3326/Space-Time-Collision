@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class BattleSystem : MonoBehaviour
 {
@@ -37,6 +40,12 @@ public class BattleSystem : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject combatStartUI;
     [SerializeField] private Animator combatStartUIAnimator;
+
+    [Header("Tokens")]
+    [SerializeField] private Token blockToken;
+    [SerializeField] private Token boostToken;
+    [SerializeField] private Token criticalToken;
+    [SerializeField] private Token dodgeToken;
     
     private PartyManager partyManager;
     private EnemyManager enemyManager;
@@ -198,6 +207,9 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.Targeting) {
             
+            BattleEntities activeCharacter = allCombatants[currentPlayer];
+            BattleEntities targetCharacter;
+            
             int tempTarget;
             SetAbilityValuesForDisplay();
             switch (allCombatants[currentPlayer].activeAbilityType) {
@@ -207,16 +219,16 @@ public class BattleSystem : MonoBehaviour
                     ShowTargetMenu(currentPlayer);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
+                    targetCharacter = allCombatants[activeCharacter.target];
                     
-                    allCombatants[currentPlayer].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
-                    allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
-                    allCombatants[currentPlayer].combatMenuVisuals.ChangeBackButtonVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     
-                    tempTarget = allCombatants[currentPlayer].target;
+                    tempTarget = activeCharacter.target;
                     StopIndicatingTarget(enemyCombatants.IndexOf(allCombatants[tempTarget]));
                     
-                    yield return StartCoroutine(DamageAction(allCombatants[currentPlayer],
-                        allCombatants[allCombatants[currentPlayer].target], allCombatants[currentPlayer].activeAbility));
+                    yield return StartCoroutine(DamageAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
                 case "Heal":
                     targetIsEnemy = false;
@@ -224,36 +236,35 @@ public class BattleSystem : MonoBehaviour
                     ShowTargetMenu(currentPlayer);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
+                    targetCharacter = allCombatants[activeCharacter.target];
                     
-                    allCombatants[currentPlayer].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
-                    allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
-                    allCombatants[currentPlayer].combatMenuVisuals.ChangeBackButtonVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     
-                    tempTarget = allCombatants[currentPlayer].target;
+                    tempTarget = activeCharacter.target;
                     StopIndicatingTarget(partyCombatants.IndexOf(allCombatants[tempTarget]));
                     
-                    yield return StartCoroutine(HealAction(allCombatants[currentPlayer],
-                        allCombatants[allCombatants[currentPlayer].target], allCombatants[currentPlayer].activeAbility));
+                    yield return StartCoroutine(HealAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
                 default:
                     print("Unsupported ability type of " + allCombatants[currentPlayer].activeAbilityType + " supplied.");
-                    allCombatants[currentPlayer].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
-                    allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
-                    allCombatants[currentPlayer].combatMenuVisuals.ChangeBackButtonVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     break;
             }
 
             // Reduce Cooldowns of all unused abilities by one
             for (int i = 0; i < allCombatants[currentPlayer].abilityCooldowns.Count; i++) {
-                if (allCombatants[currentPlayer].abilityCooldowns[i] > 0) {
-                    allCombatants[currentPlayer].abilityCooldowns[i] -= 1;
+                if (activeCharacter.abilityCooldowns[i] > 0) {
+                    activeCharacter.abilityCooldowns[i] -= 1;
                 }
             }
             // Start the cooldown of the used ability
-            allCombatants[currentPlayer].abilityCooldowns[allCombatants[currentPlayer].activeAbility] +=
-                allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].cooldown;
+            activeCharacter.abilityCooldowns[activeCharacter.activeAbility] += activeCharacter.myAbilities[activeCharacter.activeAbility].cooldown;
             
-            allCombatants[currentPlayer].battleVisuals.SetMyTurnAnimation(false);
+            activeCharacter.battleVisuals.SetMyTurnAnimation(false);
             wentBack = false;
             state = BattleState.Battle;
             StartCoroutine(BattleRoutine());
@@ -403,8 +414,6 @@ public class BattleSystem : MonoBehaviour
                     partyCombatants[i].myAbilities[j].abilityIcon;*/
                 partyCombatants[i].abilityButtons[j].GetComponentInChildren<TextMeshProUGUI>().text =
                     partyCombatants[i].myAbilities[j].abilityName;
-                
-                
             }
         }
 
@@ -584,47 +593,66 @@ public class BattleSystem : MonoBehaviour
         
     }
 
-    private void SetTargetValuesForDisplay()
+    private void SetTargetValuesForDisplay(int hoveredTarget)
     {
-        int abilityModifier = GetAbilityModifier(allCombatants[currentPlayer].activeAbility);
+        BattleEntities activeEntity = allCombatants[currentPlayer];
+        BattleEntities targetEntity;
+        // Check if target is ally or enemy
+        if (targetIsEnemy) {
+            int target = allCombatants.IndexOf(enemyCombatants[hoveredTarget]);
+            targetEntity = allCombatants[target];
+        } else {
+            int target = allCombatants.IndexOf(partyCombatants[hoveredTarget]);
+            targetEntity = allCombatants[target];
+        }
         
-        int min = allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].dmgMin + abilityModifier;
-        int max = allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].dmgMax + abilityModifier;
-        int crit = allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].critChance;
+        int abilityModifier = 0;
+        bool singleValue = false;
+        float acc = 100f;
+        int min = 0;
+        int max = 0;
+        int crit = 0;
+        
+        RunAbilityAgainstSelfTokens(activeEntity, ref abilityModifier, ref singleValue, ref acc, ref min, ref max, ref crit);
+        RunAbilityAgainstTargetTokens(targetEntity, ref singleValue, ref acc, ref min, ref max, ref crit);
         
         bool isDamage;
-        if (allCombatants[currentPlayer].activeAbilityType == "Damage") {
+        if (activeEntity.activeAbilityType == "Damage") {
             isDamage = true;
-            int target = allCombatants.IndexOf(enemyCombatants[allCombatants[currentPlayer].target]);
-            min -= allCombatants[target].currentArmor;
-            max -= allCombatants[target].currentArmor;
-        } else if (allCombatants[currentPlayer].activeAbilityType == "Heal") {
+            min -= targetEntity.currentArmor;
+            max -= targetEntity.currentArmor;
+        } else if (activeEntity.activeAbilityType == "Heal") {
             isDamage = false;
         } else {
             isDamage = true;
         }
         
-        allCombatants[currentPlayer].combatMenuVisuals.SetAbilityValues(100f, min, max, crit, isDamage);
+        activeEntity.combatMenuVisuals.SetAbilityValues(acc, min, max, crit, isDamage, singleValue);
     }
 
     private void SetAbilityValuesForDisplay()
     {
-        int abilityModifier = GetAbilityModifier(allCombatants[currentPlayer].activeAbility);
+        BattleEntities activeEntity = allCombatants[currentPlayer];
         
-        int min = allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].dmgMin + abilityModifier;
-        int max = allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].dmgMax + abilityModifier;
-        int crit = allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].critChance;
+        int abilityModifier = 0;
+        bool singleValue = false;
+        float acc = 100f;
+        int min = 0;
+        int max = 0;
+        int crit = 0;
+        
+        RunAbilityAgainstSelfTokens(activeEntity, ref abilityModifier, ref singleValue, ref acc, ref min, ref max, ref crit);
         
         bool isDamage;
-        if (allCombatants[currentPlayer].activeAbilityType == "Damage") {
+        if (activeEntity.activeAbilityType == "Damage") {
             isDamage = true;
-        } else if (allCombatants[currentPlayer].activeAbilityType == "Heal") {
+        } else if (activeEntity.activeAbilityType == "Heal") {
             isDamage = false;
         } else {
             isDamage = true;
         }
         
-        allCombatants[currentPlayer].combatMenuVisuals.SetAbilityValues(100f, min, max, crit, isDamage);
+        activeEntity.combatMenuVisuals.SetAbilityValues(acc, min, max, crit, isDamage, singleValue);
     }
 
     public void IndicateTarget(int hoveredTarget)
@@ -637,7 +665,7 @@ public class BattleSystem : MonoBehaviour
             int target = allCombatants.IndexOf(partyCombatants[hoveredTarget]);
             allCombatants[target].battleVisuals.TargetAllyActive();
         }
-        SetTargetValuesForDisplay();
+        SetTargetValuesForDisplay(hoveredTarget);
     }
     
     public void StopIndicatingTarget(int hoveredTarget)
@@ -727,23 +755,75 @@ public class BattleSystem : MonoBehaviour
         }
         return abilityModifier;
     }
+
+    private void RunAbilityAgainstSelfTokens(BattleEntities activeEntity, ref int abilityModifier,
+        ref bool singleValue, ref float acc, ref int min, ref int max, ref int crit)
+    {
+        abilityModifier = GetAbilityModifier(allCombatants[currentPlayer].activeAbility);
+        
+        singleValue = false;
+        min = activeEntity.myAbilities[activeEntity.activeAbility].dmgMin + abilityModifier;
+        max = activeEntity.myAbilities[activeEntity.activeAbility].dmgMax + abilityModifier;
+        crit = activeEntity.myAbilities[activeEntity.activeAbility].critChance;
+        
+        // Check for Boost or Break
+        if (activeEntity.activeTokens.Contains(boostToken)) {
+            min = (int)(min * (1 + boostToken.tokenValue));
+            max = (int)(max * (1 + boostToken.tokenValue));
+        } /*else if (activeEntity.activeTokens.Contains(breakToken)) {
+            min = (int)(min * (1 - breakToken.tokenValue));
+            max = (int)(max * (1 - breakToken.tokenValue));
+        }*/
+        // Check for Critical
+        if (activeEntity.activeTokens.Contains(criticalToken)) {
+            crit = 100;
+            singleValue = true;
+        }
+        // Check for Blind
+        /*if (activeEntity.activeTokens.Contains(blindToken)) {
+            acc *= (1 - blindToken.tokenValue)
+        }*/
+    }
+    
+    private void RunAbilityAgainstTargetTokens(BattleEntities targetEntity, ref bool singleValue, ref float acc,
+        ref int min, ref int max, ref int crit)
+    {
+        // Check for Block or Vulnerable
+        if (targetEntity.activeTokens.Contains(blockToken)) {
+            min = (int)(min * (1 - blockToken.tokenValue));
+            max = (int)(max * (1 - blockToken.tokenValue));
+        } /*else if (targetEntity.activeTokens.Contains(vulnerableToken)) {
+            min = (int)(min * (1 + vulnerableToken.tokenValue));
+            max = (int)(max * (1 + vulnerableToken.tokenValue));
+        }*/
+        // Check for Dodge
+        if (targetEntity.activeTokens.Contains(dodgeToken)) {
+            acc = (int)(acc * (1 - dodgeToken.tokenValue));
+        }
+    }
     
     private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget, int activeAbilityIndex)
     {
         // Calculate damage dealt
         int damage;
-
-        int damageModifier = GetAbilityModifier(activeAbilityIndex);
         
-        int minDamageRange = attacker.myAbilities[activeAbilityIndex].dmgMin + damageModifier;
-        int maxDamageRange = attacker.myAbilities[activeAbilityIndex].dmgMax + damageModifier;
-        int critChance =  attacker.myAbilities[activeAbilityIndex].critChance;
+        int damageModifier = 0;
+        bool singleValue = false;
+        float acc = 0;
+        int minDamageRange = 0;
+        int maxDamageRange = 0;
+        int critChance = 0;
 
-        if (Random.Range(1, 101) > critChance) {
-            damage = Random.Range(minDamageRange, maxDamageRange + 1) - attackTarget.currentArmor;
-        } else {
+        RunAbilityAgainstSelfTokens(attacker, ref damageModifier, ref singleValue, ref acc, ref minDamageRange, 
+            ref maxDamageRange, ref critChance);
+        RunAbilityAgainstTargetTokens(attackTarget, ref singleValue, ref acc, ref minDamageRange,
+            ref maxDamageRange, ref critChance);
+
+        if (Random.Range(1, 101) < critChance || attacker.activeTokens.Contains(criticalToken)) {
             print(attacker.myName + " scored a critical hit!");
             damage = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER) - attackTarget.currentArmor;
+        } else {
+            damage = Random.Range(minDamageRange, maxDamageRange + 1) - attackTarget.currentArmor;
         }
         
         // Play combat animations
@@ -940,6 +1020,7 @@ public class BattleEntities
     public GameObject[] targetButtons;
     public List<Ability> myAbilities;
     public List<int> abilityCooldowns;
+    public List<Token> activeTokens;
 
     public void SetEntityValue(string entityName, int entityLevel, int entityMaxHealth, int entityCurrentHealth,
         int entityMaxSpirit, int entityCurrentSpirit, int entityMaxDefense, int entityMaxArmor, int entityPower,
@@ -964,6 +1045,8 @@ public class BattleEntities
         mind = entityMind;
         speed = entitySpeed;
         luck = entityLuck;
+        
+        activeTokens = new List<Token>();
     }
 
     public void SetTarget(int entityTarget)

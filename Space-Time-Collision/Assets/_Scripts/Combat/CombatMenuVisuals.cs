@@ -76,7 +76,7 @@ public class CombatMenuVisuals : MonoBehaviour
         backButton.SetActive(visible);
     }
 
-    public void SetAbilityValues(float hitChance, int dmgMin, int dmgMax, int critChance, bool isDamage)
+    public void SetAbilityValues(float hitChance, int dmgMin, int dmgMax, int critChance, bool isDamage, bool singleValue)
     {
         string type;
         if (isDamage) {
@@ -84,9 +84,14 @@ public class CombatMenuVisuals : MonoBehaviour
         } else {
             type = "Heal";
         }
-        hitChanceText.text = hitChance + "%" + '\n' + "Hit"; 
-        dmgRangeText.text = dmgMin + "-" + dmgMax + '\n'+ type;
+        hitChanceText.text = hitChance + "%" + '\n' + "Hit";
         critChanceText.text = critChance + "%" + '\n' + "Crit";
+        if (!singleValue) {
+            dmgRangeText.text = dmgMin + "-" + dmgMax + '\n' + type;
+        } else {
+            dmgRangeText.text = dmgMax + "\n " + type;
+        }
+        
     }
 
     public GameObject[] GetAbilityButtons()
