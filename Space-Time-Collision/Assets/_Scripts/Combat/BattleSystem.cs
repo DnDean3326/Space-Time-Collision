@@ -132,7 +132,6 @@ public class BattleSystem : MonoBehaviour
         
         if (state == BattleState.Battle) {
             
-            
             while (preparedCombatants.Count <= 0) {
                 for (int i = 0; i < allCombatants.Count; i++) {
                     if (state == BattleState.Battle) {
@@ -388,8 +387,6 @@ public class BattleSystem : MonoBehaviour
         }
             
     }
-    
-    // TODO Method to make battle UI visible and functional needed here
     
     public void ShowAbilitySelectMenu(int characterIndex)
     {
@@ -757,11 +754,11 @@ public class BattleSystem : MonoBehaviour
     }
 
     private void RunAbilityAgainstSelfTokens(BattleEntities activeEntity, ref int abilityModifier,
-        ref bool singleValue, ref float acc, ref int min, ref int max, ref int crit)
+        ref bool isCrit, ref float acc, ref int min, ref int max, ref int crit)
     {
         abilityModifier = GetAbilityModifier(allCombatants[currentPlayer].activeAbility);
         
-        singleValue = false;
+        isCrit = false;
         min = activeEntity.myAbilities[activeEntity.activeAbility].dmgMin + abilityModifier;
         max = activeEntity.myAbilities[activeEntity.activeAbility].dmgMax + abilityModifier;
         crit = activeEntity.myAbilities[activeEntity.activeAbility].critChance;
@@ -777,7 +774,9 @@ public class BattleSystem : MonoBehaviour
         // Check for Critical
         if (activeEntity.activeTokens.Contains(criticalToken)) {
             crit = 100;
-            singleValue = true;
+            max = (int)(max * CRIT_DAMAGE_MODIFIER);
+            min = max;
+            isCrit = true;
         }
         // Check for Blind
         /*if (activeEntity.activeTokens.Contains(blindToken)) {
@@ -785,7 +784,7 @@ public class BattleSystem : MonoBehaviour
         }*/
     }
     
-    private void RunAbilityAgainstTargetTokens(BattleEntities targetEntity, ref bool singleValue, ref float acc,
+    private void RunAbilityAgainstTargetTokens(BattleEntities targetEntity, ref bool isCrit, ref float acc,
         ref int min, ref int max, ref int crit)
     {
         // Check for Block or Vulnerable
@@ -808,19 +807,18 @@ public class BattleSystem : MonoBehaviour
         int damage;
         
         int damageModifier = 0;
-        bool singleValue = false;
+        bool isCrit = false;
         float acc = 0;
         int minDamageRange = 0;
         int maxDamageRange = 0;
         int critChance = 0;
 
-        RunAbilityAgainstSelfTokens(attacker, ref damageModifier, ref singleValue, ref acc, ref minDamageRange, 
+        RunAbilityAgainstSelfTokens(attacker, ref damageModifier, ref isCrit, ref acc, ref minDamageRange, 
             ref maxDamageRange, ref critChance);
-        RunAbilityAgainstTargetTokens(attackTarget, ref singleValue, ref acc, ref minDamageRange,
+        RunAbilityAgainstTargetTokens(attackTarget, ref isCrit, ref acc, ref minDamageRange,
             ref maxDamageRange, ref critChance);
 
-        if (Random.Range(1, 101) < critChance || attacker.activeTokens.Contains(criticalToken)) {
-            print(attacker.myName + " scored a critical hit!");
+        if (Random.Range(1, 101) < critChance && !attacker.activeTokens.Contains(criticalToken)) {
             damage = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER) - attackTarget.currentArmor;
         } else {
             damage = Random.Range(minDamageRange, maxDamageRange + 1) - attackTarget.currentArmor;
@@ -828,7 +826,7 @@ public class BattleSystem : MonoBehaviour
         
         // Play combat animations
         attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
-        attackTarget.battleVisuals.PlayHitAnimation(damage); // target plays on hit animation
+        attackTarget.battleVisuals.PlayHitAnimation(damage, isCrit); // target plays on hit animation
         yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
         // Deal the damage to defense, or if the target has none, to HP
@@ -872,22 +870,26 @@ public class BattleSystem : MonoBehaviour
         // Calculate damage dealt
         int restore;
         
-        int restoreModifier = GetAbilityModifier(activeAbilityIndex);
-        
-        int minDamageRange = healer.myAbilities[activeAbilityIndex].dmgMin;
-        int maxDamageRange = healer.myAbilities[activeAbilityIndex].dmgMax;
-        int critChance =  healer.myAbilities[activeAbilityIndex].critChance;
+        int restoreModifier = 0;
+        bool isCrit = false;
+        float acc = 0;
+        int minDamageRange = 0;
+        int maxDamageRange = 0;
+        int critChance = 0;
 
-        if (Random.Range(1, 101) > critChance) {
-            restore = Random.Range(minDamageRange, maxDamageRange + 1) + restoreModifier;
+        RunAbilityAgainstSelfTokens(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange, 
+            ref maxDamageRange, ref critChance);
+        // TODO Add a method that checks only for tokens on the target that affect healing
+
+        if (Random.Range(1, 101) < critChance && !healer.activeTokens.Contains(criticalToken)) {
+            restore = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
         } else {
-            print(healer.myName + " scored a critical heal!");
-            restore = (int)((maxDamageRange + restoreModifier) * CRIT_DAMAGE_MODIFIER);
+            restore = Random.Range(minDamageRange, maxDamageRange + 1);
         }
         
         //healer.battleVisuals.PlayAttackAnimation(); // play the attack animation
         healTarget.currentDefense += restore; // restore HP
-        healTarget.battleVisuals.PlayHealAnimation(restore); // target plays on hit animation
+        healTarget.battleVisuals.PlayHealAnimation(restore, isCrit); // target plays on hit animation
         yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
         yield return StartCoroutine(ConsumeResources(activeAbilityIndex));

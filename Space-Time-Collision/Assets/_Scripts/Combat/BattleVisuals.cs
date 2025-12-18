@@ -92,16 +92,25 @@ public class BattleVisuals : MonoBehaviour
         myAnimator.SetTrigger(IS_ATTACK_PARAM);
     }
 
-    public void PlayHitAnimation(int damageDealt)
+    public void PlayHitAnimation(int damageDealt, bool isCrit)
     {
         myAnimator.SetTrigger(IS_HIT_PARAM);
-        damageText.text = damageDealt.ToString();
+        if (isCrit) {
+            damageText.text = damageDealt + "!";
+        } else {
+            damageText.text = damageDealt.ToString();
+        }
+        
     }
     
-    public void PlayHealAnimation(int restoreApplied)
+    public void PlayHealAnimation(int restoreApplied, bool isCrit)
     {
         myAnimator.SetTrigger(IS_HEALED_PARAM);
-        damageText.text = restoreApplied.ToString();
+        if (isCrit) {
+            damageText.text = restoreApplied + "!";
+        } else {
+            damageText.text = restoreApplied.ToString();
+        }
     }
 
     public void PlayDeathAnimation()
