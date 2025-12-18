@@ -43,9 +43,12 @@ public class BattleSystem : MonoBehaviour
 
     [Header("Buff Tokens")]
     [SerializeField] private Token blockToken;
+    [SerializeField] private Token blockPlusToken;
     [SerializeField] private Token boostToken;
+    [SerializeField] private Token boostPlusToken;
     [SerializeField] private Token criticalToken;
     [SerializeField] private Token dodgeToken;
+    [SerializeField] private Token dodgePlusToken;
     
     [Header("Debuff Tokens")]
     [SerializeField] private Token blindToken;
@@ -768,22 +771,59 @@ public class BattleSystem : MonoBehaviour
         max = activeEntity.myAbilities[activeEntity.activeAbility].dmgMax + abilityModifier;
         crit = activeEntity.myAbilities[activeEntity.activeAbility].critChance;
         
-        // Check for Boost or Break
-        if (activeEntity.activeTokens.Contains(boostToken)) {
+        // Check for Boost or Break tokens
+        if (activeEntity.activeTokens.Contains(boostPlusToken)) {
+            min = (int)(min * (1 + boostPlusToken.tokenValue));
+            max = (int)(max * (1 + boostPlusToken.tokenValue));
+        } else if (activeEntity.activeTokens.Contains(boostToken)) {
             min = (int)(min * (1 + boostToken.tokenValue));
             max = (int)(max * (1 + boostToken.tokenValue));
         } else if (activeEntity.activeTokens.Contains(breakToken)) {
             min = (int)(min * (1 - breakToken.tokenValue));
             max = (int)(max * (1 - breakToken.tokenValue));
         }
-        // Check for Critical
+        // Check for Critical tokens
         if (activeEntity.activeTokens.Contains(criticalToken)) {
             crit = 100;
             max = (int)(max * CRIT_DAMAGE_MODIFIER);
             min = max;
             isCrit = true;
         }
-        // Check for Blind
+        // Check for Blind tokens
+        if (activeEntity.activeTokens.Contains(blindToken)) {
+            acc *= (1 - blindToken.tokenValue);
+        }
+    }
+    
+    private void RunHealAgainstSelfTokens(BattleEntities activeEntity, ref int abilityModifier,
+        ref bool isCrit, ref float acc, ref int min, ref int max, ref int crit)
+    {
+        abilityModifier = GetAbilityModifier(allCombatants[currentPlayer].activeAbility);
+        
+        isCrit = false;
+        min = activeEntity.myAbilities[activeEntity.activeAbility].dmgMin + abilityModifier;
+        max = activeEntity.myAbilities[activeEntity.activeAbility].dmgMax + abilityModifier;
+        crit = activeEntity.myAbilities[activeEntity.activeAbility].critChance;
+        
+        // Check for Boost or Break tokens
+        if (activeEntity.activeTokens.Contains(boostPlusToken)) {
+            min = (int)(min * (1 + boostPlusToken.tokenValue));
+            max = (int)(max * (1 + boostPlusToken.tokenValue));
+        } else if (activeEntity.activeTokens.Contains(boostToken)) {
+            min = (int)(min * (1 + boostToken.tokenValue));
+            max = (int)(max * (1 + boostToken.tokenValue));
+        } else if (activeEntity.activeTokens.Contains(breakToken)) {
+            min = (int)(min * (1 - breakToken.tokenValue));
+            max = (int)(max * (1 - breakToken.tokenValue));
+        }
+        // Check for Critical tokens
+        if (activeEntity.activeTokens.Contains(criticalToken)) {
+            crit = 100;
+            max = (int)(max * CRIT_DAMAGE_MODIFIER);
+            min = max;
+            isCrit = true;
+        }
+        // Check for Blind tokens
         if (activeEntity.activeTokens.Contains(blindToken)) {
             acc *= (1 - blindToken.tokenValue);
         }
@@ -792,17 +832,84 @@ public class BattleSystem : MonoBehaviour
     private void RunAbilityAgainstTargetTokens(BattleEntities targetEntity, ref bool isCrit, ref float acc,
         ref int min, ref int max, ref int crit)
     {
-        // Check for Block or Vulnerable
-        if (targetEntity.activeTokens.Contains(blockToken)) {
+        // Check for Block or Vulnerable tokens
+        if (targetEntity.activeTokens.Contains(blockPlusToken)) {
+            min = (int)(min * (1 - blockPlusToken.tokenValue));
+            max = (int)(max * (1 - blockPlusToken.tokenValue));
+        } else if (targetEntity.activeTokens.Contains(blockToken)) {
             min = (int)(min * (1 - blockToken.tokenValue));
             max = (int)(max * (1 - blockToken.tokenValue));
         } else if (targetEntity.activeTokens.Contains(vulnerableToken)) {
             min = (int)(min * (1 + vulnerableToken.tokenValue));
             max = (int)(max * (1 + vulnerableToken.tokenValue));
         }
-        // Check for Dodge
-        if (targetEntity.activeTokens.Contains(dodgeToken)) {
+        // Check for Dodge tokens
+        if (targetEntity.activeTokens.Contains(dodgePlusToken)) {
+            acc = (int)(acc * (1 - dodgePlusToken.tokenValue));
+        } else if (targetEntity.activeTokens.Contains(dodgeToken)) {
             acc = (int)(acc * (1 - dodgeToken.tokenValue));
+        }
+    }
+
+    private void RemoveSelfDamageTokens(BattleEntities activeEntity)
+    {
+        // Check for Boost or Break tokens
+        if (activeEntity.activeTokens.Contains(boostPlusToken)) {
+            activeEntity.activeTokens.Remove(boostPlusToken);
+        } else if (activeEntity.activeTokens.Contains(boostToken)) {
+            activeEntity.activeTokens.Remove(boostToken);
+        } else if (activeEntity.activeTokens.Contains(breakToken)) {
+            activeEntity.activeTokens.Remove(breakToken);
+        }
+        
+        // Check for Critical tokens
+        if (activeEntity.activeTokens.Contains(criticalToken)) {
+            activeEntity.activeTokens.Remove(criticalToken);
+        }
+        
+        // Check for Blind tokens
+        if (activeEntity.activeTokens.Contains(blindToken)) {
+            activeEntity.activeTokens.Remove(blindToken);
+        }
+    }
+    
+    private void RemoveSelfHealTokens(BattleEntities activeEntity)
+    {
+        // Check for Boost or Break tokens
+        if (activeEntity.activeTokens.Contains(boostPlusToken)) {
+            activeEntity.activeTokens.Remove(boostPlusToken);
+        } else if (activeEntity.activeTokens.Contains(boostToken)) {
+            activeEntity.activeTokens.Remove(boostToken);
+        } else if (activeEntity.activeTokens.Contains(breakToken)) {
+            activeEntity.activeTokens.Remove(breakToken);
+        }
+        
+        // Check for Critical tokens
+        if (activeEntity.activeTokens.Contains(criticalToken)) {
+            activeEntity.activeTokens.Remove(criticalToken);
+        }
+        
+        // Check for Blind tokens
+        if (activeEntity.activeTokens.Contains(blindToken)) {
+            activeEntity.activeTokens.Remove(blindToken);
+        }
+    }
+
+    private void RemoveTargetDamageTokens(BattleEntities targetEntity)
+    {
+        // Check for Block or Vulnerable tokens
+        if (targetEntity.activeTokens.Contains(blockPlusToken)) {
+            targetEntity.activeTokens.Remove(blockPlusToken);
+        } else if (targetEntity.activeTokens.Contains(blockToken)) {
+            targetEntity.activeTokens.Remove(blockToken);
+        } else if (targetEntity.activeTokens.Contains(vulnerableToken)) {
+            targetEntity.activeTokens.Remove(vulnerableToken);
+        }
+        // Check for Dodge tokens
+        if (targetEntity.activeTokens.Contains(dodgePlusToken)) {
+            targetEntity.activeTokens.Remove(dodgePlusToken);
+        } else if (targetEntity.activeTokens.Contains(dodgeToken)) {
+            targetEntity.activeTokens.Remove(dodgeToken);
         }
     }
     
@@ -826,14 +933,25 @@ public class BattleSystem : MonoBehaviour
         int accRoll = Random.Range(1, 101);
         if (accRoll > (int)acc) {
             attackTarget.battleVisuals.AbilityMisses();
+            RemoveSelfDamageTokens(attacker);
+            // Check for Dodge tokens
+            if (attackTarget.activeTokens.Contains(dodgePlusToken)) {
+                attackTarget.activeTokens.Remove(dodgePlusToken);
+            } else if (attackTarget.activeTokens.Contains(dodgeToken)) {
+                attackTarget.activeTokens.Remove(dodgeToken);
+            }
             yield break;
         }
-        
-        if (Random.Range(1, 101) < critChance && !attacker.activeTokens.Contains(criticalToken)) {
+        int critRoll = Random.Range(1, 101);
+        if (critRoll < critChance && !attacker.activeTokens.Contains(criticalToken)) {
             damage = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER) - attackTarget.currentArmor;
         } else {
             damage = Random.Range(minDamageRange, maxDamageRange + 1) - attackTarget.currentArmor;
         }
+        //print("Final damage is: " + damage);
+        
+        RemoveSelfDamageTokens(attacker);
+        RemoveTargetDamageTokens(attackTarget);
         
         // Play combat animations
         attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
@@ -888,12 +1006,26 @@ public class BattleSystem : MonoBehaviour
         int maxDamageRange = 0;
         int critChance = 0;
 
-        RunAbilityAgainstSelfTokens(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange, 
+        RunHealAgainstSelfTokens(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange, 
             ref maxDamageRange, ref critChance);
         // TODO Add a method that checks only for tokens on the target that affect healing
         
         int accRoll = Random.Range(1, 101);
-        if (accRoll < critChance && !healer.activeTokens.Contains(criticalToken)) {
+        if (accRoll > (int)acc) {
+            healTarget.battleVisuals.AbilityMisses();
+            RemoveSelfHealTokens(healer);
+            // Check for Dodge tokens
+            if (healTarget.activeTokens.Contains(dodgePlusToken)) {
+                healTarget.activeTokens.Remove(dodgePlusToken);
+            } else if (healTarget.activeTokens.Contains(dodgeToken)) {
+                healTarget.activeTokens.Remove(dodgeToken);
+            }
+
+            yield break;
+        }
+
+        int critRoll = Random.Range(1, 101);
+        if (critRoll < critChance && !healer.activeTokens.Contains(criticalToken)) {
             restore = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
         } else {
             restore = Random.Range(minDamageRange, maxDamageRange + 1);

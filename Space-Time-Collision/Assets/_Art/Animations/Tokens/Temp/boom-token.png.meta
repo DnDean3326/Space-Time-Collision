@@ -1,28 +1,28 @@
 fileFormatVersion: 2
-guid: 34bfaf559bfd70049a62495f4641aee0
+guid: 18eebaff42a04cf47b17a940b418830a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4991533432140443728
-    second: boom+-token_0
+      213: -749800647391001901
+    second: boom-token_0
   - first:
-      213: 8523084138790611231
-    second: boom+-token_1
+      213: -4892633981098581711
+    second: boom-token_1
   - first:
-      213: -4200641531656512815
-    second: boom+-token_2
+      213: -5796756778635618915
+    second: boom-token_2
   - first:
-      213: -4454562150015701390
-    second: boom+-token_3
+      213: -104093054271986253
+    second: boom-token_3
   - first:
-      213: 6896174586932244775
-    second: boom+-token_4
+      213: -3303811100802222693
+    second: boom-token_4
   - first:
-      213: 6626655916012072979
-    second: boom+-token_5
+      213: 7431270770596923849
+    second: boom-token_5
   - first:
-      213: 5512364984556240451
-    second: boom+-token_6
+      213: 6626986971370223521
+    second: boom-token_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -131,10 +131,10 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: boom+-token_0
+      name: boom-token_0
       rect:
         serializedVersion: 2
-        x: 189
+        x: 227
         y: 873
         width: 230
         height: 230
@@ -146,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 050b733d53d754540800000000000000
-      internalID: 4991533432140443728
+      spriteID: 3d2c6e7a84c2895f0800000000000000
+      internalID: -749800647391001901
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boom+-token_1
+      name: boom-token_1
       rect:
         serializedVersion: 2
-        x: 227
-        y: 189
-        width: 762
-        height: 800
+        x: 303
+        y: 227
+        width: 648
+        height: 724
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,14 +168,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f196163fdd3184670800000000000000
-      internalID: 8523084138790611231
+      spriteID: 1312d94015fd91cb0800000000000000
+      internalID: -4892633981098581711
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boom+-token_2
+      name: boom-token_2
       rect:
         serializedVersion: 2
         x: 797
@@ -190,19 +190,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1da5cdc68c254b5c0800000000000000
-      internalID: -4200641531656512815
+      spriteID: d9516102c68cd8fa0800000000000000
+      internalID: -5796756778635618915
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boom+-token_3
+      name: boom-token_3
       rect:
         serializedVersion: 2
-        x: 0
+        x: 37
         y: 493
-        width: 191
+        width: 192
         height: 230
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -212,14 +212,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 27ee96a63573e22c0800000000000000
-      internalID: -4454562150015701390
+      spriteID: 3b5688c2bef2e8ef0800000000000000
+      internalID: -104093054271986253
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boom+-token_4
+      name: boom-token_4
       rect:
         serializedVersion: 2
         x: 1025
@@ -234,17 +234,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7213c23df3224bf50800000000000000
-      internalID: 6896174586932244775
+      spriteID: b95f0b3ee418622d0800000000000000
+      internalID: -3303811100802222693
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boom+-token_5
+      name: boom-token_5
       rect:
         serializedVersion: 2
-        x: 189
+        x: 227
         y: 113
         width: 230
         height: 230
@@ -256,14 +256,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 310f3a2327c96fb50800000000000000
-      internalID: 6626655916012072979
+      spriteID: 9c94c2fa46d212760800000000000000
+      internalID: 7431270770596923849
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boom+-token_6
+      name: boom-token_6
       rect:
         serializedVersion: 2
         x: 797
@@ -278,8 +278,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 34eb6c86fbadf7c40800000000000000
-      internalID: 5512364984556240451
+      spriteID: 1a7f9a70a89c7fb50800000000000000
+      internalID: 6626986971370223521
       vertices: []
       indices: 
       edges: []
@@ -298,13 +298,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      boom+-token_0: 4991533432140443728
-      boom+-token_1: 8523084138790611231
-      boom+-token_2: -4200641531656512815
-      boom+-token_3: -4454562150015701390
-      boom+-token_4: 6896174586932244775
-      boom+-token_5: 6626655916012072979
-      boom+-token_6: 5512364984556240451
+      boom-token_0: -749800647391001901
+      boom-token_1: -4892633981098581711
+      boom-token_2: -5796756778635618915
+      boom-token_3: -104093054271986253
+      boom-token_4: -3303811100802222693
+      boom-token_5: 7431270770596923849
+      boom-token_6: 6626986971370223521
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
