@@ -1625,6 +1625,9 @@ MonoBehaviour:
   boostToken: {fileID: 11400000, guid: cfec49d050bc696418021f3627a8e863, type: 2}
   criticalToken: {fileID: 11400000, guid: 5f60605822f00ae498afa9d01fa424cc, type: 2}
   dodgeToken: {fileID: 11400000, guid: e59c79b23dfd2a645bb8b0fc651dbeb5, type: 2}
+  blindToken: {fileID: 11400000, guid: db26c35e4ab6869449f7bf05ded86e30, type: 2}
+  breakToken: {fileID: 11400000, guid: 596290b16018fb741a213f856d3e0015, type: 2}
+  vulnerableToken: {fileID: 11400000, guid: 08031efb7ab90414f99f3f7b5673e21a, type: 2}
 --- !u!4 &1793564087
 Transform:
   m_ObjectHideFlags: 0

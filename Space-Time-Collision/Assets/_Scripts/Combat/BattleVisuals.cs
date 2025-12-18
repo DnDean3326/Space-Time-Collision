@@ -21,6 +21,7 @@ public class BattleVisuals : MonoBehaviour
     private const string IS_ATTACK_PARAM = "AttackTrigger";
     private const string IS_HIT_PARAM = "HitTrigger";
     private const string IS_HEALED_PARAM = "HealedTrigger";
+    private const string MISS_PARAM = "MissTrigger";
     private const string IS_DEAD_PARAM = "DeadTrigger";
     private const string MY_TURN_BOOL = "IsMyTurn";
 
@@ -101,6 +102,12 @@ public class BattleVisuals : MonoBehaviour
             damageText.text = damageDealt.ToString();
         }
         
+    }
+    
+    public void AbilityMisses()
+    {
+        myAnimator.SetTrigger(MISS_PARAM);
+        damageText.text = "MISS!";
     }
     
     public void PlayHealAnimation(int restoreApplied, bool isCrit)
