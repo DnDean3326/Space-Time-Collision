@@ -26,6 +26,10 @@ MonoBehaviour:
   critChance: 10
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 08000000
-  targetTokenCountApplied: 01000000
+  targetTokensApplied: 
+  targetTokenCountApplied: 
+  selfCritTokensApplied: 
+  selfCritTokenCountApplied: 
+  targetCritTokensApplied: 08000000
+  targetCritTokenCountApplied: 01000000
   description: 'Deal damage and apply Blind I\nRange: 3'

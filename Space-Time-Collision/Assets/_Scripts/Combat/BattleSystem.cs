@@ -144,7 +144,7 @@ public class BattleSystem : MonoBehaviour
         RemoveDeadCombatants();
         
         if (state == BattleState.Battle) {
-            GetTurnOrder();
+            //GetTurnOrder();
             while (preparedCombatants.Count <= 0) {
                 for (int i = 0; i < allCombatants.Count; i++) {
                     if (state == BattleState.Battle) {
@@ -941,6 +941,36 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    private void RunBuffAgainstSelfTokens(BattleEntities activeEntity, ref bool isCrit, ref float acc, ref int crit)
+    {
+        foreach (BattleToken token in activeEntity.activeTokens) {
+            // Check for Critical tokens
+            if (activeEntity.activeTokens.Contains(criticalToken)) {
+                crit = 100;
+                isCrit = true;
+            }
+            // Check for Blind tokens
+            if (activeEntity.activeTokens.Contains(blindToken)) {
+                acc *= (1 - blindToken.tokenValue);
+            }
+        }
+    }
+    
+    private void RunDebuffAgainstSelfTokens(BattleEntities activeEntity, ref bool isCrit, ref float acc, ref int crit)
+    {
+        foreach (BattleToken token in activeEntity.activeTokens) {
+            // Check for Critical tokens
+            if (activeEntity.activeTokens.Contains(criticalToken)) {
+                crit = 100;
+                isCrit = true;
+            }
+            // Check for Blind tokens
+            if (activeEntity.activeTokens.Contains(blindToken)) {
+                acc *= (1 - blindToken.tokenValue);
+            }
+        }
+    }
+
     private BattleToken CreateBattleToken(BattleToken originalToken)
     {
         BattleToken battleToken = new BattleToken();
@@ -1164,9 +1194,22 @@ public class BattleSystem : MonoBehaviour
         }
         int critRoll = Random.Range(1, 101);
         if (critRoll < critChance && !attacker.activeTokens.Contains(criticalToken)) {
+            isCrit = true;
             damage = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER) - attackTarget.currentArmor;
         } else {
             damage = Random.Range(minDamageRange, maxDamageRange + 1) - attackTarget.currentArmor;
+        }
+        
+        if (isCrit) {
+            // TODO check for Isolation/Ward tokens
+            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
+                AddTokens(attacker, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
+            }
+            attacker.battleVisuals.UpdateTokens(attacker.activeTokens);
+            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
+                AddTokens(attackTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
+            }
+            attackTarget.battleVisuals.UpdateTokens(attackTarget.activeTokens);
         }
         
         RemoveSelfDamageTokens(attacker);
@@ -1261,9 +1304,22 @@ public class BattleSystem : MonoBehaviour
 
         int critRoll = Random.Range(1, 101);
         if (critRoll < critChance && !healer.activeTokens.Contains(criticalToken)) {
+            isCrit = true;
             restore = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
         } else {
             restore = Random.Range(minDamageRange, maxDamageRange + 1);
+        }
+        
+        if (isCrit) {
+            // TODO check for Isolation/Ward tokens
+            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
+                AddTokens(healer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
+            }
+            healer.battleVisuals.UpdateTokens(healer.activeTokens);
+            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
+                AddTokens(healTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
+            }
+            healTarget.battleVisuals.UpdateTokens(healTarget.activeTokens);
         }
         
         // Apply target tokens
@@ -1293,7 +1349,12 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator BuffAction(BattleEntities buffer, BattleEntities buffTarget, int activeAbilityIndex)
     {
         Ability activeAbility = buffer.myAbilities[activeAbilityIndex];
+        
+        bool isCrit = false;
         float acc = 100;
+        int critChance = 0;
+        
+        RunBuffAgainstSelfTokens(buffer, ref isCrit, ref acc, ref critChance);
 
         // TODO Check for Isolation/Ward tokens
         for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
@@ -1313,6 +1374,23 @@ public class BattleSystem : MonoBehaviour
             yield break;
         }
         
+        int critRoll = Random.Range(1, 101);
+        if (critRoll < critChance && !buffer.activeTokens.Contains(criticalToken)) {
+            isCrit = true;
+        }
+
+        if (isCrit) {
+            // TODO check for Isolation/Ward tokens
+            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
+                AddTokens(buffer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
+            }
+            buffer.battleVisuals.UpdateTokens(buffer.activeTokens);
+            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
+                AddTokens(buffTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
+            }
+            buffTarget.battleVisuals.UpdateTokens(buffTarget.activeTokens);
+        }
+        
         // TODO Check for Isolation tokens
         for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
             AddTokens(buffTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
@@ -1325,7 +1403,12 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator DebuffAction(BattleEntities debuffer, BattleEntities debuffTarget, int activeAbilityIndex)
     {
         Ability activeAbility = debuffer.myAbilities[activeAbilityIndex];
+        
+        bool isCrit = false;
         float acc = 100;
+        int critChance = 0;
+        
+        RunDebuffAgainstSelfTokens(debuffer, ref isCrit, ref acc, ref critChance);
 
         // TODO Check for Isolation/Ward tokens
         for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
@@ -1342,7 +1425,24 @@ public class BattleSystem : MonoBehaviour
             yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
             SaveResources();
             yield break;
-        } 
+        }
+        
+        int critRoll = Random.Range(1, 101);
+        if (critRoll < critChance && !debuffer.activeTokens.Contains(criticalToken)) {
+            isCrit = true;
+        }
+        
+        if (isCrit) {
+            // TODO check for Isolation/Ward tokens
+            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
+                AddTokens(debuffer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
+            }
+            debuffer.battleVisuals.UpdateTokens(debuffer.activeTokens);
+            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
+                AddTokens(debuffTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
+            }
+            debuffTarget.battleVisuals.UpdateTokens(debuffTarget.activeTokens);
+        }
         
         // TODO Check for Ward tokens
         for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
@@ -1355,7 +1455,6 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator ConsumeResources(int activeAbilityIndex)
     {
-        print("Consume resources was called for " + allCombatants[currentPlayer].myAbilities[activeAbilityIndex].name);
         // Reduce the user's resource 
         string resourceConsumed = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costResource.ToString();
         int resourceCost = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costAmount;
