@@ -274,6 +274,23 @@ public class BattleSystem : MonoBehaviour
                     
                     yield return StartCoroutine(BuffAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
+                case "Debuff":
+                    targetIsEnemy = true;
+                    
+                    ShowTargetMenu(currentPlayer);
+                    targetSelected = false;
+                    yield return new WaitUntil(() => targetSelected);
+                    targetCharacter = allCombatants[activeCharacter.target];
+                    
+                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
+                    
+                    tempTarget = activeCharacter.target;
+                    StopIndicatingTarget(enemyCombatants.IndexOf(allCombatants[tempTarget]));
+                    
+                    yield return StartCoroutine(DebuffAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
+                    break;
                 default:
                     print("Unsupported ability type of " + allCombatants[currentPlayer].activeAbilityType + " supplied.");
                     activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
