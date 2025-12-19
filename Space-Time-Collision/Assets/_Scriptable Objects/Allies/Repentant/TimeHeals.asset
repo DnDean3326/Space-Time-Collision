@@ -12,22 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
   m_Name: TimeHeals
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: 
-  abilityType: 0
+  abilityName: Time Heals
+  abilityType: 1
   abilityWeight: 0
-  costResource: 0
-  costAmount: 0
-  cooldown: 0
-  range: 0
-  keyStat: 0
-  statModifier: 0
-  dmgMin: 0
-  dmgMax: 0
-  critChance: 0
-  secondaryTarget: 0
+  costResource: 1
+  costAmount: 6
+  cooldown: 2
+  range: 2
+  keyStat: 4
+  statModifier: 2
+  dmgMin: 5
+  dmgMax: 10
+  critChance: 20
+  secondaryTarget: 4
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 0
+  secondaryValue: 40
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 

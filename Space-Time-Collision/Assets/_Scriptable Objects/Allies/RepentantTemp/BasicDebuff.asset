@@ -19,13 +19,21 @@ MonoBehaviour:
   costAmount: 6
   cooldown: 1
   range: 4
-  keyStat: 3
+  keyStat: 0
   statModifier: 0
   dmgMin: 0
   dmgMax: 0
   critChance: 25
+  secondaryTarget: 0
+  secondaryStat: 0
+  secondaryStatModifier: 0
+  secondaryValue: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 090000000a000000
   targetTokenCountApplied: 0100000002000000
+  selfCritTokensApplied: 
+  selfCritTokenCountApplied: 
+  targetCritTokensApplied: 
+  targetCritTokenCountApplied: 
   description: 'Apply Break I and Vulnerable II\nRange: 4\nCost: 6HP\nCooldown: 1'

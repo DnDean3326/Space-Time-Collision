@@ -19,14 +19,22 @@ MonoBehaviour:
   costAmount: 10
   cooldown: 2
   range: 2
-  keyStat: 3
+  keyStat: 4
   statModifier: 1
   dmgMin: 2
   dmgMax: 5
   critChance: 15
+  secondaryTarget: 3
+  secondaryStat: 0
+  secondaryStatModifier: 0
+  secondaryValue: 5
   selfTokensApplied: 06000000
   selfTokenCountApplied: 01000000
   targetTokensApplied: 06000000
   targetTokenCountApplied: 01000000
+  selfCritTokensApplied: 
+  selfCritTokenCountApplied: 
+  targetCritTokensApplied: 
+  targetCritTokenCountApplied: 
   description: 'Gain Dodge I\nRestore HP to the target and apply Dodge I \nRange:
     2 \nMP Cost: 5 \nCooldown: 2'

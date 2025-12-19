@@ -816,49 +816,91 @@ public class BattleSystem : MonoBehaviour
         return enemies[Random.Range(0, enemies.Count)]; // return a random party member
     }
 
-    private int GetAbilityModifier(int activeAbilityIndex)
+    private int GetAbilityModifier(BattleEntities activeEntity, int activeAbilityIndex)
     {
-        string abilityKey = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].keyStat.ToString();
-        int abilityKeyMod = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].statModifier;
-        int abilityModifier;
+        string abilityKey = activeEntity.myAbilities[activeAbilityIndex].keyStat.ToString();
+        int abilityKeyMod = activeEntity.myAbilities[activeAbilityIndex].statModifier;
+        int abilityModifier = 0;
         
         switch (abilityKey)
         {
+            case "Null":
+                break;
             case "Power":
-                abilityModifier = allCombatants[currentPlayer].power * abilityKeyMod;
+                abilityModifier = activeEntity.power * abilityKeyMod;
                 break;
             case "Skill":
-                abilityModifier = allCombatants[currentPlayer].skill * abilityKeyMod;
+                abilityModifier = activeEntity.skill * abilityKeyMod;
                 break;
             case "Wit":
-                abilityModifier = allCombatants[currentPlayer].wit * abilityKeyMod;
+                abilityModifier = activeEntity.wit * abilityKeyMod;
                 break;
             case "Mind":
-                abilityModifier = allCombatants[currentPlayer].mind * abilityKeyMod;
+                abilityModifier = activeEntity.mind * abilityKeyMod;
                 break;
             case "Speed":
-                abilityModifier = allCombatants[currentPlayer].speed * abilityKeyMod;
+                abilityModifier = activeEntity.speed * abilityKeyMod;
                 break;
             case "Luck":
-                abilityModifier = allCombatants[currentPlayer].luck * abilityKeyMod;
+                abilityModifier = activeEntity.luck * abilityKeyMod;
                 break;
             default:
-                abilityModifier = 0;
                 print("Invalid damage key of " +  abilityKey + " supplied");
                 break;
         }
         return abilityModifier;
     }
 
+    private int GetSecondaryAbilityModifier(BattleEntities activeEntity, int activeAbilityIndex)
+    {
+        string secondaryKey = activeEntity.myAbilities[activeAbilityIndex].secondaryStat.ToString();
+        int secondaryKeyMod = activeEntity.myAbilities[activeAbilityIndex].secondaryStatModifier;
+        int secondaryModifier = 0;
+        
+        switch (secondaryKey)
+        {
+            case "Null":
+                break;
+            case "Power":
+                secondaryModifier = activeEntity.power * secondaryKeyMod;
+                break;
+            case "Skill":
+                secondaryModifier = activeEntity.skill * secondaryKeyMod;
+                break;
+            case "Wit":
+                secondaryModifier = activeEntity.wit * secondaryKeyMod;
+                break;
+            case "Mind":
+                secondaryModifier = activeEntity.mind * secondaryKeyMod;
+                break;
+            case "Speed":
+                secondaryModifier = activeEntity.speed * secondaryKeyMod;
+                break;
+            case "Luck":
+                secondaryModifier = activeEntity.luck * secondaryKeyMod;
+                break;
+            default:
+                print("Invalid secondary damage key of " +  secondaryKey + " supplied");
+                break;
+        }
+        return secondaryModifier;
+    }
+
     private void SetAbilityValues(BattleEntities activeEntity, ref int abilityModifier,
         ref bool isCrit, ref float acc, ref int min, ref int max, ref int crit)
     {
-        abilityModifier = GetAbilityModifier(allCombatants[currentPlayer].activeAbility);
+        abilityModifier = GetAbilityModifier(activeEntity, activeEntity.activeAbility);
         
         isCrit = false;
         min = activeEntity.myAbilities[activeEntity.activeAbility].dmgMin + abilityModifier;
         max = activeEntity.myAbilities[activeEntity.activeAbility].dmgMax + abilityModifier;
         crit = activeEntity.myAbilities[activeEntity.activeAbility].critChance;
+    }
+
+    private void SetSecondaryAbilityValues(BattleEntities activeEntity, ref int secondaryAbilityModifier, ref int secondaryValue)
+    {
+        secondaryAbilityModifier = GetSecondaryAbilityModifier(activeEntity, activeEntity.activeAbility);
+        secondaryValue += secondaryAbilityModifier + activeEntity.myAbilities[activeEntity.activeAbility].secondaryValue;
     }
 
     private void RunAbilityAgainstSelfTokens(BattleEntities activeEntity, ref int abilityModifier,
@@ -1266,6 +1308,8 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator HealAction(BattleEntities healer, BattleEntities healTarget, int activeAbilityIndex)
     {
         Ability activeAbility = healer.myAbilities[activeAbilityIndex];
+        
+        // Declare heal values
         int restore;
         
         int restoreModifier = 0;
@@ -1275,12 +1319,25 @@ public class BattleSystem : MonoBehaviour
         int maxDamageRange = 0;
         int critChance = 0;
         
+        // Declare secondary heal values, if any
+        int secondaryRestore;
+        
+        int secondaryModifier = 0;
+        int secondaryValue = 0;
+        string secondaryTarget = activeAbility.secondaryTarget.ToString();
+        
+        // Get heal values
         SetAbilityValues(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange,
             ref maxDamageRange, ref critChance);
 
+        // Check heal against tokens
         RunHealAgainstSelfTokens(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange, 
             ref maxDamageRange, ref critChance);
         // TODO Add a method that checks only for tokens on the target that affect healing
+        
+        // Get secondary heal values
+        SetSecondaryAbilityValues(healer, ref secondaryModifier,  ref secondaryValue);
+        secondaryRestore = secondaryValue;
         
         // Apply self tokens
         // TODO check for Isolation/Ward tokens
@@ -1289,6 +1346,7 @@ public class BattleSystem : MonoBehaviour
         }
         healer.battleVisuals.UpdateTokens(healer.activeTokens);
         
+        // Check for hit
         int accRoll = Random.Range(1, 101);
         if (accRoll > (int)acc) {
             healTarget.battleVisuals.AbilityMisses();
@@ -1301,7 +1359,8 @@ public class BattleSystem : MonoBehaviour
             SaveResources();
             yield break;
         }
-
+        
+        // Check for crit
         int critRoll = Random.Range(1, 101);
         if (critRoll < critChance && !healer.activeTokens.Contains(criticalToken)) {
             isCrit = true;
@@ -1310,6 +1369,7 @@ public class BattleSystem : MonoBehaviour
             restore = Random.Range(minDamageRange, maxDamageRange + 1);
         }
         
+        // Determine heal amount based on whether the ability crit
         if (isCrit) {
             // TODO check for Isolation/Ward tokens
             for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
@@ -1322,6 +1382,39 @@ public class BattleSystem : MonoBehaviour
             healTarget.battleVisuals.UpdateTokens(healTarget.activeTokens);
         }
         
+        // Apply Secondary Heal
+        if (secondaryTarget != "Null") {
+            switch (secondaryTarget) {
+                case "Bonus":
+                    restore += secondaryRestore;
+                    break;
+                case "Spirit":
+                    healTarget.currentSpirit += secondaryRestore;
+                    if (healTarget.currentSpirit > healTarget.maxSpirit) {
+                        healTarget.currentSpirit = healTarget.maxSpirit;
+                    }
+                    break;
+                case "Armor":
+                    healTarget.currentArmor += secondaryRestore;
+                    if (healTarget.currentArmor > healTarget.maxArmor) {
+                        healTarget.currentArmor = healTarget.maxArmor;
+                    }
+                    break;
+                case "ActionPoints":
+                    healTarget.actionPoints += secondaryRestore;
+                    break;
+                default:
+                    print("Invalid secondary target of " +  secondaryTarget + " supplied");
+                    break;
+            }
+            print(healTarget.myName + " " + secondaryTarget + " restored by " + secondaryRestore);
+        }
+        
+        // Heal the target
+        //healer.battleVisuals.PlayAttackAnimation(); // play the attack animation
+        healTarget.currentDefense += restore; // restore HP
+        healTarget.battleVisuals.PlayHealAnimation(restore, isCrit); // target plays on hit animation
+        
         // Apply target tokens
         // TODO Check for Isloation/Ward tokens
         for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
@@ -1329,9 +1422,6 @@ public class BattleSystem : MonoBehaviour
         }
         healTarget.battleVisuals.UpdateTokens(healTarget.activeTokens);
         
-        //healer.battleVisuals.PlayAttackAnimation(); // play the attack animation
-        healTarget.currentDefense += restore; // restore HP
-        healTarget.battleVisuals.PlayHealAnimation(restore, isCrit); // target plays on hit animation
         yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
         yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
