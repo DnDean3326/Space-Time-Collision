@@ -38,6 +38,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private List<BattleEntities> enemyCombatants = new List<BattleEntities>();
     [SerializeField] private List<BattleEntities> partyCombatants = new List<BattleEntities>();
     [SerializeField] private List<BattleEntities> preparedCombatants = new List<BattleEntities>();
+    [SerializeField] private List<BattleEntities> turnOrder = new  List<BattleEntities>();
     
     [Header("Tokens")]
     [SerializeField] private List<BattleToken> allTokens = new List<BattleToken>();
@@ -75,8 +76,8 @@ public class BattleSystem : MonoBehaviour
     private const float DEATH_DELAY = 3f;
     private const float CRIT_DAMAGE_MODIFIER = 1.5f;
     private const int TURN_START_THRESHOLD = 200;
-    private const int BASE_INITIATIVE_GAIN = 20;
-    private const int MAX_INITIATIVE_START = 100;
+    private const int BASE_ACTION_GAIN = 20;
+    private const int MAX_ACTION_START = 100;
     private const string MAP_SCENE = "BaseScene";
     private const string BASE_SCENE = "BaseScene";
     
@@ -107,7 +108,7 @@ public class BattleSystem : MonoBehaviour
             yield return StartCoroutine(SetAbilityBar());
             
             for (int i = 0; i < allCombatants.Count; i++) {
-                allCombatants[i].initiative = Random.Range(1, MAX_INITIATIVE_START + 1);
+                allCombatants[i].actionPoints = Random.Range(1, MAX_ACTION_START + 1);
             }
             
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
@@ -143,12 +144,12 @@ public class BattleSystem : MonoBehaviour
         RemoveDeadCombatants();
         
         if (state == BattleState.Battle) {
-            
+            GetTurnOrder();
             while (preparedCombatants.Count <= 0) {
                 for (int i = 0; i < allCombatants.Count; i++) {
                     if (state == BattleState.Battle) {
-                        allCombatants[i].initiative += BASE_INITIATIVE_GAIN + allCombatants[i].speed;
-                        if (allCombatants[i].initiative >= TURN_START_THRESHOLD) {
+                        allCombatants[i].actionPoints += BASE_ACTION_GAIN + allCombatants[i].speed;
+                        if (allCombatants[i].actionPoints >= TURN_START_THRESHOLD) {
                             preparedCombatants.Add(allCombatants[i]);
                         }
                     }
@@ -170,7 +171,7 @@ public class BattleSystem : MonoBehaviour
             
             if (preparedCombatants.Count > 0) {
                 // Sorts prepared combatants by initiative from highest to lowest
-                preparedCombatants.Sort((bi1, bi2) => -bi1.initiative.CompareTo(bi2.initiative));
+                preparedCombatants.Sort((bi1, bi2) => -bi1.actionPoints.CompareTo(bi2.actionPoints));
                 
                 int characterIndex = allCombatants.IndexOf(preparedCombatants[0]);
                 if (preparedCombatants[0].isPlayer) {
@@ -196,7 +197,7 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.PlayerTurn) {
             currentPlayer = characterIndex;
             if (!wentBack) {
-                allCombatants[currentPlayer].initiative -= TURN_START_THRESHOLD;
+                allCombatants[currentPlayer].actionPoints -= TURN_START_THRESHOLD;
                 preparedCombatants.RemoveAt(preparedCombatants.IndexOf(allCombatants[currentPlayer]));
             }
             
@@ -323,7 +324,7 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.EnemyTurn) {
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
-            allCombatants[characterIndex].initiative -= TURN_START_THRESHOLD;
+            allCombatants[characterIndex].actionPoints -= TURN_START_THRESHOLD;
             preparedCombatants.RemoveAt(preparedCombatants.IndexOf(allCombatants[characterIndex]));
             
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
@@ -442,6 +443,20 @@ public class BattleSystem : MonoBehaviour
         blindToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Blind");
         breakToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Break");
         vulnerableToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Vulnerable");
+    }
+
+    private void GetTurnOrder()
+    {
+        turnOrder = allCombatants;
+        float tickDifference;
+        foreach (BattleEntities entity in allCombatants) {
+            tickDifference = (float)(TURN_START_THRESHOLD - entity.actionPoints) / (BASE_ACTION_GAIN + entity.speed);
+            entity.ticksToTurn = tickDifference;
+        }
+        turnOrder.Sort((bi1, bi2) => bi1.ticksToTurn.CompareTo(bi2.ticksToTurn));
+        foreach (BattleEntities entity in turnOrder) {
+            print(entity.myName + " ticks to turn is "  + entity.ticksToTurn);
+        }
     }
     
     private void RemoveDeadCombatants()
@@ -1344,7 +1359,6 @@ public class BattleSystem : MonoBehaviour
         // Reduce the user's resource 
         string resourceConsumed = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costResource.ToString();
         int resourceCost = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costAmount;
-        print("Resource consumed is: " +  resourceConsumed + "Cost amount is: " + resourceCost);
 
         switch (resourceConsumed)
         {
@@ -1434,7 +1448,8 @@ public class BattleEntities
     public int target;
     public int activeAbility;
     public int level;
-    public int initiative;
+    public int actionPoints;
+    public float ticksToTurn;
 
     public int maxHealth;
     public int currentHealth;
