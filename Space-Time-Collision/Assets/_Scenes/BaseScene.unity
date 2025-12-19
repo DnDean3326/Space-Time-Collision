@@ -273,7 +273,7 @@ MonoBehaviour:
   - enemy: {fileID: 11400000, guid: 20e1cdbec28fb1a4ca62aa669f7b7c1d, type: 2}
     levelMin: 1
     levelMax: 1
-  maxNumEnemies: 4
+  maxNumEnemies: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

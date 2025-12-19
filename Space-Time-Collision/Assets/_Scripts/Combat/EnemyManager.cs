@@ -25,8 +25,7 @@ public class EnemyManager : MonoBehaviour
     public void GenerateEnemiesByEncounter(Encounter[] encounters, int maxNumEnemies)
     {
         currentEnemies.Clear();
-        // TODO Set the 4 back to 1
-        int numEnemies = Random.Range(4, maxNumEnemies + 1);
+        int numEnemies = Random.Range(1, maxNumEnemies + 1);
 
         for (int i = 0; i < numEnemies; i++) {
             Encounter tempEncounter = encounters[Random.Range(0, encounters.Length)];

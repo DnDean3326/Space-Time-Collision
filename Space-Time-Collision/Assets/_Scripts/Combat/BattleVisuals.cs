@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class BattleVisuals : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class BattleVisuals : MonoBehaviour
     [SerializeField] private TextMeshProUGUI armorText;
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private GameObject targetIndicator;
+    [SerializeField] private GameObject[] tokenSlots;
 
     private int maxHealth;
     private int currentHealth;
@@ -17,7 +19,7 @@ public class BattleVisuals : MonoBehaviour
     private int armor;
     private Animator myAnimator;
     private Animator indicatorAnimator;
-
+    
     private const string IS_ATTACK_PARAM = "AttackTrigger";
     private const string IS_HIT_PARAM = "HitTrigger";
     private const string IS_HEALED_PARAM = "HealedTrigger";
@@ -86,6 +88,17 @@ public class BattleVisuals : MonoBehaviour
     {
         armor = newArmor;
         UpdateArmor();
+    }
+
+    public void UpdateTokens(List<BattleToken> activeTokens)
+    {
+        for (int i = 0; i < activeTokens.Count; i++) {
+            tokenSlots[i].SetActive(true);
+            tokenSlots[i].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+        }
+        for (int j = activeTokens.Count; j < tokenSlots.Length; j++) {
+            tokenSlots[j].SetActive(false);
+        }
     }
 
     public void PlayAttackAnimation()

@@ -28,7 +28,7 @@ public class PartyManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void AddMemberToPartyByName(string memberName, int level)
+    private void AddMemberToPartyByName(string memberName, int level)
     {
         for (int i = 0; i < allMembers.Length; i++) {
             if (allMembers[i].allyName == memberName) {

@@ -26,6 +26,6 @@ MonoBehaviour:
   allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 63880d098158e7e40b9d9a5cc2fc5a7c, type: 3}
   allyMapVisualPrefab: {fileID: 4016972724149583921, guid: c23495ac638deae4697c21e55bd7c475, type: 3}
   abilityOne: {fileID: 11400000, guid: 028778e2f9f8ce5498181fdaa0d40ef7, type: 2}
-  abilityTwo: {fileID: 11400000, guid: dd59ee34c00da1a4fb1c4364c2866afe, type: 2}
-  abilityThree: {fileID: 11400000, guid: 09de7ed3e86b08d46a1707525e6f8f1f, type: 2}
-  abilityFour: {fileID: 11400000, guid: 21e4f35a6e571a34cb70afa7442eabe8, type: 2}
+  abilityTwo: {fileID: 11400000, guid: 09de7ed3e86b08d46a1707525e6f8f1f, type: 2}
+  abilityThree: {fileID: 11400000, guid: 21e4f35a6e571a34cb70afa7442eabe8, type: 2}
+  abilityFour: {fileID: 11400000, guid: 9f574180d57a8404f94e42341edcd1f9, type: 2}

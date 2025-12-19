@@ -501,6 +501,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &449082132
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 449082134}
+  - component: {fileID: 449082133}
+  m_Layer: 0
+  m_Name: TokenManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &449082133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449082132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a0319ab3628d442bdec226167cefbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TokenManager
+  allTokens:
+  - {fileID: 11400000, guid: 244a2034bd6e9d340b7831d64d43e21d, type: 2}
+  - {fileID: 11400000, guid: 6812d0204fe85004fb7d5dd4722fa279, type: 2}
+  - {fileID: 11400000, guid: cfec49d050bc696418021f3627a8e863, type: 2}
+  - {fileID: 11400000, guid: 2e8d5cab8e0cf6042976ac59f885ea5d, type: 2}
+  - {fileID: 11400000, guid: 5f60605822f00ae498afa9d01fa424cc, type: 2}
+  - {fileID: 11400000, guid: e59c79b23dfd2a645bb8b0fc651dbeb5, type: 2}
+  - {fileID: 11400000, guid: 77937cf42aaf9ef4394368b72cba2cfd, type: 2}
+  - {fileID: 11400000, guid: db26c35e4ab6869449f7bf05ded86e30, type: 2}
+  - {fileID: 11400000, guid: 596290b16018fb741a213f856d3e0015, type: 2}
+  - {fileID: 11400000, guid: 08031efb7ab90414f99f3f7b5673e21a, type: 2}
+--- !u!4 &449082134
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449082132}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.12356, y: 0.00026, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &664505024
 GameObject:
   m_ObjectHideFlags: 0
@@ -1621,13 +1676,6 @@ MonoBehaviour:
   preparedCombatants: []
   combatStartUI: {fileID: 365550595}
   combatStartUIAnimator: {fileID: 365550597}
-  blockToken: {fileID: 11400000, guid: 244a2034bd6e9d340b7831d64d43e21d, type: 2}
-  boostToken: {fileID: 11400000, guid: cfec49d050bc696418021f3627a8e863, type: 2}
-  criticalToken: {fileID: 11400000, guid: 5f60605822f00ae498afa9d01fa424cc, type: 2}
-  dodgeToken: {fileID: 11400000, guid: e59c79b23dfd2a645bb8b0fc651dbeb5, type: 2}
-  blindToken: {fileID: 11400000, guid: db26c35e4ab6869449f7bf05ded86e30, type: 2}
-  breakToken: {fileID: 11400000, guid: 596290b16018fb741a213f856d3e0015, type: 2}
-  vulnerableToken: {fileID: 11400000, guid: 08031efb7ab90414f99f3f7b5673e21a, type: 2}
 --- !u!4 &1793564087
 Transform:
   m_ObjectHideFlags: 0
@@ -1817,3 +1865,4 @@ SceneRoots:
   - {fileID: 1178153565}
   - {fileID: 307906896}
   - {fileID: 1793564087}
+  - {fileID: 449082134}

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Token", menuName = "Scriptable Objects/Token")]
-public class Token : ScriptableObject
+public class TokenInfo : ScriptableObject
 {
     public enum TokenType
     {
@@ -16,5 +16,5 @@ public class Token : ScriptableObject
     public float tokenValue;
     public int tokenCap;
 
-    public string description;
+    public string tokenDescription;
 }

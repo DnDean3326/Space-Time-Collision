@@ -39,6 +39,23 @@ public class Ability : ScriptableObject
         Speed,
         Luck
     }
+
+    public enum TokenOption
+    {
+        Null,
+        
+        Block,
+        BlockPlus,
+        Boost,
+        BoostPlus,
+        Critical,
+        Dodge,
+        DodgePlus,
+        
+        Blind,
+        Break,
+        Vulnerable,
+    }
     
     public string abilityName;
     //public Sprite abilityIcon;
@@ -56,21 +73,11 @@ public class Ability : ScriptableObject
     public int dmgMax;
     public int critChance;
 
-    public int targetTokensApplied;
-    public Token targetTokenOne;
-    public int targetTokenOneCount;
-    public Token targetTokenTwo;
-    public int targetTokenTwoCount;
-    public Token targetTokenThree;
-    public int targetTokenThreeCount;
-
-    public int selfTokensApplied;
-    public Token selfTokenOne;
-    public int selfTokenOneCount;
-    public Token selfTokenTwo;
-    public int selfTokenTwoCount;
-    public Token selfTokenThree;
-    public int selfTokenThreeCount;
+    public TokenOption[] selfTokensApplied;
+    public int[] selfTokenCountApplied;
+    
+    public TokenOption[] targetTokensApplied;
+    public int[] targetTokenCountApplied;
 
     public string description;
 }

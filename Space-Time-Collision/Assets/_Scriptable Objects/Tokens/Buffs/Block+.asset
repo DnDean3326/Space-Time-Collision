@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3fd5e77bf9d6d448a6b471671072d1, type: 3}
   m_Name: Block+
   m_EditorClassIdentifier: Assembly-CSharp::Token
-  tokenName: 
-  tokenIcon: {fileID: 0}
+  tokenName: Block+
+  tokenIcon: {fileID: 21300000, guid: 2d7b22a44b4e5a645837b16a133cba49, type: 3}
   tokenType: 0
-  tokenValue: 0
-  tokenCap: 0
+  tokenValue: 0.75
+  tokenCap: 3
+  tokenCount: 0
   description: 
