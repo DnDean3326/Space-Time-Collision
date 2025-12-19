@@ -1106,7 +1106,7 @@ public class BattleSystem : MonoBehaviour
     
     private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget, int activeAbilityIndex)
     {
-        // Calculate damage dealt
+        Ability activeAbility = attacker.myAbilities[activeAbilityIndex];
         int damage;
         
         int damageModifier = 0;
@@ -1123,7 +1123,13 @@ public class BattleSystem : MonoBehaviour
             ref maxDamageRange, ref critChance);
         RunAbilityAgainstTargetTokens(attackTarget, ref isCrit, ref acc, ref minDamageRange,
             ref maxDamageRange, ref critChance);
-
+        
+        // TODO check for Isolation/Ward tokens
+        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
+            AddTokens(attacker, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
+        }
+        attacker.battleVisuals.UpdateTokens(attacker.activeTokens);
+        
         int accRoll = Random.Range(1, 101);
         if (accRoll > (int)acc) {
             attackTarget.battleVisuals.AbilityMisses();
@@ -1140,7 +1146,6 @@ public class BattleSystem : MonoBehaviour
             yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
             SaveResources();
             yield break;
-            yield break;
         }
         int critRoll = Random.Range(1, 101);
         if (critRoll < critChance && !attacker.activeTokens.Contains(criticalToken)) {
@@ -1148,10 +1153,16 @@ public class BattleSystem : MonoBehaviour
         } else {
             damage = Random.Range(minDamageRange, maxDamageRange + 1) - attackTarget.currentArmor;
         }
-        //print("Final damage is: " + damage);
         
         RemoveSelfDamageTokens(attacker);
         RemoveTargetDamageTokens(attackTarget);
+        
+        // Apply target tokens
+        /// TODO Check for Ward tokens
+        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
+            AddTokens(attackTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
+        }
+        attackTarget.battleVisuals.UpdateTokens(attackTarget.activeTokens);
         
         // Play combat animations
         attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
@@ -1192,12 +1203,11 @@ public class BattleSystem : MonoBehaviour
                 
             }
         }
-        yield break;
     }
     
     private IEnumerator HealAction(BattleEntities healer, BattleEntities healTarget, int activeAbilityIndex)
     {
-        // Calculate damage dealt
+        Ability activeAbility = healer.myAbilities[activeAbilityIndex];
         int restore;
         
         int restoreModifier = 0;
@@ -1213,6 +1223,13 @@ public class BattleSystem : MonoBehaviour
         RunHealAgainstSelfTokens(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange, 
             ref maxDamageRange, ref critChance);
         // TODO Add a method that checks only for tokens on the target that affect healing
+        
+        // Apply self tokens
+        // TODO check for Isolation/Ward tokens
+        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
+            AddTokens(healer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
+        }
+        healer.battleVisuals.UpdateTokens(healer.activeTokens);
         
         int accRoll = Random.Range(1, 101);
         if (accRoll > (int)acc) {
@@ -1233,6 +1250,13 @@ public class BattleSystem : MonoBehaviour
         } else {
             restore = Random.Range(minDamageRange, maxDamageRange + 1);
         }
+        
+        // Apply target tokens
+        // TODO Check for Isloation/Ward tokens
+        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
+            AddTokens(healTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
+        }
+        healTarget.battleVisuals.UpdateTokens(healTarget.activeTokens);
         
         //healer.battleVisuals.PlayAttackAnimation(); // play the attack animation
         healTarget.currentDefense += restore; // restore HP
@@ -1256,7 +1280,7 @@ public class BattleSystem : MonoBehaviour
         Ability activeAbility = buffer.myAbilities[activeAbilityIndex];
         float acc = 100;
 
-        // TODO Check for Isolation tokens
+        // TODO Check for Isolation/Ward tokens
         for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
             AddTokens(buffer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
         }
@@ -1278,8 +1302,8 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
             AddTokens(buffTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
         }
-        
         buffTarget.battleVisuals.UpdateTokens(buffTarget.activeTokens);
+        
         yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
     }
     
@@ -1288,7 +1312,7 @@ public class BattleSystem : MonoBehaviour
         Ability activeAbility = debuffer.myAbilities[activeAbilityIndex];
         float acc = 100;
 
-        // TODO Check for Ward tokens
+        // TODO Check for Isolation/Ward tokens
         for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
             AddTokens(debuffer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
         }
@@ -1309,8 +1333,8 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
             AddTokens(debuffTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
         }
-        
         debuffTarget.battleVisuals.UpdateTokens(debuffTarget.activeTokens);
+        
         yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
     }
 

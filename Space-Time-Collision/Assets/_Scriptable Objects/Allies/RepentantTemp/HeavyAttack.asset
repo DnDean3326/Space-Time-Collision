@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityName: Reckless Swing
   abilityType: 0
   abilityWeight: 0
-  costResource: 4
+  costResource: 0
   costAmount: 5
   cooldown: 1
   range: 3
@@ -24,4 +24,8 @@ MonoBehaviour:
   dmgMin: 4
   dmgMax: 6
   critChance: 15
-  description: 'Deal damage \nRange: 3 \nSelf DMG: 5 \nCooldown: 1'
+  selfTokensApplied: 0a000000
+  selfTokenCountApplied: 01000000
+  targetTokensApplied: 
+  targetTokenCountApplied: 
+  description: 'Deal damage and gain Vulnerable I \nRange: 3 \nCooldown: 1'

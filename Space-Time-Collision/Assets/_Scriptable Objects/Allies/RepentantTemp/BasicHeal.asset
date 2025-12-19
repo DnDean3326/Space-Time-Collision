@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityType: 1
   abilityWeight: 0
   costResource: 1
-  costAmount: 5
+  costAmount: 10
   cooldown: 2
   range: 2
   keyStat: 3
@@ -24,4 +24,9 @@ MonoBehaviour:
   dmgMin: 2
   dmgMax: 5
   critChance: 15
-  description: 'Restore HP \nRange: 2 \nMP Cost: 5 \nCooldown: 2'
+  selfTokensApplied: 06000000
+  selfTokenCountApplied: 01000000
+  targetTokensApplied: 06000000
+  targetTokenCountApplied: 01000000
+  description: 'Gain Dodge I\nRestore HP to the target and apply Dodge I \nRange:
+    2 \nMP Cost: 5 \nCooldown: 2'

@@ -12,16 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
   m_Name: BasicSpell
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Spell Shot
+  abilityName: Spell Burst
   abilityType: 0
   abilityWeight: 1
   costResource: 1
-  costAmount: 3
+  costAmount: 5
   cooldown: 0
   range: 5
   keyStat: 2
   statModifier: 1
-  dmgMin: 4
-  dmgMax: 8
+  dmgMin: 3
+  dmgMax: 6
   critChance: 20
-  description: 'Deal damage \nRange: 5 \nMP Cost: 3'
+  selfTokensApplied: 
+  selfTokenCountApplied: 
+  targetTokensApplied: 08000000
+  targetTokenCountApplied: 01000000
+  description: 'Deal damage and apply Break I and Vulnerable II \nRange: 5 \nMP Cost:
+    3'

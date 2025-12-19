@@ -28,4 +28,4 @@ MonoBehaviour:
   selfTokenCountApplied: 02000000
   targetTokensApplied: 
   targetTokenCountApplied: 
-  description: 'Gain Boost II \nCost: 2 Armor \n Cooldown: 1'
+  description: 'Gain Boost II \n Range: Self\n Cost: 2 Armor \nCooldown: 1'

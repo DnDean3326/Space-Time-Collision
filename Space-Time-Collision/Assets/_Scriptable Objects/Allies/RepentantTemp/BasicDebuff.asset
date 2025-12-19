@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: LightAttack
+  m_Name: BasicDebuff
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Eye Slash
+  abilityName: Soul Shatter
   abilityType: 0
-  abilityWeight: 1
-  costResource: 0
-  costAmount: 0
-  cooldown: 0
-  range: 3
-  keyStat: 0
-  statModifier: 1
-  dmgMin: 2
-  dmgMax: 5
-  critChance: 10
+  abilityWeight: 0
+  costResource: 2
+  costAmount: 6
+  cooldown: 1
+  range: 4
+  keyStat: 3
+  statModifier: 0
+  dmgMin: 0
+  dmgMax: 0
+  critChance: 25
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 08000000
-  targetTokenCountApplied: 01000000
-  description: 'Deal damage and apply Blind I\nRange: 3'
+  targetTokensApplied: 090000000a000000
+  targetTokenCountApplied: 0100000002000000
+  description: 'Apply Break I and Vulnerable II\nRange: 4\nCost: 6HP\nCooldown: 1'
