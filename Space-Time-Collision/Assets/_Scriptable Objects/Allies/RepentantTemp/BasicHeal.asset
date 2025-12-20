@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: BasicHeal
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Reinforce
+  abilityIcon: {fileID: 0}
   abilityType: 1
   abilityWeight: 0
   costResource: 1
-  costAmount: 10
+  costAmount: 5
   cooldown: 2
   range: 2
   keyStat: 4

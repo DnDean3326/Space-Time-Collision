@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d3fd5e77bf9d6d448a6b471671072d1, type: 3}
-  m_Name: Boost+
+  m_Name: DodgePlus
   m_EditorClassIdentifier: Assembly-CSharp::Token
-  tokenName: Boost+
-  tokenIcon: {fileID: 21300000, guid: b67dd7d7c41423b46817f7a5f36b0969, type: 3}
+  tokenName: Dodge+
+  tokenIcon: {fileID: 21300000, guid: 43d5bebc2d5ac204a88da544d5bda2a4, type: 3}
   tokenType: 0
   tokenValue: 0.75
   tokenCap: 3
   tokenInverses:
-  - Break
+  - Off-Guard
   tokenDescription: 

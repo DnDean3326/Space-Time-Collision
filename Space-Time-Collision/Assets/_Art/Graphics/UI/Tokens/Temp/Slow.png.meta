@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e36fadeb7aaebce48978fe96fff936af
+guid: c1f55021f54cd7f4dae68dfd1d6dee8a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4199204927252948060
-    second: drain_0
+      213: -5789141688622347452
+    second: Slow_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: drain_0
+      name: Slow_0
       rect:
         serializedVersion: 2
-        x: 227
-        y: 75
-        width: 762
-        height: 1066
+        x: 113
+        y: 113
+        width: 990
+        height: 990
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ab9404fd5d69b5c0800000000000000
-      internalID: -4199204927252948060
+      spriteID: 44b824f6e46d8afa0800000000000000
+      internalID: -5789141688622347452
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      drain_0: -4199204927252948060
+      Slow_0: -5789141688622347452
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

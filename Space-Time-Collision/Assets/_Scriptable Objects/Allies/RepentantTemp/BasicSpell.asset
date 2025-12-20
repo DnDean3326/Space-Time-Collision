@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: BasicSpell
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Spell Burst
+  abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 1
   costResource: 1
-  costAmount: 5
+  costAmount: 3
   cooldown: 0
   range: 5
   keyStat: 3

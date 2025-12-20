@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a8971a175fcfc6a46ad73cd636206fd7
+guid: ddda89d6a40d0a2419ae7401b1913204
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9120369034046867018
-    second: Vulnerable_0
+      213: -5672869595778636664
+    second: dodge_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Vulnerable_0
+      name: dodge_0
       rect:
         serializedVersion: 2
-        x: 75
-        y: 113
-        width: 1066
-        height: 1028
+        x: 227
+        y: 75
+        width: 762
+        height: 990
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b9f9217fa0fd6180800000000000000
-      internalID: -9120369034046867018
+      spriteID: 8842086a82be541b0800000000000000
+      internalID: -5672869595778636664
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Vulnerable_0: -9120369034046867018
+      dodge_0: -5672869595778636664
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

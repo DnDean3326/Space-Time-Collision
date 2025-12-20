@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ddda89d6a40d0a2419ae7401b1913204
+guid: b88baafd8f8845b48a553a0cec00f14c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5672869595778636664
-    second: dodge_0
+      213: -5134081314233383338
+    second: precision_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dodge_0
+      name: precision_0
       rect:
         serializedVersion: 2
-        x: 227
-        y: 75
-        width: 762
-        height: 990
+        x: 37
+        y: 341
+        width: 1142
+        height: 534
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8842086a82be541b0800000000000000
-      internalID: -5672869595778636664
+      spriteID: 65606290f3410c8b0800000000000000
+      internalID: -5134081314233383338
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      dodge_0: -5672869595778636664
+      precision_0: -5134081314233383338
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

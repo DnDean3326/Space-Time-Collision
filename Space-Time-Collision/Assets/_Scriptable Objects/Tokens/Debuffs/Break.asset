@@ -17,4 +17,7 @@ MonoBehaviour:
   tokenType: 1
   tokenValue: 0.5
   tokenCap: 3
-  description: 
+  tokenInverses:
+  - Boost+
+  - Boost
+  tokenDescription: 

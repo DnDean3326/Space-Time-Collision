@@ -1,7 +1,9 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Token", menuName = "Scriptable Objects/Token")]
-public class TokenInfo : ScriptableObject
+public class Token : ScriptableObject
 {
     public enum TokenType
     {
@@ -11,10 +13,12 @@ public class TokenInfo : ScriptableObject
     }
 
     public string tokenName;
+    public string displayName;
     public Sprite tokenIcon;
     public TokenType tokenType;
     public float tokenValue;
     public int tokenCap;
+    public List<String> tokenInverses;
 
     public string tokenDescription;
 }

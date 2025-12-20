@@ -538,9 +538,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5f60605822f00ae498afa9d01fa424cc, type: 2}
   - {fileID: 11400000, guid: e59c79b23dfd2a645bb8b0fc651dbeb5, type: 2}
   - {fileID: 11400000, guid: 77937cf42aaf9ef4394368b72cba2cfd, type: 2}
+  - {fileID: 11400000, guid: 150ec9065214cb143b7090fa3821c806, type: 2}
+  - {fileID: 11400000, guid: db9f52c01cba6e54896f5f62a9aeb138, type: 2}
+  - {fileID: 11400000, guid: 2cc6643999ca3c344827574cad36a14d, type: 2}
+  - {fileID: 11400000, guid: 27303d0012e2a0b478aa43c20bff91d7, type: 2}
+  - {fileID: 11400000, guid: b0847607d0292204aafd0415dba58592, type: 2}
   - {fileID: 11400000, guid: db26c35e4ab6869449f7bf05ded86e30, type: 2}
   - {fileID: 11400000, guid: 596290b16018fb741a213f856d3e0015, type: 2}
+  - {fileID: 11400000, guid: 951f435adb49fe04cb2a3eca44badd51, type: 2}
+  - {fileID: 11400000, guid: 2df978443ab943a4a8347e58e57d80ec, type: 2}
+  - {fileID: 11400000, guid: c2fa36ee3affa2e4a9800c05ab8ee4cf, type: 2}
   - {fileID: 11400000, guid: 08031efb7ab90414f99f3f7b5673e21a, type: 2}
+  allTokensList: []
 --- !u!4 &449082134
 Transform:
   m_ObjectHideFlags: 0
@@ -1674,6 +1683,8 @@ MonoBehaviour:
   enemyCombatants: []
   partyCombatants: []
   preparedCombatants: []
+  turnOrder: []
+  allTokens: []
   combatStartUI: {fileID: 365550595}
   combatStartUIAnimator: {fileID: 365550597}
 --- !u!4 &1793564087

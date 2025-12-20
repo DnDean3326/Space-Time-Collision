@@ -61,15 +61,23 @@ public class Ability : ScriptableObject
         Critical,
         Dodge,
         DodgePlus,
+        Haste,
+        Pierce,
+        Precision,
+        Swift,
         
+        AntiHeal,
         Blind,
         Break,
+        Delay,
+        OffGuard,
+        Slow,
         Vulnerable,
     }
     
     [Header("Ability Basics")]
     public string abilityName;
-    //public Sprite abilityIcon;
+    public Sprite abilityIcon;
     public AbilityType abilityType;
     public AbilityWeight abilityWeight;
     

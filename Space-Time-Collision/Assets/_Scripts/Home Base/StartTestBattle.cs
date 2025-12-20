@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class StartTestBattle : MonoBehaviour
 {
 
-    private const string TEST_BATTLE = "TestBattleScene";
+    private const string TEST_BATTLE = "BattleScene";
 
     public void StartTestBattleButton()
     {

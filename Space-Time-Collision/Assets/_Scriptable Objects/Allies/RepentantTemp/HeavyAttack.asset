@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HeavyAttack
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Reckless Swing
+  abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
   costResource: 0
@@ -28,7 +29,7 @@ MonoBehaviour:
   secondaryStat: 0
   secondaryStatModifier: 0
   secondaryValue: 0
-  selfTokensApplied: 0a000000
+  selfTokensApplied: 0c000000
   selfTokenCountApplied: 01000000
   targetTokensApplied: 
   targetTokenCountApplied: 

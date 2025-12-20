@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -51,10 +52,18 @@ public class BattleSystem : MonoBehaviour
     private BattleToken criticalToken;
     private BattleToken dodgeToken;
     private BattleToken dodgePlusToken;
+    private BattleToken hasteToken;
+    private BattleToken pierceToken;
+    private BattleToken precisionToken;
+    private BattleToken swiftToken;
     
     // Debuff Tokens
     private BattleToken blindToken;
     private BattleToken breakToken;
+    private BattleToken delayToken;
+    private BattleToken antiHealToken;
+    private BattleToken offGuardToken;
+    private BattleToken slowToken;
     private BattleToken vulnerableToken;
     
     [Header("UI")]
@@ -148,7 +157,15 @@ public class BattleSystem : MonoBehaviour
             while (preparedCombatants.Count <= 0) {
                 for (int i = 0; i < allCombatants.Count; i++) {
                     if (state == BattleState.Battle) {
-                        allCombatants[i].actionPoints += BASE_ACTION_GAIN + allCombatants[i].speed;
+                        if (allCombatants[i].activeTokens.Contains(hasteToken)) {
+                            allCombatants[i].actionPoints += (int)((BASE_ACTION_GAIN + allCombatants[i].speed) * 
+                                                                   (1 + hasteToken.tokenValue));
+                        } else if (allCombatants[i].activeTokens.Contains(slowToken)) {
+                            allCombatants[i].actionPoints += (int)((BASE_ACTION_GAIN + allCombatants[i].speed) * 
+                                                                   (1 - slowToken.tokenValue));
+                        } else {
+                            allCombatants[i].actionPoints += BASE_ACTION_GAIN + allCombatants[i].speed;
+                        }
                         if (allCombatants[i].actionPoints >= TURN_START_THRESHOLD) {
                             preparedCombatants.Add(allCombatants[i]);
                         }
@@ -197,6 +214,7 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.PlayerTurn) {
             currentPlayer = characterIndex;
             if (!wentBack) {
+                RemoveSelfTurnStartTokens(allCombatants[characterIndex]);
                 allCombatants[currentPlayer].actionPoints -= TURN_START_THRESHOLD;
                 preparedCombatants.RemoveAt(preparedCombatants.IndexOf(allCombatants[currentPlayer]));
             }
@@ -323,6 +341,7 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator EnemyTurnRoutine(int characterIndex)
     {
         if (state == BattleState.EnemyTurn) {
+            RemoveSelfTurnStartTokens(allCombatants[characterIndex]);
             allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
             allCombatants[characterIndex].actionPoints -= TURN_START_THRESHOLD;
             preparedCombatants.RemoveAt(preparedCombatants.IndexOf(allCombatants[characterIndex]));
@@ -424,8 +443,8 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < currentTokens.Count; i++) {
             BattleToken battleToken = new BattleToken();
             
-            battleToken.SetTokenValues(currentTokens[i].TokenName, currentTokens[i].TokenIcon, currentTokens[i].TokenType, currentTokens[i].TokenValue,
-                currentTokens[i].TokenCap, currentTokens[i].TokenDescription);
+            battleToken.SetTokenValues(currentTokens[i].tokenName, currentTokens[i].displayName, currentTokens[i].tokenIcon, currentTokens[i].tokenType, currentTokens[i].tokenValue,
+                currentTokens[i].tokenCap, currentTokens[i].tokenInverses, currentTokens[i].tokenDescription);
             
             allTokens.Add(battleToken);
         }
@@ -438,11 +457,37 @@ public class BattleSystem : MonoBehaviour
         criticalToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Critical");
         dodgeToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Dodge");
         dodgePlusToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Dodge+");
+        hasteToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Haste");
+        pierceToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Pierce");
+        precisionToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Precision");
+        swiftToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Swift");
         
         // Set debuff tokens
+        antiHealToken = allTokens.SingleOrDefault(obj => obj.tokenName == "AntiHeal");
         blindToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Blind");
         breakToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Break");
+        delayToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Delay");
+        offGuardToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Off-Guard");
+        slowToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Slow");
         vulnerableToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Vulnerable");
+    }
+
+    private void SetTokenInverses()
+    {
+        // Set buff inverses ADD HIGHER VALUE TOKEN FIRST
+        blockToken.tokenInverses.Add("Vulnerable");
+        blockPlusToken.tokenInverses.Add("Vulnerable");
+        boostToken.tokenInverses.Add("Break");
+        boostPlusToken.tokenInverses.Add("Break");
+        // Critical token has no inverse
+        // Dodge and Dodge+ have no inverse
+        
+        // Set debuff inverses ADD HIGHER VALUE TOKEN FIRST
+        // Blind token has no inverse
+        breakToken.tokenInverses.Add("BoostPlus");
+        breakToken.tokenInverses.Add("Boost");
+        vulnerableToken.tokenInverses.Add("BlockPlus");
+        vulnerableToken.tokenInverses.Add("Block");
     }
 
     private void GetTurnOrder()
@@ -709,10 +754,18 @@ public class BattleSystem : MonoBehaviour
         bool isDamage;
         if (activeEntity.activeAbilityType == "Damage") {
             isDamage = true;
-            min -= targetEntity.currentArmor;
-            max -= targetEntity.currentArmor;
+            if (!activeEntity.activeTokens.Contains(pierceToken) ||
+                !activeEntity.activeTokens.Contains(offGuardToken)) {
+                min -= targetEntity.currentArmor;
+                max -= targetEntity.currentArmor;
+            }
         } else if (activeEntity.activeAbilityType == "Heal") {
             isDamage = false;
+            singleValue = true;
+            if (IgnoreRestoreWithTokens(allCombatants[hoveredTarget])) {
+                min = 0;
+                max = 0;
+            }
         } else {
             isDamage = true;
         }
@@ -908,26 +961,31 @@ public class BattleSystem : MonoBehaviour
     {
         foreach (BattleToken token in activeEntity.activeTokens) {
             // Check for Boost or Break tokens
-            if (activeEntity.activeTokens.Contains(boostPlusToken)) {
+            if (token.tokenName == "BoostPlus") {
                 min = (int)(min * (1 + boostPlusToken.tokenValue));
                 max = (int)(max * (1 + boostPlusToken.tokenValue));
-            } else if (activeEntity.activeTokens.Contains(boostToken)) {
+                break;
+            } else if (token.tokenName == "Boost") {
                 min = (int)(min * (1 + boostToken.tokenValue));
                 max = (int)(max * (1 + boostToken.tokenValue));
-            } else if (activeEntity.activeTokens.Contains(breakToken)) {
+                break;
+            } else if (token.tokenName == "BreakPlus") {
                 min = (int)(min * (1 - breakToken.tokenValue));
                 max = (int)(max * (1 - breakToken.tokenValue));
+                break;
             }
             // Check for Critical tokens
-            if (activeEntity.activeTokens.Contains(criticalToken)) {
+            if (token.tokenName == "Critical") {
                 crit = 100;
                 max = (int)(max * CRIT_DAMAGE_MODIFIER);
                 min = max;
                 isCrit = true;
+                break;
             }
             // Check for Blind tokens
-            if (activeEntity.activeTokens.Contains(blindToken)) {
+            if (token.tokenName == "Blind") {
                 acc *= (1 - blindToken.tokenValue);
+                break;
             }
         }
     }
@@ -937,26 +995,31 @@ public class BattleSystem : MonoBehaviour
     {
         foreach (BattleToken token in activeEntity.activeTokens) {
             // Check for Boost or Break tokens
-            if (activeEntity.activeTokens.Contains(boostPlusToken)) {
+            if (token.tokenName == "BoostPlus") {
                 min = (int)(min * (1 + boostPlusToken.tokenValue));
                 max = (int)(max * (1 + boostPlusToken.tokenValue));
-            } else if (activeEntity.activeTokens.Contains(boostToken)) {
+                break;
+            } else if (token.tokenName == "Boost") {
                 min = (int)(min * (1 + boostToken.tokenValue));
                 max = (int)(max * (1 + boostToken.tokenValue));
-            } else if (activeEntity.activeTokens.Contains(breakToken)) {
+                break;
+            } else if (token.tokenName == "Break") {
                 min = (int)(min * (1 - breakToken.tokenValue));
                 max = (int)(max * (1 - breakToken.tokenValue));
+                break;
             }
             // Check for Critical tokens
-            if (activeEntity.activeTokens.Contains(criticalToken)) {
+            if (token.tokenName == "Critical") {
                 crit = 100;
                 max = (int)(max * CRIT_DAMAGE_MODIFIER);
                 min = max;
                 isCrit = true;
+                break;
             }
             // Check for Blind tokens
-            if (activeEntity.activeTokens.Contains(blindToken)) {
+            if (token.tokenName == "Blind") {
                 acc *= (1 - blindToken.tokenValue);
+                break;
             }
         }
     }
@@ -964,22 +1027,30 @@ public class BattleSystem : MonoBehaviour
     private void RunAbilityAgainstTargetTokens(BattleEntities targetEntity, ref bool isCrit, ref float acc,
         ref int min, ref int max, ref int crit)
     {
-        // Check for Block or Vulnerable tokens
-        if (targetEntity.activeTokens.Contains(blockPlusToken)) {
-            min = (int)(min * (1 - blockPlusToken.tokenValue));
-            max = (int)(max * (1 - blockPlusToken.tokenValue));
-        } else if (targetEntity.activeTokens.Contains(blockToken)) {
-            min = (int)(min * (1 - blockToken.tokenValue));
-            max = (int)(max * (1 - blockToken.tokenValue));
-        } else if (targetEntity.activeTokens.Contains(vulnerableToken)) {
-            min = (int)(min * (1 + vulnerableToken.tokenValue));
-            max = (int)(max * (1 + vulnerableToken.tokenValue));
-        }
-        // Check for Dodge tokens
-        if (targetEntity.activeTokens.Contains(dodgePlusToken)) {
-            acc = (int)(acc * (1 - dodgePlusToken.tokenValue));
-        } else if (targetEntity.activeTokens.Contains(dodgeToken)) {
-            acc = (int)(acc * (1 - dodgeToken.tokenValue));
+        foreach (BattleToken token in targetEntity.activeTokens) {
+            // Check for Block or Vulnerable tokens
+            if (token.tokenName == "BlockPlus") {
+                min = (int)(min * (1 - blockPlusToken.tokenValue));
+                max = (int)(max * (1 - blockPlusToken.tokenValue));
+                break;
+            } else if (token.tokenName == "Block") {
+                min = (int)(min * (1 - blockToken.tokenValue));
+                max = (int)(max * (1 - blockToken.tokenValue));
+                break;
+            } else if (token.tokenName == "Vulnerable") {
+                min = (int)(min * (1 + vulnerableToken.tokenValue));
+                max = (int)(max * (1 + vulnerableToken.tokenValue));
+                break;
+            }
+
+            // Check for Dodge tokens
+            if (token.tokenName == "Dodge") {
+                acc = (int)(acc * (1 - dodgePlusToken.tokenValue));
+                break;
+            } else if (token.tokenName == "Dodge+") {
+                acc = (int)(acc * (1 - dodgeToken.tokenValue));
+                break;
+            }
         }
     }
 
@@ -987,13 +1058,15 @@ public class BattleSystem : MonoBehaviour
     {
         foreach (BattleToken token in activeEntity.activeTokens) {
             // Check for Critical tokens
-            if (activeEntity.activeTokens.Contains(criticalToken)) {
+            if (token.tokenName == "Critical") {
                 crit = 100;
                 isCrit = true;
+                break;
             }
             // Check for Blind tokens
-            if (activeEntity.activeTokens.Contains(blindToken)) {
+            if (token.tokenName == "Blind") {
                 acc *= (1 - blindToken.tokenValue);
+                break;
             }
         }
     }
@@ -1002,13 +1075,15 @@ public class BattleSystem : MonoBehaviour
     {
         foreach (BattleToken token in activeEntity.activeTokens) {
             // Check for Critical tokens
-            if (activeEntity.activeTokens.Contains(criticalToken)) {
+            if (token.tokenName == "Critical") {
                 crit = 100;
                 isCrit = true;
+                break;
             }
             // Check for Blind tokens
-            if (activeEntity.activeTokens.Contains(blindToken)) {
+            if (token.tokenName == "Blind") {
                 acc *= (1 - blindToken.tokenValue);
+                break;
             }
         }
     }
@@ -1016,77 +1091,188 @@ public class BattleSystem : MonoBehaviour
     private BattleToken CreateBattleToken(BattleToken originalToken)
     {
         BattleToken battleToken = new BattleToken();
-        battleToken = originalToken;
-        return originalToken;
+        battleToken.SetTokenValues(originalToken.tokenName, originalToken.displayName, originalToken.tokenIcon,
+            originalToken.tokenType, originalToken.tokenValue, originalToken.tokenCap, originalToken.tokenInverses,
+            originalToken.tokenDescription);
+        return battleToken;
     }
     
     private void AddTokens(BattleEntities entity, string tokenName, int tokenCount)
     {
+        print("Attemping to add token of " + tokenName);
+        BattleToken tokenAdded = null;
+        int tIndex = 100;
+        bool notPresent = true;
         foreach (var t in allTokens) {
             if (tokenName == t.tokenName) {
-                int tIndex;
-                if (entity.activeTokens.Contains(t)) {
-                    tIndex = entity.activeTokens.IndexOf(t);
+                tokenAdded = t;
+                break;
+            }
+        }
+        if (tokenAdded != null) {
+            if (entity.activeTokens.Contains(tokenAdded)) {
+                    tIndex = entity.activeTokens.IndexOf(tokenAdded);
                     entity.activeTokens[tIndex].tokenCount += tokenCount;
-                } else {
-                    BattleToken tempToken = CreateBattleToken(t);
-                    entity.activeTokens.Add(tempToken);
-                    tIndex = entity.activeTokens.IndexOf(tempToken);
-                    entity.activeTokens[tIndex].tokenCount = tokenCount;
-                }
-                
+                    notPresent = false;
+            }
+            for (int i = 0; i < entity.activeTokens.Count; i++) {
+                if (entity.activeTokens[i].tokenName == tokenAdded.tokenInverses[0]) {
+                    if (tokenCount > entity.activeTokens[i].tokenCount) {
+                        entity.activeTokens.Remove(entity.activeTokens[i]);
+                        BattleToken tempToken = CreateBattleToken(tokenAdded);
+                        entity.activeTokens.Add(tempToken);
+                        tIndex = entity.activeTokens.IndexOf(tempToken);
+                        entity.activeTokens[tIndex].tokenCount = tokenCount - entity.activeTokens[i].tokenCount;
+                    } else {
+                        entity.activeTokens[i].tokenCount -= tokenCount;
+                        if (entity.activeTokens[i].tokenCount <= 0) {
+                            entity.activeTokens.Remove(entity.activeTokens[i]);
+                        }
+                    }
+                    notPresent = false;
+                    break;
+                } else if (entity.activeTokens[i].tokenName == tokenAdded.tokenInverses[1]) {
+                    if (tokenCount > entity.activeTokens[i].tokenCount) {
+                        entity.activeTokens.Remove(entity.activeTokens[i]);
+                        BattleToken tempToken = CreateBattleToken(tokenAdded);
+                        entity.activeTokens.Add(tempToken);
+                        tIndex = entity.activeTokens.IndexOf(tempToken);
+                        entity.activeTokens[tIndex].tokenCount = tokenCount - entity.activeTokens[i].tokenCount;
+                    } else {
+                        entity.activeTokens[i].tokenCount -= tokenCount;
+                        if (entity.activeTokens[i].tokenCount <= 0) {
+                            entity.activeTokens.Remove(entity.activeTokens[i]);
+                        }
+                    }
+                    notPresent = false;
+                    break;
+                } 
+            }
+            if (notPresent) {
+                BattleToken tempToken = CreateBattleToken(tokenAdded);
+                entity.activeTokens.Add(tempToken);
+                tIndex = entity.activeTokens.IndexOf(tempToken);
+                entity.activeTokens[tIndex].tokenCount = tokenCount;
+            }
+            if (tIndex != 100) {
                 if (entity.activeTokens[tIndex].tokenCount > entity.activeTokens[tIndex].tokenCap) {
                     entity.activeTokens[tIndex].tokenCount =  entity.activeTokens[tIndex].tokenCap;
                 }
             }
         }
+        entity.battleVisuals.UpdateTokens(entity.activeTokens);
+    }
+
+    private void RemoveSelfTurnStartTokens(BattleEntities activeEntity)
+    {
+        foreach (BattleToken t in activeEntity.activeTokens) {
+            // Check for Haste or Slow tokens
+            int tokenPosition;
+            if (t.tokenName == "Haste") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            } else if (t.tokenName == "Slow") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            }
+        
+            // Check for Off-Guard tokens
+            if (t.tokenName == "Off-Guard") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            }
+        
+            // Check for Anti-Heal tokens
+            if (t.tokenName == "Anti-Heal") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            }
+        }
+        activeEntity.battleVisuals.UpdateTokens(activeEntity.activeTokens);
     }
 
     private void RemoveSelfDamageTokens(BattleEntities activeEntity)
     {
-        int tokenPosition;
-        
-        // Check for Boost or Break tokens
-        if (activeEntity.activeTokens.Contains(boostPlusToken)) {
-            tokenPosition = activeEntity.activeTokens.IndexOf(boostPlusToken);
-            if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                activeEntity.activeTokens.RemoveAt(tokenPosition);
+        foreach (BattleToken t in activeEntity.activeTokens) {
+            // Check for Boost or Break tokens
+            int tokenPosition;
+            if (t.tokenName == "BoostPlus") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            } else if (t.tokenName == "Boost") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            } else if (t.tokenName == "Break") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
             }
-        } else if (activeEntity.activeTokens.Contains(boostToken)) {
-            tokenPosition = activeEntity.activeTokens.IndexOf(boostToken);
-            if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                activeEntity.activeTokens.RemoveAt(tokenPosition);
+
+            // Check for Critical tokens
+            if (t.tokenName == "Critical") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
             }
-        } else if (activeEntity.activeTokens.Contains(breakToken)) {
-            tokenPosition = activeEntity.activeTokens.IndexOf(breakToken);
-            if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                activeEntity.activeTokens.RemoveAt(tokenPosition);
+
+            // Check for Blind tokens
+            if (t.tokenName == "Blind") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
             }
-        }
-        
-        // Check for Critical tokens
-        if (activeEntity.activeTokens.Contains(criticalToken)) {
-            tokenPosition = activeEntity.activeTokens.IndexOf(criticalToken);
-            if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                activeEntity.activeTokens.RemoveAt(tokenPosition);
-            }
-        }
-        
-        // Check for Blind tokens
-        if (activeEntity.activeTokens.Contains(blindToken)) {
-            tokenPosition = activeEntity.activeTokens.IndexOf(blindToken);
-            if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                activeEntity.activeTokens.RemoveAt(tokenPosition);
+            
+            // Check for Pierce tokens
+            if (t.tokenName == "Pierce") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
             }
         }
 
@@ -1095,49 +1281,55 @@ public class BattleSystem : MonoBehaviour
     
     private void RemoveSelfHealTokens(BattleEntities activeEntity)
     {
-        int tokenPosition;
-        
-        // Check for Boost or Break tokens
-        if (activeEntity.activeTokens.Contains(boostPlusToken)) {
-            tokenPosition = activeEntity.activeTokens.IndexOf(boostPlusToken);
-            if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                activeEntity.activeTokens.RemoveAt(tokenPosition);
+        foreach (BattleToken t in activeEntity.activeTokens) {
+            // Check for Boost or Break tokens
+            int tokenPosition;
+            if (t.tokenName == "BoostPlus") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            } else if (t.tokenName == "Boost") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break; 
+            } else if (t.tokenName == "Break") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
             }
-        } else if (activeEntity.activeTokens.Contains(boostToken)) {
-            tokenPosition = activeEntity.activeTokens.IndexOf(boostToken);
-            if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                activeEntity.activeTokens.RemoveAt(tokenPosition);
+
+            // Check for Critical tokens
+            if (t.tokenName == "Critical") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
             }
-        } else if (activeEntity.activeTokens.Contains(breakToken)) {
-            tokenPosition = activeEntity.activeTokens.IndexOf(breakToken);
-            if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                activeEntity.activeTokens.RemoveAt(tokenPosition);
-            }
-        }
-        
-        // Check for Critical tokens
-        if (activeEntity.activeTokens.Contains(criticalToken)) {
-            tokenPosition = activeEntity.activeTokens.IndexOf(criticalToken);
-            if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                activeEntity.activeTokens.RemoveAt(tokenPosition);
-            }
-        }
-        
-        // Check for Blind tokens
-        if (activeEntity.activeTokens.Contains(blindToken)) {
-            tokenPosition = activeEntity.activeTokens.IndexOf(blindToken);
-            if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                activeEntity.activeTokens.RemoveAt(tokenPosition);
+
+            // Check for Blind tokens
+            if (t.tokenName == "Blind") {
+                tokenPosition = activeEntity.activeTokens.IndexOf(t);
+                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    activeEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
             }
         }
         
@@ -1146,478 +1338,601 @@ public class BattleSystem : MonoBehaviour
 
     private void RemoveTargetDamageTokens(BattleEntities targetEntity)
     {
-        int tokenPosition;
-        
-        // Check for Block or Vulnerable tokens
-        if (targetEntity.activeTokens.Contains(blockPlusToken)) {
-            tokenPosition = targetEntity.activeTokens.IndexOf(blockPlusToken);
-            if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                targetEntity.activeTokens.RemoveAt(tokenPosition);
+        foreach (BattleToken t in  targetEntity.activeTokens) {
+            // Check for Block or Vulnerable tokens
+            int tokenPosition;
+            if (t.tokenName == "BlockPlus") {
+                tokenPosition = targetEntity.activeTokens.IndexOf(t);
+                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    targetEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            } else if (t.tokenName == "Block") {
+                tokenPosition = targetEntity.activeTokens.IndexOf(t);
+                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    targetEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            } else if (t.tokenName == "Vulnerable") {
+                tokenPosition = targetEntity.activeTokens.IndexOf(t);
+                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    targetEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
             }
-        } else if (targetEntity.activeTokens.Contains(blockToken)) {
-            tokenPosition = targetEntity.activeTokens.IndexOf(blockToken);
-            if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                targetEntity.activeTokens.RemoveAt(tokenPosition);
-            }
-        } else if (targetEntity.activeTokens.Contains(vulnerableToken)) {
-            tokenPosition = targetEntity.activeTokens.IndexOf(vulnerableToken);
-            if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                targetEntity.activeTokens.RemoveAt(tokenPosition);
-            }
-        }
-        // Check for Dodge tokens
-        if (targetEntity.activeTokens.Contains(dodgePlusToken)) {
-            tokenPosition = targetEntity.activeTokens.IndexOf(dodgePlusToken);
-            if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                targetEntity.activeTokens.RemoveAt(tokenPosition);
-            }
-        } else if (targetEntity.activeTokens.Contains(dodgeToken)) {
-            tokenPosition = targetEntity.activeTokens.IndexOf(dodgeToken);
-            if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-            } else {
-                targetEntity.activeTokens.RemoveAt(tokenPosition);
+
+            // Check for Dodge tokens
+            if (t.tokenName == "DodgePlus") {
+                tokenPosition = targetEntity.activeTokens.IndexOf(t);
+                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    targetEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            } else if (t.tokenName == "Dodge") {
+                tokenPosition = targetEntity.activeTokens.IndexOf(t);
+                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    targetEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
             }
         }
         
         targetEntity.battleVisuals.UpdateTokens(targetEntity.activeTokens);
     }
-    
-    private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget, int activeAbilityIndex)
+
+    private void RemoveTargetHealTokens(BattleEntities healTarget)
     {
-        Ability activeAbility = attacker.myAbilities[activeAbilityIndex];
-        int damage;
-        
-        int damageModifier = 0;
-        bool isCrit = false;
-        float acc = 100;
-        int minDamageRange = 0;
-        int maxDamageRange = 0;
-        int critChance = 0;
+        foreach (BattleToken t in healTarget.activeTokens) {
+            int tokenPosition;
+            if (t.tokenName == "AntiHeal") {
+                tokenPosition = healTarget.activeTokens.IndexOf(t);
+                if (healTarget.activeTokens[tokenPosition].tokenCount > 1) {
+                    healTarget.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    healTarget.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            }
 
-        SetAbilityValues(attacker, ref damageModifier, ref isCrit, ref acc, ref minDamageRange,
-            ref maxDamageRange, ref critChance);
-
-        RunAbilityAgainstSelfTokens(attacker, ref damageModifier, ref isCrit, ref acc, ref minDamageRange, 
-            ref maxDamageRange, ref critChance);
-        RunAbilityAgainstTargetTokens(attackTarget, ref isCrit, ref acc, ref minDamageRange,
-            ref maxDamageRange, ref critChance);
-        
-        // TODO check for Isolation/Ward tokens
-        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
-            AddTokens(attacker, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
-        }
-        attacker.battleVisuals.UpdateTokens(attacker.activeTokens);
-        
-        int accRoll = Random.Range(1, 101);
-        if (accRoll > (int)acc) {
-            attackTarget.battleVisuals.AbilityMisses();
-            RemoveSelfDamageTokens(attacker);
-            // Check for Dodge tokens
-            if (attackTarget.activeTokens.Contains(dodgePlusToken)) {
-                attackTarget.activeTokens.Remove(dodgePlusToken);
-            } else if (attackTarget.activeTokens.Contains(dodgeToken)) {
-                attackTarget.activeTokens.Remove(dodgeToken);
-            }
-            
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
-        
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-            SaveResources();
-            yield break;
-        }
-        int critRoll = Random.Range(1, 101);
-        if (critRoll < critChance && !attacker.activeTokens.Contains(criticalToken)) {
-            isCrit = true;
-            damage = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER) - attackTarget.currentArmor;
-        } else {
-            damage = Random.Range(minDamageRange, maxDamageRange + 1) - attackTarget.currentArmor;
-        }
-        
-        if (isCrit) {
-            // TODO check for Isolation/Ward tokens
-            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
-                AddTokens(attacker, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
-            }
-            attacker.battleVisuals.UpdateTokens(attacker.activeTokens);
-            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
-                AddTokens(attackTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
-            }
-            attackTarget.battleVisuals.UpdateTokens(attackTarget.activeTokens);
-        }
-        
-        RemoveSelfDamageTokens(attacker);
-        RemoveTargetDamageTokens(attackTarget);
-        
-        // Apply target tokens
-        /// TODO Check for Ward tokens
-        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
-            AddTokens(attackTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
-        }
-        attackTarget.battleVisuals.UpdateTokens(attackTarget.activeTokens);
-        
-        // Play combat animations
-        attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
-        attackTarget.battleVisuals.PlayHitAnimation(damage, isCrit); // target plays on hit animation
-        yield return new WaitForSeconds(TURN_ACTION_DELAY);
-        
-        // Deal the damage to defense, or if the target has none, to HP
-        if (attackTarget.currentDefense > 0) {
-            // If the damage dealt is greater than the target's defense, deal the rest to their HP
-            if (damage > attackTarget.currentDefense) {
-                int overflowDamage = damage - attackTarget.currentDefense;
-                attackTarget.currentDefense = 0;
-                attackTarget.currentHealth -= overflowDamage;
-            } else {
-                attackTarget.currentDefense -= damage;
-            }
-        } else {
-            attackTarget.currentHealth -= damage;
-        }
-        
-        yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-        SaveResources();
-        if (attackTarget.isPlayer) {
-            attackTarget.UpdatePlayerUI();
-            attacker.UpdateEnemyUI();
-        } else if (!attackTarget.isPlayer) {
-            attackTarget.UpdateEnemyUI();
-            attacker.UpdatePlayerUI();
-        }
-        if (attackTarget.currentHealth <= 0) {
-            yield return new WaitForSeconds(DEATH_DELAY);
-            
-            if (attackTarget.isPlayer) {
-                partyCombatants.Remove(attackTarget);
-                
-            } else if (!attackTarget.isPlayer) {
-                enemyCombatants.Remove(attackTarget);
-                
-            }
-        }
-    }
-    
-    private IEnumerator HealAction(BattleEntities healer, BattleEntities healTarget, int activeAbilityIndex)
-    {
-        Ability activeAbility = healer.myAbilities[activeAbilityIndex];
-        
-        // Declare heal values
-        int restore;
-        
-        int restoreModifier = 0;
-        bool isCrit = false;
-        float acc = 100;
-        int minDamageRange = 0;
-        int maxDamageRange = 0;
-        int critChance = 0;
-        
-        // Declare secondary heal values, if any
-        int secondaryRestore;
-        
-        int secondaryModifier = 0;
-        int secondaryValue = 0;
-        string secondaryTarget = activeAbility.secondaryTarget.ToString();
-        
-        // Get heal values
-        SetAbilityValues(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange,
-            ref maxDamageRange, ref critChance);
-
-        // Check heal against tokens
-        RunHealAgainstSelfTokens(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange, 
-            ref maxDamageRange, ref critChance);
-        // TODO Add a method that checks only for tokens on the target that affect healing
-        
-        // Get secondary heal values
-        SetSecondaryAbilityValues(healer, ref secondaryModifier,  ref secondaryValue);
-        secondaryRestore = secondaryValue;
-        
-        // Apply self tokens
-        // TODO check for Isolation/Ward tokens
-        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
-            AddTokens(healer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
-        }
-        healer.battleVisuals.UpdateTokens(healer.activeTokens);
-        
-        // Check for hit
-        int accRoll = Random.Range(1, 101);
-        if (accRoll > (int)acc) {
-            healTarget.battleVisuals.AbilityMisses();
-            RemoveSelfHealTokens(healer);
-            // TODO Check for Healblock tokens
-            
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
-        
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-            SaveResources();
-            yield break;
-        }
-        
-        // Check for crit
-        int critRoll = Random.Range(1, 101);
-        if (critRoll < critChance && !healer.activeTokens.Contains(criticalToken)) {
-            isCrit = true;
-            restore = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
-        } else {
-            restore = Random.Range(minDamageRange, maxDamageRange + 1);
-        }
-        
-        // Determine heal amount based on whether the ability crit
-        if (isCrit) {
-            // TODO check for Isolation/Ward tokens
-            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
-                AddTokens(healer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
-            }
-            healer.battleVisuals.UpdateTokens(healer.activeTokens);
-            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
-                AddTokens(healTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
-            }
             healTarget.battleVisuals.UpdateTokens(healTarget.activeTokens);
         }
+    }
+
+    private void RemoveTokensOnMiss(BattleEntities targetEntity)
+        {
+            foreach (BattleToken t in targetEntity.activeTokens) {
+                // Check for Dodge tokens
+                int tokenPosition;
+                if (t.tokenName == "DodgePlus") {
+                    tokenPosition = targetEntity.activeTokens.IndexOf(t);
+                    if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                        targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                    } else {
+                        targetEntity.activeTokens.RemoveAt(tokenPosition);
+                    }
+                    break;
+                } else if (t.tokenName == "Dodge") {
+                    tokenPosition = targetEntity.activeTokens.IndexOf(t);
+                    if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                        targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                    } else {
+                        targetEntity.activeTokens.RemoveAt(tokenPosition);
+                    }
+                    break; 
+                }
+            }
+            targetEntity.battleVisuals.UpdateTokens(targetEntity.activeTokens);
+        }
+
+        private bool IgnoreArmorWithTokens(BattleEntities attacker, BattleEntities attackTarget)
+        {
+            bool ignoreArmor = false;
+            int tokenPosition;
+
+            foreach (BattleToken t in attacker.activeTokens) {
+                if (t.tokenName == "Pierce") {
+                    ignoreArmor = true;
+                    return ignoreArmor;
+                }
+            }
+
+            foreach (BattleToken t in attackTarget.activeTokens) {
+                if (t.tokenName == "Pierce") {
+                    ignoreArmor = true;
+                    return ignoreArmor;
+                }
+            }
+
+            return ignoreArmor;
+        }
+
+        private bool IgnoreRestoreWithTokens(BattleEntities healTarget)
+        {
+            foreach (BattleToken t in healTarget.activeTokens) {
+                if (t.tokenName == "AntiHeal") {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    
+        // ReSharper disable Unity.PerformanceAnalysis
+        private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget, int activeAbilityIndex)
+        {
+            Ability activeAbility = attacker.myAbilities[activeAbilityIndex];
         
-        // Apply Secondary Heal
-        if (secondaryTarget != "Null") {
-            switch (secondaryTarget) {
-                case "Bonus":
-                    restore += secondaryRestore;
+            // Declare damage values
+            int damage;
+            int damageModifier = 0;
+            bool isCrit = false;
+            float acc = 100;
+            int minDamageRange = 0;
+            int maxDamageRange = 0;
+            int critChance = 0;
+        
+            // Declare secondary damaeg values, if any
+            int secondaryDamage;
+            int secondaryModifier = 0;
+            int secondaryValue = 0;
+            string secondaryTarget = activeAbility.secondaryTarget.ToString();
+        
+            // Get damage values
+            SetAbilityValues(attacker, ref damageModifier, ref isCrit, ref acc, ref minDamageRange,
+                ref maxDamageRange, ref critChance);
+        
+            // Run damage against tokens
+            RunAbilityAgainstSelfTokens(attacker, ref damageModifier, ref isCrit, ref acc, ref minDamageRange, 
+                ref maxDamageRange, ref critChance);
+            RunAbilityAgainstTargetTokens(attackTarget, ref isCrit, ref acc, ref minDamageRange,
+                ref maxDamageRange, ref critChance);
+        
+            // Get secondary damage values
+            SetSecondaryAbilityValues(attacker, ref secondaryModifier,  ref secondaryValue);
+            secondaryDamage = secondaryValue;
+        
+            // TODO check for Isolation/Ward tokens
+            for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
+                AddTokens(attacker, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
+            }
+        
+            // Check for hit
+            int accRoll = Random.Range(1, 101);
+            if (accRoll > (int)acc) {
+                attackTarget.battleVisuals.AbilityMisses();
+                RemoveSelfDamageTokens(attacker);
+                RemoveTokensOnMiss(attackTarget);
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        
+                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                SaveResources();
+                yield break;
+            }
+        
+            // Check for crit and determine damage values for crit
+            int critRoll = Random.Range(1, 101);
+            if (critRoll < critChance && !attacker.activeTokens.Contains(criticalToken)) {
+                isCrit = true;
+                damage = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
+                if (!IgnoreArmorWithTokens(attacker, attackTarget)) {
+                    damage -= attackTarget.currentArmor;
+                }
+            } else {
+                damage = Random.Range(minDamageRange, maxDamageRange + 1);
+                if (!IgnoreArmorWithTokens(attacker, attackTarget)) {
+                    damage -= attackTarget.currentArmor;
+                }
+            }
+        
+            // Apply on crit tokens if attack crit
+            if (isCrit) {
+                // TODO check for Isolation/Ward tokens
+                for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
+                    AddTokens(attacker, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
+                }
+                for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
+                    AddTokens(attackTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
+                }
+            }
+        
+            // Remove appropriate tokens
+            RemoveSelfDamageTokens(attacker);
+            RemoveTargetDamageTokens(attackTarget);
+        
+            // Apply Secondary Damage
+            if (secondaryTarget != "Null") {
+                switch (secondaryTarget) {
+                    case "Bonus":
+                        damage += secondaryDamage;
+                        break;
+                    case "Spirit":
+                        attackTarget.currentSpirit -= secondaryDamage;
+                        if (attackTarget.currentSpirit < 0) {
+                            attackTarget.currentSpirit = 0;
+                        }
+                        break;
+                    case "Armor":
+                        attackTarget.currentArmor -= secondaryDamage;
+                        if (attackTarget.currentArmor < 0) {
+                            attackTarget.currentArmor = 0;
+                        }
+                        break;
+                    case "ActionPoints":
+                        attackTarget.actionPoints -= secondaryDamage;
+                        if (attackTarget.actionPoints < 0) {
+                            attackTarget.actionPoints = 0;
+                        }
+                        break;
+                    default:
+                        print("Invalid secondary target of " +  secondaryTarget + " supplied");
+                        break;
+                }
+                print(attackTarget.myName + " " + secondaryTarget + " damaged by " + secondaryDamage);
+            }
+        
+            // Apply target tokens
+            /// TODO Check for Ward tokens
+            for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
+                AddTokens(attackTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
+            }
+        
+            // Play combat animations
+            attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
+            attackTarget.battleVisuals.PlayHitAnimation(damage, isCrit); // target plays on hit animation
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        
+            // Deal the damage to defense, or if the target has none, to HP
+            if (attackTarget.currentDefense > 0) {
+                // If the damage dealt is greater than the target's defense, deal the rest to their HP
+                if (damage > attackTarget.currentDefense) {
+                    int overflowDamage = damage - attackTarget.currentDefense;
+                    attackTarget.currentDefense = 0;
+                    attackTarget.currentHealth -= overflowDamage;
+                } else {
+                    attackTarget.currentDefense -= damage;
+                }
+            } else {
+                attackTarget.currentHealth -= damage;
+            }
+        
+            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+            SaveResources();
+            if (attackTarget.isPlayer) {
+                attackTarget.UpdatePlayerUI();
+                attacker.UpdateEnemyUI();
+            } else if (!attackTarget.isPlayer) {
+                attackTarget.UpdateEnemyUI();
+                attacker.UpdatePlayerUI();
+            }
+            if (attackTarget.currentHealth <= 0) {
+                yield return new WaitForSeconds(DEATH_DELAY);
+            
+                if (attackTarget.isPlayer) {
+                    partyCombatants.Remove(attackTarget);
+                
+                } else if (!attackTarget.isPlayer) {
+                    enemyCombatants.Remove(attackTarget);
+                
+                }
+            }
+        }
+    
+        private IEnumerator HealAction(BattleEntities healer, BattleEntities healTarget, int activeAbilityIndex)
+        {
+            Ability activeAbility = healer.myAbilities[activeAbilityIndex];
+        
+            // Declare heal values
+            int restore;
+            int restoreModifier = 0;
+            bool isCrit = false;
+            float acc = 100;
+            int minDamageRange = 0;
+            int maxDamageRange = 0;
+            int critChance = 0;
+        
+            // Declare secondary heal values, if any
+            int secondaryRestore;
+            int secondaryModifier = 0;
+            int secondaryValue = 0;
+            string secondaryTarget = activeAbility.secondaryTarget.ToString();
+        
+            // Get heal values
+            SetAbilityValues(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange,
+                ref maxDamageRange, ref critChance);
+
+            // Check heal against tokens
+            RunHealAgainstSelfTokens(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange, 
+                ref maxDamageRange, ref critChance);
+        
+            // Get secondary heal values
+            SetSecondaryAbilityValues(healer, ref secondaryModifier,  ref secondaryValue);
+            secondaryRestore = secondaryValue;
+        
+            // Apply self tokens
+            // TODO check for Isolation/Ward tokens
+            for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
+                AddTokens(healer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
+            }
+        
+            // Check for hit
+            int accRoll = Random.Range(1, 101);
+            if (accRoll > (int)acc) {
+                healTarget.battleVisuals.AbilityMisses();
+                RemoveSelfHealTokens(healer);
+                // TODO Check for Anti-Heal tokens
+            
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        
+                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                SaveResources();
+                yield break;
+            }
+        
+            // Check for crit
+            int critRoll = Random.Range(1, 101);
+            if (critRoll < critChance && !healer.activeTokens.Contains(criticalToken)) {
+                isCrit = true;
+                restore = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
+            } else {
+                restore = Random.Range(minDamageRange, maxDamageRange + 1);
+            }
+        
+            // Check for Anti-Heal
+            if (IgnoreRestoreWithTokens(healTarget)) {
+                restore *= (int)antiHealToken.tokenValue;
+                secondaryRestore *= (int)antiHealToken.tokenValue;
+            }
+        
+            // Determine heal amount based on whether the ability crit
+            if (isCrit) {
+                // TODO check for Isolation/Ward tokens
+                for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
+                    AddTokens(healer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
+                }
+                for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
+                    AddTokens(healTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
+                }
+            }
+        
+            // Remove appropriate tokens
+            RemoveSelfHealTokens(healer);
+            RemoveTargetHealTokens(healTarget);
+        
+            // Apply Secondary Heal
+            if (secondaryTarget != "Null") {
+                switch (secondaryTarget) {
+                    case "Bonus":
+                        restore += secondaryRestore;
+                        break;
+                    case "Spirit":
+                        healTarget.currentSpirit += secondaryRestore;
+                        if (healTarget.currentSpirit > healTarget.maxSpirit) {
+                            healTarget.currentSpirit = healTarget.maxSpirit;
+                        }
+                        break;
+                    case "Armor":
+                        healTarget.currentArmor += secondaryRestore;
+                        if (healTarget.currentArmor > healTarget.maxArmor) {
+                            healTarget.currentArmor = healTarget.maxArmor;
+                        }
+                        break;
+                    case "ActionPoints":
+                        healTarget.actionPoints += secondaryRestore;
+                        break;
+                    default:
+                        print("Invalid secondary target of " +  secondaryTarget + " supplied");
+                        break;
+                }
+            }
+        
+            // Heal the target
+            //healer.battleVisuals.PlayAttackAnimation(); // play the attack animation
+            healTarget.currentDefense += restore; // restore HP
+            healTarget.battleVisuals.PlayHealAnimation(restore, isCrit); // target plays on hit animation
+        
+            // Apply target tokens
+            // TODO Check for Isloation/Ward tokens
+            for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
+                AddTokens(healTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
+            }
+        
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        
+            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+            SaveResources();
+            // Update the UI
+            if (healTarget.isPlayer) {
+                healTarget.UpdatePlayerUI();
+                healer.UpdatePlayerUI();
+            } else if (!healTarget.isPlayer) {
+                healTarget.UpdateEnemyUI();
+                healer.UpdateEnemyUI();
+            }
+        }
+
+        private IEnumerator BuffAction(BattleEntities buffer, BattleEntities buffTarget, int activeAbilityIndex)
+        {
+            Ability activeAbility = buffer.myAbilities[activeAbilityIndex];
+        
+            bool isCrit = false;
+            float acc = 100;
+            int critChance = 0;
+        
+            RunBuffAgainstSelfTokens(buffer, ref isCrit, ref acc, ref critChance);
+
+            // TODO Check for Isolation/Ward tokens
+            for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
+                AddTokens(buffer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
+            }
+        
+            int accRoll = Random.Range(1, 101);
+            if (accRoll > (int)acc) {
+                buffTarget.battleVisuals.AbilityMisses();
+                RemoveTokensOnMiss(buffTarget);
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        
+                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                SaveResources();
+                yield break;
+            }
+        
+            int critRoll = Random.Range(1, 101);
+            if (critRoll < critChance && !buffer.activeTokens.Contains(criticalToken)) {
+                isCrit = true;
+            }
+
+            if (isCrit) {
+                // TODO check for Isolation/Ward tokens
+                for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
+                    AddTokens(buffer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
+                }
+                for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
+                    AddTokens(buffTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
+                }
+            }
+        
+            // TODO Check for Isolation tokens
+            for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
+                AddTokens(buffTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
+            }
+        
+            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+        }
+    
+        private IEnumerator DebuffAction(BattleEntities debuffer, BattleEntities debuffTarget, int activeAbilityIndex)
+        {
+            Ability activeAbility = debuffer.myAbilities[activeAbilityIndex];
+        
+            bool isCrit = false;
+            float acc = 100;
+            int critChance = 0;
+        
+            RunDebuffAgainstSelfTokens(debuffer, ref isCrit, ref acc, ref critChance);
+
+            // TODO Check for Isolation/Ward tokens
+            for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
+                AddTokens(debuffer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
+            }
+        
+            int accRoll = Random.Range(1, 101);
+            if (accRoll > (int)acc) {
+                debuffTarget.battleVisuals.AbilityMisses();
+                RemoveTokensOnMiss(debuffTarget);
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        
+                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                SaveResources();
+                yield break;
+            }
+        
+            int critRoll = Random.Range(1, 101);
+            if (critRoll < critChance && !debuffer.activeTokens.Contains(criticalToken)) {
+                isCrit = true;
+            }
+        
+            if (isCrit) {
+                // TODO check for Isolation/Ward tokens
+                for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
+                    AddTokens(debuffer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
+                }
+                for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
+                    AddTokens(debuffTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
+                }
+            }
+        
+            // TODO Check for Ward tokens
+            for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
+                AddTokens(debuffTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
+            }
+        
+            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+        }
+
+        private IEnumerator ConsumeResources(int activeAbilityIndex)
+        {
+            // Reduce the user's resource 
+            string resourceConsumed = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costResource.ToString();
+            int resourceCost = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costAmount;
+
+            switch (resourceConsumed)
+            {
+                case "Null":
                     break;
                 case "Spirit":
-                    healTarget.currentSpirit += secondaryRestore;
-                    if (healTarget.currentSpirit > healTarget.maxSpirit) {
-                        healTarget.currentSpirit = healTarget.maxSpirit;
+                    allCombatants[currentPlayer].currentSpirit -= resourceCost;
+                    break;
+                case "Health":
+                    allCombatants[currentPlayer].currentHealth -= resourceCost;
+                    break;
+                case "Defense":
+                    allCombatants[currentPlayer].currentHealth -= resourceCost;
+                    break;
+                case "SelfDmg":
+                    if (allCombatants[currentPlayer].currentDefense > 0) {
+                        if (resourceCost > allCombatants[currentPlayer].currentDefense) {
+                            int overflowDamage = resourceCost - allCombatants[currentPlayer].currentDefense;
+                            allCombatants[currentPlayer].currentDefense = 0;
+                            allCombatants[currentPlayer].currentHealth -= overflowDamage;
+                        } else {
+                            allCombatants[currentPlayer].currentDefense -= resourceCost;
+                        }
+                    } else {
+                        allCombatants[currentPlayer].currentHealth -= resourceCost;
                     }
                     break;
                 case "Armor":
-                    healTarget.currentArmor += secondaryRestore;
-                    if (healTarget.currentArmor > healTarget.maxArmor) {
-                        healTarget.currentArmor = healTarget.maxArmor;
-                    }
+                    allCombatants[currentPlayer].currentArmor -= resourceCost;
+                    print(allCombatants[currentPlayer] + "'s new armor value is " +  allCombatants[currentPlayer].currentArmor);
                     break;
-                case "ActionPoints":
-                    healTarget.actionPoints += secondaryRestore;
+                // TODO Implement special resource consumption
+                case "Special":
+                    //allCombatants[currentPlayer].currentHealth -= resourceCost;
+                    print("Special resource called for consumption.");
                     break;
                 default:
-                    print("Invalid secondary target of " +  secondaryTarget + " supplied");
+                    print("Invalid resource " + resourceConsumed + " called for consumption.");
                     break;
             }
-            print(healTarget.myName + " " + secondaryTarget + " restored by " + secondaryRestore);
-        }
-        
-        // Heal the target
-        //healer.battleVisuals.PlayAttackAnimation(); // play the attack animation
-        healTarget.currentDefense += restore; // restore HP
-        healTarget.battleVisuals.PlayHealAnimation(restore, isCrit); // target plays on hit animation
-        
-        // Apply target tokens
-        // TODO Check for Isloation/Ward tokens
-        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
-            AddTokens(healTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
-        }
-        healTarget.battleVisuals.UpdateTokens(healTarget.activeTokens);
-        
-        yield return new WaitForSeconds(TURN_ACTION_DELAY);
-        
-        yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-        SaveResources();
-        // Update the UI
-        if (healTarget.isPlayer) {
-            healTarget.UpdatePlayerUI();
-            healer.UpdatePlayerUI();
-        } else if (!healTarget.isPlayer) {
-            healTarget.UpdateEnemyUI();
-            healer.UpdateEnemyUI();
-        }
-    }
-
-    private IEnumerator BuffAction(BattleEntities buffer, BattleEntities buffTarget, int activeAbilityIndex)
-    {
-        Ability activeAbility = buffer.myAbilities[activeAbilityIndex];
-        
-        bool isCrit = false;
-        float acc = 100;
-        int critChance = 0;
-        
-        RunBuffAgainstSelfTokens(buffer, ref isCrit, ref acc, ref critChance);
-
-        // TODO Check for Isolation/Ward tokens
-        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
-            AddTokens(buffer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
-        }
-        buffer.battleVisuals.UpdateTokens(buffer.activeTokens);
-        
-        int accRoll = Random.Range(1, 101);
-        if (accRoll > (int)acc) {
-            buffTarget.battleVisuals.AbilityMisses();
-            
-            
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
-        
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-            SaveResources();
             yield break;
         }
-        
-        int critRoll = Random.Range(1, 101);
-        if (critRoll < critChance && !buffer.activeTokens.Contains(criticalToken)) {
-            isCrit = true;
-        }
 
-        if (isCrit) {
-            // TODO check for Isolation/Ward tokens
-            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
-                AddTokens(buffer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
-            }
-            buffer.battleVisuals.UpdateTokens(buffer.activeTokens);
-            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
-                AddTokens(buffTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
-            }
-            buffTarget.battleVisuals.UpdateTokens(buffTarget.activeTokens);
-        }
-        
-        // TODO Check for Isolation tokens
-        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
-            AddTokens(buffTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
-        }
-        buffTarget.battleVisuals.UpdateTokens(buffTarget.activeTokens);
-        
-        yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-    }
-    
-    private IEnumerator DebuffAction(BattleEntities debuffer, BattleEntities debuffTarget, int activeAbilityIndex)
-    {
-        Ability activeAbility = debuffer.myAbilities[activeAbilityIndex];
-        
-        bool isCrit = false;
-        float acc = 100;
-        int critChance = 0;
-        
-        RunDebuffAgainstSelfTokens(debuffer, ref isCrit, ref acc, ref critChance);
-
-        // TODO Check for Isolation/Ward tokens
-        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
-            AddTokens(debuffer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i]);
-        }
-        debuffer.battleVisuals.UpdateTokens(debuffer.activeTokens);
-        
-        int accRoll = Random.Range(1, 101);
-        if (accRoll > (int)acc) {
-            debuffTarget.battleVisuals.AbilityMisses();
-            
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
-        
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-            SaveResources();
-            yield break;
-        }
-        
-        int critRoll = Random.Range(1, 101);
-        if (critRoll < critChance && !debuffer.activeTokens.Contains(criticalToken)) {
-            isCrit = true;
-        }
-        
-        if (isCrit) {
-            // TODO check for Isolation/Ward tokens
-            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
-                AddTokens(debuffer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i]);
-            }
-            debuffer.battleVisuals.UpdateTokens(debuffer.activeTokens);
-            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
-                AddTokens(debuffTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
-            }
-            debuffTarget.battleVisuals.UpdateTokens(debuffTarget.activeTokens);
-        }
-        
-        // TODO Check for Ward tokens
-        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
-            AddTokens(debuffTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
-        }
-        debuffTarget.battleVisuals.UpdateTokens(debuffTarget.activeTokens);
-        
-        yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-    }
-
-    private IEnumerator ConsumeResources(int activeAbilityIndex)
-    {
-        // Reduce the user's resource 
-        string resourceConsumed = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costResource.ToString();
-        int resourceCost = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costAmount;
-
-        switch (resourceConsumed)
+        private IEnumerator FixResources()
         {
-            case "Null":
-                break;
-            case "Spirit":
-                allCombatants[currentPlayer].currentSpirit -= resourceCost;
-                break;
-            case "Health":
-                allCombatants[currentPlayer].currentHealth -= resourceCost;
-                break;
-            case "Defense":
-                allCombatants[currentPlayer].currentHealth -= resourceCost;
-                break;
-            case "SelfDmg":
-                if (allCombatants[currentPlayer].currentDefense > 0) {
-                    if (resourceCost > allCombatants[currentPlayer].currentDefense) {
-                        int overflowDamage = resourceCost - allCombatants[currentPlayer].currentDefense;
-                        allCombatants[currentPlayer].currentDefense = 0;
-                        allCombatants[currentPlayer].currentHealth -= overflowDamage;
-                    } else {
-                        allCombatants[currentPlayer].currentDefense -= resourceCost;
-                    }
-                } else {
-                    allCombatants[currentPlayer].currentHealth -= resourceCost;
+            for (int i = 0; i < allCombatants.Count; i++) {
+                if (allCombatants[i].currentHealth < 0) {
+                    allCombatants[i].currentHealth = 0;
+                } else if (allCombatants[i].currentHealth > allCombatants[i].maxHealth) {
+                    allCombatants[i].currentHealth = allCombatants[i].maxHealth;
                 }
-                break;
-            case "Armor":
-                allCombatants[currentPlayer].currentArmor -= resourceCost;
-                print(allCombatants[currentPlayer] + "'s new armor value is " +  allCombatants[currentPlayer].currentArmor);
-                break;
-            // TODO Implement special resource consumption
-            case "Special":
-                //attacker.currentHealth -= resourceCost;
-                print("Special resource called for consumption.");
-                break;
-            default:
-                print("Invalid resource " + resourceConsumed + " called for consumption.");
-                break;
-        }
-        yield break;
-    }
-
-    private IEnumerator FixResources()
-    {
-        for (int i = 0; i < allCombatants.Count; i++) {
-            if (allCombatants[i].currentHealth < 0) {
-                allCombatants[i].currentHealth = 0;
-            } else if (allCombatants[i].currentHealth > allCombatants[i].maxHealth) {
-                allCombatants[i].currentHealth = allCombatants[i].maxHealth;
-            }
-            if (allCombatants[i].currentSpirit < 0) {
-                allCombatants[i].currentSpirit = 0;
-            } else if (allCombatants[i].currentSpirit > allCombatants[i].maxSpirit) {
-                allCombatants[i].currentSpirit = allCombatants[i].maxSpirit;
-            }
-            if (allCombatants[i].currentDefense < 0) {
-                allCombatants[i].currentDefense = 0;
-            } else if (allCombatants[i].currentDefense > allCombatants[i].maxDefense) {
-                allCombatants[i].currentDefense = allCombatants[i].maxDefense;
-            }
-            if (allCombatants[i].currentArmor < 0) {
-                allCombatants[i].currentArmor = 0;
-            } else if (allCombatants[i].currentArmor > allCombatants[i].maxArmor) {
-                allCombatants[i].currentArmor = allCombatants[i].maxArmor;
-            }
+                if (allCombatants[i].currentSpirit < 0) {
+                    allCombatants[i].currentSpirit = 0;
+                } else if (allCombatants[i].currentSpirit > allCombatants[i].maxSpirit) {
+                    allCombatants[i].currentSpirit = allCombatants[i].maxSpirit;
+                }
+                if (allCombatants[i].currentDefense < 0) {
+                    allCombatants[i].currentDefense = 0;
+                } else if (allCombatants[i].currentDefense > allCombatants[i].maxDefense) {
+                    allCombatants[i].currentDefense = allCombatants[i].maxDefense;
+                }
+                if (allCombatants[i].currentArmor < 0) {
+                    allCombatants[i].currentArmor = 0;
+                } else if (allCombatants[i].currentArmor > allCombatants[i].maxArmor) {
+                    allCombatants[i].currentArmor = allCombatants[i].maxArmor;
+                }
             
+            }
+            yield break;
         }
-        yield break;
-    }
 }
 
 [Serializable]
@@ -1719,22 +2034,28 @@ public class BattleEntities
 public class BattleToken
 {
     public string tokenName;
+    public string displayName;
     public Sprite tokenIcon;
-    public TokenInfo.TokenType tokenType;
+    public Token.TokenType tokenType;
     public float tokenValue;
     public int tokenCap;
     public int tokenCount;
 
+    [FormerlySerializedAs("inverseTokens")] public List<String> tokenInverses = new List<String>();
+
     public string tokenDescription;
 
-    public void SetTokenValues(string storedName, Sprite storedIcon, TokenInfo.TokenType storedType, float storedValue, int storedCap, string storedDescription)
+    public void SetTokenValues(string storedName, string storedDisplayName, Sprite storedIcon, Token.TokenType storedType,
+        float storedValue, int storedCap, List<String> storedInverses, string storedDescription)
     {
         tokenName  = storedName;
+        displayName = storedDisplayName;
         tokenIcon = storedIcon;
         tokenType = storedType;
         tokenValue = storedValue;
         tokenCap = storedCap;
         tokenCount = 0;
+        tokenInverses = storedInverses;
         
         tokenDescription = storedDescription;
     }

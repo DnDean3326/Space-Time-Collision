@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 2d7b22a44b4e5a645837b16a133cba49
+guid: 435b67ce8fc0d6f41972f329c40235ba
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2292481691644715521
-    second: block+-token_0
+      213: 5478409849185879646
+    second: Off-Guard_0
+  - first:
+      213: -3717425227386054092
+    second: Off-Guard_1
+  - first:
+      213: -6582932400533593682
+    second: Off-Guard_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +81,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: block+-token_0
+      name: Off-Guard_0
       rect:
         serializedVersion: 2
         x: 75
-        y: 113
-        width: 1066
-        height: 1028
+        y: 341
+        width: 382
+        height: 686
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +134,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ffd1e6b2c087f20e0800000000000000
-      internalID: -2292481691644715521
+      spriteID: e56c9b26bb8370c40800000000000000
+      internalID: 5478409849185879646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Off-Guard_1
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 75
+        width: 534
+        height: 990
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43a1492937d096cc0800000000000000
+      internalID: -3717425227386054092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Off-Guard_2
+      rect:
+        serializedVersion: 2
+        x: 759
+        y: 341
+        width: 382
+        height: 686
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea129cd0cd9b4a4a0800000000000000
+      internalID: -6582932400533593682
       vertices: []
       indices: 
       edges: []
@@ -148,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      block+-token_0: -2292481691644715521
+      Off-Guard_0: 5478409849185879646
+      Off-Guard_1: -3717425227386054092
+      Off-Guard_2: -6582932400533593682
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
