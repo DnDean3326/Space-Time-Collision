@@ -25,10 +25,10 @@ MonoBehaviour:
   dmgMin: 2
   dmgMax: 5
   critChance: 15
-  secondaryTarget: 3
+  secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 5
+  secondaryValue: 0
   selfTokensApplied: 06000000
   selfTokenCountApplied: 01000000
   targetTokensApplied: 06000000

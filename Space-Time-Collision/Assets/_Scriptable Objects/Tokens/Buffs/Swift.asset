@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Swift
   m_EditorClassIdentifier: Assembly-CSharp::TokenInfo
   tokenName: 
+  displayName: 
   tokenIcon: {fileID: 0}
   tokenType: 0
-  tokenValue: 3
+  tokenValue: 100
   tokenCap: 1
   tokenInverses:
   - Delay

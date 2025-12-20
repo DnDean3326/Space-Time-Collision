@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Jump
+  m_Name: Armor Jump
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Jump
   abilityIcon: {fileID: 0}
@@ -22,16 +22,16 @@ MonoBehaviour:
   range: 3
   keyStat: 1
   statModifier: 1
-  dmgMin: 2
-  dmgMax: 5
-  critChance: 10
+  dmgMin: 3
+  dmgMax: 6
+  critChance: 5
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
   secondaryValue: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 0e000000
+  targetTokensApplied: 0f000000
   targetTokenCountApplied: 01000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 

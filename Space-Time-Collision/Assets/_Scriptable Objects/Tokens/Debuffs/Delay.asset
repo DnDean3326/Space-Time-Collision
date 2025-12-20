@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Delay
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Delay
+  displayName: 
   tokenIcon: {fileID: 21300000, guid: a076ff0755f15b14b83d52847e4958d4, type: 3}
   tokenType: 1
-  tokenValue: 3
+  tokenValue: 100
   tokenCap: 1
   tokenInverses:
   - Swift

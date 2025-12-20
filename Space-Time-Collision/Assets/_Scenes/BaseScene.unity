@@ -273,7 +273,7 @@ MonoBehaviour:
   - enemy: {fileID: 11400000, guid: 20e1cdbec28fb1a4ca62aa669f7b7c1d, type: 2}
     levelMin: 1
     levelMax: 1
-  maxNumEnemies: 4
+  maxNumEnemies: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 69.6
+  m_fontSize: 34.8
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
