@@ -109,8 +109,8 @@ public class BattleSystem : MonoBehaviour
         InitializeBattleTokens();
         StartCoroutine(StartRoutine());
     }
-
-    // Battle state IENumerators go here
+    
+    // Battle state routines
 
     private IEnumerator StartRoutine()
     {
@@ -120,6 +120,7 @@ public class BattleSystem : MonoBehaviour
             for (int i = 0; i < allCombatants.Count; i++) {
                 allCombatants[i].actionPoints = Random.Range(1, MAX_ACTION_START + 1);
             }
+            GetTurnOrder();
             
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
             combatStartUIAnimator.SetTrigger(BATTLE_START_END);
@@ -697,17 +698,32 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < MAX_INDIVIDUAL_DISPLAY; i++){
             foreach (BattleEntities t in allCombatants) {
                 BattleEntities tempEntity = new BattleEntities();
-                tempEntity.SetEntityActionPointValue(t.myName, t.myPortrait, t.actionPoints);
+                tempEntity.SetEntityTurnDisplayValues(t.myName, t.myPortrait, t.isPlayer, t.actionPoints, t.activeTokens);
                 tempEntity.actionPoints -= (200 * i);
                 turnOrder.Add(tempEntity);
             }
         }
-        float tickDifference;
-        foreach (BattleEntities entity in allCombatants) {
-            tickDifference = (float)(TURN_START_THRESHOLD - entity.actionPoints) / (BASE_ACTION_GAIN + entity.speed);
+
+        foreach (BattleEntities entity in turnOrder) {
+            float actionPointGain = 0f;
+            if (entity.activeTokens.Any(t => t.tokenName == "Haste")) {
+                if (entity.activeTokens.IndexOf(entity.activeTokens.First(t => t.tokenName == "Haste")) >
+                    turnOrder.Count(t => t.myName == entity.myName)) {
+                    actionPointGain = (BASE_ACTION_GAIN + entity.speed) * (1 + hasteToken.tokenValue);
+                }
+            } else if (entity.activeTokens.Any(t => t.tokenName == "Slow")) {
+                if (entity.activeTokens.IndexOf(entity.activeTokens.First(t => t.tokenName == "Slow")) >
+                    turnOrder.Count(t => t.myName == entity.myName)) {
+                    actionPointGain = (BASE_ACTION_GAIN + entity.speed) * 1 - slowToken.tokenValue;
+                }
+            } else {
+                actionPointGain = (BASE_ACTION_GAIN + entity.speed);
+            }
+            float tickDifference = (TURN_START_THRESHOLD - entity.actionPoints) / actionPointGain;
             entity.ticksToTurn = tickDifference;
         }
         turnOrder.Sort((bi1, bi2) => bi1.ticksToTurn.CompareTo(bi2.ticksToTurn));
+        
         turnOrderDisplay.SetTurnDisplay(turnOrder);
     }
     
@@ -1737,6 +1753,7 @@ public class BattleSystem : MonoBehaviour
             attackTarget.battleVisuals.AbilityMisses();
             RemoveSelfDamageTokens(attacker);
             RemoveTokensOnMiss(attackTarget);
+            SelfGain(attacker, activeAbility, isCrit);
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
             yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
@@ -1758,6 +1775,9 @@ public class BattleSystem : MonoBehaviour
                 damage -= attackTarget.currentArmor;
             }
         }
+        
+        // Restore self values
+        SelfGain(attacker, activeAbility, isCrit);
         
         // Apply on crit tokens if attack crit
         if (isCrit) {
@@ -1895,7 +1915,7 @@ public class BattleSystem : MonoBehaviour
         if (accRoll > (int)acc) {
             healTarget.battleVisuals.AbilityMisses();
             RemoveSelfHealTokens(healer);
-            // TODO Check for Anti-Heal tokens
+            SelfGain(healer, activeAbility, isCrit);
             
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
@@ -1912,6 +1932,8 @@ public class BattleSystem : MonoBehaviour
         } else {
             restore = Random.Range(minDamageRange, maxDamageRange + 1);
         }
+        
+        SelfGain(healer, activeAbility, isCrit);
         
         // Check for Anti-Heal
         if (IgnoreRestoreWithTokens(healTarget)) {
@@ -2006,6 +2028,7 @@ public class BattleSystem : MonoBehaviour
         if (accRoll > (int)acc) {
             buffTarget.battleVisuals.AbilityMisses();
             RemoveTokensOnMiss(buffTarget);
+            SelfGain(buffer, activeAbility, isCrit);
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
             yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
@@ -2017,6 +2040,8 @@ public class BattleSystem : MonoBehaviour
         if (critRoll < critChance) {
             isCrit = true;
         }
+        
+        SelfGain(buffer, activeAbility, isCrit);
 
         if (isCrit) {
             // TODO check for Isolation/Ward tokens
@@ -2060,6 +2085,7 @@ public class BattleSystem : MonoBehaviour
             print("The ability missed!");
             debuffTarget.battleVisuals.AbilityMisses();
             RemoveTokensOnMiss(debuffTarget);
+            SelfGain(debuffer, activeAbility, isCrit);
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
             yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
@@ -2081,6 +2107,8 @@ public class BattleSystem : MonoBehaviour
                 AddTokens(debuffTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i]);
             }
         }
+        
+        SelfGain(debuffer, activeAbility, isCrit);
         
         // TODO Check for Ward tokens
         for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
@@ -2141,6 +2169,51 @@ public class BattleSystem : MonoBehaviour
         }
         yield break;
     }
+    
+    private void SelfGain(BattleEntities self, Ability ability, bool isCrit)
+    {
+        if (ability.selfTarget == Ability.SelfTarget.Null ||
+            self.activeTokens.Any(t => t.tokenName == "AntiHeal")) return;
+        
+        int gainValue;
+        int abilityMod = GetAbilityModifier(self, self.myAbilities.IndexOf(ability));
+        if (isCrit) {
+            gainValue = (int)((ability.selfMax + abilityMod) * 1.5f);
+        } else {
+            gainValue = Random.Range(ability.selfMin, ability.selfMax + 1);
+        }
+        switch (ability.selfTarget) {
+            case Ability.SelfTarget.Health:
+                self.currentHealth += gainValue;
+                if (self.currentHealth > self.maxHealth) {
+                    self.currentHealth = self.maxHealth;
+                }
+                break;
+            case Ability.SelfTarget.Defense:
+                self.currentHealth += gainValue;
+                if (self.currentDefense > self.maxDefense) {
+                    self.currentDefense = self.maxDefense;
+                }
+                break;
+            case Ability.SelfTarget.Spirit:
+                self.currentHealth += gainValue;
+                if (self.currentSpirit > self.maxSpirit) {
+                    self.currentSpirit = self.maxSpirit;
+                }
+                break;
+            case Ability.SelfTarget.Armor:
+                self.currentArmor += gainValue;
+                if (self.currentArmor > self.maxArmor) {
+                    self.currentArmor = self.maxArmor;
+                }
+                break;
+            case Ability.SelfTarget.ActionPoints:
+                self.actionPoints += gainValue;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    } 
 
     private IEnumerator FixResources()
     {
@@ -2247,11 +2320,14 @@ public class BattleEntities
         activeTokens = new List<BattleToken>();
     }
 
-    public void SetEntityActionPointValue(string entityName, Sprite entityPortrait, int entityActionPoints)
+    public void SetEntityTurnDisplayValues(string entityName, Sprite entityPortrait, bool entityIsPlayer,
+        int entityActionPoints, List<BattleToken> entityTokens)
     {
         myName = entityName;
+        isPlayer = entityIsPlayer;
         myPortrait = entityPortrait;
         actionPoints = entityActionPoints;
+        activeTokens = entityTokens;
     }
 
     public void SetEnemyBrain(EnemyBrain entityBrain)

@@ -50,6 +50,16 @@ public class Ability : ScriptableObject
         ActionPoints,
     }
 
+    public enum SelfTarget
+    {
+        Null,
+        Health,
+        Defense,
+        Spirit,
+        Armor,
+        ActionPoints,
+    }
+
     public enum TokenOption
     {
         Null,
@@ -99,6 +109,13 @@ public class Ability : ScriptableObject
     public KeyStat secondaryStat;
     public int secondaryStatModifier;
     public int secondaryValue;
+
+    [Header("Self-Gain")]
+    public SelfTarget selfTarget;
+    public KeyStat selfStat;
+    public int selfStatModifier;
+    public int selfMin;
+    public int selfMax;
 
     [Header("Tokens Applied")]
     public TokenOption[] selfTokensApplied;

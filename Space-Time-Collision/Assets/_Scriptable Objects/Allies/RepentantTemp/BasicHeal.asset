@@ -29,6 +29,11 @@ MonoBehaviour:
   secondaryStat: 0
   secondaryStatModifier: 0
   secondaryValue: 0
+  selfTarget: 2
+  selfStat: 4
+  selfStatModifier: 1
+  selfMin: 0
+  selfMax: 0
   selfTokensApplied: 07000000
   selfTokenCountApplied: 01000000
   targetTokensApplied: 07000000

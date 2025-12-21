@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class TurnOrderDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject[] turnDisplays;
+    [SerializeField] private GameObject[] turnBorders;
     
     private BattleSystem battleSystem;
 
@@ -17,6 +18,11 @@ public class TurnOrderDisplay : MonoBehaviour
     {
         for (int i = 0; i < turnDisplays.Length; i++) {
             turnDisplays[i].GetComponent<Image>().sprite = turnOrder[i].myPortrait;
+            if (turnOrder[i].isPlayer) {
+                turnBorders[i].GetComponent<Image>().color = new Color32(147, 229, 242, 255);
+            } else {
+                turnBorders[i].GetComponent<Image>().color = new Color32(255, 0, 0, 255);
+            }
         }
     }
     
