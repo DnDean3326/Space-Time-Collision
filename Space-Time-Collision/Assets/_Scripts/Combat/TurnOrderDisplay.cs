@@ -1,9 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TurnOrderDisplay : MonoBehaviour
 {
+    [SerializeField] private GameObject turnOrderUI;
     [SerializeField] private GameObject[] turnDisplays;
     [SerializeField] private GameObject[] turnBorders;
     

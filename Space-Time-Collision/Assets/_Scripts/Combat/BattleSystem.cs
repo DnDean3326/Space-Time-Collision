@@ -79,7 +79,7 @@ public class BattleSystem : MonoBehaviour
     private bool targetSelected;
     private bool targetIsEnemy;
     
-    private const float COMBAT_BEGIN_DELAY = 1f;
+    private const float COMBAT_BEGIN_DELAY = 2.25f;
     private const float TURN_ACTION_DELAY = 1.5f;
     private const float DEATH_DELAY = 3f;
     private const float CRIT_DAMAGE_MODIFIER = 1.5f;
@@ -123,11 +123,11 @@ public class BattleSystem : MonoBehaviour
             GetTurnOrder();
             
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
-            combatStartUIAnimator.SetTrigger(BATTLE_START_END);
+            /*combatStartUIAnimator.SetTrigger(BATTLE_START_END);
             yield return new WaitForSeconds(0.2f);
-            Destroy(combatStartUI);
+            Destroy(combatStartUI);*/
             state = BattleState.Battle;
-            StartCoroutine(BattleRoutine());
+            yield return StartCoroutine(BattleRoutine());
         } else {
             print("Start Routine called but the battle system is in the " + state + " state.");
             yield break;

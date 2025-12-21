@@ -303,7 +303,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 141450184}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TurnOrderDisplay, Assembly-CSharp
           m_MethodName: TargetIndicate
           m_Mode: 3
@@ -319,7 +319,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 141450184}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TurnOrderDisplay, Assembly-CSharp
           m_MethodName: TargetIndicateRemove
           m_Mode: 3
@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 141450182}
   - component: {fileID: 141450181}
   - component: {fileID: 141450183}
-  - component: {fileID: 141450184}
+  - component: {fileID: 141450185}
   m_Layer: 5
   m_Name: Turn Order Display
   m_TagString: Untagged
@@ -457,30 +457,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Mask
   m_ShowMaskGraphic: 1
---- !u!114 &141450184
-MonoBehaviour:
+--- !u!95 &141450185
+Animator:
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141450179}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf29f1f4f941c7a40921d96f03570ac4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TurnOrderDisplay
-  turnDisplays:
-  - {fileID: 661418576}
-  - {fileID: 2091903367}
-  - {fileID: 533521866}
-  - {fileID: 2024861604}
-  - {fileID: 254410236}
-  turnBorders:
-  - {fileID: 335464855}
-  - {fileID: 1763424183}
-  - {fileID: 41085553}
-  - {fileID: 377578585}
-  - {fileID: 179080827}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 39424c04f0a09c14cb25f0221ea5fcd0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &144396289
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,6 +736,104 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 179080827}
   m_CullTransparentMesh: 1
+--- !u!1 &253983107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 253983109}
+  - component: {fileID: 253983110}
+  - component: {fileID: 253983112}
+  - component: {fileID: 253983111}
+  m_Layer: 0
+  m_Name: BattleStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &253983109
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253983107}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1178153565}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &253983110
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253983107}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c4c11ca2c2ade3a4885190f630e04330, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &253983111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253983107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 799185500868451632, guid: 512168ae6a5b16c40b3bf371e69849f1, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &253983112
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253983107}
+  m_CullTransparentMesh: 1
 --- !u!1 &254410236
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,12 +1026,12 @@ GameObject:
   - component: {fileID: 365550596}
   - component: {fileID: 365550597}
   m_Layer: 5
-  m_Name: Battle Start UI
+  m_Name: Old Battle Start UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &365550596
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1380,7 +1476,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 141450184}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TurnOrderDisplay, Assembly-CSharp
           m_MethodName: TargetIndicate
           m_Mode: 3
@@ -1396,7 +1492,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 141450184}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TurnOrderDisplay, Assembly-CSharp
           m_MethodName: TargetIndicateRemove
           m_Mode: 3
@@ -2016,7 +2112,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 141450184}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TurnOrderDisplay, Assembly-CSharp
           m_MethodName: TargetIndicate
           m_Mode: 3
@@ -2032,7 +2128,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 141450184}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TurnOrderDisplay, Assembly-CSharp
           m_MethodName: TargetIndicateRemove
           m_Mode: 3
@@ -2284,6 +2380,7 @@ GameObject:
   - component: {fileID: 1178153564}
   - component: {fileID: 1178153563}
   - component: {fileID: 1178153562}
+  - component: {fileID: 1178153566}
   m_Layer: 5
   m_Name: Battle Canvas
   m_TagString: Untagged
@@ -2369,6 +2466,7 @@ RectTransform:
   - {fileID: 899044068}
   - {fileID: 365550596}
   - {fileID: 141450180}
+  - {fileID: 253983109}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2376,6 +2474,31 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1178153566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178153561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf29f1f4f941c7a40921d96f03570ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurnOrderDisplay
+  turnOrderUI: {fileID: 141450179}
+  turnDisplays:
+  - {fileID: 661418576}
+  - {fileID: 2091903367}
+  - {fileID: 533521866}
+  - {fileID: 2024861604}
+  - {fileID: 254410236}
+  turnBorders:
+  - {fileID: 335464855}
+  - {fileID: 1763424183}
+  - {fileID: 41085553}
+  - {fileID: 377578585}
+  - {fileID: 179080827}
 --- !u!1 &1212045324
 GameObject:
   m_ObjectHideFlags: 0
@@ -2485,7 +2608,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 141450184}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TurnOrderDisplay, Assembly-CSharp
           m_MethodName: TargetIndicate
           m_Mode: 3
@@ -2501,7 +2624,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 141450184}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TurnOrderDisplay, Assembly-CSharp
           m_MethodName: TargetIndicateRemove
           m_Mode: 3
@@ -2577,7 +2700,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1088861843
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 5b7c0155d80a9b840a3e0fa6b239114b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2941,7 +3064,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 141450184}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TurnOrderDisplay, Assembly-CSharp
           m_MethodName: TargetIndicate
           m_Mode: 3
@@ -2957,7 +3080,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 141450184}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TurnOrderDisplay, Assembly-CSharp
           m_MethodName: TargetIndicateRemove
           m_Mode: 3

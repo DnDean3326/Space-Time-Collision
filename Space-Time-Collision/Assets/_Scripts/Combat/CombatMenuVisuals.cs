@@ -7,7 +7,7 @@ public class CombatMenuVisuals : MonoBehaviour
     [Header("Resource Displays")]
     [SerializeField] private Slider spiritBar;
     [SerializeField] private TextMeshProUGUI spText;
-    
+
     [Header("UI Menus")]
     [SerializeField] private GameObject abilitySelectUI;
     [SerializeField] private GameObject targetSelectUI;
