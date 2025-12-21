@@ -15,6 +15,8 @@ public class CombatMenuVisuals : MonoBehaviour
     [Header("UI Buttons")]
     [SerializeField] private GameObject[] abilityButtons;
     [SerializeField] private GameObject[] targetButtons;
+    [SerializeField] private GameObject[] targetPortraits;
+    [SerializeField] private GameObject[] targetBorders;
     [SerializeField] private GameObject backButton;
     
     [Header("UI Text")]
@@ -102,6 +104,16 @@ public class CombatMenuVisuals : MonoBehaviour
     public GameObject[] GetTargetButtons()
     {
         return targetButtons;
+    }
+
+    public GameObject[] GetTargetPortraits()
+    {
+        return targetPortraits;
+    }
+    
+    public GameObject[] GetTargetBorders()
+    {
+        return targetBorders;
     }
 
     // Button OnClick methods

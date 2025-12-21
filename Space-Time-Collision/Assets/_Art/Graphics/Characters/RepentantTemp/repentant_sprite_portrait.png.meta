@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 08877f7252563f3488ccff87a4856cff
+guid: 485ea0d3fe20a844dbebec457327d14e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2263958035892555757
-    second: lo_armored_bug_enemy_head_0
+      213: 1350393113719655787
+    second: repentant_sprite_portrait_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 152
+  spritePixelsToUnits: 112
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lo_armored_bug_enemy_head_0
+      name: repentant_sprite_portrait_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 2
         y: 0
-        width: 156
-        height: 152
+        width: 110
+        height: 105
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 310bb3c492ec490e0800000000000000
-      internalID: -2263958035892555757
+      spriteID: b6dc46ad16f8db210800000000000000
+      internalID: 1350393113719655787
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lo_armored_bug_enemy_head_0: -2263958035892555757
+      repentant_sprite_portrait_0: 1350393113719655787
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

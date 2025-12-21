@@ -7,7 +7,7 @@ public class PartyManager : MonoBehaviour
     [SerializeField] private AllyInfo[] allMembers;
     [SerializeField] private List<PartyMember> currentParty;
     
-    [SerializeField] private AllyInfo defaultPartyMember;
+    [SerializeField] private AllyInfo[] defaultPartyMembers;
 
     private static GameObject _instance;
 
@@ -19,10 +19,8 @@ public class PartyManager : MonoBehaviour
             Destroy(gameObject);
         } else {
             _instance = gameObject;
-            AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
-            AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
-            //AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
-            //AddMemberToPartyByName(defaultPartyMember.allyName, BASE_LEVEL);
+            AddMemberToPartyByName(defaultPartyMembers[0].allyName, BASE_LEVEL);
+            AddMemberToPartyByName(defaultPartyMembers[1].allyName, BASE_LEVEL);
         }
         
         DontDestroyOnLoad(gameObject);

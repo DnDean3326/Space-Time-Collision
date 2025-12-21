@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 08877f7252563f3488ccff87a4856cff
+guid: e13010ed089b3174da401d9ba7901a6f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2263958035892555757
-    second: lo_armored_bug_enemy_head_0
+      213: -3837336831295199806
+    second: virus_bug_enemy_head_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lo_armored_bug_enemy_head_0
+      name: virus_bug_enemy_head_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 310bb3c492ec490e0800000000000000
-      internalID: -2263958035892555757
+      spriteID: 2c56027ab7a0fbac0800000000000000
+      internalID: -3837336831295199806
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lo_armored_bug_enemy_head_0: -2263958035892555757
+      virus_bug_enemy_head_0: -3837336831295199806
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -924,9 +924,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PartyManager
   allMembers:
+  - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
   - {fileID: 11400000, guid: c3119035b5a9dc54aba5e2a8f9263cab, type: 2}
   currentParty: []
-  defaultPartyMember: {fileID: 11400000, guid: c3119035b5a9dc54aba5e2a8f9263cab, type: 2}
+  defaultPartyMembers:
+  - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
+  - {fileID: 11400000, guid: c3119035b5a9dc54aba5e2a8f9263cab, type: 2}
 --- !u!1 &1624233795
 GameObject:
   m_ObjectHideFlags: 0

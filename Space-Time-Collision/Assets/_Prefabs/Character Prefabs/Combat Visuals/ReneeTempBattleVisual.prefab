@@ -1072,7 +1072,7 @@ GameObject:
   - component: {fileID: 6564135639588113273}
   - component: {fileID: 2016875731901133911}
   m_Layer: 0
-  m_Name: RepentantTempBattleVisual
+  m_Name: ReneeTempBattleVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

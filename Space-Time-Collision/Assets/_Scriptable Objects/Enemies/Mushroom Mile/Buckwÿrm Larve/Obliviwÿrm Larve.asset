@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 360c2d98c31379b4d968bbe8ba200b37, type: 3}
-  m_Name: "Buckw\xFFrm Larve"
+  m_Name: "Obliviw\xFFrm Larve"
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
-  enemyName: "Buckw\xFFrm Larve"
-  enemyPortrait: {fileID: 21300000, guid: b1bf7817e8495b84e89399937705a2d9, type: 3}
+  enemyName: "Obliviw\xFFrm Larve"
+  enemyPortrait: {fileID: 21300000, guid: 08877f7252563f3488ccff87a4856cff, type: 3}
   baseHealth: 30
   baseDefense: 5
   baseArmor: 4
@@ -24,5 +24,5 @@ MonoBehaviour:
   baseMind: 0
   baseSpeed: 2
   baseLuck: 3
-  enemyBattleVisualPrefab: {fileID: 3665415145152625354, guid: 082cf59d7c7d587469d3e804cc4400c7, type: 3}
+  enemyBattleVisualPrefab: {fileID: 3665415145152625354, guid: 68ee05f10c5c86540aa1051510b5731c, type: 3}
   baseEnemyBrain: {fileID: 11400000, guid: afc2c6ea295c3c045b90fa3854544674, type: 2}

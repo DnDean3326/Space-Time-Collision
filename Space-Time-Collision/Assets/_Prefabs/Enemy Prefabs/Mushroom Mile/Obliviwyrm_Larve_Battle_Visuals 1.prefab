@@ -942,7 +942,7 @@ GameObject:
   - component: {fileID: 7996642026821305257}
   - component: {fileID: -935415495493409887}
   m_Layer: 0
-  m_Name: Buckwyrm_Larve_Battle_Visuals
+  m_Name: Obliviwyrm_Larve_Battle_Visuals 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1318,7 +1318,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: b1bf7817e8495b84e89399937705a2d9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e9513e7572a20ef4dab41aeafaba7f44, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

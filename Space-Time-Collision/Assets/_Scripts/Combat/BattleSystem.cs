@@ -53,7 +53,7 @@ public class BattleSystem : MonoBehaviour
     private BattleToken hasteToken;
     private BattleToken pierceToken;
     private BattleToken precisionToken;
-    private BattleToken swiftToken;
+    private BattleToken quickToken;
     
     // Debuff Tokens
     private BattleToken blindToken;
@@ -192,7 +192,7 @@ public class BattleSystem : MonoBehaviour
                 List<int> indexesToRemove = new List<int>();
                 
                 foreach (BattleEntities t in preparedCombatants) {
-                    if (t.activeTokens.Any(t => t.tokenName == "Swift") ||
+                    if (t.activeTokens.Any(t => t.tokenName == "Quick") ||
                         t.activeTokens.Any(t => t.tokenName == "Delay")) {
                         TriggerTurnSpeedTokens(t);
                     }
@@ -604,6 +604,8 @@ public class BattleSystem : MonoBehaviour
             tempEntity.battleVisuals = tempBattleVisuals;
             tempEntity.combatMenuVisuals = tempCombatMenuVisuals;
             tempEntity.targetButtons = tempEntity.combatMenuVisuals.GetTargetButtons();
+            tempEntity.targetPortraits = tempEntity.combatMenuVisuals.GetTargetPortraits();
+            tempEntity.targetBorders = tempEntity.combatMenuVisuals.GetTargetBorders();
             tempEntity.abilityButtons = tempEntity.combatMenuVisuals.GetAbilityButtons();
             
             // Assign abilities to character TODO Make this also update visuals
@@ -680,7 +682,7 @@ public class BattleSystem : MonoBehaviour
         hasteToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Haste");
         pierceToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Pierce");
         precisionToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Precision");
-        swiftToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Swift");
+        quickToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Quick");
         
         // Set debuff tokens
         antiHealToken = allTokens.SingleOrDefault(obj => obj.tokenName == "AntiHeal");
@@ -928,20 +930,28 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < allCombatants[characterIndex].targetButtons.Length; i++) {
             allCombatants[characterIndex].targetButtons[i].SetActive(false); 
         }
+
         if (targetIsEnemy) {
             // Enable buttons for each present enemy
             for (int i = 0; i < enemyCombatants.Count; i++) {
                 allCombatants[characterIndex].targetButtons[i].SetActive(true);
+                allCombatants[characterIndex].targetPortraits[i].GetComponent<Image>().sprite =
+                    enemyCombatants[i].myPortrait;
+                allCombatants[characterIndex].targetBorders[i].GetComponentInChildren<Image>().color =
+                    new Color32(255, 0, 0, 255);
                 // Change the button's text
-                allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = enemyCombatants[i].myName;
-                
+                //allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = enemyCombatants[i].myName;
             }
         } else {
             // Enable buttons for each present ally
             for (int i = 0; i < partyCombatants.Count; i++) {
                 allCombatants[characterIndex].targetButtons[i].SetActive(true);
+                allCombatants[characterIndex].targetPortraits[i].GetComponent<Image>().sprite =
+                    partyCombatants[i].myPortrait;
+                allCombatants[characterIndex].targetBorders[i].GetComponentInChildren<Image>().color =
+                    new Color32(147, 229, 242, 255);
                 // Change the button's text
-                allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = partyCombatants[i].myName;
+                //allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = partyCombatants[i].myName;
             }
         }
         
@@ -1680,12 +1690,12 @@ public class BattleSystem : MonoBehaviour
 
     private void TriggerTurnSpeedTokens(BattleEntities entity)
     {
-        // TODO update this to make the target immune to Swift/Delay until the start of their next turn.
+        // TODO update this to make the target immune to Quick/Delay until the start of their next turn.
         int tokenPosition;
-        if (entity.activeTokens.Any(t => t.tokenName == "Swift")) {
-            print(entity.myName + " was swift!");
-            entity.actionPoints += (int)swiftToken.tokenValue;
-            tokenPosition = entity.activeTokens.FindIndex(t => t.tokenName == "Swift");
+        if (entity.activeTokens.Any(t => t.tokenName == "Quick")) {
+            print(entity.myName + " was quickened!");
+            entity.actionPoints += (int)quickToken.tokenValue;
+            tokenPosition = entity.activeTokens.FindIndex(t => t.tokenName == "Quick");
             entity.activeTokens.RemoveAt(tokenPosition);
         } else if (entity.activeTokens.Any(t => t.tokenName == "Delay")) {
             print(entity.myName + " was delayed!");
@@ -2288,6 +2298,8 @@ public class BattleEntities
 
     public GameObject[] abilityButtons;
     public GameObject[] targetButtons;
+    public GameObject[] targetPortraits;
+    public GameObject[] targetBorders;
     public List<Ability> myAbilities;
     public List<int> abilityCooldowns;
     public List<BattleToken> activeTokens;

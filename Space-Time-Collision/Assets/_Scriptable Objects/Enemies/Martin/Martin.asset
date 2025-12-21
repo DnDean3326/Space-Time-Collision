@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Martin
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   enemyName: Martin
-  enemyPortrait: {fileID: 21300000, guid: 9553a7169dcddac4fa8eb9349d6fd305, type: 3}
+  enemyPortrait: {fileID: 21300000, guid: 9d2220d247d506542a337b4695b2366b, type: 3}
   baseHealth: 20
   baseDefense: 10
   baseArmor: 0

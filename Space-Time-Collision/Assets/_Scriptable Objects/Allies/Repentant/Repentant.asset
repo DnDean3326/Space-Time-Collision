@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7286e639bc0ef9a4a9a974c478cad697, type: 3}
-  m_Name: RepentantTemp
+  m_Name: Repentant
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
-  allyName: Repentant
-  allyPortrait: {fileID: 21300000, guid: 79cbbcc471cbecc419af7db208a5a931, type: 3}
+  allyName: Renee
+  allyPortrait: {fileID: 21300000, guid: 485ea0d3fe20a844dbebec457327d14e, type: 3}
   baseHealth: 32
   baseDefense: 18
   baseArmor: 2
@@ -24,9 +24,9 @@ MonoBehaviour:
   baseMind: 5
   baseSpeed: 6
   baseLuck: 2
-  allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 3f3ca28ed1fafc84581c7bd7d04d879a, type: 3}
+  allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 63880d098158e7e40b9d9a5cc2fc5a7c, type: 3}
   allyMapVisualPrefab: {fileID: 4016972724149583921, guid: c23495ac638deae4697c21e55bd7c475, type: 3}
   abilityOne: {fileID: 11400000, guid: 028778e2f9f8ce5498181fdaa0d40ef7, type: 2}
   abilityTwo: {fileID: 11400000, guid: 21e4f35a6e571a34cb70afa7442eabe8, type: 2}
-  abilityThree: {fileID: 11400000, guid: 9f574180d57a8404f94e42341edcd1f9, type: 2}
+  abilityThree: {fileID: 11400000, guid: 3658ce03a3e373c498c721ea064760ae, type: 2}
   abilityFour: {fileID: 11400000, guid: 7ea278a94b6fd29409d0a507eff5077b, type: 2}
