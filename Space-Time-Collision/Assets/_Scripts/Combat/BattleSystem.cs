@@ -388,8 +388,6 @@ public class BattleSystem : MonoBehaviour
                 abilityThreshold += myBrain.enemyAbilities[i].abilityPriority;
                 if (enemyDecision <= abilityThreshold) {
                     abilityUsed = i;
-                    print(activeEnemy.myName + " rolled a " + enemyDecision + " and is using " +
-                          myBrain.enemyAbilities[(int)abilityUsed].ability.abilityName);
                     break;
                 }
             }
@@ -402,12 +400,10 @@ public class BattleSystem : MonoBehaviour
             switch (activeEnemy.myAbilities[(int)abilityUsed].abilityType) {
                 case Ability.AbilityType.Damage:
                 case Ability.AbilityType.Debuff:
-                    print(activeEnemy.myName + " is targeting the party");
                     targetList = partyCombatants;
                     break;
                 case  Ability.AbilityType.Heal:
                 case  Ability.AbilityType.Buff:
-                    print(activeEnemy.myName + " is targeting their enemy allies");
                     targetList = enemyCombatants;
                     break;
             }
@@ -432,7 +428,6 @@ public class BattleSystem : MonoBehaviour
                         break;
                 }
 
-                print("Reached targeting point");
                 switch (myBrain.enemyAbilities[(int)abilityUsed].targetQualifier) {
                     case EnemyBrain.TargetQualifier.Null:
                         print("Invalid Qualifier of Null");
@@ -1721,7 +1716,6 @@ public class BattleSystem : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget, int activeAbilityIndex)
     {
-        print("Damage action called");
         Ability activeAbility = attacker.myAbilities[activeAbilityIndex];
         
         // Declare damage values
