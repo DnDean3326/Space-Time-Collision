@@ -2,11 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -73,6 +71,7 @@ public class BattleSystem : MonoBehaviour
     private PartyManager partyManager;
     private EnemyManager enemyManager;
     private TokenManager tokenManager;
+    private TurnOrderDisplay turnOrderDisplay;
     
     private int currentPlayer;
     private bool abilitySelected;
@@ -87,6 +86,7 @@ public class BattleSystem : MonoBehaviour
     private const int TURN_START_THRESHOLD = 200;
     private const int BASE_ACTION_GAIN = 20;
     private const int MAX_ACTION_START = 100;
+    private const int MAX_INDIVIDUAL_DISPLAY = 5;
     private const string MAP_SCENE = "BaseScene";
     private const string BASE_SCENE = "BaseScene";
     
@@ -98,6 +98,7 @@ public class BattleSystem : MonoBehaviour
         partyManager = FindFirstObjectByType<PartyManager>();
         enemyManager = FindFirstObjectByType<EnemyManager>();
         tokenManager = FindFirstObjectByType<TokenManager>();
+        turnOrderDisplay = FindFirstObjectByType<TurnOrderDisplay>();
     }
     
     
@@ -153,7 +154,7 @@ public class BattleSystem : MonoBehaviour
         RemoveDeadCombatants();
         
         if (state == BattleState.Battle) {
-            //GetTurnOrder();
+            GetTurnOrder();
             while (preparedCombatants.Count <= 0) {
                 for (int i = 0; i < allCombatants.Count; i++) {
                     if (state == BattleState.Battle) {
@@ -690,36 +691,24 @@ public class BattleSystem : MonoBehaviour
         vulnerableToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Vulnerable");
     }
 
-    private void SetTokenInverses()
-    {
-        // Set buff inverses ADD HIGHER VALUE TOKEN FIRST
-        blockToken.tokenInverses.Add("Vulnerable");
-        blockPlusToken.tokenInverses.Add("Vulnerable");
-        boostToken.tokenInverses.Add("Break");
-        boostPlusToken.tokenInverses.Add("Break");
-        // Critical token has no inverse
-        // Dodge and Dodge+ have no inverse
-        
-        // Set debuff inverses ADD HIGHER VALUE TOKEN FIRST
-        // Blind token has no inverse
-        breakToken.tokenInverses.Add("BoostPlus");
-        breakToken.tokenInverses.Add("Boost");
-        vulnerableToken.tokenInverses.Add("BlockPlus");
-        vulnerableToken.tokenInverses.Add("Block");
-    }
-
     private void GetTurnOrder()
     {
-        turnOrder = allCombatants;
+        turnOrder.Clear();
+        for (int i = 0; i < MAX_INDIVIDUAL_DISPLAY; i++){
+            foreach (BattleEntities t in allCombatants) {
+                BattleEntities tempEntity = new BattleEntities();
+                tempEntity.SetEntityActionPointValue(t.myName, t.myPortrait, t.actionPoints);
+                tempEntity.actionPoints -= (200 * i);
+                turnOrder.Add(tempEntity);
+            }
+        }
         float tickDifference;
         foreach (BattleEntities entity in allCombatants) {
             tickDifference = (float)(TURN_START_THRESHOLD - entity.actionPoints) / (BASE_ACTION_GAIN + entity.speed);
             entity.ticksToTurn = tickDifference;
         }
         turnOrder.Sort((bi1, bi2) => bi1.ticksToTurn.CompareTo(bi2.ticksToTurn));
-        foreach (BattleEntities entity in turnOrder) {
-            print(entity.myName + " ticks to turn is "  + entity.ticksToTurn);
-        }
+        turnOrderDisplay.SetTurnDisplay(turnOrder);
     }
     
     private void RemoveDeadCombatants()
@@ -1044,6 +1033,24 @@ public class BattleSystem : MonoBehaviour
             allCombatants[target].battleVisuals.TargetInactive();
         }
         SetAbilityValuesForDisplay();
+    }
+
+    public void IndicateTurnTarget(int hoveredTarget)
+    {
+        string targetName = turnOrder[hoveredTarget].myName;
+        int targetIndex = allCombatants.FindIndex(t => t.myName == targetName);
+        if (allCombatants[targetIndex].isPlayer) {
+            allCombatants[targetIndex].battleVisuals.TargetAllyActive();
+        } else {
+            allCombatants[targetIndex].battleVisuals.TargetEnemyActive();
+        }
+    }
+
+    public void StopIndicatingTurnTarget(int hoveredTarget)
+    {
+        string targetName = turnOrder[hoveredTarget].myName;
+        int targetIndex = allCombatants.FindIndex(t => t.myName == targetName);
+        allCombatants[targetIndex].battleVisuals.TargetInactive();
     }
     
     public void SelectTarget(int currentTarget)
@@ -2238,6 +2245,13 @@ public class BattleEntities
         luck = entityLuck;
         
         activeTokens = new List<BattleToken>();
+    }
+
+    public void SetEntityActionPointValue(string entityName, Sprite entityPortrait, int entityActionPoints)
+    {
+        myName = entityName;
+        myPortrait = entityPortrait;
+        actionPoints = entityActionPoints;
     }
 
     public void SetEnemyBrain(EnemyBrain entityBrain)

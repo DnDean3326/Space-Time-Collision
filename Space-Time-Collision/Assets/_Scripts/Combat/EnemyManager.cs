@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -25,7 +26,7 @@ public class EnemyManager : MonoBehaviour
     public void GenerateEnemiesByEncounter(Encounter[] encounters, int maxNumEnemies)
     {
         currentEnemies.Clear();
-        int numEnemies = Random.Range(1, maxNumEnemies + 1);
+        int numEnemies = Random.Range(4, maxNumEnemies + 1);
 
         for (int i = 0; i < numEnemies; i++) {
             Encounter tempEncounter = encounters[Random.Range(0, encounters.Length)];
@@ -40,7 +41,14 @@ public class EnemyManager : MonoBehaviour
             if (allEnemies[i].enemyName == enemyName) {
                 Enemy newEnemy = new Enemy();
 
-                newEnemy.enemyName = allEnemies[i].enemyName;
+                newEnemy.enemyBaseName = allEnemies[i].enemyName;
+                if (currentEnemies.Any(t => t.enemyBaseName == currentEnemies[i].enemyName)) {
+                    newEnemy.enemyName = (allEnemies[i].enemyName + " " + 
+                                          (currentEnemies.Count(t => t.enemyBaseName == currentEnemies[i].enemyName) + 1));
+                } else {
+                    newEnemy.enemyName = allEnemies[i].enemyName;
+                }
+                
                 newEnemy.enemyPortrait = allEnemies[i].enemyPortrait;
                 newEnemy.level = level;
                 float levelModifier = (LEVEL_MODIFIER * (newEnemy.level - 1));
@@ -91,6 +99,7 @@ public class EnemyManager : MonoBehaviour
 [System.Serializable]
 public class Enemy
 {
+    public string enemyBaseName;
     public string enemyName;
     public Sprite enemyPortrait;
     public int level;

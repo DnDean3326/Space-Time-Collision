@@ -50,19 +50,19 @@ public class BattleVisuals : MonoBehaviour
         UpdateArmor();
     }
 
-    public void UpdateHealthBar()
+    private void UpdateHealthBar()
     {
         healthBar.maxValue = maxHealth;
         healthBar.value = currentHealth;
     }
-    
-    public void UpdateDefenseBar()
+
+    private void UpdateDefenseBar()
     {
         defenseBar.maxValue = maxDefense;
         defenseBar.value = currentDefense;
     }
 
-    public void UpdateArmor()
+    private void UpdateArmor()
     {
         armorText.text = armor.ToString();
     }
