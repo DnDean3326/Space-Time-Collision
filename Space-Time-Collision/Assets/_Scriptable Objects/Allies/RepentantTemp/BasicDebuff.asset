@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: BasicDebuff
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Soul Shatter
-  abilityType: 0
+  abilityIcon: {fileID: 0}
+  abilityType: 3
   abilityWeight: 0
   costResource: 2
   costAmount: 6
@@ -30,7 +31,7 @@ MonoBehaviour:
   secondaryValue: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 090000000a000000
+  targetTokensApplied: 1100000012000000
   targetTokenCountApplied: 0100000002000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 

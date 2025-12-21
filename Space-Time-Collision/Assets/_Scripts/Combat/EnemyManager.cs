@@ -41,6 +41,7 @@ public class EnemyManager : MonoBehaviour
                 Enemy newEnemy = new Enemy();
 
                 newEnemy.enemyName = allEnemies[i].enemyName;
+                newEnemy.enemyPortrait = allEnemies[i].enemyPortrait;
                 newEnemy.level = level;
                 float levelModifier = (LEVEL_MODIFIER * (newEnemy.level - 1));
                 
@@ -60,9 +61,14 @@ public class EnemyManager : MonoBehaviour
                 newEnemy.speed = Mathf.RoundToInt(allEnemies[i].baseSpeed + (allEnemies[i].baseSpeed * levelModifier));
                 newEnemy.luck = Mathf.RoundToInt(allEnemies[i].baseLuck + (allEnemies[i].baseLuck * levelModifier));
                 
-                newEnemy.enemyVisualPrefab = allEnemies[i].allyBattleVisualPrefab;
+                newEnemy.enemyVisualPrefab = allEnemies[i].enemyBattleVisualPrefab;
                 
-                newEnemy.abilities = new List<Ability> { allEnemies[i].abilityOne };
+                newEnemy.enemyBrain = allEnemies[i].baseEnemyBrain;
+                newEnemy.abilities = new List<Ability>();
+                foreach (EnemyAbility t in newEnemy.enemyBrain.enemyAbilities)
+                {
+                    newEnemy.abilities.Add(t.ability);
+                }
                 
                 currentEnemies.Add(newEnemy);
             }
@@ -86,6 +92,7 @@ public class EnemyManager : MonoBehaviour
 public class Enemy
 {
     public string enemyName;
+    public Sprite enemyPortrait;
     public int level;
     
     public int maxHealth;
@@ -106,6 +113,7 @@ public class Enemy
     public int luck;
     
     public GameObject enemyVisualPrefab; // what will be displayed in the battle scene
+    public EnemyBrain enemyBrain;
     
     public List<Ability> abilities;
 }

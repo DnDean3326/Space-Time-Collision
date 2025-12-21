@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Precision
   m_EditorClassIdentifier: Assembly-CSharp::TokenInfo
   tokenName: Precision
+  displayName: Precision
   tokenIcon: {fileID: 21300000, guid: b88baafd8f8845b48a553a0cec00f14c, type: 3}
   tokenType: 0
   tokenValue: 0

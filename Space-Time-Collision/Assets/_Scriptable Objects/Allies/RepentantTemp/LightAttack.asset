@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: LightAttack
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Eye Slash
+  abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 1
   costResource: 0
@@ -34,6 +35,6 @@ MonoBehaviour:
   targetTokenCountApplied: 
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 08000000
+  targetCritTokensApplied: 0d000000
   targetCritTokenCountApplied: 01000000
   description: 'Deal damage and apply Blind I\nRange: 3'

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Pierce
   m_EditorClassIdentifier: Assembly-CSharp::TokenInfo
   tokenName: Pierce
+  displayName: Pierce
   tokenIcon: {fileID: 21300000, guid: 620879e273b79f141b1f669d77d031a9, type: 3}
   tokenType: 0
   tokenValue: 0

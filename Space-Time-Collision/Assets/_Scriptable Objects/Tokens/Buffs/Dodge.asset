@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Dodge
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Dodge
+  displayName: Dodge
   tokenIcon: {fileID: 21300000, guid: ddda89d6a40d0a2419ae7401b1913204, type: 3}
   tokenType: 0
   tokenValue: 0.5

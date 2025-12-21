@@ -4,6 +4,7 @@ using UnityEngine;
 public class AllyInfo : ScriptableObject
 {
     public string allyName;
+    public Sprite allyPortrait;
     
     public int baseHealth;
     public int baseDefense;

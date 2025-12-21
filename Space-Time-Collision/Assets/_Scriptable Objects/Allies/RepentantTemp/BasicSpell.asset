@@ -31,7 +31,7 @@ MonoBehaviour:
   secondaryValue: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 08000000
+  targetTokensApplied: 10000000
   targetTokenCountApplied: 01000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 

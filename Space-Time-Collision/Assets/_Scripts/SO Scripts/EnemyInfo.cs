@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyInfo : ScriptableObject
 {
     public string enemyName;
+    public Sprite enemyPortrait;
     
     public int baseHealth;
     public int baseDefense;
@@ -17,7 +18,7 @@ public class EnemyInfo : ScriptableObject
     public int baseSpeed;
     public int baseLuck;
     
-    public GameObject allyBattleVisualPrefab; // what will be displayed in the battle scene
+    public GameObject enemyBattleVisualPrefab; // what will be displayed in the battle scene
     
-    public Ability abilityOne;
+    public EnemyBrain baseEnemyBrain;
 }

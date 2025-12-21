@@ -35,6 +35,7 @@ public class PartyManager : MonoBehaviour
                 PartyMember newPartyMember = new PartyMember();
                 
                 newPartyMember.memberName = allMembers[i].allyName;
+                newPartyMember.memberPortait = allMembers[i].allyPortrait;
                 newPartyMember.level = level;
                 
                 newPartyMember.maxHealth = allMembers[i].baseHealth;
@@ -101,6 +102,7 @@ public class PartyManager : MonoBehaviour
 public class PartyMember
 {
     public string memberName;
+    public Sprite memberPortait;
     public int level;
     
     public int maxHealth;

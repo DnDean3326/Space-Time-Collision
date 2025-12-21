@@ -345,7 +345,7 @@ public class BattleSystem : MonoBehaviour
                 }
             }
             // Start the cooldown of the used ability
-            activeCharacter.abilityCooldowns[activeCharacter.activeAbility] += activeCharacter.myAbilities[activeCharacter.activeAbility].cooldown;
+            activeCharacter.abilityCooldowns[activeCharacter.activeAbility] = activeCharacter.myAbilities[activeCharacter.activeAbility].cooldown;
             
             activeCharacter.battleVisuals.SetMyTurnAnimation(false);
             wentBack = false;
@@ -361,20 +361,212 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator EnemyTurnRoutine(int characterIndex)
     {
         if (state == BattleState.EnemyTurn) {
-            RemoveSelfTurnStartTokens(allCombatants[characterIndex]);
-            allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(true);
-            allCombatants[characterIndex].actionPoints -= TURN_START_THRESHOLD;
-            preparedCombatants.RemoveAt(preparedCombatants.IndexOf(allCombatants[characterIndex]));
+            BattleEntities activeEnemy = allCombatants[characterIndex];
+            EnemyBrain myBrain = activeEnemy.enemyBrain;
+            
+            RemoveSelfTurnStartTokens(activeEnemy);
+            activeEnemy.battleVisuals.SetMyTurnAnimation(true);
+            activeEnemy.actionPoints -= TURN_START_THRESHOLD;
+            preparedCombatants.RemoveAt(preparedCombatants.IndexOf(activeEnemy));
             
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
-            
-        
-            allCombatants[characterIndex].target = GetRandomPartyMember();
-            allCombatants[characterIndex].activeAbility = 0; // TODO replace this ability with enemy brain function
-            yield return StartCoroutine(DamageAction(allCombatants[characterIndex], 
-                allCombatants[allCombatants[characterIndex].target], allCombatants[characterIndex].activeAbility));
 
-            allCombatants[characterIndex].battleVisuals.SetMyTurnAnimation(false);
+            int priorityTotal = 0;
+            for (int i = 0; i < myBrain.enemyAbilities.Length; i++) {
+                if (activeEnemy.abilityCooldowns[i] <= 0) {
+                    priorityTotal += myBrain.enemyAbilities[i].abilityPriority;
+                }
+            }
+
+            int enemyDecision = Random.Range(0, priorityTotal + 1);
+            int abilityThreshold = 0;
+            int? abilityUsed = null;
+
+            for (int i = 0; i < myBrain.enemyAbilities.Length; i++) {
+                abilityThreshold += myBrain.enemyAbilities[i].abilityPriority;
+                if (enemyDecision <= abilityThreshold) {
+                    abilityUsed = i;
+                    print(activeEnemy.myName + " rolled a " + enemyDecision + " and is using " +
+                          myBrain.enemyAbilities[(int)abilityUsed].ability.abilityName);
+                    break;
+                }
+            }
+            if (abilityUsed == 100) {
+                print("No ability selected");
+                yield break;
+            }
+            
+            List<BattleEntities> targetList = new List<BattleEntities>();
+            switch (activeEnemy.myAbilities[(int)abilityUsed].abilityType) {
+                case Ability.AbilityType.Damage:
+                case Ability.AbilityType.Debuff:
+                    print(activeEnemy.myName + " is targeting the party");
+                    targetList = partyCombatants;
+                    break;
+                case  Ability.AbilityType.Heal:
+                case  Ability.AbilityType.Buff:
+                    print(activeEnemy.myName + " is targeting their enemy allies");
+                    targetList = enemyCombatants;
+                    break;
+            }
+
+            
+            BattleEntities enemyTarget;
+            if (Random.Range(0, 21) < myBrain.enemyAbilities[(int)abilityUsed].randomChance ||
+                myBrain.enemyAbilities[(int)abilityUsed].targetMethod == EnemyBrain.TargetMethod.Random) {
+                enemyTarget = targetList[Random.Range(0, targetList.Count)];
+            } else {
+                bool targetLowest;
+                switch (myBrain.enemyAbilities[(int)abilityUsed].targetMethod) {
+                    case EnemyBrain.TargetMethod.Lowest:
+                        targetLowest = true;
+                        break;
+                    case EnemyBrain.TargetMethod.Highest:
+                        targetLowest = false;
+                        break;
+                    default:
+                        print("Default target method called.");
+                        targetLowest = true;
+                        break;
+                }
+
+                print("Reached targeting point");
+                switch (myBrain.enemyAbilities[(int)abilityUsed].targetQualifier) {
+                    case EnemyBrain.TargetQualifier.Null:
+                        print("Invalid Qualifier of Null");
+                        enemyTarget = targetList[Random.Range(0, targetList.Count)];
+                        break;
+                    case EnemyBrain.TargetQualifier.Health:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.Defense:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.Armor:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.Spirit:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.ActionPoints:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.Power:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.Skill:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.Wit:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.Mind:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.Speed:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.Luck:
+                        if (targetLowest) {
+                            targetList.Sort((bi1, bi2) => bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        } else {
+                            targetList.Sort((bi1, bi2) => -bi1.currentHealth.CompareTo(bi2.currentHealth));
+                        }
+                        enemyTarget = targetList[0];
+                        break;
+                    case EnemyBrain.TargetQualifier.Proximity:
+                        print("Qualifier of Proximity not currently functional");
+                        enemyTarget = targetList[Random.Range(0, targetList.Count)];
+                        break;
+                    default:
+                        print("Qualifier of " + myBrain.enemyAbilities[(int)abilityUsed].targetQualifier + " supplied");
+                        enemyTarget = targetList[Random.Range(0, targetList.Count)];
+                        // The below is sort lowest to highest
+                        turnOrder.Sort((bi1, bi2) => bi1.ticksToTurn.CompareTo(bi2.ticksToTurn));
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            
+            print("They are targeting " + enemyTarget.myName);
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+            switch (activeEnemy.myAbilities[(int)abilityUsed].abilityType) {
+                case Ability.AbilityType.Damage:
+                    yield return StartCoroutine(DamageAction(activeEnemy, enemyTarget, (int)abilityUsed));
+                    break;
+                case Ability.AbilityType.Debuff:
+                    yield return StartCoroutine(DebuffAction(activeEnemy, enemyTarget, (int)abilityUsed));
+                    break;
+                case  Ability.AbilityType.Heal:
+                    yield return StartCoroutine(HealAction(activeEnemy, enemyTarget, (int)abilityUsed));
+                    break;
+                case  Ability.AbilityType.Buff:
+                    yield return StartCoroutine(BuffAction(activeEnemy, enemyTarget, (int)abilityUsed));
+                    break;
+                default:
+                    print("Invalid ability type of " + activeEnemy.myAbilities[(int)abilityUsed].abilityType +
+                          " called.");
+                    yield break;
+            }
+            
+            // Reduce Cooldowns of all unused abilities by one
+            activeEnemy.abilityCooldowns = new List<int>();
+            for (int j = 0; j < activeEnemy.myAbilities.Count; j++) {
+                activeEnemy.abilityCooldowns.Add(0);
+            }
+            // Start the cooldown of the used ability
+            activeEnemy.abilityCooldowns[activeEnemy.activeAbility] = myBrain.enemyAbilities[(int)abilityUsed].ability.cooldown;
+            
+            activeEnemy.battleVisuals.SetMyTurnAnimation(false);
             state = BattleState.Battle;
             StartCoroutine(BattleRoutine());
         } else {
@@ -392,7 +584,7 @@ public class BattleSystem : MonoBehaviour
         {
             BattleEntities tempEntity = new BattleEntities();
             
-            tempEntity.SetEntityValue(currentParty[i].memberName, currentParty[i].level, currentParty[i].maxHealth, currentParty[i].currentHealth,
+            tempEntity.SetEntityValue(currentParty[i].memberName, currentParty[i].memberPortait, currentParty[i].level, currentParty[i].maxHealth, currentParty[i].currentHealth,
                 currentParty[i].maxSpirit, currentParty[i].currentSpirit, currentParty[i].maxDefense, currentParty[i].maxArmor, currentParty[i].power,
                 currentParty[i].skill, currentParty[i].wit, currentParty[i].mind, currentParty[i].speed, currentParty[i].luck, true);
             
@@ -433,9 +625,11 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < currentEnemies.Count; i++) {
             BattleEntities tempEntity = new BattleEntities();
             
-            tempEntity.SetEntityValue(currentEnemies[i].enemyName, currentEnemies[i].level, currentEnemies[i].maxHealth, currentEnemies[i].currentHealth,
+            tempEntity.SetEntityValue(currentEnemies[i].enemyName, currentEnemies[i].enemyPortrait, currentEnemies[i].level, currentEnemies[i].maxHealth, currentEnemies[i].currentHealth,
                 currentEnemies[i].maxSpirit, currentEnemies[i].currentSpirit, currentEnemies[i].maxDefense, currentEnemies[i].maxArmor, currentEnemies[i].power,
                 currentEnemies[i].skill, currentEnemies[i].wit, currentEnemies[i].mind, currentEnemies[i].speed, currentEnemies[i].luck, false);
+
+            tempEntity.SetEnemyBrain(currentEnemies[i].enemyBrain);
             
             // Spawn the visuals
             // TODO have enemies spawned at a specific grid position
@@ -448,6 +642,10 @@ public class BattleSystem : MonoBehaviour
             tempEntity.battleVisuals = tempBattleVisuals;
             // Give the enemy their abilities
             tempEntity.myAbilities = enemyManager.GetAbilities(i);
+            tempEntity.abilityCooldowns = new List<int>();
+            for (int j = 0; j < tempEntity.myAbilities.Count; j++) {
+                tempEntity.abilityCooldowns.Add(0);
+            }
             
             // Add the allied combatant to the all combatants and party combatant lists
             allCombatants.Add(tempEntity);
@@ -471,12 +669,12 @@ public class BattleSystem : MonoBehaviour
         
         // Set buff tokens
         blockToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Block");
-        blockPlusToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Block+");
+        blockPlusToken = allTokens.SingleOrDefault(obj => obj.tokenName == "BlockPlus");
         boostToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Boost");
-        boostPlusToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Boost+");
+        boostPlusToken = allTokens.SingleOrDefault(obj => obj.tokenName == "BoostPlus");
         criticalToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Critical");
         dodgeToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Dodge");
-        dodgePlusToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Dodge+");
+        dodgePlusToken = allTokens.SingleOrDefault(obj => obj.tokenName == "DodgePlus");
         hasteToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Haste");
         pierceToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Pierce");
         precisionToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Precision");
@@ -1459,7 +1657,6 @@ public class BattleSystem : MonoBehaviour
 
     private void TriggerTurnSpeedTokens(BattleEntities entity)
     {
-        List<int> indexesToRemove;
         // TODO update this to make the target immune to Swift/Delay until the start of their next turn.
         int tokenPosition;
         if (entity.activeTokens.Any(t => t.tokenName == "Swift")) {
@@ -1491,6 +1688,7 @@ public class BattleSystem : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget, int activeAbilityIndex)
     {
+        print("Damage action called");
         Ability activeAbility = attacker.myAbilities[activeAbilityIndex];
         
         // Declare damage values
@@ -1649,6 +1847,7 @@ public class BattleSystem : MonoBehaviour
     
     private IEnumerator HealAction(BattleEntities healer, BattleEntities healTarget, int activeAbilityIndex)
     {
+        print("Heal action called");
         Ability activeAbility = healer.myAbilities[activeAbilityIndex];
         
         // Declare heal values
@@ -1698,7 +1897,7 @@ public class BattleSystem : MonoBehaviour
             yield break;
         }
         
-        // Check for crit
+        // Check for crit then determine heal value either way
         int critRoll = Random.Range(1, 101);
         if (critRoll < critChance && healer.activeTokens.All(t => t.tokenName != "Critical")) {
             isCrit = true;
@@ -1713,7 +1912,7 @@ public class BattleSystem : MonoBehaviour
             secondaryRestore *= (int)antiHealToken.tokenValue;
         }
         
-        // Determine heal amount based on whether the ability crit
+        // Add on crit tokens, if applicable
         if (isCrit) {
             // TODO check for Isolation/Ward tokens
             for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
@@ -1783,6 +1982,7 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator BuffAction(BattleEntities buffer, BattleEntities buffTarget, int activeAbilityIndex)
     {
         Ability activeAbility = buffer.myAbilities[activeAbilityIndex];
+        print("Buff action " + activeAbility.abilityName + " called against " + buffTarget.myName);
         
         bool isCrit = false;
         float acc = 100;
@@ -1826,6 +2026,8 @@ public class BattleSystem : MonoBehaviour
             AddTokens(buffTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
         }
         
+        yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        
         yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
         SaveResources();
     }
@@ -1833,6 +2035,7 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator DebuffAction(BattleEntities debuffer, BattleEntities debuffTarget, int activeAbilityIndex)
     {
         Ability activeAbility = debuffer.myAbilities[activeAbilityIndex];
+        print("Debuff action " + activeAbility.abilityName + " called against " + debuffTarget.myName);
         
         bool isCrit = false;
         float acc = 100;
@@ -1847,6 +2050,7 @@ public class BattleSystem : MonoBehaviour
         
         int accRoll = Random.Range(1, 101);
         if (accRoll > (int)acc) {
+            print("The ability missed!");
             debuffTarget.battleVisuals.AbilityMisses();
             RemoveTokensOnMiss(debuffTarget);
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
@@ -1873,8 +2077,11 @@ public class BattleSystem : MonoBehaviour
         
         // TODO Check for Ward tokens
         for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
+            print(activeAbility.targetTokensApplied[i].ToString());
             AddTokens(debuffTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i]);
         }
+        
+        yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
         yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
         SaveResources();
@@ -1897,7 +2104,7 @@ public class BattleSystem : MonoBehaviour
                 allCombatants[currentPlayer].currentHealth -= resourceCost;
                 break;
             case "Defense":
-                allCombatants[currentPlayer].currentHealth -= resourceCost;
+                allCombatants[currentPlayer].currentDefense -= resourceCost;
                 break;
             case "SelfDmg":
                 if (allCombatants[currentPlayer].currentDefense > 0) {
@@ -1969,6 +2176,7 @@ public class BattleEntities
     public Action battleAction;
 
     public string myName;
+    public Sprite myPortrait;
     public string activeAbilityType;
     public bool isPlayer;
     public int target;
@@ -1992,6 +2200,8 @@ public class BattleEntities
     public int mind;
     public int speed;
     public int luck;
+
+    public EnemyBrain enemyBrain;
     
     public BattleVisuals battleVisuals;
     public CombatMenuVisuals combatMenuVisuals;
@@ -2002,11 +2212,12 @@ public class BattleEntities
     public List<int> abilityCooldowns;
     public List<BattleToken> activeTokens;
 
-    public void SetEntityValue(string entityName, int entityLevel, int entityMaxHealth, int entityCurrentHealth,
+    public void SetEntityValue(string entityName, Sprite entityPortrait, int entityLevel, int entityMaxHealth, int entityCurrentHealth,
         int entityMaxSpirit, int entityCurrentSpirit, int entityMaxDefense, int entityMaxArmor, int entityPower,
         int entitySkill, int entityWit, int entityMind, int entitySpeed, int entityLuck, bool entityIsPlayer)
     {
         myName = entityName;
+        myPortrait = entityPortrait;
         isPlayer = entityIsPlayer;
         level = entityLevel;
 
@@ -2027,6 +2238,11 @@ public class BattleEntities
         luck = entityLuck;
         
         activeTokens = new List<BattleToken>();
+    }
+
+    public void SetEnemyBrain(EnemyBrain entityBrain)
+    {
+        enemyBrain = entityBrain;
     }
 
     public void SetTarget(int entityTarget)

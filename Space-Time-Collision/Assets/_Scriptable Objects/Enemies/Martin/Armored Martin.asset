@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Armored Martin
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   enemyName: Armored Martin
+  enemyPortrait: {fileID: 0}
   baseHealth: 25
   baseDefense: 0
   baseArmor: 3
@@ -23,5 +24,5 @@ MonoBehaviour:
   baseMind: 3
   baseSpeed: 3
   baseLuck: 10
-  allyBattleVisualPrefab: {fileID: 3665415145152625354, guid: 8579febc9fac36e4a834241a0b0ffe9e, type: 3}
-  abilityOne: {fileID: 11400000, guid: 3767aad1552622547a34574e3fd3c574, type: 2}
+  enemyBattleVisualPrefab: {fileID: 3665415145152625354, guid: 8579febc9fac36e4a834241a0b0ffe9e, type: 3}
+  baseEnemyBrain: {fileID: 11400000, guid: cffc1662791f7874eb2a1f8d62d088aa, type: 2}

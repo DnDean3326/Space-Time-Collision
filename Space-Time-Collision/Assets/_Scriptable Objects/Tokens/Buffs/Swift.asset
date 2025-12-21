@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3fd5e77bf9d6d448a6b471671072d1, type: 3}
   m_Name: Swift
   m_EditorClassIdentifier: Assembly-CSharp::TokenInfo
-  tokenName: 
-  displayName: 
+  tokenName: Swift
+  displayName: Swift
   tokenIcon: {fileID: 0}
   tokenType: 0
   tokenValue: 100

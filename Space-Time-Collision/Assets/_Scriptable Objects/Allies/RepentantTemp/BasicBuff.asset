@@ -29,9 +29,9 @@ MonoBehaviour:
   secondaryStat: 0
   secondaryStatModifier: 0
   secondaryValue: 0
-  selfTokensApplied: 05000000
+  selfTokensApplied: 02000000
   selfTokenCountApplied: 02000000
-  targetTokensApplied: 05000000
+  targetTokensApplied: 04000000
   targetTokenCountApplied: 02000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
