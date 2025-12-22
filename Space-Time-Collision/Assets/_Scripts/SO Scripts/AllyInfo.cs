@@ -17,6 +17,10 @@ public class AllyInfo : ScriptableObject
     public int baseMind;
     public int baseSpeed;
     public int baseLuck;
+
+    public int baseStunResist;
+    public int baseDebuffResist;
+    public int baseAilmentResist;
     
     public GameObject allyBattleVisualPrefab; // what will be displayed in the battle scene
     public GameObject allyMapVisualPrefab; // what will be displayed on the map

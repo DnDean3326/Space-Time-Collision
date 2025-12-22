@@ -52,6 +52,10 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.speed = allMembers[i].baseSpeed;
                 newPartyMember.luck = allMembers[i].baseLuck;
                 
+                newPartyMember.stunResist = allMembers[i].baseStunResist;
+                newPartyMember.debuffResist = allMembers[i].baseDebuffResist;
+                newPartyMember.ailmentResist = allMembers[i].baseAilmentResist;
+                
                 newPartyMember.allyBattleVisualPrefab = allMembers[i].allyBattleVisualPrefab;
                 newPartyMember.allyMapVisualPrefab = allMembers[i].allyMapVisualPrefab;
 
@@ -118,6 +122,10 @@ public class PartyMember
     public int mind;
     public int speed;
     public int luck;
+    
+    public int stunResist;
+    public int debuffResist;
+    public int ailmentResist;
 
     public int maxExp;
     public int currentExp;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "Ability", menuName = "Scriptable Objects/Ability")]
 public class Ability : ScriptableObject
@@ -75,11 +76,13 @@ public class Ability : ScriptableObject
         Pierce,
         Precision,
         Swift,
+        Ward,
         
         AntiHeal,
         Blind,
         Break,
         Delay,
+        Isolation,
         OffGuard,
         Slow,
         Vulnerable,
@@ -117,7 +120,7 @@ public class Ability : ScriptableObject
     public int selfMin;
     public int selfMax;
 
-    [Header("Tokens Applied")]
+    [Header("Tokens Interactions")]
     public TokenOption[] selfTokensApplied;
     public int[] selfTokenCountApplied;
     public TokenOption[] targetTokensApplied;
@@ -126,6 +129,12 @@ public class Ability : ScriptableObject
     public int[] selfCritTokenCountApplied;
     public TokenOption[] targetCritTokensApplied;
     public int[] targetCritTokenCountApplied;
+    public TokenOption[] selfTokensCleared;
+    public TokenOption[] targetTokensCleared;
+    public bool ignoreBlock;
+    public bool ignoreDodge;
+    public bool ignoreWard;
+    public bool ignoreArmor;
     
     [Header("Description")]
     public string description;

@@ -69,6 +69,10 @@ public class EnemyManager : MonoBehaviour
                 newEnemy.speed = Mathf.RoundToInt(allEnemies[i].baseSpeed + (allEnemies[i].baseSpeed * levelModifier));
                 newEnemy.luck = Mathf.RoundToInt(allEnemies[i].baseLuck + (allEnemies[i].baseLuck * levelModifier));
                 
+                newEnemy.stunResist = allEnemies[i].baseStunResist;
+                newEnemy.debuffResist = allEnemies[i].baseDebuffResist;
+                newEnemy.ailmentResist = allEnemies[i].baseAilmentResist;
+                
                 newEnemy.enemyVisualPrefab = allEnemies[i].enemyBattleVisualPrefab;
                 
                 newEnemy.enemyBrain = allEnemies[i].baseEnemyBrain;
@@ -120,6 +124,10 @@ public class Enemy
     public int mind;
     public int speed;
     public int luck;
+    
+    public int stunResist;
+    public int debuffResist;
+    public int ailmentResist;
     
     public GameObject enemyVisualPrefab; // what will be displayed in the battle scene
     public EnemyBrain enemyBrain;

@@ -18,6 +18,10 @@ public class EnemyInfo : ScriptableObject
     public int baseSpeed;
     public int baseLuck;
     
+    public int baseStunResist;
+    public int baseDebuffResist;
+    public int baseAilmentResist;
+    
     public GameObject enemyBattleVisualPrefab; // what will be displayed in the battle scene
     
     public EnemyBrain baseEnemyBrain;

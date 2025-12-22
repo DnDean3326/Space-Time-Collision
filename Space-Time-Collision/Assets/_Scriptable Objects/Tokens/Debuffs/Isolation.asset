@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d3fd5e77bf9d6d448a6b471671072d1, type: 3}
-  m_Name: Break
+  m_Name: Isolation
   m_EditorClassIdentifier: Assembly-CSharp::Token
-  tokenName: Break
-  displayName: 
-  tokenIcon: {fileID: -3524757698702100708, guid: 01c90fb0dd11b9d4c9892ac51a3e8aa4, type: 3}
+  tokenName: Isolation
+  displayName: Isolation
+  tokenIcon: {fileID: 21300000, guid: 0aadfdec9135aa547a74aab25b88a429, type: 3}
   tokenType: 1
-  tokenValue: 0.5
+  tokenValue: 0
   tokenCap: 3
   tokenInverses:
-  - Boost+
-  - Boost
+  - Ward
   tokenDescription: 
