@@ -42,4 +42,4 @@ MonoBehaviour:
   selfCritTokenCountApplied: 01000000
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
-  description: Deal damage\rGain Dodge I on a crit.
+  description: 'Deal damage\nGain Dodge I on a crit.\nRange: 4'

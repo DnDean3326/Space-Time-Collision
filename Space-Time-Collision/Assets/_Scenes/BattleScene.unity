@@ -3213,6 +3213,7 @@ MonoBehaviour:
   preparedCombatants: []
   turnOrder: []
   allTokens: []
+  battleStartUI: {fileID: 253983107}
   combatStartUI: {fileID: 365550595}
   combatStartUIAnimator: {fileID: 365550597}
 --- !u!4 &1793564087

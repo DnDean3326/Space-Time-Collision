@@ -42,6 +42,10 @@ public class BattleSystem : MonoBehaviour
     [Header("Tokens")]
     [SerializeField] private List<BattleToken> allTokens = new List<BattleToken>();
 
+    [Header("Battle Start UI")]
+    [SerializeField]
+    private GameObject battleStartUI;
+
     // Buff Tokens
     private BattleToken blockToken;
     private BattleToken blockPlusToken;
@@ -108,6 +112,7 @@ public class BattleSystem : MonoBehaviour
         CreateEnemyEntities();
         InitializeBattleTokens();
         StartCoroutine(StartRoutine());
+        battleStartUI.SetActive(true);
     }
     
     // Battle state routines
@@ -123,9 +128,7 @@ public class BattleSystem : MonoBehaviour
             GetTurnOrder();
             
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
-            /*combatStartUIAnimator.SetTrigger(BATTLE_START_END);
-            yield return new WaitForSeconds(0.2f);
-            Destroy(combatStartUI);*/
+            Destroy(battleStartUI);
             state = BattleState.Battle;
             yield return StartCoroutine(BattleRoutine());
         } else {
