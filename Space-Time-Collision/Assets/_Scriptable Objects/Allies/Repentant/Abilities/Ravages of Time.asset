@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
+  m_Name: Ravages of Time
+  m_EditorClassIdentifier: Assembly-CSharp::Ability
+  abilityName: Ravages of Time
+  abilityIcon: {fileID: 0}
+  abilityType: 3
+  abilityWeight: 1
+  costResource: 1
+  costAmount: 2
+  cooldown: 1
+  range: 3
+  keyStat: 0
+  statModifier: 0
+  dmgMin: 0
+  dmgMax: 0
+  critChance: 15
+  secondaryTarget: 0
+  secondaryStat: 0
+  secondaryStatModifier: 0
+  secondaryValue: 0
+  selfTarget: 0
+  selfStat: 0
+  selfStatModifier: 0
+  selfMin: 0
+  selfMax: 0
+  selfTokensApplied: 
+  selfTokenCountApplied: 
+  targetTokensApplied: 1000000011000000
+  targetTokenCountApplied: 0100000001000000
+  selfCritTokensApplied: 
+  selfCritTokenCountApplied: 
+  targetCritTokensApplied: 0e000000
+  targetCritTokenCountApplied: 01000000
+  description: 'Apply Off-Guard I and Slow I\nOn a crit apply Break I\nRange: 3\nCooldown:
+    1\nCost: 2MP'

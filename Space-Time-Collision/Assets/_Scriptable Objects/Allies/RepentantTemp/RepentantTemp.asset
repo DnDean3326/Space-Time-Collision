@@ -26,7 +26,7 @@ MonoBehaviour:
   baseLuck: 2
   allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 3f3ca28ed1fafc84581c7bd7d04d879a, type: 3}
   allyMapVisualPrefab: {fileID: 4016972724149583921, guid: c23495ac638deae4697c21e55bd7c475, type: 3}
-  abilityOne: {fileID: 11400000, guid: 028778e2f9f8ce5498181fdaa0d40ef7, type: 2}
-  abilityTwo: {fileID: 11400000, guid: 21e4f35a6e571a34cb70afa7442eabe8, type: 2}
-  abilityThree: {fileID: 11400000, guid: 9f574180d57a8404f94e42341edcd1f9, type: 2}
-  abilityFour: {fileID: 11400000, guid: 7ea278a94b6fd29409d0a507eff5077b, type: 2}
+  abilityOne: {fileID: 11400000, guid: be9958622257dec4599663d4323ba80a, type: 2}
+  abilityTwo: {fileID: 11400000, guid: 55c1a27871b6ad549af074d214a49f83, type: 2}
+  abilityThree: {fileID: 11400000, guid: 3658ce03a3e373c498c721ea064760ae, type: 2}
+  abilityFour: {fileID: 11400000, guid: d39d3e11a681c6540b81e6e19ca14c99, type: 2}

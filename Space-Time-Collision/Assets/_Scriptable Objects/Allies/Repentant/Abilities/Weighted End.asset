@@ -10,30 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: TimeHeals
+  m_Name: Weighted End
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Time Heals
-  abilityType: 1
+  abilityName: Weighted End
+  abilityIcon: {fileID: 0}
+  abilityType: 0
   abilityWeight: 0
-  costResource: 1
-  costAmount: 6
-  cooldown: 2
-  range: 2
-  keyStat: 4
+  costResource: 0
+  costAmount: 0
+  cooldown: 0
+  range: 0
+  keyStat: 1
   statModifier: 2
-  dmgMin: 5
-  dmgMax: 10
-  critChance: 20
-  secondaryTarget: 4
+  dmgMin: 4
+  dmgMax: 6
+  critChance: 10
+  secondaryTarget: 3
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 40
-  selfTokensApplied: 
-  selfTokenCountApplied: 
+  secondaryValue: 2
+  selfTarget: 0
+  selfStat: 0
+  selfStatModifier: 0
+  selfMin: 0
+  selfMax: 0
+  selfTokensApplied: 12000000
+  selfTokenCountApplied: 01000000
   targetTokensApplied: 
   targetTokenCountApplied: 
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
-  description: 
+  description: 'Deal damage and 2 armor damage\nGain Vulnerable I\nRange: 3\nCooldown:
+    1'
