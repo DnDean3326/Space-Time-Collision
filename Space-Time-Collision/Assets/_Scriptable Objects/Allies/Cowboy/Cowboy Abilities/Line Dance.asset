@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Damn Bitch Why You Hitting Me
+  m_Name: Line Dance
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Damn Bitch Why You Hitting Me
+  abilityName: Line Dance
   abilityIcon: {fileID: 0}
-  abilityType: 3
+  abilityType: 2
   abilityWeight: 0
   costResource: 0
   costAmount: 0
-  cooldown: 1
-  range: 6
+  cooldown: 2
+  range: 0
   keyStat: 0
   statModifier: 0
   dmgMin: 0
@@ -34,10 +34,10 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
-  selfTokensApplied: 
-  selfTokenCountApplied: 
-  targetTokensApplied: 160000001b000000
-  targetTokenCountApplied: 0100000001000000
+  selfTokensApplied: 0100000012000000
+  selfTokenCountApplied: 0100000002000000
+  targetTokensApplied: 
+  targetTokenCountApplied: 
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
   targetCritTokensApplied: 

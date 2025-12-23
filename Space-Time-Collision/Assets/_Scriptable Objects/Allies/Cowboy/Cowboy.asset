@@ -30,7 +30,7 @@ MonoBehaviour:
   allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 2137c1e5c1320b643adef3536e068d67, type: 3}
   allyMenuVisualPrefab: {fileID: 4016972724149583921, guid: 7740826e7e0be7045bd0482261fcb083, type: 3}
   abilities:
+  - {fileID: 11400000, guid: 9bebecf08acdeeb46a6e7f10365df8b3, type: 2}
   - {fileID: 11400000, guid: 48dcec8258f10dd4d8fcbd291ffc38d9, type: 2}
-  - {fileID: 11400000, guid: 512ae6588bcc7d54b96b39d7a76f2115, type: 2}
   - {fileID: 11400000, guid: 245aebdcea4668a489f86fda26388722, type: 2}
-  - {fileID: 11400000, guid: d7c6e1478a000fb49804e36b31174dd2, type: 2}
+  - {fileID: 11400000, guid: 4f43de50d16ea224fac7538c943b43de, type: 2}

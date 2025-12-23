@@ -182,9 +182,9 @@ public class BattleSystem : MonoBehaviour
         // Remove any dead combatants from the combat
         yield return StartCoroutine(FixResources());
         RemoveDeadCombatants();
+        GetTurnOrder();
         
         if (state == BattleState.Battle) {
-            GetTurnOrder();
             while (preparedCombatants.Count <= 0) {
                 for (int i = 0; i < allCombatants.Count; i++) {
                     if (state == BattleState.Battle) {
@@ -1773,7 +1773,10 @@ public class BattleSystem : MonoBehaviour
                 tokenPosition = targetEntity.activeTokens.IndexOf(t);
                 if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
                     targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    targetEntity.activeTokens.RemoveAt(tokenPosition);
                 }
+                break;
             }
         }
         
@@ -1816,6 +1819,55 @@ public class BattleSystem : MonoBehaviour
             healTarget.battleVisuals.UpdateTokens(healTarget.activeTokens);
         }
     }
+    
+    private void RemoveTargetBuffTokens(BattleEntities targetEntity)
+    {
+        foreach (BattleToken t in targetEntity.activeTokens) {
+            int tokenPosition;
+            // Check for Ward
+            if (t.tokenName == "Isolation") {
+                tokenPosition = targetEntity.activeTokens.IndexOf(t);
+                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    targetEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            }
+        }
+        
+        targetEntity.battleVisuals.UpdateTokens(targetEntity.activeTokens);
+    }
+
+    private void RemoveTargetDebuffTokens(BattleEntities targetEntity)
+    {
+        foreach (BattleToken t in targetEntity.activeTokens) {
+            int tokenPosition;
+            // Check for Ward or Isolation
+            if (t.tokenName == "Ward") {
+                tokenPosition = targetEntity.activeTokens.IndexOf(t);
+                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    targetEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            }
+
+            // Check for Taunt
+            if (t.tokenName == "Taunt") {
+                tokenPosition = targetEntity.activeTokens.IndexOf(t);
+                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
+                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    targetEntity.activeTokens.RemoveAt(tokenPosition);
+                }
+                break;
+            }
+        }
+        
+        targetEntity.battleVisuals.UpdateTokens(targetEntity.activeTokens);
+    }
 
     private void RemoveTokensOnMiss(BattleEntities targetEntity)
     {
@@ -1845,6 +1897,8 @@ public class BattleSystem : MonoBehaviour
                 tokenPosition = targetEntity.activeTokens.IndexOf(t);
                 if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
                     targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
+                } else {
+                    targetEntity.activeTokens.RemoveAt(tokenPosition);
                 }
             }
         }
@@ -2285,6 +2339,9 @@ public class BattleSystem : MonoBehaviour
                 ClearTokens(buffTarget, token.ToString());
             }
         }
+
+        RemoveTargetBuffTokens(buffTarget);
+        
         SelfGain(buffer, activeAbility, isCrit);
 
         if (isCrit) {
@@ -2374,6 +2431,8 @@ public class BattleSystem : MonoBehaviour
                 ClearTokens(debuffTarget, token.ToString());
             }
         }
+        RemoveTargetDebuffTokens(debuffTarget);
+        
         SelfGain(debuffer, activeAbility, isCrit);
         
         for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {

@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Hot Shot
+  m_Name: Fist of the Devil
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Hot Shot
+  abilityName: Fist of the Devil
   abilityIcon: {fileID: 0}
   abilityType: 0
-  abilityWeight: 0
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
   cooldown: 1
-  range: 6
-  keyStat: 2
+  range: 2
+  keyStat: 1
   statModifier: 1
-  dmgMin: 4
-  dmgMax: 7
-  critChance: 20
+  dmgMin: 3
+  dmgMax: 5
+  critChance: 15
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -34,14 +34,14 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
-  selfTokensApplied: 
-  selfTokenCountApplied: 
-  targetTokensApplied: 1f000000
-  targetTokenCountApplied: 01000000
+  selfTokensApplied: 22000000
+  selfTokenCountApplied: 01000000
+  targetTokensApplied: 
+  targetTokenCountApplied: 
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 
-  targetCritTokenCountApplied: 
+  targetCritTokensApplied: 1f000000
+  targetCritTokenCountApplied: 01000000
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0
