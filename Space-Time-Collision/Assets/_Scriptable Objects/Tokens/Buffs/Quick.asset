@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TokenInfo
   tokenName: Quick
   displayName: Quick
-  tokenIcon: {fileID: 0}
+  tokenIcon: {fileID: 21300000, guid: a988488f4389d7d4a92af2d519614604, type: 3}
   tokenType: 0
   tokenValue: 100
   tokenCap: 1

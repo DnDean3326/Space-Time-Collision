@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Cringe Ass Buff
+  m_Name: Bunestick
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Cringe Ass Buff
+  abilityName: Bunestick
   abilityIcon: {fileID: 0}
-  abilityType: 2
-  abilityWeight: 0
+  abilityType: 0
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
-  cooldown: 3
-  range: 0
-  keyStat: 0
+  cooldown: 0
+  range: 3
+  keyStat: 2
   statModifier: 0
-  dmgMin: 0
-  dmgMax: 0
-  critChance: 10
+  dmgMin: 2
+  dmgMax: 8
+  critChance: 15
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -36,16 +36,16 @@ MonoBehaviour:
   selfMax: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 03000000070000000b000000
-  targetTokenCountApplied: 010000000100000001000000
-  selfCritTokensApplied: 
-  selfCritTokenCountApplied: 
-  targetCritTokensApplied: 05000000
-  targetCritTokenCountApplied: 01000000
+  targetTokensApplied: 
+  targetTokenCountApplied: 
+  selfCritTokensApplied: 22000000
+  selfCritTokenCountApplied: 01000000
+  targetCritTokensApplied: 
+  targetCritTokenCountApplied: 
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0
-  ignoreDodge: 0
+  ignoreDodge: 1
   ignoreWard: 0
   ignoreArmor: 0
   description: 

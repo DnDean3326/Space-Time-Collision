@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Cringe Ass Buff
+  m_Name: Time Heals
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Cringe Ass Buff
+  abilityName: Time Heals
   abilityIcon: {fileID: 0}
-  abilityType: 2
+  abilityType: 1
   abilityWeight: 0
-  costResource: 0
-  costAmount: 0
-  cooldown: 3
-  range: 0
-  keyStat: 0
-  statModifier: 0
-  dmgMin: 0
-  dmgMax: 0
-  critChance: 10
-  secondaryTarget: 0
+  costResource: 1
+  costAmount: 6
+  cooldown: 2
+  range: 2
+  keyStat: 4
+  statModifier: 2
+  dmgMin: 5
+  dmgMax: 10
+  critChance: 20
+  secondaryTarget: 4
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 0
+  secondaryValue: 50
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
@@ -36,16 +36,17 @@ MonoBehaviour:
   selfMax: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 03000000070000000b000000
-  targetTokenCountApplied: 010000000100000001000000
+  targetTokensApplied: 
+  targetTokenCountApplied: 
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 05000000
-  targetCritTokenCountApplied: 01000000
+  targetCritTokensApplied: 
+  targetCritTokenCountApplied: 
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  description: 'Restore HP\nMake the target''s turn start sooner\nRange: 2\nCooldown:
+    2\nCost: 6 MP'

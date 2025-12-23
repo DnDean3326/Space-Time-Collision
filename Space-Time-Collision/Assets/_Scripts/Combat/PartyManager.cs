@@ -57,10 +57,11 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.ailmentResist = allMembers[i].baseAilmentResist;
                 
                 newPartyMember.allyBattleVisualPrefab = allMembers[i].allyBattleVisualPrefab;
-                newPartyMember.allyMapVisualPrefab = allMembers[i].allyMapVisualPrefab;
+                newPartyMember.allyMenuVisualPrefab = allMembers[i].allyMenuVisualPrefab;
 
                 // TODO Remove this once ability selection is implements
-                newPartyMember.activeAbilities = new List<Ability> { allMembers[i].abilityOne,  allMembers[i].abilityTwo, allMembers[i].abilityThree, allMembers[i].abilityFour };
+                newPartyMember.activeAbilities = new List<Ability> { allMembers[i].abilities[0],  allMembers[i].abilities[1], 
+                    allMembers[i].abilities[2],  allMembers[i].abilities[3] };
                 
                 currentParty.Add(newPartyMember);
             }
@@ -131,7 +132,7 @@ public class PartyMember
     public int currentExp;
     
     public GameObject allyBattleVisualPrefab; // what will be displayed in the battle scene
-    public GameObject allyMapVisualPrefab; // what will be displayed on the map
+    public GameObject allyMenuVisualPrefab; // what will be displayed on the map
 
     public List<Ability> activeAbilities;
 

@@ -29,12 +29,23 @@ MonoBehaviour:
   secondaryStat: 0
   secondaryStatModifier: 0
   secondaryValue: 0
-  selfTokensApplied: 0b000000
-  selfTokenCountApplied: 01000000
+  selfTarget: 0
+  selfStat: 0
+  selfStatModifier: 0
+  selfMin: 0
+  selfMax: 0
+  selfTokensApplied: 
+  selfTokenCountApplied: 
   targetTokensApplied: 
   targetTokenCountApplied: 
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
+  selfTokensCleared: 
+  targetTokensCleared: 
+  ignoreBlock: 0
+  ignoreDodge: 0
+  ignoreWard: 0
+  ignoreArmor: 0
   description: 

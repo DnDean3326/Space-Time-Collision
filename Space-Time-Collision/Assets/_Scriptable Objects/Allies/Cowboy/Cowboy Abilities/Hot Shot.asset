@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Cringe Ass Buff
+  m_Name: Hot Shot
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Cringe Ass Buff
+  abilityName: Hot Shot
   abilityIcon: {fileID: 0}
-  abilityType: 2
+  abilityType: 0
   abilityWeight: 0
   costResource: 0
   costAmount: 0
-  cooldown: 3
-  range: 0
-  keyStat: 0
-  statModifier: 0
-  dmgMin: 0
-  dmgMax: 0
-  critChance: 10
+  cooldown: 1
+  range: 6
+  keyStat: 2
+  statModifier: 1
+  dmgMin: 4
+  dmgMax: 7
+  critChance: 20
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -36,12 +36,12 @@ MonoBehaviour:
   selfMax: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 03000000070000000b000000
-  targetTokenCountApplied: 010000000100000001000000
+  targetTokensApplied: 1f000000
+  targetTokenCountApplied: 01000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 05000000
-  targetCritTokenCountApplied: 01000000
+  targetCritTokensApplied: 
+  targetCritTokenCountApplied: 
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0

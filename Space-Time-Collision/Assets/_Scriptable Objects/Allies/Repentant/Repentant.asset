@@ -12,21 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7286e639bc0ef9a4a9a974c478cad697, type: 3}
   m_Name: Repentant
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
-  allyName: Renee
+  allyName: "Ren\xE9e"
   allyPortrait: {fileID: 21300000, guid: 485ea0d3fe20a844dbebec457327d14e, type: 3}
-  baseHealth: 32
+  baseHealth: 38
   baseDefense: 18
   baseArmor: 2
-  baseSpirit: 24
-  basePower: 5
-  baseSkill: 4
+  baseSpirit: 32
+  basePower: 4
+  baseSkill: 3
   baseWit: 4
-  baseMind: 5
+  baseMind: 4
   baseSpeed: 6
   baseLuck: 2
+  baseStunResist: 15
+  baseDebuffResist: 15
+  baseAilmentResist: 15
   allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 63880d098158e7e40b9d9a5cc2fc5a7c, type: 3}
-  allyMapVisualPrefab: {fileID: 4016972724149583921, guid: c23495ac638deae4697c21e55bd7c475, type: 3}
-  abilityOne: {fileID: 11400000, guid: c35cb5da6362732499eedbb590e52e85, type: 2}
-  abilityTwo: {fileID: 11400000, guid: c92ed9bf5e981dd478755dfed1704250, type: 2}
-  abilityThree: {fileID: 11400000, guid: 3658ce03a3e373c498c721ea064760ae, type: 2}
-  abilityFour: {fileID: 11400000, guid: d39d3e11a681c6540b81e6e19ca14c99, type: 2}
+  allyMenuVisualPrefab: {fileID: 4016972724149583921, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: c35cb5da6362732499eedbb590e52e85, type: 2}
+  - {fileID: 11400000, guid: be9958622257dec4599663d4323ba80a, type: 2}
+  - {fileID: 11400000, guid: c92ed9bf5e981dd478755dfed1704250, type: 2}
+  - {fileID: 11400000, guid: 55c1a27871b6ad549af074d214a49f83, type: 2}
+  - {fileID: 11400000, guid: 3658ce03a3e373c498c721ea064760ae, type: 2}
+  - {fileID: 11400000, guid: d39d3e11a681c6540b81e6e19ca14c99, type: 2}
