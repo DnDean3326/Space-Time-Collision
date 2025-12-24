@@ -20,7 +20,7 @@ MonoBehaviour:
   costAmount: 0
   cooldown: 0
   range: 2
-  keyStat: 5
+  keyStat: 1
   statModifier: 1
   dmgMin: 2
   dmgMax: 4

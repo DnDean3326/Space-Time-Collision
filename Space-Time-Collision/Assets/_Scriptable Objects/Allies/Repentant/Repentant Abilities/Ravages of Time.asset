@@ -34,8 +34,8 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
-  selfTokensApplied: 12000000
-  selfTokenCountApplied: 05000000
+  selfTokensApplied: 
+  selfTokenCountApplied: 
   targetTokensApplied: 1b0000001d000000
   targetTokenCountApplied: 0100000001000000
   selfCritTokensApplied: 
