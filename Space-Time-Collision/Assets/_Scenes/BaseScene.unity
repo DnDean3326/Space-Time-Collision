@@ -770,8 +770,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
   allEnemies:
   - {fileID: 11400000, guid: 26f7472d970e39241a4be687dcc0e5b1, type: 2}
-  - {fileID: 11400000, guid: 20e1cdbec28fb1a4ca62aa669f7b7c1d, type: 2}
-  - {fileID: 11400000, guid: 88ec8a9771cccf44a8730ddc30d19e91, type: 2}
   currentEnemies: []
 --- !u!1 &1267142159
 GameObject:

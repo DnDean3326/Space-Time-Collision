@@ -18,11 +18,14 @@ MonoBehaviour:
   baseDefense: 10
   baseArmor: 0
   baseSpirit: 12
-  basePower: 4
-  baseSkill: 3
+  basePower: 3
+  baseSkill: 2
   baseWit: 1
   baseMind: 3
-  baseSpeed: 5
+  baseSpeed: 4
   baseLuck: 10
+  baseStunResist: 5
+  baseDebuffResist: 10
+  baseAilmentResist: 15
   enemyBattleVisualPrefab: {fileID: 3665415145152625354, guid: 8579febc9fac36e4a834241a0b0ffe9e, type: 3}
   baseEnemyBrain: {fileID: 11400000, guid: cffc1662791f7874eb2a1f8d62d088aa, type: 2}

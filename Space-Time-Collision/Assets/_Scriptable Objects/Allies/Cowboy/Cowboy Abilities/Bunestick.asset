@@ -21,7 +21,7 @@ MonoBehaviour:
   cooldown: 0
   range: 3
   keyStat: 2
-  statModifier: 0
+  statModifier: 1
   dmgMin: 2
   dmgMax: 8
   critChance: 15

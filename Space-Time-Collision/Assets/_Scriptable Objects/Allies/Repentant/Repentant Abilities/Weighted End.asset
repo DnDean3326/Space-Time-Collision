@@ -34,7 +34,7 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
-  selfTokensApplied: 12000000
+  selfTokensApplied: 20000000
   selfTokenCountApplied: 01000000
   targetTokensApplied: 
   targetTokenCountApplied: 
@@ -42,5 +42,11 @@ MonoBehaviour:
   selfCritTokenCountApplied: 
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
+  selfTokensCleared: 
+  targetTokensCleared: 
+  ignoreBlock: 0
+  ignoreDodge: 0
+  ignoreWard: 0
+  ignoreArmor: 0
   description: 'Deal damage and 2 armor damage\nGain Vulnerable I\nRange: 3\nCooldown:
     1'
