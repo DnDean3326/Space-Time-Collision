@@ -120,6 +120,11 @@ public class BattleSystem : MonoBehaviour
     public const float MindDebuffMod = 2;
     public const float LuckCritMod = 1;
     
+    // Character Specific Conts
+    private const float BUNE_BASE_ACTOUT = 10f;
+    private const float BUNE_MAX_ACTOUT = 70f;
+    private const float BUNE_ACTOUT_INCREASE = 30f;
+    
     // Animator Constants
     private const string BATTLE_START_END = "EndTrigger";
 
@@ -274,7 +279,7 @@ public class BattleSystem : MonoBehaviour
                         if (allCombatants[characterIndex].activeTokens.Any(t => t.tokenName != "Vice")) {
                             BuneViceActOut();
                         } else {
-                            allCombatants[characterIndex].specialResourceFloat = 10f;
+                            allCombatants[characterIndex].specialResourceFloat = BUNE_BASE_ACTOUT;
                         }
                         break;
                     default:
@@ -685,7 +690,7 @@ public class BattleSystem : MonoBehaviour
             
             // Assign character specific values
             if (tempEntity.myName == "Bune") {
-                tempEntity.specialResourceFloat = 10f;
+                tempEntity.specialResourceFloat = BUNE_BASE_ACTOUT;
             }
             
             // Add the allied combatant to the all combatants and party combatant lists
@@ -2056,6 +2061,8 @@ public class BattleSystem : MonoBehaviour
             if (!hasTaunt) {
                 abilityTarget = targetList[Random.Range(0, targetList.Count)];
             }
+
+            Bune.specialResourceFloat = BUNE_BASE_ACTOUT;
             
             // Reduce Cooldowns of all unused abilities by one
             for (int i = 0; i < allCombatants[currentPlayer].abilityCooldowns.Count; i++) {
@@ -2075,6 +2082,11 @@ public class BattleSystem : MonoBehaviour
             
             state = BattleState.Battle;
             StartCoroutine(BattleRoutine());
+        } else {
+            Bune.specialResourceFloat += BUNE_MAX_ACTOUT;
+            if (Bune.specialResourceFloat > BUNE_MAX_ACTOUT) {
+                Bune.specialResourceFloat = BUNE_MAX_ACTOUT;
+            }
         }
     }
     
