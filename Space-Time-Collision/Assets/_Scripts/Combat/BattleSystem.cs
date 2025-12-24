@@ -162,11 +162,9 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
             Destroy(battleStartUI);
             state = BattleState.Battle;
-            StartCoroutine(BattleRoutine());
-            yield break;
+            yield return StartCoroutine(BattleRoutine());
         } else {
             print("Start Routine called but the battle system is in the " + state + " state.");
-            yield break;
         }
     }
 
@@ -195,10 +193,10 @@ public class BattleSystem : MonoBehaviour
             while (preparedCombatants.Count <= 0) {
                 for (int i = 0; i < allCombatants.Count; i++) {
                     if (state == BattleState.Battle) {
-                        if (allCombatants[i].activeTokens.All(t => t.tokenName != "Haste")) {
+                        if (allCombatants[i].activeTokens.Any(t => t.tokenName == "Haste")) {
                             allCombatants[i].actionPoints += (int)((BASE_ACTION_GAIN + allCombatants[i].speed) * 
                                                                    (1 + hasteToken.tokenValue));
-                        } else if (allCombatants[i].activeTokens.All(t => t.tokenName != "Slow")) {
+                        } else if (allCombatants[i].activeTokens.Any(t => t.tokenName == "Slow")) {
                             allCombatants[i].actionPoints += (int)((BASE_ACTION_GAIN + allCombatants[i].speed) * 
                                                                    (1 - slowToken.tokenValue));
                         } else {
@@ -211,11 +209,9 @@ public class BattleSystem : MonoBehaviour
                 }
             }
             state = BattleState.Ordering;
-            StartCoroutine(OrderRoutine());
-            yield break;
+            yield return StartCoroutine(OrderRoutine());
         } else {
             print("Battle Routine called but the battle system is in the " + state + " state.");
-            yield break;
         }
     }
 
@@ -241,8 +237,7 @@ public class BattleSystem : MonoBehaviour
                 }
                 if (preparedCombatants.Count <= 0) {
                     state = BattleState.Battle;
-                    StartCoroutine(BattleRoutine());
-                    yield break;
+                    yield return StartCoroutine(BattleRoutine());
                 }
                 
                 // Sorts prepared combatants by initiative from highest to lowest
@@ -251,19 +246,17 @@ public class BattleSystem : MonoBehaviour
                 int characterIndex = allCombatants.IndexOf(preparedCombatants[0]);
                 if (preparedCombatants[0].isPlayer) {
                     state = BattleState.PlayerTurn;
-                    StartCoroutine(PlayerTurnRoutine(characterIndex));
+                    yield return StartCoroutine(PlayerTurnRoutine(characterIndex));
                 } else if (!preparedCombatants[0].isPlayer) {
                     state = BattleState.EnemyTurn;
-                    StartCoroutine(EnemyTurnRoutine(characterIndex));
+                    yield return StartCoroutine(EnemyTurnRoutine(characterIndex));
                 }
             } else {
                 state = BattleState.Battle;
-                StartCoroutine(BattleRoutine());
+                yield return StartCoroutine(BattleRoutine());
             }
-            yield break;
         } else {
             print("Order Routine called but the battle system is in the " + state + " state.");
-            yield break;
         }
     }
 
@@ -296,11 +289,9 @@ public class BattleSystem : MonoBehaviour
             ShowAbilitySelectMenu(currentPlayer);
             yield return new WaitUntil(() => abilitySelected);
             state = BattleState.Targeting;
-            StartCoroutine(TargetRoutine());
-            yield break;
+            yield return StartCoroutine(TargetRoutine());
         }  else {
             print("Player Routine called but the battle system is in the " + state + " state.");
-            yield break;
         }
     }
 
@@ -391,11 +382,9 @@ public class BattleSystem : MonoBehaviour
             }
             
             state  = BattleState.End;
-            StartCoroutine(EndRoutine(activeCharacter, activeCharacter.activeAbility));
-            yield break;
+            yield return StartCoroutine(EndRoutine(activeCharacter));
         } else {
             print("Target Routine called but the battle system is in the " + state + " state.");
-            yield break;
         }
     }
 
@@ -453,7 +442,6 @@ public class BattleSystem : MonoBehaviour
 
             BattleEntities abilityTarget = null;
             bool hasTaunt = false;
-
             if (targetingFoes) {
                 foreach (BattleEntities entity in targetList.Where(entity => entity.activeTokens.Any(t => t.tokenName == "Taunt"))) {
                     abilityTarget = entity;
@@ -620,15 +608,13 @@ public class BattleSystem : MonoBehaviour
             }
             
             state  = BattleState.End;
-            StartCoroutine(EndRoutine(activeEnemy, abilityUsed));
-            yield break;
+            yield return StartCoroutine(EndRoutine(activeEnemy));
         } else {
             print("Enemy Routine called but the battle system is in the " + state + " state.");
-            yield break;
         }
     }
 
-    private IEnumerator EndRoutine(BattleEntities activeEntity, int abilityUsed)
+    private IEnumerator EndRoutine(BattleEntities activeEntity)
     {
         // Reduce Cooldowns of all unused abilities by one
         for (int i = 0; i < allCombatants[currentPlayer].abilityCooldowns.Count; i++) {
@@ -647,8 +633,7 @@ public class BattleSystem : MonoBehaviour
         activeEntity.damagedBy = 100;
             
         state = BattleState.Battle;
-        StartCoroutine(BattleRoutine());
-        yield break;
+        yield return StartCoroutine(BattleRoutine());
     }
 
     private void CreatePartyEntities()
@@ -2007,8 +1992,8 @@ public class BattleSystem : MonoBehaviour
         
         entity.battleVisuals.UpdateTokens(entity.activeTokens);
         if (isStunned) {
-            state = BattleState.Battle;
-            StartCoroutine(BattleRoutine());
+            state = BattleState.End;
+            StartCoroutine(EndRoutine(entity));
         }
     }
 
@@ -2231,6 +2216,7 @@ public class BattleSystem : MonoBehaviour
                     if (attackTarget.actionPoints < 0) {
                         attackTarget.actionPoints = 0;
                     }
+                    GetTurnOrder();
                     break;
                 default:
                     print("Invalid secondary target of " +  secondaryTarget + " supplied");
