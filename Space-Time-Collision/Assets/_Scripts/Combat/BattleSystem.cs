@@ -20,6 +20,7 @@ public class BattleSystem : MonoBehaviour
         PlayerTurn,
         EnemyTurn,
         Targeting,
+        End,
         Won,
         Lost,
     }
@@ -63,7 +64,7 @@ public class BattleSystem : MonoBehaviour
     private BattleToken riposteToken; // Not implemented
     private BattleToken rushToken; // Not implemented
     private BattleToken stealthToken; // Not implemented
-    private BattleToken tauntToken; // Not implemented
+    private BattleToken tauntToken;
     private BattleToken wardToken;
     
     // Debuff Tokens
@@ -78,12 +79,12 @@ public class BattleSystem : MonoBehaviour
     private BattleToken restrictToken; // Not implemented
     private BattleToken slowToken;
     private BattleToken staggerToken; // Not implemented
-    private BattleToken stunToken; // Not implemented
+    private BattleToken stunToken;
     private BattleToken vulnerableToken;
     
     // Character Specific Tokens
     private BattleToken ascensionToken; // Not implemented
-    private BattleToken viceToken; // Not implemented
+    private BattleToken viceToken;
     
     // Ailment Counters
     private BattleToken burnCounter; // Not implemented
@@ -161,9 +162,11 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
             Destroy(battleStartUI);
             state = BattleState.Battle;
-            yield return StartCoroutine(BattleRoutine());
+            StartCoroutine(BattleRoutine());
+            yield break;
         } else {
             print("Start Routine called but the battle system is in the " + state + " state.");
+            yield break;
         }
     }
 
@@ -206,11 +209,10 @@ public class BattleSystem : MonoBehaviour
                         }
                     }
                 }
-                
             }
-
             state = BattleState.Ordering;
             StartCoroutine(OrderRoutine());
+            yield break;
         } else {
             print("Battle Routine called but the battle system is in the " + state + " state.");
             yield break;
@@ -258,9 +260,10 @@ public class BattleSystem : MonoBehaviour
                 state = BattleState.Battle;
                 StartCoroutine(BattleRoutine());
             }
-                
+            yield break;
         } else {
             print("Order Routine called but the battle system is in the " + state + " state.");
+            yield break;
         }
     }
 
@@ -294,8 +297,10 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitUntil(() => abilitySelected);
             state = BattleState.Targeting;
             StartCoroutine(TargetRoutine());
+            yield break;
         }  else {
             print("Player Routine called but the battle system is in the " + state + " state.");
+            yield break;
         }
     }
 
@@ -308,7 +313,7 @@ public class BattleSystem : MonoBehaviour
             
             int tempTarget;
             SetAbilityValuesForDisplay();
-            switch (allCombatants[currentPlayer].activeAbilityType) {
+            switch (activeCharacter.activeAbilityType) {
                 case "Damage":
                     targetIsEnemy = true;
                     
@@ -384,27 +389,13 @@ public class BattleSystem : MonoBehaviour
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     break;
             }
-
-            // Reduce Cooldowns of all unused abilities by one
-            for (int i = 0; i < allCombatants[currentPlayer].abilityCooldowns.Count; i++) {
-                if (activeCharacter.abilityCooldowns[i] > 0) {
-                    activeCharacter.abilityCooldowns[i] -= 1;
-                }
-            }
-            // Start the cooldown of the used ability
-            activeCharacter.abilityCooldowns[activeCharacter.activeAbility] = activeCharacter.myAbilities[activeCharacter.activeAbility].cooldown;
             
-            // Reset turn-related values
-            activeCharacter.battleVisuals.SetMyTurnAnimation(false);
-            wentBack = false;
-            activeCharacter.gainedUniqueTokenLastTurn = false;
-            activeCharacter.wasDamagedLastTurn = false;
-            activeCharacter.damagedBy = 100;
-            
-            state = BattleState.Battle;
-            StartCoroutine(BattleRoutine());
+            state  = BattleState.End;
+            StartCoroutine(EndRoutine(activeCharacter, activeCharacter.activeAbility));
+            yield break;
         } else {
             print("Target Routine called but the battle system is in the " + state + " state.");
+            yield break;
         }
     }
 
@@ -430,7 +421,7 @@ public class BattleSystem : MonoBehaviour
 
             int enemyDecision = Random.Range(0, priorityTotal + 1);
             int abilityThreshold = 0;
-            int? abilityUsed = null;
+            int abilityUsed = 100;
 
             for (int i = 0; i < myBrain.enemyAbilities.Length; i++) {
                 abilityThreshold += myBrain.enemyAbilities[i].abilityPriority;
@@ -440,14 +431,14 @@ public class BattleSystem : MonoBehaviour
                     break;
                 }
             }
-            if (abilityUsed == null) {
+            if (abilityUsed == 100) {
                 print("No ability selected");
                 yield break;
             }
 
             bool targetingFoes = true;
             List<BattleEntities> targetList = new List<BattleEntities>();
-            switch (activeEnemy.myAbilities[(int)abilityUsed].abilityType) {
+            switch (activeEnemy.myAbilities[abilityUsed].abilityType) {
                 case Ability.AbilityType.Damage:
                 case Ability.AbilityType.Debuff:
                     targetList = partyCombatants;
@@ -471,12 +462,12 @@ public class BattleSystem : MonoBehaviour
                 }
             }
             if (!hasTaunt) {
-                if (Random.Range(0, 21) < myBrain.enemyAbilities[(int)abilityUsed].randomChance ||
-                    myBrain.enemyAbilities[(int)abilityUsed].targetMethod == EnemyBrain.TargetMethod.Random) {
+                if (Random.Range(0, 21) < myBrain.enemyAbilities[abilityUsed].randomChance ||
+                    myBrain.enemyAbilities[abilityUsed].targetMethod == EnemyBrain.TargetMethod.Random) {
                     abilityTarget = targetList[Random.Range(0, targetList.Count)];
                 } else {
                     bool targetLowest;
-                    switch (myBrain.enemyAbilities[(int)abilityUsed].targetMethod) {
+                    switch (myBrain.enemyAbilities[abilityUsed].targetMethod) {
                         case EnemyBrain.TargetMethod.Lowest:
                             targetLowest = true;
                             break;
@@ -489,7 +480,7 @@ public class BattleSystem : MonoBehaviour
                             break;
                     }
 
-                    switch (myBrain.enemyAbilities[(int)abilityUsed].targetQualifier) {
+                    switch (myBrain.enemyAbilities[abilityUsed].targetQualifier) {
                         case EnemyBrain.TargetQualifier.Null:
                             print("Invalid Qualifier of Null");
                             abilityTarget = targetList[Random.Range(0, targetList.Count)];
@@ -598,7 +589,7 @@ public class BattleSystem : MonoBehaviour
                             abilityTarget = targetList[Random.Range(0, targetList.Count)];
                             break;
                         default:
-                            print("Qualifier of " + myBrain.enemyAbilities[(int)abilityUsed].targetQualifier +
+                            print("Qualifier of " + myBrain.enemyAbilities[abilityUsed].targetQualifier +
                                   " supplied");
                             abilityTarget = targetList[Random.Range(0, targetList.Count)];
                             // The below is sort lowest to highest
@@ -609,43 +600,55 @@ public class BattleSystem : MonoBehaviour
             }
             
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
-            switch (activeEnemy.myAbilities[(int)abilityUsed].abilityType) {
+            switch (activeEnemy.myAbilities[abilityUsed].abilityType) {
                 case Ability.AbilityType.Damage:
-                    yield return StartCoroutine(DamageAction(activeEnemy, abilityTarget, (int)abilityUsed));
+                    yield return StartCoroutine(DamageAction(activeEnemy, abilityTarget, abilityUsed));
                     break;
                 case Ability.AbilityType.Debuff:
-                    yield return StartCoroutine(DebuffAction(activeEnemy, abilityTarget, (int)abilityUsed));
+                    yield return StartCoroutine(DebuffAction(activeEnemy, abilityTarget, abilityUsed));
                     break;
                 case  Ability.AbilityType.Heal:
-                    yield return StartCoroutine(HealAction(activeEnemy, abilityTarget, (int)abilityUsed));
+                    yield return StartCoroutine(HealAction(activeEnemy, abilityTarget, abilityUsed));
                     break;
                 case  Ability.AbilityType.Buff:
-                    yield return StartCoroutine(BuffAction(activeEnemy, abilityTarget, (int)abilityUsed));
+                    yield return StartCoroutine(BuffAction(activeEnemy, abilityTarget, abilityUsed));
                     break;
                 default:
-                    print("Invalid ability type of " + activeEnemy.myAbilities[(int)abilityUsed].abilityType +
+                    print("Invalid ability type of " + activeEnemy.myAbilities[abilityUsed].abilityType +
                           " called.");
                     yield break;
             }
             
-            // Reduce Cooldowns of all unused abilities by one
-            activeEnemy.abilityCooldowns = new List<int>();
-            for (int j = 0; j < activeEnemy.myAbilities.Count; j++) {
-                activeEnemy.abilityCooldowns.Add(0);
-            }
-            // Start the cooldown of the used ability
-            activeEnemy.abilityCooldowns[activeEnemy.activeAbility] = myBrain.enemyAbilities[(int)abilityUsed].ability.cooldown;
-            
-            activeEnemy.battleVisuals.SetMyTurnAnimation(false);
-            activeEnemy.wasDamagedLastTurn = false;
-            activeEnemy.damagedBy = 100;
-            
-            state = BattleState.Battle;
-            StartCoroutine(BattleRoutine());
+            state  = BattleState.End;
+            StartCoroutine(EndRoutine(activeEnemy, abilityUsed));
+            yield break;
         } else {
             print("Enemy Routine called but the battle system is in the " + state + " state.");
             yield break;
         }
+    }
+
+    private IEnumerator EndRoutine(BattleEntities activeEntity, int abilityUsed)
+    {
+        // Reduce Cooldowns of all unused abilities by one
+        for (int i = 0; i < allCombatants[currentPlayer].abilityCooldowns.Count; i++) {
+            if (activeEntity.abilityCooldowns[i] > 0) {
+                activeEntity.abilityCooldowns[i] -= 1;
+            }
+        }
+        // Start the cooldown of the used ability
+        activeEntity.abilityCooldowns[activeEntity.activeAbility] = activeEntity.myAbilities[activeEntity.activeAbility].cooldown;
+            
+        // Reset turn-related values
+        activeEntity.battleVisuals.SetMyTurnAnimation(false);
+        wentBack = false;
+        activeEntity.gainedUniqueTokenLastTurn = false;
+        activeEntity.wasDamagedLastTurn = false;
+        activeEntity.damagedBy = 100;
+            
+        state = BattleState.Battle;
+        StartCoroutine(BattleRoutine());
+        yield break;
     }
 
     private void CreatePartyEntities()

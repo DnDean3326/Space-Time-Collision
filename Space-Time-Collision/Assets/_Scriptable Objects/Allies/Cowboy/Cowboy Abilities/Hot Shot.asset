@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: (WiP)Hot Shot
+  m_Name: Hot Shot
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Hot Shot
   abilityIcon: {fileID: 0}
@@ -36,8 +36,8 @@ MonoBehaviour:
   selfMax: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 1f000000
-  targetTokenCountApplied: 01000000
+  targetTokensApplied: 23000000
+  targetTokenCountApplied: 03000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
   targetCritTokensApplied: 

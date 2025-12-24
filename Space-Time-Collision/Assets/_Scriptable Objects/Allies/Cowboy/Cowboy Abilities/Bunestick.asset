@@ -36,8 +36,8 @@ MonoBehaviour:
   selfMax: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 
-  targetTokenCountApplied: 
+  targetTokensApplied: 23000000
+  targetTokenCountApplied: 01000000
   selfCritTokensApplied: 22000000
   selfCritTokenCountApplied: 01000000
   targetCritTokensApplied: 
