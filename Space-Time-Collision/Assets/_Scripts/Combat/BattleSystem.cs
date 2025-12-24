@@ -2265,12 +2265,14 @@ public class BattleSystem : MonoBehaviour
         if (attackTarget.currentHealth <= 0) {
             yield return new WaitForSeconds(DEATH_DELAY);
             
+            if (preparedCombatants.Any(t => t.myName == attackTarget.myName)) {
+                preparedCombatants.Remove(attackTarget);
+            }
             if (attackTarget.isPlayer) {
                 partyCombatants.Remove(attackTarget);
                 
             } else if (!attackTarget.isPlayer) {
                 enemyCombatants.Remove(attackTarget);
-                
             }
         }
     }
