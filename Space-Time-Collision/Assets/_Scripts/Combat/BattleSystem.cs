@@ -100,12 +100,13 @@ public class BattleSystem : MonoBehaviour
     
     private int currentPlayer;
     private bool abilitySelected;
-    private bool wentBack;
+    private bool wentBack = false;
     private bool targetSelected;
     private bool targetIsEnemy;
     
-    private const float COMBAT_BEGIN_DELAY = 2.25f;
+    private const float COMBAT_BEGIN_DELAY = 1.75f;
     private const float TURN_ACTION_DELAY = 1.5f;
+    private const float AILMENT_DAMAGE_DELAY = 0.5f;
     private const float DEATH_DELAY = 3f;
     private const float CRIT_DAMAGE_MODIFIER = 1.5f;
     private const int TURN_START_THRESHOLD = 200;
@@ -265,22 +266,25 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.PlayerTurn) {
             currentPlayer = characterIndex;
             if (!wentBack) {
+                
                 RemoveSelfTurnStartTokens(allCombatants[characterIndex]);
                 allCombatants[currentPlayer].actionPoints -= TURN_START_THRESHOLD;
                 preparedCombatants.RemoveAt(preparedCombatants.IndexOf(allCombatants[currentPlayer]));
                 
                 // Run character specific Methods
-                switch (allCombatants[characterIndex].myName) {
+                switch (allCombatants[currentPlayer].myName) {
                     case "Bune":
-                        if (allCombatants[characterIndex].activeTokens.Any(t => t.tokenName != "Vice")) {
-                            BuneViceActOut();
+                        if (allCombatants[currentPlayer].activeTokens.All(t => t.tokenName != "Vice") && !allCombatants[currentPlayer].myFirstTurn) {
+                            yield return StartCoroutine(BuneViceActOut());
                         } else {
-                            allCombatants[characterIndex].specialResourceFloat = BUNE_BASE_ACTOUT;
+                            allCombatants[currentPlayer].specialResourceFloat = BUNE_BASE_ACTOUT;
                         }
                         break;
                     default:
                         break;
                 }
+                
+                allCombatants[currentPlayer].gainedUniqueTokenLastTurn = false;
             }
             
             allCombatants[currentPlayer].battleVisuals.SetMyTurnAnimation(true);
@@ -616,6 +620,11 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntities activeEntity)
     {
+        // Trigger Ailments
+        if (activeEntity.activeTokens.Any(t => t.tokenType == Token.TokenType.Ailments)) {
+            yield return StartCoroutine(TriggerAilments(activeEntity));
+        }
+        
         // Reduce Cooldowns of all unused abilities by one
         for (int i = 0; i < allCombatants[currentPlayer].abilityCooldowns.Count; i++) {
             if (activeEntity.abilityCooldowns[i] > 0) {
@@ -628,9 +637,12 @@ public class BattleSystem : MonoBehaviour
         // Reset turn-related values
         activeEntity.battleVisuals.SetMyTurnAnimation(false);
         wentBack = false;
-        activeEntity.gainedUniqueTokenLastTurn = false;
         activeEntity.wasDamagedLastTurn = false;
         activeEntity.damagedBy = 100;
+
+        if (activeEntity.myFirstTurn) {
+            activeEntity.myFirstTurn = false;
+        }
             
         state = BattleState.Battle;
         yield return StartCoroutine(BattleRoutine());
@@ -795,23 +807,13 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
+        // TODO Make this turn display change based on the number of Haste & Slow tokens you have, versus being a binary have/don't have
         foreach (BattleEntities entity in turnOrder) {
             float actionPointGain = 0f;
-            int speedTokenIndex;
             if (entity.activeTokens.Any(t => t.tokenName == "Haste")) {
-                speedTokenIndex = entity.activeTokens.FindIndex(t => t.tokenName == "Haste");
-                if (entity.activeTokens[speedTokenIndex].tokenCount > turnOrder.Count(t => t.myName == entity.myName)) {
                     actionPointGain = (BASE_ACTION_GAIN + entity.speed) * (1 + hasteToken.tokenValue);
-                } else {
-                    actionPointGain = (BASE_ACTION_GAIN + entity.speed);
-                }
             } else if (entity.activeTokens.Any(t => t.tokenName == "Slow")) {
-                speedTokenIndex = entity.activeTokens.FindIndex(t => t.tokenName == "Slow");
-                if (entity.activeTokens[speedTokenIndex].tokenCount > turnOrder.Count(t => t.myName == entity.myName)) {
                     actionPointGain = (BASE_ACTION_GAIN + entity.speed) * (1 - slowToken.tokenValue);
-                } else {
-                    actionPointGain = (BASE_ACTION_GAIN + entity.speed);
-                }
             } else {
                 actionPointGain = (BASE_ACTION_GAIN + entity.speed);
             }
@@ -1457,6 +1459,46 @@ public class BattleSystem : MonoBehaviour
             }
         }
     }
+    
+    private IEnumerator TriggerAilments(BattleEntities activeEntity)
+    {
+        int ailmentIndex;
+        int ailmentDamage = 0;
+        bool ignoreDefense = false;
+        if (activeEntity.activeTokens.Any(t => t.tokenName == "Burn")) {
+            ailmentIndex = activeEntity.activeTokens.FindIndex(t => t.tokenName == "Burn");
+            ailmentDamage = (int)(activeEntity.activeTokens[ailmentIndex].tokenCount * burnCounter.tokenValue);
+            activeEntity.activeTokens[ailmentIndex].tokenCount -=
+                (int)(activeEntity.activeTokens[ailmentIndex].tokenCount * 0.5f);
+        }
+
+        if (ignoreDefense) {
+            activeEntity.currentHealth -= ailmentDamage;
+        } else {
+            // Deal the damage to defense, or if the target has none, to HP
+            if (activeEntity.currentDefense > 0) {
+                // If the damage dealt is greater than the target's defense, deal the rest to their HP
+                if (ailmentDamage > activeEntity.currentDefense) {
+                    int overflowDamage = ailmentDamage - activeEntity.currentDefense;
+                    activeEntity.currentDefense = 0;
+                    activeEntity.currentHealth -= overflowDamage;
+                } else {
+                    activeEntity.currentDefense -= ailmentDamage;
+                }
+            } else {
+                activeEntity.currentHealth -= ailmentDamage;
+            }
+        }
+
+        activeEntity.battleVisuals.PlayHitAnimation(ailmentDamage, false); // target plays on hit animation
+        yield return new WaitForSeconds(AILMENT_DAMAGE_DELAY);
+        if (activeEntity.isPlayer) {
+            activeEntity.UpdatePlayerUI();
+        } else if (!activeEntity.isPlayer) {
+            activeEntity.UpdateEnemyUI();
+        }
+        activeEntity.battleVisuals.UpdateTokens(activeEntity.activeTokens);
+    }
 
     private BattleToken CreateBattleToken(BattleToken originalToken)
     {
@@ -1531,6 +1573,13 @@ public class BattleSystem : MonoBehaviour
                         return;
                     }
                 }
+                
+                if (tokenAdded.tokenType == Token.TokenType.Ailments) {
+                    int ailmentRoll = Random.Range(1, 101);
+                    if (ailmentRoll + resistPierce < recipientEntity.ailmentResist) {
+                        return;
+                    }
+                }
 
                 foreach (BattleToken t in recipientEntity.activeTokens) {
                     if (t.tokenName == tokenAdded.tokenName) {
@@ -1578,7 +1627,7 @@ public class BattleSystem : MonoBehaviour
         // Run character specific end of turn Methods
         if (activeEntity.myName == "Bune") {
             BuneRemoveVice();
-        } else
+        }
         
         foreach (BattleToken t in activeEntity.activeTokens) {
             // Check for Haste or Slow tokens
@@ -1993,7 +2042,6 @@ public class BattleSystem : MonoBehaviour
         entity.battleVisuals.UpdateTokens(entity.activeTokens);
         if (isStunned) {
             state = BattleState.End;
-            StartCoroutine(EndRoutine(entity));
         }
     }
 
@@ -2010,10 +2058,12 @@ public class BattleSystem : MonoBehaviour
     }
     
     // Character specific methods
-    private void BuneViceActOut()
+    private IEnumerator BuneViceActOut()
     {
+        StopCoroutine("PlayerTurnRoutine");
+        
         BattleEntities Bune = allCombatants[currentPlayer];
-        BattleEntities abilityTarget;
+        BattleEntities abilityTarget = null;
         int actOutAbility;
         List<BattleEntities> targetList = new List<BattleEntities>();
         
@@ -2021,8 +2071,10 @@ public class BattleSystem : MonoBehaviour
         if (viceRoll < Bune.specialResourceFloat) {
             // Bune uses a random action with a random target
             print("Bune acts out due to boredom!");
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
             
             actOutAbility = Random.Range(1, Bune.myAbilities.Count + 1);
+            Bune.activeAbility = actOutAbility;
 
             bool targetingFoes = true;
             switch (Bune.myAbilities[actOutAbility].abilityType) {
@@ -2049,32 +2101,53 @@ public class BattleSystem : MonoBehaviour
             if (!hasTaunt) {
                 abilityTarget = targetList[Random.Range(0, targetList.Count)];
             }
+            
+            switch (Bune.myAbilities[actOutAbility].abilityType) {
+                case Ability.AbilityType.Damage:
+                    yield return StartCoroutine(DamageAction(Bune, abilityTarget, actOutAbility));
+                    break;
+                case Ability.AbilityType.Debuff:
+                    yield return StartCoroutine(DebuffAction(Bune, abilityTarget, actOutAbility));
+                    break;
+                case  Ability.AbilityType.Heal:
+                    yield return StartCoroutine(HealAction(Bune, abilityTarget, actOutAbility));
+                    break;
+                case  Ability.AbilityType.Buff:
+                    yield return StartCoroutine(BuffAction(Bune, abilityTarget, actOutAbility));
+                    break;
+                default:
+                    print("Invalid ability type of " + Bune.myAbilities[actOutAbility].abilityType +
+                          " called.");
+                    yield break;
+            }
 
+            Bune.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+            Bune.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+            Bune.combatMenuVisuals.ChangeBackButtonVisibility(false);
+            
             Bune.specialResourceFloat = BUNE_BASE_ACTOUT;
             
-            // Reduce Cooldowns of all unused abilities by one
-            for (int i = 0; i < allCombatants[currentPlayer].abilityCooldowns.Count; i++) {
-                if (Bune.abilityCooldowns[i] > 0) {
-                    Bune.abilityCooldowns[i] -= 1;
-                }
-            }
-            // Start the cooldown of the used ability
-            Bune.abilityCooldowns[Bune.activeAbility] = Bune.myAbilities[Bune.activeAbility].cooldown;
-            
-            // Reset turn-related values
-            Bune.battleVisuals.SetMyTurnAnimation(false);
-            wentBack = false;
-            Bune.gainedUniqueTokenLastTurn = false;
-            Bune.wasDamagedLastTurn = false;
-            Bune.damagedBy = 100;
-            
-            state = BattleState.Battle;
-            StartCoroutine(BattleRoutine());
+            state = BattleState.End;
+            yield return StartCoroutine(EndRoutine(Bune));
         } else {
             Bune.specialResourceFloat += BUNE_MAX_ACTOUT;
             if (Bune.specialResourceFloat > BUNE_MAX_ACTOUT) {
                 Bune.specialResourceFloat = BUNE_MAX_ACTOUT;
             }
+        }
+    }
+
+    private void BuneGainVice(BattleEntities attackTarget)
+    {
+        BattleEntities Bune = allCombatants[currentPlayer];
+
+        if (attackTarget.activeTokens.Any(t => t.tokenName == "AntiHeal") ||
+            attackTarget.activeTokens.Any(t => t.tokenName == "Isolation") ||
+            attackTarget.activeTokens.Any(t => t.tokenName == "OffGuard") ||
+            //attackTarget.activeTokens.Any(t => t.tokenName == "Stagger") ||
+            //attackTarget.activeTokens.Any(t => t.tokenName == "Stun") ||
+            attackTarget.activeTokens.Any(t => t.tokenName == "Vulnerable")) {
+            AddTokens(Bune, Bune, "Vice", 1, 0);
         }
     }
     
@@ -2117,6 +2190,10 @@ public class BattleSystem : MonoBehaviour
             ref maxDamageRange, ref critChance);
         RunAbilityAgainstTargetTokens(attacker, attackTarget, activeAbility, ref isCrit, ref acc, ref minDamageRange,
             ref maxDamageRange, ref critChance);
+
+        if (attacker.myName == "Bune") {
+            BuneGainVice(attackTarget);
+        }
         
         // Reduce crit chance by target's crit resist
         critChance -= attackTarget.critResist;
@@ -2617,7 +2694,6 @@ public class BattleSystem : MonoBehaviour
                 break;
             case "Armor":
                 allCombatants[currentPlayer].currentArmor -= resourceCost;
-                print(allCombatants[currentPlayer] + "'s new armor value is " +  allCombatants[currentPlayer].currentArmor);
                 break;
             // TODO Implement special resource consumption
             case "Special":
@@ -2719,6 +2795,7 @@ public class BattleEntities
     public string myName;
     public Sprite myPortrait;
     public bool isPlayer;
+    public bool myFirstTurn = true;
     public bool wasDamagedLastTurn;
     public int damagedBy;
     
