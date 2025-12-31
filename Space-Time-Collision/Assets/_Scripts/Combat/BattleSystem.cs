@@ -195,6 +195,12 @@ public class BattleSystem : MonoBehaviour
         }
         // Remove any dead combatants from the combat
         yield return StartCoroutine(FixResources());
+        
+        // Make sure display settings are correct TODO update this to only run for characters that could feasibly have new values here
+        foreach (BattleEntities entity in allCombatants) {
+            FindMyGridPosition(entity);
+        }
+        
         RemoveDeadCombatants(); 
         GetTurnOrder();
         
@@ -714,12 +720,6 @@ public class BattleSystem : MonoBehaviour
         if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement) {
             combatGrid.DisableGridButtons(targetIsEnemy);
         }
-        
-        // Make sure display settings are correct TODO update this to only run for characters that could feasibly have new values here
-        foreach (BattleEntities entity in allCombatants) {
-            FindMyGridPosition(entity);
-        }
-        
         
         // Trigger Ailments
         if (activeEntity.activeTokens.Any(t => t.tokenType == Token.TokenType.Ailments)) {
