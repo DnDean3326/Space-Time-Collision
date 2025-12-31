@@ -178,10 +178,7 @@ public class BattleVisuals : MonoBehaviour
 
     public void SetMyOrder(int newOrder)
     {
-        print("SetMyOrder() called with int of " + newOrder);
-        print(myVisuals.GetComponent<SpriteRenderer>().sortingOrder);
         myVisuals.GetComponent<SpriteRenderer>().sortingOrder = newOrder;
-        print(myVisuals.GetComponent<SpriteRenderer>().sortingOrder);
         myAura.GetComponent<SpriteRenderer>().sortingOrder = (newOrder - 1);
     }
 }
