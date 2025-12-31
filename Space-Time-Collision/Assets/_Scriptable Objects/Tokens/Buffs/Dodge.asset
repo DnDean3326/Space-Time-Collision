@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Dodge
   displayName: Dodge
-  tokenIcon: {fileID: 21300000, guid: ddda89d6a40d0a2419ae7401b1913204, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 20fc75d1f5cc0a34a92481e2e1d00ae9, type: 3}
   tokenType: 0
   tokenValue: 0.5
   tokenCap: 3

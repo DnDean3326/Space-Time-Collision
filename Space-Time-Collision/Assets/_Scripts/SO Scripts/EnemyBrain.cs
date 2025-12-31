@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyBrain", menuName = "Scriptable Objects/EnemyBrain")]
@@ -36,7 +37,7 @@ public class EnemyBrain : ScriptableObject
         Proximity
     }
 
-    public EnemyAbility[] enemyAbilities;
+    public List<EnemyAbility> enemyAbilities;
 }
 
 [System.Serializable]

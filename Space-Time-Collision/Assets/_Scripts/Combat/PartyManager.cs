@@ -33,8 +33,12 @@ public class PartyManager : MonoBehaviour
                 PartyMember newPartyMember = new PartyMember();
                 
                 newPartyMember.memberName = allMembers[i].allyName;
-                newPartyMember.memberPortait = allMembers[i].allyPortrait;
+                newPartyMember.memberPortrait = allMembers[i].allyPortrait;
                 newPartyMember.level = level;
+
+                // TODO let players set their party formation
+                newPartyMember.xPos = 4 - i;
+                newPartyMember.yPos = 4 - i;
                 
                 newPartyMember.maxHealth = allMembers[i].baseHealth;
                 newPartyMember.currentHealth = newPartyMember.maxHealth;
@@ -61,7 +65,7 @@ public class PartyManager : MonoBehaviour
 
                 // TODO Remove this once ability selection is implements
                 newPartyMember.activeAbilities = new List<Ability> { allMembers[i].abilities[0],  allMembers[i].abilities[1], 
-                    allMembers[i].abilities[2],  allMembers[i].abilities[3] };
+                    allMembers[i].abilities[2],  allMembers[i].abilities[3], allMembers[i].sprintAbility };
                 
                 currentParty.Add(newPartyMember);
             }
@@ -105,8 +109,11 @@ public class PartyManager : MonoBehaviour
 public class PartyMember
 {
     public string memberName;
-    public Sprite memberPortait;
+    public Sprite memberPortrait;
     public int level;
+
+    public int xPos;
+    public int yPos;
     
     public int maxHealth;
     public int currentHealth;

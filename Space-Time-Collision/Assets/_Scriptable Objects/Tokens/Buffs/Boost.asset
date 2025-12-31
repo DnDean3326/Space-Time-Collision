@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Boost
   displayName: Boost
-  tokenIcon: {fileID: 515682733820246253, guid: f7d4445794c35d443a86a16dd811b39b, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 3908aed65b50f384eb4319f075e2189c, type: 3}
   tokenType: 0
   tokenValue: 0.5
   tokenCap: 3

@@ -5,6 +5,11 @@ using System.Collections.Generic;
 
 public class BattleVisuals : MonoBehaviour
 {
+    [Header("Sprites")]
+    [SerializeField] private GameObject myVisuals;
+    [SerializeField] private GameObject myAura;
+    
+    [Header("Value Info")]
     [SerializeField] private Slider healthBar;
     [SerializeField] private Slider defenseBar;
     [SerializeField] private TextMeshProUGUI armorText;
@@ -26,6 +31,7 @@ public class BattleVisuals : MonoBehaviour
     private const string MISS_PARAM = "MissTrigger";
     private const string IS_DEAD_PARAM = "DeadTrigger";
     private const string MY_TURN_BOOL = "IsMyTurn";
+    private const string SHARED_ROW_BOOL = "IsSharingRow";
 
     private const string TARGET_ENEMY_ACTIVE = "TargetingEnemy";
     private const string TARGET_ALLY_ACTIVE = "TargetingAlly";
@@ -141,6 +147,14 @@ public class BattleVisuals : MonoBehaviour
     public void SetMyTurnAnimation(bool myTurn)
     {
         myAnimator.SetBool(MY_TURN_BOOL, myTurn);
+        if (myTurn) {
+            SetMyOrder(6);
+        }
+    }
+
+    public void SetSharedRowAnimation(bool sharedRow)
+    {
+        myAnimator.SetBool(SHARED_ROW_BOOL, sharedRow);
     }
 
     public void TargetEnemyActive()
@@ -160,5 +174,14 @@ public class BattleVisuals : MonoBehaviour
         targetIndicator.SetActive(false);
         indicatorAnimator.SetBool(TARGET_ENEMY_ACTIVE, false);
         indicatorAnimator.SetBool(TARGET_ALLY_ACTIVE, false);
+    }
+
+    public void SetMyOrder(int newOrder)
+    {
+        print("SetMyOrder() called with int of " + newOrder);
+        print(myVisuals.GetComponent<SpriteRenderer>().sortingOrder);
+        myVisuals.GetComponent<SpriteRenderer>().sortingOrder = newOrder;
+        print(myVisuals.GetComponent<SpriteRenderer>().sortingOrder);
+        myAura.GetComponent<SpriteRenderer>().sortingOrder = (newOrder - 1);
     }
 }

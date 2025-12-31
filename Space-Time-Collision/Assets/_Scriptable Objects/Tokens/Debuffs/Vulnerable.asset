@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Vulnerable
   displayName: Vulnerable
-  tokenIcon: {fileID: 21300000, guid: a8971a175fcfc6a46ad73cd636206fd7, type: 3}
+  tokenIcon: {fileID: 21300000, guid: ecca7d82b2a5446469802fea219583ba, type: 3}
   tokenType: 1
   tokenValue: 0.5
   tokenCap: 3

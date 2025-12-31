@@ -18,18 +18,3 @@ MonoBehaviour:
     targetMethod: 0
     targetQualifier: 0
     randomChance: 0
-  - ability: {fileID: 11400000, guid: 43273dae91d249644abd9522ac966b3b, type: 2}
-    abilityPriority: 4
-    targetMethod: 1
-    targetQualifier: 2
-    randomChance: 0
-  - ability: {fileID: 11400000, guid: c8d3e0d1d292aa14d84f885df0b3ab5d, type: 2}
-    abilityPriority: 2
-    targetMethod: 2
-    targetQualifier: 6
-    randomChance: 9
-  - ability: {fileID: 11400000, guid: 1dba332ce76cd774ebcfc06ae254f04e, type: 2}
-    abilityPriority: 7
-    targetMethod: 1
-    targetQualifier: 5
-    randomChance: 5

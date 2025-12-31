@@ -26,4 +26,6 @@ public class AllyInfo : ScriptableObject
     public GameObject allyMenuVisualPrefab; // what will be displayed on the map
 
     public Ability[] abilities;
+    public Ability stepAbility;
+    public Ability sprintAbility;
 }

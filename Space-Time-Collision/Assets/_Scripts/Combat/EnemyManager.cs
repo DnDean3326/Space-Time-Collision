@@ -53,6 +53,10 @@ public class EnemyManager : MonoBehaviour
                 newEnemy.level = level;
                 float levelModifier = (LEVEL_MODIFIER * (newEnemy.level - 1));
                 
+                // TODO Make this pull from encounter sets
+                newEnemy.xPos = 5 + (currentEnemies.Count(t => t.enemyBaseName == currentEnemies[i].enemyName));
+                newEnemy.yPos = 4 - (currentEnemies.Count(t => t.enemyBaseName == currentEnemies[i].enemyName));
+                
                 newEnemy.maxHealth = Mathf.RoundToInt(allEnemies[i].baseHealth + (allEnemies[i].baseHealth * levelModifier));
                 newEnemy.currentHealth = newEnemy.maxHealth;
                 newEnemy.maxDefense = Mathf.RoundToInt(allEnemies[i].baseDefense + (allEnemies[i].baseDefense * levelModifier));
@@ -107,6 +111,9 @@ public class Enemy
     public string enemyName;
     public Sprite enemyPortrait;
     public int level;
+    
+    public int xPos;
+    public int yPos;
     
     public int maxHealth;
     public int currentHealth;

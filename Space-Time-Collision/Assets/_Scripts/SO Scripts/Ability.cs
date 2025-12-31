@@ -10,6 +10,7 @@ public class Ability : ScriptableObject
         Heal,
         Buff,
         Debuff,
+        Movement,
         Other
     }
 
@@ -136,6 +137,12 @@ public class Ability : ScriptableObject
     public int selfStatModifier;
     public int selfMin;
     public int selfMax;
+
+    [Header("Movement Values")]
+    public int selfXChange;
+    public int selfYChange;
+    public int targetXChange;
+    public int targetYChange;
 
     [Header("Tokens Interactions")]
     public TokenOption[] selfTokensApplied;
