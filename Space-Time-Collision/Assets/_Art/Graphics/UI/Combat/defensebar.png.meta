@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 14d4dfc22471c1944aa66e94865f5b2d
+guid: 846c0a099fb8c4e41b461ff5ecf20790
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6721296508426045687
-    second: combat_heal_tile_2,1_0
-  - first:
-      213: -851671083064990317
-    second: combat_heal_tile_2,1_1
-  - first:
-      213: 4216353942498983866
-    second: combat_heal_tile_2,1_2
-  - first:
-      213: -2334206194331469894
-    second: combat_heal_tile_2,1_3
+      213: -5600294693511750913
+    second: defensebar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -60,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 108
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -122,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: combat_heal_tile_2,1_0
+      name: defensebar_0
       rect:
         serializedVersion: 2
-        x: 305
-        y: 330
-        width: 176
-        height: 16
+        x: 31
+        y: 149
+        width: 480
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,74 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9073131cf6829b2a0800000000000000
-      internalID: -6721296508426045687
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: combat_heal_tile_2,1_1
-      rect:
-        serializedVersion: 2
-        x: 390
-        y: 342
-        width: 69
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 395607c89a14e24f0800000000000000
-      internalID: -851671083064990317
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: combat_heal_tile_2,1_2
-      rect:
-        serializedVersion: 2
-        x: 193
-        y: 200
-        width: 10
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: abf38fd429f738a30800000000000000
-      internalID: 4216353942498983866
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: combat_heal_tile_2,1_3
-      rect:
-        serializedVersion: 2
-        x: 206
-        y: 180
-        width: 281
-        height: 148
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ab73b5a55db3b9fd0800000000000000
-      internalID: -2334206194331469894
+      spriteID: ffa1abbd5a1c742b0800000000000000
+      internalID: -5600294693511750913
       vertices: []
       indices: 
       edges: []
@@ -223,10 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      combat_heal_tile_2,1_0: -6721296508426045687
-      combat_heal_tile_2,1_1: -851671083064990317
-      combat_heal_tile_2,1_2: 4216353942498983866
-      combat_heal_tile_2,1_3: -2334206194331469894
+      defensebar_0: -5600294693511750913
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

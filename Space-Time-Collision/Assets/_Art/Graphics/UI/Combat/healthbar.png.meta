@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 6f8b327fb9f5ac5408b800142805e9f2
+guid: 438a8bbf1a616664899d1b2059daf985
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4293220340378494885
-    second: combat_heal_tile_3,2_0
-  - first:
-      213: -8532708615267410161
-    second: combat_heal_tile_3,2_1
-  - first:
-      213: 2119430179846278311
-    second: combat_heal_tile_3,2_2
+      213: -8852995704630408839
+    second: healthbar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 108
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: combat_heal_tile_3,2_0
+      name: healthbar_0
       rect:
         serializedVersion: 2
-        x: 502
-        y: 310
-        width: 236
-        height: 135
+        x: 4
+        y: 8
+        width: 573
+        height: 145
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,52 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b58124dc8da6b64c0800000000000000
-      internalID: -4293220340378494885
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: combat_heal_tile_3,2_1
-      rect:
-        serializedVersion: 2
-        x: 547
-        y: 445
-        width: 172
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f0f121ff8bab59980800000000000000
-      internalID: -8532708615267410161
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: combat_heal_tile_3,2_2
-      rect:
-        serializedVersion: 2
-        x: 511
-        y: 306
-        width: 12
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7accaf3f48ab96d10800000000000000
-      internalID: 2119430179846278311
+      spriteID: 9790273df47d32580800000000000000
+      internalID: -8852995704630408839
       vertices: []
       indices: 
       edges: []
@@ -198,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      combat_heal_tile_3,2_0: -4293220340378494885
-      combat_heal_tile_3,2_1: -8532708615267410161
-      combat_heal_tile_3,2_2: 2119430179846278311
+      healthbar_0: -8852995704630408839
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

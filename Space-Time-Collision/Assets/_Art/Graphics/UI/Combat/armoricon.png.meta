@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ad4405622e8068f4cb7078cdaff2d6a9
+guid: 853c1a9ff3522a64d98fcaf4b4a2f939
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5314592209637955718
-    second: combat_heal_tile_4,2_0
+      213: 2094613803747778399
+    second: armoricon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 108
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: combat_heal_tile_4,2_0
+      name: armoricon_0
       rect:
         serializedVersion: 2
-        x: 726
-        y: 307
-        width: 218
-        height: 143
+        x: 505
+        y: 4
+        width: 182
+        height: 207
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 688578de47931c940800000000000000
-      internalID: 5314592209637955718
+      spriteID: f5f14022820911d10800000000000000
+      internalID: 2094613803747778399
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      combat_heal_tile_4,2_0: 5314592209637955718
+      armoricon_0: 2094613803747778399
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

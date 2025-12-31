@@ -10,8 +10,8 @@ public class BattleVisuals : MonoBehaviour
     [SerializeField] private GameObject myAura;
     
     [Header("Value Info")]
-    [SerializeField] private Slider healthBar;
-    [SerializeField] private Slider defenseBar;
+    [SerializeField] private Image healthBar;
+    [SerializeField] private Image defenseBar;
     [SerializeField] private TextMeshProUGUI armorText;
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private GameObject targetIndicator;
@@ -58,14 +58,18 @@ public class BattleVisuals : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        healthBar.maxValue = maxHealth;
-        healthBar.value = currentHealth;
+        float currentHP = (float)currentHealth;
+        float maxHP =  (float)maxHealth;
+        float hpPercent = (currentHP / maxHP);
+        healthBar.fillAmount = hpPercent;
     }
 
     private void UpdateDefenseBar()
     {
-        defenseBar.maxValue = maxDefense;
-        defenseBar.value = currentDefense;
+        float currentDP = (float)currentDefense;
+        float maxHP = (float)maxDefense;
+        float defensePercent = (currentDP / maxHP);
+        defenseBar.fillAmount = defensePercent;
     }
 
     private void UpdateArmor()
