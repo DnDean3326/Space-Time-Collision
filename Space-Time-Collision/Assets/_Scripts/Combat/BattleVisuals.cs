@@ -120,7 +120,7 @@ public class BattleVisuals : MonoBehaviour
     {
         myAnimator.SetTrigger(IS_HIT_PARAM);
         if (isCrit) {
-            damageText.text = damageDealt + " CRIT!";
+            damageText.text = "CRIT!\n" + damageDealt;
         } else {
             damageText.text = damageDealt.ToString();
         }
@@ -137,7 +137,7 @@ public class BattleVisuals : MonoBehaviour
     {
         myAnimator.SetTrigger(IS_HEALED_PARAM);
         if (isCrit) {
-            damageText.text = restoreApplied + "!";
+            damageText.text = "CRIT!\n" + restoreApplied;
         } else {
             damageText.text = restoreApplied.ToString();
         }

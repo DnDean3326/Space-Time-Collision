@@ -65,7 +65,7 @@ public class PartyManager : MonoBehaviour
 
                 // TODO Remove this once ability selection is implements
                 newPartyMember.activeAbilities = new List<Ability> { allMembers[i].abilities[0],  allMembers[i].abilities[1], 
-                    allMembers[i].abilities[2],  allMembers[i].abilities[3], allMembers[i].sprintAbility };
+                    allMembers[i].abilities[2],  allMembers[i].abilities[3], allMembers[i].stepAbility, allMembers[i].sprintAbility };
                 
                 currentParty.Add(newPartyMember);
             }

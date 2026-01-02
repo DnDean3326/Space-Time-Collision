@@ -18,7 +18,8 @@ public class Ability : ScriptableObject
     {
         Heavy,
         Light,
-        Free
+        Free,
+        Step
     }
 
     public enum CostResource
@@ -117,6 +118,7 @@ public class Ability : ScriptableObject
     public int costAmount;
     public int cooldown;
     public int range;
+    public bool targetSelf;
     
     [Header("Ability Values")]
     public KeyStat keyStat;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Serialization;
 
@@ -34,6 +35,7 @@ public class CombatGrid : MonoBehaviour
             partyGrid[i].occupiedBy = null;
             partyGrid[i].gridVisual = partyGridObjects[i];
             partyGrid[i].gridVisual.GetComponent<Button>().enabled = false;
+            partyGrid[i].gridVisual.GetComponent<EventTrigger>().enabled = false;
             partyGrid[i].gridVisual.SetActive(false);
             partyGrid[i].gridTransform = partyGridTransform[i];
             partyGrid[i].xPos = (i % 4) + 1;
@@ -44,6 +46,7 @@ public class CombatGrid : MonoBehaviour
             enemyGrid[i].occupiedBy = null;
             enemyGrid[i].gridVisual = enemyGridObjects[i];
             enemyGrid[i].gridVisual.GetComponent<Button>().enabled = false;
+            enemyGrid[i].gridVisual.GetComponent<EventTrigger>().enabled = false;
             enemyGrid[i].gridVisual.SetActive(false);
             enemyGrid[i].gridTransform = enemyGridTransforms[i];
             enemyGrid[i].xPos = (i % 4) + 5;
@@ -55,7 +58,7 @@ public class CombatGrid : MonoBehaviour
     }
 
     public void DisplayValidTiles(BattleEntities user, Ability.AbilityType abilityType,
-        bool targetingEnemy)
+        bool targetingEnemy, bool canTargetSelf)
     {
         int userPosition;
         int abilityRange = user.myAbilities[user.activeAbility].range;
@@ -73,6 +76,18 @@ public class CombatGrid : MonoBehaviour
                 distance = Math.Abs(user.xPos - tile.xPos) + Math.Abs(user.yPos - tile.yPos);
                 if (abilityRange >= distance) {
                     tile.gridVisual.SetActive(true);
+                    if (tile.isOccupied) {
+                        Color tempColor = tile.gridVisual.GetComponent<Image>().color;
+                        tempColor.a = 1f;
+                        tile.gridVisual.GetComponent<Image>().color = tempColor;
+                        
+                        tile.gridVisual.GetComponent<Button>().enabled = true;
+                        tile.gridVisual.GetComponent<EventTrigger>().enabled = true;
+                    } else {
+                        Color tempColor = tile.gridVisual.GetComponent<Image>().color;
+                        tempColor.a = 0.7f;
+                        tile.gridVisual.GetComponent<Image>().color = tempColor;
+                    }
                 }
             }
         } else {
@@ -80,6 +95,24 @@ public class CombatGrid : MonoBehaviour
                 distance = Math.Abs(user.xPos - tile.xPos) + Math.Abs(user.yPos - tile.yPos);
                 if (abilityRange >= distance) {
                     tile.gridVisual.SetActive(true);
+                    if (tile.isOccupied) {
+                        Color tempColor = tile.gridVisual.GetComponent<Image>().color;
+                        if (tile.occupiedBy == user && !canTargetSelf) {
+                            tempColor.a = 0.7f;
+                            tile.gridVisual.GetComponent<Image>().color = tempColor;
+                            tile.gridVisual.SetActive(false);
+                        } else {
+                            tempColor.a = 1f;
+                            tile.gridVisual.GetComponent<Image>().color = tempColor;
+                        
+                            tile.gridVisual.GetComponent<Button>().enabled = true;
+                            tile.gridVisual.GetComponent<EventTrigger>().enabled = true;
+                        }
+                    } else {
+                        Color tempColor = tile.gridVisual.GetComponent<Image>().color;
+                        tempColor.a = 0.7f;
+                        tile.gridVisual.GetComponent<Image>().color = tempColor;
+                    }
                 }
             }
         }
@@ -98,18 +131,28 @@ public class CombatGrid : MonoBehaviour
         }
     }
 
-    public void SetGridButtons(bool targetingEnemy)
+    public void SetGridMovementButtons(bool targetingEnemy)
     {
         if (targetingEnemy) {
             foreach (GridTile tile in enemyGrid) {
                 if (tile.gridVisual.activeSelf) {
+                    Color tempColor = tile.gridVisual.GetComponent<Image>().color;
+                    tempColor.a = 1f;
+                    tile.gridVisual.GetComponent<Image>().color = tempColor;
+                    
                     tile.gridVisual.GetComponent<Button>().enabled = true;
+                    tile.gridVisual.GetComponent<EventTrigger>().enabled = false;
                 }
             }
         } else {
             foreach (GridTile tile in partyGrid) {
                 if (tile.gridVisual.activeSelf) {
+                    Color tempColor = tile.gridVisual.GetComponent<Image>().color;
+                    tempColor.a = 1f;
+                    tile.gridVisual.GetComponent<Image>().color = tempColor;
+                    
                     tile.gridVisual.GetComponent<Button>().enabled = true;
+                    tile.gridVisual.GetComponent<EventTrigger>().enabled = false;
                 }
             }
         }
@@ -121,12 +164,14 @@ public class CombatGrid : MonoBehaviour
             foreach (GridTile tile in enemyGrid) {
                 if (tile.gridVisual.GetComponent<Button>().enabled) {
                     tile.gridVisual.GetComponent<Button>().enabled = false;
+                    tile.gridVisual.GetComponent<EventTrigger>().enabled = false;
                 }
             }
         } else {
             foreach (GridTile tile in partyGrid) {
                 if (tile.gridVisual.GetComponent<Button>().enabled) {
                     tile.gridVisual.GetComponent<Button>().enabled = false;
+                    tile.gridVisual.GetComponent<EventTrigger>().enabled = false;
                 }
             }
         }
@@ -195,12 +240,23 @@ public class CombatGrid : MonoBehaviour
         }
     }
     
-    // Grid Button Method
+    // OnClick Method
 
-    public void MoveToTile(int positionIndex)
+    public void GetTileID(int positionIndex)
     {
-        print("Grid tile with index of " + positionIndex + "selected!");
-        battleSystem.FindMoveDistance(positionIndex);
+        battleSystem.MoveOrTargetCheck(positionIndex);
+    }
+    
+    // OnHover Methods
+
+    public void IndicateTarget(int positionIndex)
+    {
+        battleSystem.IndicateGridTarget(positionIndex);
+    }
+
+    public void StopIndicatingTarget(int positionIndex)
+    {
+        battleSystem.StopIndicatingGridTarget(positionIndex);
     }
 }
 

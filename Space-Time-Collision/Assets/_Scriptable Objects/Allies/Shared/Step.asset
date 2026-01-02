@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Line Dance
+  m_Name: Step
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Line Dance
+  abilityName: Step
   abilityIcon: {fileID: 0}
-  abilityType: 2
-  abilityWeight: 0
+  abilityType: 4
+  abilityWeight: 3
   costResource: 0
   costAmount: 0
-  cooldown: 2
-  range: 0
-  targetSelf: 1
+  cooldown: 0
+  range: 1
+  targetSelf: 0
   keyStat: 0
   statModifier: 0
   dmgMin: 0
@@ -35,12 +35,12 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
-  selfXChange: 2
+  selfXChange: 0
   selfYChange: 0
   targetXChange: 0
   targetYChange: 0
-  selfTokensApplied: 0100000012000000
-  selfTokenCountApplied: 0100000002000000
+  selfTokensApplied: 
+  selfTokenCountApplied: 
   targetTokensApplied: 
   targetTokenCountApplied: 
   selfCritTokensApplied: 

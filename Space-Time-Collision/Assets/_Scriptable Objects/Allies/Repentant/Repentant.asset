@@ -36,5 +36,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d39d3e11a681c6540b81e6e19ca14c99, type: 2}
   - {fileID: 11400000, guid: c92ed9bf5e981dd478755dfed1704250, type: 2}
   - {fileID: 11400000, guid: 55c1a27871b6ad549af074d214a49f83, type: 2}
-  stepAbility: {fileID: 0}
+  stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
   sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}

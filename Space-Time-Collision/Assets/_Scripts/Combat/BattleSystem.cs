@@ -107,6 +107,9 @@ public class BattleSystem : MonoBehaviour
     private bool wentBack = false;
     private bool targetSelected;
     private bool targetIsEnemy;
+    [SerializeField] private bool hasStepped;
+    private bool targetBeingIndicated = false;
+    private bool targetIndicatedGrid = false;
     
     private const float COMBAT_BEGIN_DELAY = 1.75f;
     private const float TURN_ACTION_DELAY = 1.5f;
@@ -128,7 +131,7 @@ public class BattleSystem : MonoBehaviour
     public const float MindDebuffMod = 2;
     public const float LuckCritMod = 1;
     
-    // Character Specific Conts
+    // Character Specific Consts
     private const float BUNE_BASE_ACTOUT = 10f;
     private const float BUNE_MAX_ACTOUT = 70f;
     private const float BUNE_ACTOUT_INCREASE = 30f;
@@ -202,7 +205,7 @@ public class BattleSystem : MonoBehaviour
         }
         
         RemoveDeadCombatants(); 
-        GetTurnOrder();
+        //GetTurnOrder();
         
         if (state == BattleState.Battle) {
             while (preparedCombatants.Count <= 0) {
@@ -257,6 +260,8 @@ public class BattleSystem : MonoBehaviour
                 
                 // Sorts prepared combatants by initiative from highest to lowest
                 preparedCombatants.Sort((bi1, bi2) => -bi1.actionPoints.CompareTo(bi2.actionPoints));
+
+                GetTurnOrder();
                 
                 int characterIndex = allCombatants.IndexOf(preparedCombatants[0]);
                 if (preparedCombatants[0].isPlayer) {
@@ -279,7 +284,7 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.PlayerTurn) {
             currentPlayer = characterIndex;
-            if (!wentBack) {
+            if (!wentBack && !hasStepped) {
                 
                 RemoveSelfTurnStartTokens(allCombatants[characterIndex]);
                 allCombatants[currentPlayer].actionPoints -= TURN_START_THRESHOLD;
@@ -327,7 +332,7 @@ public class BattleSystem : MonoBehaviour
                 case Ability.AbilityType.Damage:
                     targetIsEnemy = true;
                     
-                    combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy);
+                    combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy, abilityInUse.targetSelf);
                     ShowTargetMenu(currentPlayer);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
@@ -339,14 +344,23 @@ public class BattleSystem : MonoBehaviour
                     combatGrid.HideTiles(targetIsEnemy);
                     
                     tempTarget = activeCharacter.target;
-                    StopIndicatingTarget(enemyCombatants.IndexOf(allCombatants[tempTarget]));
+                    if (targetBeingIndicated) {
+                        StopIndicatingTarget(enemyCombatants.IndexOf(allCombatants[tempTarget]));
+                    } else if (targetIndicatedGrid) {
+                        foreach (GridTile tile in enemyBattleGrid) {
+                            if (tile.occupiedBy == targetCharacter) {
+                                var tileIndex = enemyBattleGrid.IndexOf(tile);
+                                StopIndicatingGridTarget(tileIndex);
+                            }
+                        }
+                    }
                     
                     yield return StartCoroutine(DamageAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
                 case Ability.AbilityType.Heal:
                     targetIsEnemy = false;
                     
-                    combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy);
+                    combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy, abilityInUse.targetSelf);
                     ShowTargetMenu(currentPlayer);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
@@ -358,14 +372,23 @@ public class BattleSystem : MonoBehaviour
                     combatGrid.HideTiles(targetIsEnemy);
                     
                     tempTarget = activeCharacter.target;
-                    StopIndicatingTarget(partyCombatants.IndexOf(allCombatants[tempTarget]));
+                    if (targetBeingIndicated) {
+                        StopIndicatingTarget(partyCombatants.IndexOf(allCombatants[tempTarget]));
+                    } else if (targetIndicatedGrid) {
+                        foreach (GridTile tile in partyBattleGrid) {
+                            if (tile.occupiedBy == targetCharacter) {
+                                var tileIndex = partyBattleGrid.IndexOf(tile);
+                                StopIndicatingGridTarget(tileIndex);
+                            }
+                        }
+                    }
                     
                     yield return StartCoroutine(HealAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
                 case Ability.AbilityType.Buff:
                     targetIsEnemy = false;
                     
-                    combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy);
+                    combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy, abilityInUse.targetSelf);
                     ShowTargetMenu(currentPlayer);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
@@ -377,14 +400,23 @@ public class BattleSystem : MonoBehaviour
                     combatGrid.HideTiles(targetIsEnemy);
                     
                     tempTarget = activeCharacter.target;
-                    StopIndicatingTarget(partyCombatants.IndexOf(allCombatants[tempTarget]));
+                    if (targetBeingIndicated) {
+                        StopIndicatingTarget(partyCombatants.IndexOf(allCombatants[tempTarget]));
+                    } else if (targetIndicatedGrid) {
+                        foreach (GridTile tile in partyBattleGrid) {
+                            if (tile.occupiedBy == targetCharacter) {
+                                var tileIndex = partyBattleGrid.IndexOf(tile);
+                                StopIndicatingGridTarget(tileIndex);
+                            }
+                        }
+                    }
                     
                     yield return StartCoroutine(BuffAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
                 case Ability.AbilityType.Debuff:
                     targetIsEnemy = true;
                     
-                    combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy);
+                    combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy, abilityInUse.targetSelf);
                     ShowTargetMenu(currentPlayer);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
@@ -396,16 +428,32 @@ public class BattleSystem : MonoBehaviour
                     combatGrid.HideTiles(targetIsEnemy);
                     
                     tempTarget = activeCharacter.target;
-                    StopIndicatingTarget(enemyCombatants.IndexOf(allCombatants[tempTarget]));
+                    if (targetBeingIndicated) {
+                        StopIndicatingTarget(enemyCombatants.IndexOf(allCombatants[tempTarget]));
+                    } else if (targetIndicatedGrid) {
+                        foreach (GridTile tile in enemyBattleGrid) {
+                            if (tile.occupiedBy == targetCharacter) {
+                                var tileIndex = enemyBattleGrid.IndexOf(tile);
+                                StopIndicatingGridTarget(tileIndex);
+                            }
+                        }
+                    }
                     
                     yield return StartCoroutine(DebuffAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
                 case Ability.AbilityType.Movement:
                     targetIsEnemy = false;
                     
-                    combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy);
-                    combatGrid.SetGridButtons(targetIsEnemy);
-                    ShowTargetMenu(currentPlayer);
+                    combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy, false);
+                    combatGrid.SetGridMovementButtons(targetIsEnemy);
+                    targetSelected = false;
+                    
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangePassButtonVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(true);
+                    SetNoTargetButtons(currentPlayer);
+                    activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(true);
+                    
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
                 
@@ -415,6 +463,7 @@ public class BattleSystem : MonoBehaviour
                     combatGrid.HideTiles(targetIsEnemy);
                     
                     yield return StartCoroutine(SetGridPosition(allCombatants[currentPlayer], xChange, yChange));
+                    
                     break;
                 default:
                     print("Unsupported ability type of " + allCombatants[currentPlayer].activeAbilityType + " supplied.");
@@ -423,9 +472,14 @@ public class BattleSystem : MonoBehaviour
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     break;
             }
-            
-            state  = BattleState.End;
-            yield return StartCoroutine(EndRoutine(activeCharacter));
+
+            if (abilityInUse.abilityWeight == Ability.AbilityWeight.Step) {
+                hasStepped = true;
+                BackToAbilities();
+            } else {
+                state  = BattleState.End;
+                yield return StartCoroutine(EndRoutine(activeCharacter));
+            }
         } else {
             print("Target Routine called but the battle system is in the " + state + " state.");
         }
@@ -738,6 +792,7 @@ public class BattleSystem : MonoBehaviour
         // Reset turn-related values
         activeEntity.battleVisuals.SetMyTurnAnimation(false);
         wentBack = false;
+        hasStepped = false;
         activeEntity.wasDamagedLastTurn = false;
         activeEntity.damagedBy = 100;
 
@@ -927,9 +982,9 @@ public class BattleSystem : MonoBehaviour
         foreach (BattleEntities entity in turnOrder) {
             float actionPointGain = 0f;
             if (entity.activeTokens.Any(t => t.tokenName == "Haste")) {
-                    actionPointGain = (BASE_ACTION_GAIN + entity.speed) * (1 + hasteToken.tokenValue);
+                actionPointGain = (BASE_ACTION_GAIN + entity.speed) * (1 + hasteToken.tokenValue);
             } else if (entity.activeTokens.Any(t => t.tokenName == "Slow")) {
-                    actionPointGain = (BASE_ACTION_GAIN + entity.speed) * (1 - slowToken.tokenValue);
+                actionPointGain = (BASE_ACTION_GAIN + entity.speed) * (1 - slowToken.tokenValue);
             } else {
                 actionPointGain = (BASE_ACTION_GAIN + entity.speed);
             }
@@ -1058,7 +1113,28 @@ public class BattleSystem : MonoBehaviour
         return 0;
     }
 
-    public void FindMoveDistance(int positionIndex)
+    public void MoveOrTargetCheck(int positionIndex)
+    {
+        if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType ==
+            Ability.AbilityType.Movement) {
+            FindMoveDistance(positionIndex);
+        } else {
+            bool isTargetingEnemies = true;
+            switch (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType) {
+                case Ability.AbilityType.Damage:
+                case Ability.AbilityType.Debuff:
+                    isTargetingEnemies = true;
+                    break;
+                case Ability.AbilityType.Heal:
+                case Ability.AbilityType.Buff:
+                    isTargetingEnemies = false;
+                    break;
+            }
+            SelectTargetWithGrid(positionIndex, isTargetingEnemies);
+        }
+    }
+    
+    private void FindMoveDistance(int positionIndex)
     {
         GridTile chosenTile = partyBattleGrid[positionIndex];
         GridTile currentTile = null;
@@ -1126,10 +1202,17 @@ public class BattleSystem : MonoBehaviour
                     int partnerNewGridPos = GetGridPosition(movePartner);
                     Vector3 partnerNewPos = partyBattleGrid[partnerNewGridPos].gridTransform.position;
                     
-                    StartCoroutine(MoveToPosition(partyBattleGrid[newGridPos].occupiedBy, newPos, partnerNewPos));
-                    
-                    partyBattleGrid[oldGridPos].isOccupied = true;
-                    partyBattleGrid[oldGridPos].occupiedBy = movePartner;
+                    StartCoroutine(MoveToPosition(movePartner, newPos, partnerNewPos));
+
+                    if (partnerNewPos != oldPos) {
+                        partyBattleGrid[oldGridPos].isOccupied = false;
+                        partyBattleGrid[oldGridPos].occupiedBy = null;
+                        partyBattleGrid[partnerNewGridPos].isOccupied = true;
+                        partyBattleGrid[partnerNewGridPos].occupiedBy = movePartner;
+                    } else {
+                        partyBattleGrid[oldGridPos].isOccupied = true;
+                        partyBattleGrid[oldGridPos].occupiedBy = movePartner;
+                    }
                     partyBattleGrid[newGridPos].isOccupied = true;
                     partyBattleGrid[newGridPos].occupiedBy = entity;
                 } else {
@@ -1237,12 +1320,14 @@ public class BattleSystem : MonoBehaviour
     {
         // Set whose turn it is
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilitySelectUIVisibility(true);
+        allCombatants[characterIndex].combatMenuVisuals.ChangePassButtonVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(true);
     }
     
     public void ShowTargetMenu(int characterIndex)
     {
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
+        allCombatants[characterIndex].combatMenuVisuals.ChangePassButtonVisibility(false);
         SetTargetButtons(characterIndex);
         allCombatants[characterIndex].combatMenuVisuals.ChangeTargetSelectUIVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangeBackButtonVisibility(true);
@@ -1270,6 +1355,15 @@ public class BattleSystem : MonoBehaviour
             if (partyCombatants[characterIndex].abilityCooldowns[i] > 0) {
                 partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
                 partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+            }  else if (partyCombatants[characterIndex].myAbilities[i].abilityWeight == Ability.AbilityWeight.Heavy && hasStepped) {
+                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+            } else if (partyCombatants[characterIndex].myAbilities[i].abilityWeight == Ability.AbilityWeight.Step && hasStepped) {
+                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+            } else {
+                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(255,255,255);
+                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = true;
             }
             switch (partyCombatants[characterIndex].myAbilities[i].costResource.ToString()) {
                 case "Null":
@@ -1394,6 +1488,15 @@ public class BattleSystem : MonoBehaviour
         abilitySelected = true;
     }
 
+    public void PassTurn()
+    {
+        if (state == BattleState.PlayerTurn) {
+            allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
+            allCombatants[currentPlayer].combatMenuVisuals.ChangePassButtonVisibility(false);
+            StartCoroutine(EndRoutine(allCombatants[currentPlayer]));
+        }
+    }
+    
     public void BackToAbilities()
     {
         if (state == BattleState.Targeting) {
@@ -1414,8 +1517,6 @@ public class BattleSystem : MonoBehaviour
             print("Back button selected, but the user is in the " + state + " state.");
         }
     }
-    
-    // TODO Enemy selection functions needs to reference and defer to grid range
     
     private void SetTargetButtons(int characterIndex)
     {
@@ -1469,6 +1570,16 @@ public class BattleSystem : MonoBehaviour
             }
         }
         
+    }
+
+    private void SetNoTargetButtons(int characterIndex)
+    {
+        BattleEntities activeEntity = allCombatants[characterIndex];
+        
+        // Disable all buttons
+        for (int i = 0; i < activeEntity.targetButtons.Length; i++) {
+            activeEntity.targetButtons[i].SetActive(false); 
+        }
     }
 
     private void SetTargetValuesForDisplay(int hoveredTarget)
@@ -1574,6 +1685,8 @@ public class BattleSystem : MonoBehaviour
             int target = allCombatants.IndexOf(targetList[hoveredTarget]);
             allCombatants[target].battleVisuals.TargetAllyActive();
         }
+
+        targetBeingIndicated = true;
         SetTargetValuesForDisplay(hoveredTarget);
     }
     
@@ -1587,6 +1700,8 @@ public class BattleSystem : MonoBehaviour
             int target = allCombatants.IndexOf(targetList[hoveredTarget]);
             allCombatants[target].battleVisuals.TargetInactive();
         }
+
+        targetBeingIndicated = false;
         SetAbilityValuesForDisplay();
     }
 
@@ -1607,8 +1722,36 @@ public class BattleSystem : MonoBehaviour
         int targetIndex = allCombatants.FindIndex(t => t.myName == targetName);
         allCombatants[targetIndex].battleVisuals.TargetInactive();
     }
+
+    public void IndicateGridTarget(int positionIndex)
+    {
+        int targetIndex;
+        if (targetIsEnemy) {
+            targetIndex = allCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
+            allCombatants[targetIndex].battleVisuals.TargetEnemyActive();
+        } else {
+            targetIndex = allCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
+            allCombatants[targetIndex].battleVisuals.TargetAllyActive();
+        }
+        
+        targetIndicatedGrid = true;
+    }
+
+    public void StopIndicatingGridTarget(int positionIndex)
+    {
+        int targetIndex;
+        if (targetIsEnemy) {
+            targetIndex = allCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
+            allCombatants[targetIndex].battleVisuals.TargetInactive();
+        } else {
+            targetIndex = allCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
+            allCombatants[targetIndex].battleVisuals.TargetInactive();
+        }
+
+        targetIndicatedGrid = false;
+    }
     
-    public void SelectTarget(int currentTarget)
+    public void SelectTargetWithButtons(int currentTarget)
     {
         // Set the current member's target
         BattleEntities currentPlayerEntity = allCombatants[currentPlayer];
@@ -1622,7 +1765,24 @@ public class BattleSystem : MonoBehaviour
         targetSelected = true;
     }
     
-    // TODO Replace the random targeting methods here with ones that accommodates the grid
+    private void SelectTargetWithGrid(int positionIndex, bool isTargetingEnemies)
+    {
+        GridTile chosenTile;
+        if (isTargetingEnemies) {
+            chosenTile = enemyBattleGrid[positionIndex];
+        } else {
+            chosenTile = partyBattleGrid[positionIndex];
+        }
+
+        // If somehow the player clicks the button for a tile with no enemy bounce them back
+        if (!chosenTile.isOccupied) {
+            print("Tile is not occupied, invalid target.");
+            return;
+        }
+        
+        allCombatants[currentPlayer].target = allCombatants.IndexOf(chosenTile.occupiedBy);
+        targetSelected = true;
+    }
     
     private int GetRandomPartyMember()
     {
@@ -2047,171 +2207,115 @@ public class BattleSystem : MonoBehaviour
             BuneRemoveVice();
         }
         
+        List<string> tokensToRemove = new List<string>();
+        
         foreach (BattleToken t in activeEntity.activeTokens) {
+            
             // Check for Haste or Slow tokens
-            int tokenPosition;
             if (t.tokenName == "Haste") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Slow") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
         
             // Check for Off-Guard tokens
             if (t.tokenName == "OffGuard") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
         
             // Check for Anti-Heal tokens
             if (t.tokenName == "AntiHeal") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
         }
+
+        foreach (string tokenName in tokensToRemove) {
+            int tokenIndex = activeEntity.activeTokens.FindIndex(t => t.tokenName == tokenName);
+            if (activeEntity.activeTokens[tokenIndex].tokenCount > 1) {
+                activeEntity.activeTokens[tokenIndex].tokenCount -= 1;
+            } else {
+                activeEntity.activeTokens.RemoveAt(tokenIndex);
+            }
+        }
+        
         activeEntity.battleVisuals.UpdateTokens(activeEntity.activeTokens);
     }
 
     private void RemoveSelfDamageTokens(BattleEntities activeEntity)
     {
+        List<string> tokensToRemove = new List<string>();
+        
         foreach (BattleToken t in activeEntity.activeTokens) {
+            
             // Check for Boost or Break tokens
-            int tokenPosition;
             if (t.tokenName == "BoostPlus") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Boost") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Break") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
 
             // Check for Critical tokens
             if (t.tokenName == "Critical") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
 
             // Check for Blind tokens
             if (t.tokenName == "Blind") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
             
             // Check for Pierce tokens
             if (t.tokenName == "Pierce") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
         }
 
+        foreach (string tokenName in tokensToRemove) {
+            int tokenIndex = activeEntity.activeTokens.FindIndex(t => t.tokenName == tokenName);
+            if (activeEntity.activeTokens[tokenIndex].tokenCount > 1) {
+                activeEntity.activeTokens[tokenIndex].tokenCount -= 1;
+            } else {
+                activeEntity.activeTokens.RemoveAt(tokenIndex);
+            }
+        }
+        
         activeEntity.battleVisuals.UpdateTokens(activeEntity.activeTokens);
     }
     
     private void RemoveSelfHealTokens(BattleEntities activeEntity)
     {
+        List<string> tokensToRemove = new List<string>();
+        
         foreach (BattleToken t in activeEntity.activeTokens) {
+            
             // Check for Boost or Break tokens
-            int tokenPosition;
             if (t.tokenName == "BoostPlus") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Boost") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break; 
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Break") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
 
             // Check for Critical tokens
             if (t.tokenName == "Critical") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
 
             // Check for Blind tokens
             if (t.tokenName == "Blind") {
-                tokenPosition = activeEntity.activeTokens.IndexOf(t);
-                if (activeEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    activeEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    activeEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
+            }
+        }
+        
+        foreach (string tokenName in tokensToRemove) {
+            int tokenIndex = activeEntity.activeTokens.FindIndex(t => t.tokenName == tokenName);
+            if (activeEntity.activeTokens[tokenIndex].tokenCount > 1) {
+                activeEntity.activeTokens[tokenIndex].tokenCount -= 1;
+            } else {
+                activeEntity.activeTokens.RemoveAt(tokenIndex);
             }
         }
         
@@ -2220,82 +2324,45 @@ public class BattleSystem : MonoBehaviour
 
     private void RemoveTargetDamageTokens(BattleEntities targetEntity)
     {
+        List<string> tokensToRemove = new List<string>();
+        
         foreach (BattleToken t in  targetEntity.activeTokens) {
+            
             // Check for Block or Vulnerable tokens
-            int tokenPosition;
             if (t.tokenName == "BlockPlus") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Block") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Vulnerable") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
 
             // Check for Dodge tokens
             if (t.tokenName == "DodgePlus") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Dodge") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
             
             // Check for Ward or Isolation
             if (t.tokenName == "Ward") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Isolation") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
 
             // Check for Taunt
             if (t.tokenName == "Taunt") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
+            }
+        }
+        
+        foreach (string tokenName in tokensToRemove) {
+            int tokenIndex = targetEntity.activeTokens.FindIndex(t => t.tokenName == tokenName);
+            if (targetEntity.activeTokens[tokenIndex].tokenCount > 1) {
+                targetEntity.activeTokens[tokenIndex].tokenCount -= 1;
+            } else {
+                targetEntity.activeTokens.RemoveAt(tokenIndex);
             }
         }
         
@@ -2304,35 +2371,29 @@ public class BattleSystem : MonoBehaviour
 
     private void RemoveTargetHealTokens(BattleEntities healTarget)
     {
+        List<string> tokensToRemove = new List<string>();
+        
         foreach (BattleToken t in healTarget.activeTokens) {
-            int tokenPosition;
+            
+            // Check for Anti-Heal
             if (t.tokenName == "AntiHeal") {
-                tokenPosition = healTarget.activeTokens.IndexOf(t);
-                if (healTarget.activeTokens[tokenPosition].tokenCount > 1) {
-                    healTarget.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    healTarget.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
             
             // Check for Ward or Isolation
             if (t.tokenName == "Ward") {
-                tokenPosition = healTarget.activeTokens.IndexOf(t);
-                if (healTarget.activeTokens[tokenPosition].tokenCount > 1) {
-                    healTarget.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    healTarget.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Isolation") {
-                tokenPosition = healTarget.activeTokens.IndexOf(t);
-                if (healTarget.activeTokens[tokenPosition].tokenCount > 1) {
-                    healTarget.activeTokens[tokenPosition].tokenCount -= 1;
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            foreach (string tokenName in tokensToRemove) {
+                int tokenIndex = healTarget.activeTokens.FindIndex(t => t.tokenName == tokenName);
+                if (healTarget.activeTokens[tokenIndex].tokenCount > 1) {
+                    healTarget.activeTokens[tokenIndex].tokenCount -= 1;
                 } else {
-                    healTarget.activeTokens.RemoveAt(tokenPosition);
+                    healTarget.activeTokens.RemoveAt(tokenIndex);
                 }
-                break;
             }
 
             healTarget.battleVisuals.UpdateTokens(healTarget.activeTokens);
@@ -2341,17 +2402,22 @@ public class BattleSystem : MonoBehaviour
     
     private void RemoveTargetBuffTokens(BattleEntities targetEntity)
     {
+        List<string> tokensToRemove = new List<string>();
+        
         foreach (BattleToken t in targetEntity.activeTokens) {
-            int tokenPosition;
+            
             // Check for Ward
             if (t.tokenName == "Isolation") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
+            }
+        }
+        
+        foreach (string tokenName in tokensToRemove) {
+            int tokenIndex = targetEntity.activeTokens.FindIndex(t => t.tokenName == tokenName);
+            if (targetEntity.activeTokens[tokenIndex].tokenCount > 1) {
+                targetEntity.activeTokens[tokenIndex].tokenCount -= 1;
+            } else {
+                targetEntity.activeTokens.RemoveAt(tokenIndex);
             }
         }
         
@@ -2360,28 +2426,27 @@ public class BattleSystem : MonoBehaviour
 
     private void RemoveTargetDebuffTokens(BattleEntities targetEntity)
     {
+        List<string> tokensToRemove = new List<string>();
+        
         foreach (BattleToken t in targetEntity.activeTokens) {
-            int tokenPosition;
+            
             // Check for Ward or Isolation
             if (t.tokenName == "Ward") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             }
 
             // Check for Taunt
             if (t.tokenName == "Taunt") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
+            }
+        }
+        
+        foreach (string tokenName in tokensToRemove) {
+            int tokenIndex = targetEntity.activeTokens.FindIndex(t => t.tokenName == tokenName);
+            if (targetEntity.activeTokens[tokenIndex].tokenCount > 1) {
+                targetEntity.activeTokens[tokenIndex].tokenCount -= 1;
+            } else {
+                targetEntity.activeTokens.RemoveAt(tokenIndex);
             }
         }
         
@@ -2390,37 +2455,32 @@ public class BattleSystem : MonoBehaviour
 
     private void RemoveTokensOnMiss(BattleEntities targetEntity)
     {
+        List<string> tokensToRemove = new List<string>();
+        
         foreach (BattleToken t in targetEntity.activeTokens) {
+            
             // Check for Dodge tokens
-            int tokenPosition;
             if (t.tokenName == "DodgePlus") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break;
+                tokensToRemove.Add(t.tokenName);
             } else if (t.tokenName == "Dodge") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
-                break; 
+                tokensToRemove.Add(t.tokenName);
             }
 
             // Check for Taunt tokens
-            if (t.tokenName == "Ward") {
-                tokenPosition = targetEntity.activeTokens.IndexOf(t);
-                if (targetEntity.activeTokens[tokenPosition].tokenCount > 1) {
-                    targetEntity.activeTokens[tokenPosition].tokenCount -= 1;
-                } else {
-                    targetEntity.activeTokens.RemoveAt(tokenPosition);
-                }
+            if (t.tokenName == "Taunt") {
+                tokensToRemove.Add(t.tokenName);
             }
         }
+        
+        foreach (string tokenName in tokensToRemove) {
+            int tokenIndex = targetEntity.activeTokens.FindIndex(t => t.tokenName == tokenName);
+            if (targetEntity.activeTokens[tokenIndex].tokenCount > 1) {
+                targetEntity.activeTokens[tokenIndex].tokenCount -= 1;
+            } else {
+                targetEntity.activeTokens.RemoveAt(tokenIndex);
+            }
+        }
+        
         targetEntity.battleVisuals.UpdateTokens(targetEntity.activeTokens);
     }
 
@@ -2437,7 +2497,7 @@ public class BattleSystem : MonoBehaviour
             entity.activeTokens.RemoveAt(tokenPosition);
             isStunned = true;
             // Reduce Cooldowns of all unused abilities by one
-            for (int i = 0; i < allCombatants[currentPlayer].abilityCooldowns.Count; i++) {
+            for (int i = 0; i < entity.abilityCooldowns.Count; i++) {
                 if (entity.abilityCooldowns[i] > 0) {
                     entity.abilityCooldowns[i] -= 1;
                 }
@@ -2548,7 +2608,7 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.End;
             yield return StartCoroutine(EndRoutine(Bune));
         } else {
-            Bune.specialResourceFloat += BUNE_MAX_ACTOUT;
+            Bune.specialResourceFloat += BUNE_ACTOUT_INCREASE;
             if (Bune.specialResourceFloat > BUNE_MAX_ACTOUT) {
                 Bune.specialResourceFloat = BUNE_MAX_ACTOUT;
             }
@@ -3217,29 +3277,29 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator FixResources()
     {
-        for (int i = 0; i < allCombatants.Count; i++) {
-            if (allCombatants[i].currentHealth < 0) {
-                allCombatants[i].currentHealth = 0;
-            } else if (allCombatants[i].currentHealth > allCombatants[i].maxHealth) {
-                allCombatants[i].currentHealth = allCombatants[i].maxHealth;
+        foreach (var t in allCombatants) {
+            if (t.currentHealth < 0) {
+                t.currentHealth = 0;
+            } else if (t.currentHealth > t.maxHealth) {
+                t.currentHealth = t.maxHealth;
             }
-            if (allCombatants[i].currentSpirit < 0) {
-                allCombatants[i].currentSpirit = 0;
-            } else if (allCombatants[i].currentSpirit > allCombatants[i].maxSpirit) {
-                allCombatants[i].currentSpirit = allCombatants[i].maxSpirit;
+            if (t.currentSpirit < 0) {
+                t.currentSpirit = 0;
+            } else if (t.currentSpirit > t.maxSpirit) {
+                t.currentSpirit = t.maxSpirit;
             }
-            if (allCombatants[i].currentDefense < 0) {
-                allCombatants[i].currentDefense = 0;
-            } else if (allCombatants[i].currentDefense > allCombatants[i].maxDefense) {
-                allCombatants[i].currentDefense = allCombatants[i].maxDefense;
+            if (t.currentDefense < 0) {
+                t.currentDefense = 0;
+            } else if (t.currentDefense > t.maxDefense) {
+                t.currentDefense = t.maxDefense;
             }
-            if (allCombatants[i].currentArmor < 0) {
-                allCombatants[i].currentArmor = 0;
-            } else if (allCombatants[i].currentArmor > allCombatants[i].maxArmor) {
-                allCombatants[i].currentArmor = allCombatants[i].maxArmor;
+            if (t.currentArmor < 0) {
+                t.currentArmor = 0;
+            } else if (t.currentArmor > t.maxArmor) {
+                t.currentArmor = t.maxArmor;
             }
-            
         }
+
         yield break;
     }
 }
@@ -3289,6 +3349,7 @@ public class BattleEntities
     public int speed;
     public int luck;
 
+    // Resistances
     public int critChance;
     public int resistPierce;
     public int stunResist;
