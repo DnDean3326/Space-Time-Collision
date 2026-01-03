@@ -120,6 +120,7 @@ public class BattleSystem : MonoBehaviour
     private const int BASE_ACTION_GAIN = 20;
     private const int MAX_ACTION_START = 100;
     private const int MAX_INDIVIDUAL_DISPLAY = 5;
+    private const int PREVIEW_RESIST_PIERCE = 500;
     private const float MOVE_SPEED = 1f;
     private const string MAP_SCENE = "BaseScene";
     private const string BASE_SCENE = "BaseScene";
@@ -480,11 +481,9 @@ public class BattleSystem : MonoBehaviour
             }
 
             if (abilityInUse.abilityWeight == Ability.AbilityWeight.Step) {
-                print("Is stepping, don't end turn.");
                 hasStepped = true;
                 BackToAbilities();
             } else {
-                print("Action is not a step, end turn.");
                 state  = BattleState.End;
                 StartCoroutine(EndRoutine(activeCharacter));
                 yield break;
@@ -985,7 +984,8 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < MAX_INDIVIDUAL_DISPLAY; i++){
             foreach (BattleEntities t in allCombatants) {
                 BattleEntities tempEntity = new BattleEntities();
-                tempEntity.SetEntityTurnDisplayValues(t.myName, t.myPortrait, t.isPlayer, t.speed, t.actionPoints, t.activeTokens);
+                List<BattleToken> tempTokensList = new List<BattleToken>(t.activeTokens);
+                tempEntity.SetEntityTurnDisplayValues(t.myName, t.myPortrait, t.isPlayer, t.speed, t.actionPoints, tempTokensList);
                 tempEntity.actionPoints -= (200 * i);
                 turnOrder.Add(tempEntity);
             }
@@ -1464,16 +1464,19 @@ public class BattleSystem : MonoBehaviour
                 break;
             case "Health":
                 tempInt = currentPlayerEntity.currentHealth - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
+                if (tempInt > 0) { tempInt = 0;}
                 currentPlayerEntity.battleVisuals.ChangeHealth(tempInt);
                 break;
             case "Defense":
                 tempInt = currentPlayerEntity.currentDefense - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
+                if (tempInt > 0) { tempInt = 0;}
                 currentPlayerEntity.battleVisuals.ChangeDefense(tempInt);
                 break;
             case "SelfDmg":
                 break;
             case "Armor":
                 tempInt = currentPlayerEntity.currentArmor - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
+                if (tempInt > 0) { tempInt = 0;}
                 currentPlayerEntity.battleVisuals.ChangeArmor(tempInt);
                 break;
             case "Special":
@@ -1515,6 +1518,69 @@ public class BattleSystem : MonoBehaviour
                 break;
         }
     }
+
+    public void PreviewSelfGain(BattleEntities playerEntity)
+    {
+        Ability activeAbility = playerEntity.myAbilities[playerEntity.activeAbility];
+
+        if (activeAbility.selfMin != activeAbility.selfMax) { return; }
+        
+        int tempInt;
+        switch (activeAbility.selfTarget) {
+            case Ability.SelfTarget.Spirit:
+                tempInt = playerEntity.currentSpirit + activeAbility.costAmount;
+                playerEntity.combatMenuVisuals.ChangeSpirit(tempInt);
+                break;
+            case Ability.SelfTarget.Armor:
+                tempInt = playerEntity.currentArmor + activeAbility.selfMax;
+                if (tempInt > playerEntity.maxArmor) {
+                    playerEntity.battleVisuals.ChangeArmor(tempInt);
+                }
+                break;
+            case Ability.SelfTarget.ActionPoints:
+                List<BattleEntities> tempList = new List<BattleEntities>();
+                foreach (BattleEntities t in turnOrder) {
+                    if (t.myName == playerEntity.myName) {
+                        tempList.Add(t);
+                    }
+                }
+                ChangeAP(tempList, -activeAbility.selfMax);
+                break;
+            case Ability.SelfTarget.Null:
+                return;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+    
+    private void EndSelfGainPreview(BattleEntities activeEntity)
+    {
+        Ability activeAbility = allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility];
+        
+        if (activeAbility.selfMin != activeAbility.selfMax) { return; }
+        
+        switch (activeAbility.selfTarget) {
+            case Ability.SelfTarget.Spirit:
+                activeEntity.combatMenuVisuals.ChangeSpirit(activeEntity.currentSpirit);
+                break;
+            case Ability.SelfTarget.Armor:
+                activeEntity.battleVisuals.ChangeArmor(activeEntity.currentArmor);
+                break;
+            case Ability.SelfTarget.ActionPoints:
+                List<BattleEntities> tempList = new List<BattleEntities>();
+                foreach (BattleEntities t in turnOrder) {
+                    if (t.myName == activeEntity.myName) {
+                        tempList.Add(t);
+                    }
+                }
+                ChangeAP(tempList, activeAbility.selfMax);
+                break;
+            case Ability.SelfTarget.Null:
+                return;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
     
     public void PreviewTargetResourceValue(BattleEntities targetEntity)
     {
@@ -1525,11 +1591,13 @@ public class BattleSystem : MonoBehaviour
             case Ability.SecondaryTarget.Spirit:
                 if (targetEntity.isPlayer) {
                     tempInt = targetEntity.currentSpirit - activeAbility.costAmount;
+                    if (tempInt > 0) { tempInt = 0;}
                     targetEntity.combatMenuVisuals.ChangeSpirit(tempInt);
                 }
                 break;
             case Ability.SecondaryTarget.Armor:
                 tempInt = targetEntity.currentArmor - activeAbility.secondaryValue;
+                if (tempInt > 0) { tempInt = 0;}
                 targetEntity.battleVisuals.ChangeArmor(tempInt);
                 break;
             case Ability.SecondaryTarget.ActionPoints:
@@ -1539,7 +1607,6 @@ public class BattleSystem : MonoBehaviour
                         tempList.Add(t);
                     }
                 }
-
                 switch (activeAbility.abilityType) {
                     case Ability.AbilityType.Damage:
                     case Ability.AbilityType.Debuff:
@@ -1604,6 +1671,37 @@ public class BattleSystem : MonoBehaviour
         }
         PreviewTurnOrder();
     }
+
+    private void ChangeTurnSpeed(List<BattleEntities> entities, Ability.TokenOption tokenApplied, int tokenCount)
+    {
+        string tokenName = null;
+
+        switch (tokenApplied) {
+            case Ability.TokenOption.Haste:
+                tokenName = "Haste";
+                break;
+            case Ability.TokenOption.Slow:
+                tokenName = "Slow";
+                break;
+        }
+        
+        foreach (BattleEntities t in entities) {
+            AddTokens(allCombatants[currentPlayer], t, tokenName, tokenCount, PREVIEW_RESIST_PIERCE);
+        }
+        
+        PreviewTurnOrder();
+    }
+    
+    private void RevertTurnSpeed(BattleEntities targetEntity)
+    {
+        foreach (BattleEntities t in turnOrder) {
+            if (t.myName == targetEntity.myName) {
+                List<BattleToken> tempList = new List<BattleToken>(targetEntity.activeTokens);
+                t.activeTokens = tempList;
+            }
+        }
+        PreviewTurnOrder();
+    }
     
     public void SetCurrentAbilityType(int abilityIndex)
     {
@@ -1625,10 +1723,6 @@ public class BattleSystem : MonoBehaviour
     public void BackToAbilities()
     {
         if (state == BattleState.Targeting) {
-            BattleEntities activeCharacter = allCombatants[currentPlayer];
-            BattleEntities targetCharacter = allCombatants[activeCharacter.target];
-            int abilityIndex = activeCharacter.activeAbility;
-            
             EndResourcePreview(allCombatants[currentPlayer].activeAbility);
             abilitySelected = false;
             wentBack = true;
@@ -1680,8 +1774,6 @@ public class BattleSystem : MonoBehaviour
                     targetList[i].myPortrait;
                 activeEntity.targetBorders[i].GetComponentInChildren<Image>().color =
                     new Color32(255, 0, 0, 255);
-                // Change the button's text
-                //allCombatants[characterIndex].targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = enemyCombatants[i].myName;
             }
         } else {
             // Enable buttons for each present ally
@@ -1700,8 +1792,6 @@ public class BattleSystem : MonoBehaviour
                     targetList[i].myPortrait;
                 activeEntity.targetBorders[i].GetComponentInChildren<Image>().color =
                     new Color32(147, 229, 242, 255);
-                // Change the button's text
-                //activeEntity.targetButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = partyCombatants[i].myName;
             }
         }
         
@@ -1743,8 +1833,6 @@ public class BattleSystem : MonoBehaviour
             target = allCombatants.IndexOf(partyCombatants[hoveredTarget]);
             targetEntity = allCombatants[target];
         }
-
-        CheckTurnTarget(targetEntity);
         
         int abilityModifier = 0;
         bool singleValue = false;
@@ -1794,14 +1882,40 @@ public class BattleSystem : MonoBehaviour
         }
         
         activeEntity.combatMenuVisuals.SetAbilityValues(acc, min, max, crit, isDamage, singleValue);
+        
+        // Methods for displaying the updated resources and turn order
+        PreviewSelfGain(activeEntity);
         PreviewTargetResourceValue(targetEntity);
+
+        bool hasSpeedToken = false;
+        int speedTokenIndex = 10;
+
+        for (int i = 0; i < activeEntity.myAbilities[activeEntity.activeAbility].targetTokensApplied.Length; i++) {
+            if (activeEntity.myAbilities[activeEntity.activeAbility].targetTokensApplied[i] == Ability.TokenOption.Haste ||
+                activeEntity.myAbilities[activeEntity.activeAbility].targetTokensApplied[i] == Ability.TokenOption.Slow) {
+                hasSpeedToken = true;
+                speedTokenIndex = i;
+            }
+        }
+
+        if (hasSpeedToken) {
+            List<BattleEntities> tempList = new List<BattleEntities>();
+            foreach (BattleEntities t in turnOrder) {
+                if (t.myName == targetEntity.myName) {
+                    tempList.Add(t);
+                }
+            }
+            
+            ChangeTurnSpeed(tempList, activeEntity.myAbilities[activeEntity.activeAbility].targetTokensApplied[speedTokenIndex],
+                activeEntity.myAbilities[activeEntity.activeAbility].targetTokenCountApplied[speedTokenIndex]);
+        }
+        
+        CheckTurnTarget(targetEntity);
     }
 
     private void SetAbilityValuesForDisplay()
     {
         BattleEntities activeEntity = allCombatants[currentPlayer];
-
-        turnOrderDisplay.ResetTurnDisplays();
         
         int abilityModifier = 0;
         bool singleValue = false;
@@ -1826,10 +1940,15 @@ public class BattleSystem : MonoBehaviour
         }
         
         activeEntity.combatMenuVisuals.SetAbilityValues(acc, min, max, crit, isDamage, singleValue);
+
+        turnOrderDisplay.ResetTurnDisplays();
     }
 
     public void IndicateTarget(int hoveredTarget)
     {
+        targetBeingIndicated = true;
+        SetTargetValuesForDisplay(hoveredTarget);
+        
         int target;
         // Check if target is ally or enemy
         if (targetIsEnemy) {
@@ -1839,26 +1958,19 @@ public class BattleSystem : MonoBehaviour
             target = allCombatants.IndexOf(targetList[hoveredTarget]);
             allCombatants[target].battleVisuals.TargetAllyActive();
         }
-
-        targetBeingIndicated = true;
-        SetTargetValuesForDisplay(hoveredTarget);
     }
     
     public void StopIndicatingTarget(int hoveredTarget)
     {
-        int target;
-        // Check if target is ally or enemy
-        if (targetIsEnemy) {
-            target = allCombatants.IndexOf(targetList[hoveredTarget]);
-            allCombatants[target].battleVisuals.TargetInactive();
-        } else {
-            target = allCombatants.IndexOf(targetList[hoveredTarget]);
-            allCombatants[target].battleVisuals.TargetInactive();
-        }
-
         targetBeingIndicated = false;
         SetAbilityValuesForDisplay();
+        
+        int target = allCombatants.IndexOf(targetList[hoveredTarget]);
         EndTargetResourcePreview(allCombatants[target]);
+        EndSelfGainPreview(allCombatants[currentPlayer]);
+        RevertTurnSpeed(allCombatants[target]);
+        
+        allCombatants[target].battleVisuals.TargetInactive();
     }
 
     public void IndicateTurnTarget(int hoveredTarget)
@@ -1881,35 +1993,39 @@ public class BattleSystem : MonoBehaviour
 
     public void IndicateGridTarget(int positionIndex)
     {
+        targetIndicatedGrid = true;
         int targetIndex;
+        if (targetIsEnemy) {
+            targetIndex = enemyCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
+        } else {
+            targetIndex = partyCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
+        }
+        SetTargetValuesForDisplay(targetIndex);
+        
         if (targetIsEnemy) {
             targetIndex = allCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
             allCombatants[targetIndex].battleVisuals.TargetEnemyActive();
-            targetIndex = enemyCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
         } else {
             targetIndex = allCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
             allCombatants[targetIndex].battleVisuals.TargetAllyActive();
-            targetIndex = partyCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
         }
-        
-        targetIndicatedGrid = true;
-        SetTargetValuesForDisplay(targetIndex);
     }
 
     public void StopIndicatingGridTarget(int positionIndex)
     {
-        int targetIndex;
-        if (targetIsEnemy) {
-            targetIndex = allCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
-            allCombatants[targetIndex].battleVisuals.TargetInactive();
-        } else {
-            targetIndex = allCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
-            allCombatants[targetIndex].battleVisuals.TargetInactive();
-        }
-
         targetIndicatedGrid = false;
         SetAbilityValuesForDisplay();
+        int targetIndex;
+
+        if (targetIsEnemy) {
+            targetIndex = allCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
+        } else {
+            targetIndex = allCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
+        }
+        
         EndTargetResourcePreview(allCombatants[targetIndex]);
+        EndSelfGainPreview(allCombatants[currentPlayer]);
+        allCombatants[targetIndex].battleVisuals.TargetInactive();
     }
     
     public void SelectTargetWithButtons(int currentTarget)
@@ -2347,8 +2463,10 @@ public class BattleSystem : MonoBehaviour
         if (recipientEntity.myName == "Bune" && tokenAdded.tokenName == "Vice") {
             recipientEntity.gainedUniqueTokenLastTurn = true;
         }
-        
-        recipientEntity.battleVisuals.UpdateTokens(recipientEntity.activeTokens);
+
+        if (resistPierce != PREVIEW_RESIST_PIERCE) {
+            recipientEntity.battleVisuals.UpdateTokens(recipientEntity.activeTokens);
+        }
     }
 
     private void ClearTokens(BattleEntities targetEntity, string tokenName)
