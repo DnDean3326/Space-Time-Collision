@@ -174,7 +174,8 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
             Destroy(battleStartUI);
             state = BattleState.Battle;
-            yield return StartCoroutine(BattleRoutine());
+            StartCoroutine(BattleRoutine());
+            yield break;
         } else {
             print("Start Routine called but the battle system is in the " + state + " state.");
         }
@@ -204,8 +205,7 @@ public class BattleSystem : MonoBehaviour
             FindMyGridPosition(entity);
         }
         
-        RemoveDeadCombatants(); 
-        //GetTurnOrder();
+        RemoveDeadCombatants();
         
         if (state == BattleState.Battle) {
             while (preparedCombatants.Count <= 0) {
@@ -227,7 +227,8 @@ public class BattleSystem : MonoBehaviour
                 }
             }
             state = BattleState.Ordering;
-            yield return StartCoroutine(OrderRoutine());
+            StartCoroutine(OrderRoutine());
+            yield break;
         } else {
             print("Battle Routine called but the battle system is in the " + state + " state.");
         }
@@ -255,7 +256,8 @@ public class BattleSystem : MonoBehaviour
                 }
                 if (preparedCombatants.Count <= 0) {
                     state = BattleState.Battle;
-                    yield return StartCoroutine(BattleRoutine());
+                    StartCoroutine(BattleRoutine());
+                    yield break;
                 }
                 
                 // Sorts prepared combatants by initiative from highest to lowest
@@ -266,14 +268,17 @@ public class BattleSystem : MonoBehaviour
                 int characterIndex = allCombatants.IndexOf(preparedCombatants[0]);
                 if (preparedCombatants[0].isPlayer) {
                     state = BattleState.PlayerTurn;
-                    yield return StartCoroutine(PlayerTurnRoutine(characterIndex));
+                    StartCoroutine(PlayerTurnRoutine(characterIndex));
+                    yield break;
                 } else if (!preparedCombatants[0].isPlayer) {
                     state = BattleState.EnemyTurn;
-                    yield return StartCoroutine(EnemyTurnRoutine(characterIndex));
+                    StartCoroutine(EnemyTurnRoutine(characterIndex));
+                    yield break;
                 }
             } else {
                 state = BattleState.Battle;
-                yield return StartCoroutine(BattleRoutine());
+                StartCoroutine(BattleRoutine());
+                yield break;
             }
         } else {
             print("Order Routine called but the battle system is in the " + state + " state.");
@@ -295,6 +300,7 @@ public class BattleSystem : MonoBehaviour
                     case "Bune":
                         if (allCombatants[currentPlayer].activeTokens.All(t => t.tokenName != "Vice") && !allCombatants[currentPlayer].myFirstTurn) {
                             yield return StartCoroutine(BuneViceActOut());
+                            yield break;
                         } else {
                             allCombatants[currentPlayer].specialResourceFloat = BUNE_BASE_ACTOUT;
                         }
@@ -312,7 +318,8 @@ public class BattleSystem : MonoBehaviour
             ShowAbilitySelectMenu(currentPlayer);
             yield return new WaitUntil(() => abilitySelected);
             state = BattleState.Targeting;
-            yield return StartCoroutine(TargetRoutine());
+            StartCoroutine(TargetRoutine());
+            yield break;
         }  else {
             print("Player Routine called but the battle system is in the " + state + " state.");
         }
@@ -323,7 +330,7 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.Targeting) {
             
             BattleEntities activeCharacter = allCombatants[currentPlayer];
-            BattleEntities targetCharacter;
+            BattleEntities targetCharacter = null;
             Ability abilityInUse = activeCharacter.myAbilities[activeCharacter.activeAbility];
             
             int tempTarget;
@@ -463,7 +470,6 @@ public class BattleSystem : MonoBehaviour
                     combatGrid.HideTiles(targetIsEnemy);
                     
                     yield return StartCoroutine(SetGridPosition(allCombatants[currentPlayer], xChange, yChange));
-                    
                     break;
                 default:
                     print("Unsupported ability type of " + allCombatants[currentPlayer].activeAbilityType + " supplied.");
@@ -474,11 +480,14 @@ public class BattleSystem : MonoBehaviour
             }
 
             if (abilityInUse.abilityWeight == Ability.AbilityWeight.Step) {
+                print("Is stepping, don't end turn.");
                 hasStepped = true;
                 BackToAbilities();
             } else {
+                print("Action is not a step, end turn.");
                 state  = BattleState.End;
-                yield return StartCoroutine(EndRoutine(activeCharacter));
+                StartCoroutine(EndRoutine(activeCharacter));
+                yield break;
             }
         } else {
             print("Target Routine called but the battle system is in the " + state + " state.");
@@ -762,7 +771,8 @@ public class BattleSystem : MonoBehaviour
             }
             
             state  = BattleState.End;
-            yield return StartCoroutine(EndRoutine(activeEnemy));
+            StartCoroutine(EndRoutine(activeEnemy));
+            yield break;
         } else {
             print("Enemy Routine called but the battle system is in the " + state + " state.");
         }
@@ -770,6 +780,8 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntities activeEntity)
     {
+        print("EndRoutine Coroutine called");
+        
         // If a move action was used, turn off move buttons
         if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement) {
             combatGrid.DisableGridButtons(targetIsEnemy);
@@ -801,7 +813,8 @@ public class BattleSystem : MonoBehaviour
         }
             
         state = BattleState.Battle;
-        yield return StartCoroutine(BattleRoutine());
+        StartCoroutine(BattleRoutine());
+        yield break;
     }
     
     private void CreatePartyEntities()
@@ -995,6 +1008,27 @@ public class BattleSystem : MonoBehaviour
         
         turnOrderDisplay.SetTurnDisplay(turnOrder);
     }
+
+    private void PreviewTurnOrder()
+    {
+        // TODO Make this turn display change based on the number of Haste & Slow tokens you have, versus being a binary have/don't have
+        for (int i = 1; i < turnOrder.Count; i++) // This for loop starts at 1 so the active player will not be affected
+        {
+            float actionPointGain = 0f;
+            if (turnOrder[i].activeTokens.Any(t => t.tokenName == "Haste")) {
+                actionPointGain = (BASE_ACTION_GAIN + turnOrder[i].speed) * (1 + hasteToken.tokenValue);
+            } else if (turnOrder[i].activeTokens.Any(t => t.tokenName == "Slow")) {
+                actionPointGain = (BASE_ACTION_GAIN + turnOrder[i].speed) * (1 - slowToken.tokenValue);
+            } else {
+                actionPointGain = (BASE_ACTION_GAIN + turnOrder[i].speed);
+            }
+            float tickDifference = (TURN_START_THRESHOLD - turnOrder[i].actionPoints) / actionPointGain;
+            turnOrder[i].ticksToTurn = tickDifference;
+        }
+        turnOrder.Sort((bi1, bi2) => bi1.ticksToTurn.CompareTo(bi2.ticksToTurn));
+        
+        turnOrderDisplay.SetTurnDisplay(turnOrder);
+    }
     
     private void RemoveDeadCombatants()
     {
@@ -1159,6 +1193,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator SetGridPosition(BattleEntities entity, int xMove, int yMove)
     {
+        print("Set Grid Position Routine called");
         int oldGridPos = GetGridPosition(entity);
         int newGridPos;
         Vector3 oldPos;
@@ -1258,7 +1293,8 @@ public class BattleSystem : MonoBehaviour
                 newPos = enemyBattleGrid[oldGridPos].gridTransform.position;
             }
         }
-        yield return StartCoroutine(MoveToPosition(entity, oldPos, newPos));
+        StartCoroutine(MoveToPosition(entity, oldPos, newPos));
+        yield break;
     }
 
     public IEnumerator MoveToPosition(BattleEntities entity, Vector3 startPos, Vector3 endPos)
@@ -1480,6 +1516,95 @@ public class BattleSystem : MonoBehaviour
         }
     }
     
+    public void PreviewTargetResourceValue(BattleEntities targetEntity)
+    {
+        BattleEntities playerEntity = allCombatants[currentPlayer];
+        Ability activeAbility = playerEntity.myAbilities[playerEntity.activeAbility];
+        int tempInt;
+        switch (activeAbility.secondaryTarget) {
+            case Ability.SecondaryTarget.Spirit:
+                if (targetEntity.isPlayer) {
+                    tempInt = targetEntity.currentSpirit - activeAbility.costAmount;
+                    targetEntity.combatMenuVisuals.ChangeSpirit(tempInt);
+                }
+                break;
+            case Ability.SecondaryTarget.Armor:
+                tempInt = targetEntity.currentArmor - activeAbility.secondaryValue;
+                targetEntity.battleVisuals.ChangeArmor(tempInt);
+                break;
+            case Ability.SecondaryTarget.ActionPoints:
+                List<BattleEntities> tempList = new List<BattleEntities>();
+                foreach (BattleEntities t in turnOrder) {
+                    if (t.myName == targetEntity.myName) {
+                        tempList.Add(t);
+                    }
+                }
+
+                switch (activeAbility.abilityType) {
+                    case Ability.AbilityType.Damage:
+                    case Ability.AbilityType.Debuff:
+                        ChangeAP(tempList, activeAbility.secondaryValue);
+                        break;
+                    case Ability.AbilityType.Heal:
+                    case Ability.AbilityType.Buff:
+                        ChangeAP(tempList, -activeAbility.secondaryValue);
+                        break;
+                }
+                break;
+            case Ability.SecondaryTarget.Null:
+            case Ability.SecondaryTarget.Bonus:
+                return;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void EndTargetResourcePreview(BattleEntities targetEntity)
+    {
+        Ability activeAbility = allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility];
+        switch (activeAbility.secondaryTarget) {
+            case Ability.SecondaryTarget.Spirit:
+                if (targetEntity.isPlayer) {
+                    targetEntity.combatMenuVisuals.ChangeSpirit(targetEntity.currentSpirit);
+                }
+                break;
+            case Ability.SecondaryTarget.Armor:
+                targetEntity.battleVisuals.ChangeArmor(targetEntity.currentArmor);
+                break;
+            case Ability.SecondaryTarget.ActionPoints:
+                List<BattleEntities> tempList = new List<BattleEntities>();
+                foreach (BattleEntities t in turnOrder) {
+                    if (t.myName == targetEntity.myName) {
+                        tempList.Add(t);
+                    }
+                }
+                switch (activeAbility.abilityType) {
+                    case Ability.AbilityType.Damage:
+                    case Ability.AbilityType.Debuff:
+                        ChangeAP(tempList, -activeAbility.secondaryValue);
+                        break;
+                    case Ability.AbilityType.Heal:
+                    case Ability.AbilityType.Buff:
+                        ChangeAP(tempList, activeAbility.secondaryValue);
+                        break;
+                }
+                break;
+            case Ability.SecondaryTarget.Null:
+            case Ability.SecondaryTarget.Bonus:
+                return;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+    
+    private void ChangeAP(List<BattleEntities> entities, int apChange)
+    {
+        foreach (BattleEntities t in entities) {
+            t.actionPoints -= apChange;
+        }
+        PreviewTurnOrder();
+    }
+    
     public void SetCurrentAbilityType(int abilityIndex)
     {
         BattleEntities currentPlayerEntity = allCombatants[currentPlayer];
@@ -1500,9 +1625,14 @@ public class BattleSystem : MonoBehaviour
     public void BackToAbilities()
     {
         if (state == BattleState.Targeting) {
+            BattleEntities activeCharacter = allCombatants[currentPlayer];
+            BattleEntities targetCharacter = allCombatants[activeCharacter.target];
+            int abilityIndex = activeCharacter.activeAbility;
+            
             EndResourcePreview(allCombatants[currentPlayer].activeAbility);
             abilitySelected = false;
             wentBack = true;
+            
             allCombatants[currentPlayer].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -1510,6 +1640,11 @@ public class BattleSystem : MonoBehaviour
             if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement) {
                 combatGrid.DisableGridButtons(targetIsEnemy);
             }
+            
+            allCombatants[currentPlayer].activeAbilityType = null;
+            allCombatants[currentPlayer].activeAbility = 10;
+            
+            StopAllCoroutines();
             
             state = BattleState.PlayerTurn;
             StartCoroutine(PlayerTurnRoutine(currentPlayer));
@@ -1582,10 +1717,23 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    private void CheckTurnTarget(BattleEntities targetEntity)
+    {
+        List<int> targetIndexes =  new List<int>();
+        for (int i = 0; i < turnOrder.Count; i++) {
+            if (turnOrder[i].myName == targetEntity.myName) {
+                targetIndexes.Add(i);
+            }
+        }
+
+        turnOrderDisplay.ShiftTurnDisplay(targetIndexes);
+    }
+
     private void SetTargetValuesForDisplay(int hoveredTarget)
     {
         BattleEntities activeEntity = allCombatants[currentPlayer];
         BattleEntities targetEntity;
+        
         // Check if target is ally or enemy
         int target;
         if (targetIsEnemy) {
@@ -1595,6 +1743,8 @@ public class BattleSystem : MonoBehaviour
             target = allCombatants.IndexOf(partyCombatants[hoveredTarget]);
             targetEntity = allCombatants[target];
         }
+
+        CheckTurnTarget(targetEntity);
         
         int abilityModifier = 0;
         bool singleValue = false;
@@ -1644,11 +1794,14 @@ public class BattleSystem : MonoBehaviour
         }
         
         activeEntity.combatMenuVisuals.SetAbilityValues(acc, min, max, crit, isDamage, singleValue);
+        PreviewTargetResourceValue(targetEntity);
     }
 
     private void SetAbilityValuesForDisplay()
     {
         BattleEntities activeEntity = allCombatants[currentPlayer];
+
+        turnOrderDisplay.ResetTurnDisplays();
         
         int abilityModifier = 0;
         bool singleValue = false;
@@ -1677,12 +1830,13 @@ public class BattleSystem : MonoBehaviour
 
     public void IndicateTarget(int hoveredTarget)
     {
+        int target;
         // Check if target is ally or enemy
         if (targetIsEnemy) {
-            int target = allCombatants.IndexOf(targetList[hoveredTarget]);
+            target = allCombatants.IndexOf(targetList[hoveredTarget]);
             allCombatants[target].battleVisuals.TargetEnemyActive();
         } else {
-            int target = allCombatants.IndexOf(targetList[hoveredTarget]);
+            target = allCombatants.IndexOf(targetList[hoveredTarget]);
             allCombatants[target].battleVisuals.TargetAllyActive();
         }
 
@@ -1692,17 +1846,19 @@ public class BattleSystem : MonoBehaviour
     
     public void StopIndicatingTarget(int hoveredTarget)
     {
+        int target;
         // Check if target is ally or enemy
         if (targetIsEnemy) {
-            int target = allCombatants.IndexOf(targetList[hoveredTarget]);
+            target = allCombatants.IndexOf(targetList[hoveredTarget]);
             allCombatants[target].battleVisuals.TargetInactive();
         } else {
-            int target = allCombatants.IndexOf(targetList[hoveredTarget]);
+            target = allCombatants.IndexOf(targetList[hoveredTarget]);
             allCombatants[target].battleVisuals.TargetInactive();
         }
 
         targetBeingIndicated = false;
         SetAbilityValuesForDisplay();
+        EndTargetResourcePreview(allCombatants[target]);
     }
 
     public void IndicateTurnTarget(int hoveredTarget)
@@ -1729,12 +1885,15 @@ public class BattleSystem : MonoBehaviour
         if (targetIsEnemy) {
             targetIndex = allCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
             allCombatants[targetIndex].battleVisuals.TargetEnemyActive();
+            targetIndex = enemyCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
         } else {
             targetIndex = allCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
             allCombatants[targetIndex].battleVisuals.TargetAllyActive();
+            targetIndex = partyCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
         }
         
         targetIndicatedGrid = true;
+        SetTargetValuesForDisplay(targetIndex);
     }
 
     public void StopIndicatingGridTarget(int positionIndex)
@@ -1749,6 +1908,8 @@ public class BattleSystem : MonoBehaviour
         }
 
         targetIndicatedGrid = false;
+        SetAbilityValuesForDisplay();
+        EndTargetResourcePreview(allCombatants[targetIndex]);
     }
     
     public void SelectTargetWithButtons(int currentTarget)
@@ -2606,7 +2767,8 @@ public class BattleSystem : MonoBehaviour
             Bune.specialResourceFloat = BUNE_BASE_ACTOUT;
             
             state = BattleState.End;
-            yield return StartCoroutine(EndRoutine(Bune));
+            StartCoroutine(EndRoutine(Bune));
+            yield break;
         } else {
             Bune.specialResourceFloat += BUNE_ACTOUT_INCREASE;
             if (Bune.specialResourceFloat > BUNE_MAX_ACTOUT) {
@@ -2642,7 +2804,10 @@ public class BattleSystem : MonoBehaviour
     
     private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget, int activeAbilityIndex)
     {
+        print("Damage Action routine called");
         Ability activeAbility = attacker.myAbilities[activeAbilityIndex];
+        
+        print(attacker.myName + " used " + activeAbility.abilityName + " against " + attackTarget.myName);
         
         // Declare damage values
         int damage;
@@ -2782,7 +2947,6 @@ public class BattleSystem : MonoBehaviour
                     if (attackTarget.actionPoints < 0) {
                         attackTarget.actionPoints = 0;
                     }
-                    GetTurnOrder();
                     break;
                 default:
                     print("Invalid secondary target of " +  secondaryTarget + " supplied");
@@ -2845,6 +3009,8 @@ public class BattleSystem : MonoBehaviour
     
     private IEnumerator HealAction(BattleEntities healer, BattleEntities healTarget, int activeAbilityIndex)
     {
+        print("Heal Action routine called");
+        
         Ability activeAbility = healer.myAbilities[activeAbilityIndex];
         
         // Declare heal values
@@ -3003,6 +3169,8 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator BuffAction(BattleEntities buffer, BattleEntities buffTarget, int activeAbilityIndex)
     {
+        print("Buff Action routine called");
+        
         Ability activeAbility = buffer.myAbilities[activeAbilityIndex];
         
         int abilityModifier = 0;
@@ -3090,6 +3258,8 @@ public class BattleSystem : MonoBehaviour
     
     private IEnumerator DebuffAction(BattleEntities debuffer, BattleEntities debuffTarget, int activeAbilityIndex)
     {
+        print("Debuff Action routine called");
+        
         Ability activeAbility = debuffer.myAbilities[activeAbilityIndex];
         
         int abilityModifier = 0;

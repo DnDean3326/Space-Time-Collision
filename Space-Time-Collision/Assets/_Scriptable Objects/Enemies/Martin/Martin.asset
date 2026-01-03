@@ -16,7 +16,7 @@ MonoBehaviour:
   enemyPortrait: {fileID: 21300000, guid: 9d2220d247d506542a337b4695b2366b, type: 3}
   baseHealth: 20
   baseDefense: 10
-  baseArmor: 0
+  baseArmor: 2
   baseSpirit: 12
   basePower: 3
   baseSkill: 2

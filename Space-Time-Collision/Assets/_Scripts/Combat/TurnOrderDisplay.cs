@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class TurnOrderDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject turnOrderUI;
     [SerializeField] private GameObject[] turnDisplays;
+    [SerializeField] private Transform[] turnDisplaysBasePosition;
+    [SerializeField] private GameObject[] turnPortraits;
     [SerializeField] private GameObject[] turnBorders;
     [SerializeField] private Image[] darkApMeters;
     [SerializeField] private Image[] mediumApMeters;
@@ -15,6 +18,7 @@ public class TurnOrderDisplay : MonoBehaviour
     private BattleSystem battleSystem;
     
     private const float TURN_START_THRESHOLD = 200f;
+    private const float Y_CHANGE = -105.6f;
 
     public void Awake()
     {
@@ -23,8 +27,8 @@ public class TurnOrderDisplay : MonoBehaviour
     
     public void SetTurnDisplay(List<BattleEntities> turnOrder)
     {
-        for (int i = 0; i < turnDisplays.Length; i++) {
-            turnDisplays[i].GetComponent<Image>().sprite = turnOrder[i].myPortrait;
+        for (int i = 0; i < turnPortraits.Length; i++) {
+            turnPortraits[i].GetComponent<Image>().sprite = turnOrder[i].myPortrait;
             if (turnOrder[i].isPlayer) {
                 turnBorders[i].GetComponent<Image>().color = new Color32(147, 229, 242, 255);
             } else {
@@ -47,6 +51,31 @@ public class TurnOrderDisplay : MonoBehaviour
                 lightApMeters[i].GetComponent<Image>().fillAmount =
                     turnOrder[i].actionPoints / TURN_START_THRESHOLD;
             }
+        }
+    }
+
+    public void ShiftTurnDisplay(List<int> targetTurns)
+    {
+        List<int> targetsBeingDisplayed = new List<int>();
+        
+        foreach (int index in targetTurns) {
+            if (index < 5) {
+                targetsBeingDisplayed.Add(index);
+            } 
+        }
+
+        foreach (int index in targetsBeingDisplayed) {
+            var transformPosition = turnDisplays[index].transform.position;
+            transformPosition.y += Y_CHANGE;
+            turnDisplays[index].transform.position = transformPosition;
+        }
+    }
+
+    public void ResetTurnDisplays()
+    {
+        for (int i = 0; i < turnDisplays.Length; i++) {
+            var transformPosition = turnDisplaysBasePosition[i].transform.position;
+            turnDisplays[i].transform.position = transformPosition;
         }
     }
     

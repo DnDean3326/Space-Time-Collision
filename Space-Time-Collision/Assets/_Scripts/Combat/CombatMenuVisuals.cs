@@ -141,8 +141,6 @@ public class CombatMenuVisuals : MonoBehaviour
         battleSystem.SelectTargetWithButtons(currentTarget);
     }
 
-    // Button OnClick methods
-
     public void PassButton()
     {
         battleSystem.PassTurn();
