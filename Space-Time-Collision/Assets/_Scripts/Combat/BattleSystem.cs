@@ -57,13 +57,14 @@ public class BattleSystem : MonoBehaviour
     private BattleToken dodgeToken;
     private BattleToken dodgePlusToken;
     private BattleToken goadToken; // Not implemented
-    private BattleToken guardToken;
+    private BattleToken guardColumnToken;
+    private BattleToken guardRowToken;
     private BattleToken hasteToken;
     private BattleToken pierceToken;
     private BattleToken precisionToken;
     private BattleToken quickToken;
     private BattleToken riposteToken; // Not implemented
-    private BattleToken rushToken; // Not implemented
+    private BattleToken rushToken;
     private BattleToken stealthToken; // Not implemented
     private BattleToken tauntToken;
     private BattleToken wardToken;
@@ -77,9 +78,9 @@ public class BattleSystem : MonoBehaviour
     private BattleToken isolationToken;
     private BattleToken linkToken; // Not implemented
     private BattleToken offGuardToken;
-    private BattleToken restrictToken; // Not implemented
+    private BattleToken restrictToken;
     private BattleToken slowToken;
-    private BattleToken staggerToken; // Not implemented
+    private BattleToken staggerToken;
     private BattleToken stunToken;
     private BattleToken vulnerableToken;
     
@@ -107,7 +108,8 @@ public class BattleSystem : MonoBehaviour
     private bool wentBack = false;
     private bool targetSelected;
     private bool targetIsEnemy;
-    [SerializeField] private bool hasStepped;
+    private bool usedAbility;
+    private bool hasStepped;
     private bool targetBeingIndicated = false;
     private bool targetIndicatedGrid = false;
     
@@ -121,6 +123,7 @@ public class BattleSystem : MonoBehaviour
     private const int MAX_ACTION_START = 100;
     private const int MAX_INDIVIDUAL_DISPLAY = 5;
     private const int PREVIEW_RESIST_PIERCE = 500;
+    private const int PLAYER_NONMOVE_ABILITIES = 4;
     private const float MOVE_SPEED = 1f;
     private const string MAP_SCENE = "BaseScene";
     private const string BASE_SCENE = "BaseScene";
@@ -158,6 +161,11 @@ public class BattleSystem : MonoBehaviour
         InitializeBattleTokens();
         StartCoroutine(StartRoutine());
         battleStartUI.SetActive(true);
+    }
+
+    public List<BattleEntities> GetEnemyList()
+    {
+        return enemyCombatants;
     }
     
     // Battle state routines
@@ -268,6 +276,7 @@ public class BattleSystem : MonoBehaviour
                 
                 int characterIndex = allCombatants.IndexOf(preparedCombatants[0]);
                 if (preparedCombatants[0].isPlayer) {
+                    
                     state = BattleState.PlayerTurn;
                     StartCoroutine(PlayerTurnRoutine(characterIndex));
                     yield break;
@@ -291,7 +300,8 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.PlayerTurn) {
             currentPlayer = characterIndex;
             if (!wentBack && !hasStepped) {
-                
+
+                TriggerTurnStartTokens(allCombatants[characterIndex]);
                 RemoveSelfTurnStartTokens(allCombatants[characterIndex]);
                 allCombatants[currentPlayer].actionPoints -= TURN_START_THRESHOLD;
                 preparedCombatants.RemoveAt(preparedCombatants.IndexOf(allCombatants[currentPlayer]));
@@ -300,8 +310,18 @@ public class BattleSystem : MonoBehaviour
                 switch (allCombatants[currentPlayer].myName) {
                     case "Bune":
                         if (allCombatants[currentPlayer].activeTokens.All(t => t.tokenName != "Vice") && !allCombatants[currentPlayer].myFirstTurn) {
-                            yield return StartCoroutine(BuneViceActOut());
-                            yield break;
+                            
+                            float viceRoll = Random.Range(1, 101);
+                            if (viceRoll < allCombatants[currentPlayer].specialResourceFloat) {
+                                yield return StartCoroutine(BuneViceActOut(characterIndex));
+                                
+                                allCombatants[currentPlayer].specialResourceFloat += BUNE_ACTOUT_INCREASE;
+                                if (allCombatants[currentPlayer].specialResourceFloat > BUNE_MAX_ACTOUT) {
+                                    allCombatants[currentPlayer].specialResourceFloat = BUNE_MAX_ACTOUT;
+                                }
+                                
+                                yield break;
+                            }
                         } else {
                             allCombatants[currentPlayer].specialResourceFloat = BUNE_BASE_ACTOUT;
                         }
@@ -481,7 +501,13 @@ public class BattleSystem : MonoBehaviour
             }
 
             if (abilityInUse.abilityWeight == Ability.AbilityWeight.Step) {
-                hasStepped = true;
+                if (activeCharacter.activeTokens.Any(t => t.tokenName == "Rush")) {
+                    int tokenPosition = activeCharacter.activeTokens.FindIndex(t => t.tokenName == "Rush");
+                    activeCharacter.activeTokens.RemoveAt(tokenPosition);
+                    activeCharacter.battleVisuals.UpdateTokens(activeCharacter.activeTokens);
+                } else {
+                    hasStepped = true;
+                }
                 BackToAbilities();
             } else {
                 state  = BattleState.End;
@@ -515,7 +541,7 @@ public class BattleSystem : MonoBehaviour
                         case Ability.AbilityType.Debuff:
                             foreach (BattleEntities entity in partyCombatants) {
                                 int distance = Math.Abs(entity.xPos - activeEnemy.xPos) + Math.Abs(entity.yPos - activeEnemy.yPos);
-                                if (distance <= myBrain.enemyAbilities[i].ability.range) {
+                                if (distance <= myBrain.enemyAbilities[i].ability.range && entity.activeTokens.All(t => t.tokenName != "Stealth"))  {
                                     validAbilities.Add(myBrain.enemyAbilities[i]);
                                 }
                             }
@@ -555,6 +581,7 @@ public class BattleSystem : MonoBehaviour
                 } else if (closestOpponent.yPos < activeEnemy.yPos) {
                     StartCoroutine(SetGridPosition(activeEnemy, 0, -1));
                 }
+                usedAbility = false;
             } else {
                 for (int i = 0; i < validAbilities.Count; i++) {
                     priorityTotal += validAbilities[i].abilityPriority;
@@ -581,10 +608,10 @@ public class BattleSystem : MonoBehaviour
             switch (abilityUsed.ability.abilityType) {
                 case Ability.AbilityType.Damage:
                 case Ability.AbilityType.Debuff:
-                    foreach (BattleEntities t in partyCombatants) {
-                        int distance = Math.Abs(t.xPos - activeEnemy.xPos) + Math.Abs(t.yPos - activeEnemy.yPos);
-                        if (distance <= abilityUsed.ability.range) {
-                            targetList.Add(t);
+                    foreach (BattleEntities entity in partyCombatants) {
+                        int distance = Math.Abs(entity.xPos - activeEnemy.xPos) + Math.Abs(entity.yPos - activeEnemy.yPos);
+                        if (distance <= abilityUsed.ability.range  && entity.activeTokens.All(t => t.tokenName != "Stealth")) {
+                            targetList.Add(entity);
                         }
                     }
                     targetingFoes = true;
@@ -613,7 +640,10 @@ public class BattleSystem : MonoBehaviour
             if (!hasTaunt) {
                 if (Random.Range(0, 21) < abilityUsed.randomChance ||
                     abilityUsed.targetMethod == EnemyBrain.TargetMethod.Random) {
-                    abilityTarget = targetList[Random.Range(0, targetList.Count)];
+                    
+                    int abilityTargetIndex = Random.Range(0, targetList.Count);
+                    print(abilityTargetIndex);
+                    abilityTarget = targetList[abilityTargetIndex];
                 } else {
                     bool targetLowest;
                     switch (abilityUsed.targetMethod) {
@@ -779,10 +809,9 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntities activeEntity)
     {
-        print("EndRoutine Coroutine called");
-        
         // If a move action was used, turn off move buttons
-        if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement) {
+        if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement
+            && allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityWeight != Ability.AbilityWeight.Step) {
             combatGrid.DisableGridButtons(targetIsEnemy);
         }
         
@@ -798,12 +827,15 @@ public class BattleSystem : MonoBehaviour
             }
         }
         // Start the cooldown of the used ability
-        activeEntity.abilityCooldowns[activeEntity.activeAbility] = activeEntity.myAbilities[activeEntity.activeAbility].cooldown;
+        if (usedAbility) {
+            activeEntity.abilityCooldowns[activeEntity.activeAbility] = activeEntity.myAbilities[activeEntity.activeAbility].cooldown;
+        }
             
         // Reset turn-related values
         activeEntity.battleVisuals.SetMyTurnAnimation(false);
         wentBack = false;
         hasStepped = false;
+        usedAbility = true;
         activeEntity.wasDamagedLastTurn = false;
         activeEntity.damagedBy = 100;
 
@@ -944,7 +976,8 @@ public class BattleSystem : MonoBehaviour
         dodgePlusToken = allTokens.SingleOrDefault(obj => obj.tokenName == "DodgePlus");
         drainToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Drain");
         goadToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Goad");
-        guardToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Guard");
+        guardColumnToken = allTokens.SingleOrDefault(obj => obj.tokenName == "GuardColumn");
+        guardRowToken = allTokens.SingleOrDefault(obj => obj.tokenName == "GuardRow");
         hasteToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Haste");
         pierceToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Pierce");
         precisionToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Precision");
@@ -1278,19 +1311,54 @@ public class BattleSystem : MonoBehaviour
             } else if (entity.yPos < 1) {
                 entity.yPos = 1;
             }
-            
-            oldGridPos = GetGridPosition(entity);
-            
-            if (enemyBattleGrid[oldGridPos].isOccupied) {
+                
+            newGridPos = GetGridPosition(entity);
+
+            if (enemyBattleGrid[newGridPos].isOccupied) {
+                BattleEntities movePartner = enemyBattleGrid[newGridPos].occupiedBy;
+                
                 // Swap spaces with the target if they are not immobilized
-                if (enemyBattleGrid[oldGridPos].occupiedBy.activeTokens.All(t => t.tokenName != "Restrict")) {
-                    newPos = enemyBattleGrid[oldGridPos].gridTransform.position;
-                    StartCoroutine(MoveToPosition(enemyBattleGrid[oldGridPos].occupiedBy, newPos, oldPos));
+                if (movePartner.activeTokens.All(t => t.tokenName != "Restrict")) {
+                    newPos = enemyBattleGrid[newGridPos].gridTransform.position;
+                    
+                    if (xMove > 0) {
+                        movePartner.xPos -= 1;
+                    } else if (xMove < 0) {
+                        movePartner.xPos += 1;
+                    } else if (yMove > 0) {
+                        movePartner.yPos -= 1;
+                    } else if (yMove < 0) {
+                        movePartner.yPos += 1;
+                    }
+
+                    int partnerNewGridPos = GetGridPosition(movePartner);
+                    Vector3 partnerNewPos = enemyBattleGrid[partnerNewGridPos].gridTransform.position;
+                    
+                    StartCoroutine(MoveToPosition(movePartner, newPos, partnerNewPos));
+
+                    if (partnerNewPos != oldPos) {
+                        enemyBattleGrid[oldGridPos].isOccupied = false;
+                        enemyBattleGrid[oldGridPos].occupiedBy = null;
+                        enemyBattleGrid[partnerNewGridPos].isOccupied = true;
+                        enemyBattleGrid[partnerNewGridPos].occupiedBy = movePartner;
+                    } else {
+                        enemyBattleGrid[oldGridPos].isOccupied = true;
+                        enemyBattleGrid[oldGridPos].occupiedBy = movePartner;
+                    }
+                    enemyBattleGrid[newGridPos].isOccupied = true;
+                    enemyBattleGrid[newGridPos].occupiedBy = entity;
                 } else {
                     newPos = oldPos;
+                    newGridPos = oldGridPos;
+                    enemyBattleGrid[newGridPos].isOccupied = true;
+                    enemyBattleGrid[newGridPos].occupiedBy = entity;
                 }
             } else {
-                newPos = enemyBattleGrid[oldGridPos].gridTransform.position;
+                newPos = enemyBattleGrid[newGridPos].gridTransform.position;
+                enemyBattleGrid[oldGridPos].isOccupied = false;
+                enemyBattleGrid[oldGridPos].occupiedBy = null;
+                enemyBattleGrid[newGridPos].isOccupied = true;
+                enemyBattleGrid[newGridPos].occupiedBy = entity;
             }
         }
         StartCoroutine(MoveToPosition(entity, oldPos, newPos));
@@ -1387,61 +1455,60 @@ public class BattleSystem : MonoBehaviour
 
     private void UpdateAbilityBar(int characterIndex)
     {
-        for (int i = 0; i < partyCombatants[characterIndex].myAbilities.Count; i++) {
-            if (partyCombatants[characterIndex].abilityCooldowns[i] > 0) {
-                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
-                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
-            }  else if (partyCombatants[characterIndex].myAbilities[i].abilityWeight == Ability.AbilityWeight.Heavy && hasStepped) {
-                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
-                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
-            } else if (partyCombatants[characterIndex].myAbilities[i].abilityWeight == Ability.AbilityWeight.Step && hasStepped) {
-                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
-                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
-            } else {
-                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(255,255,255);
-                partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = true;
+        BattleEntities player = partyCombatants[characterIndex];
+        for (int i = 0; i < player.myAbilities.Count; i++) {
+            if (player.abilityCooldowns[i] > 0 || player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Heavy && hasStepped || 
+                player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Step && hasStepped) {
+                player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                player.abilityButtons[i].GetComponent<Button>().interactable = false;
+            }  else {
+                player.abilityButtons[i].GetComponent<Image>().color = new Color(255,255,255);
+                player.abilityButtons[i].GetComponent<Button>().interactable = true;
             }
-            switch (partyCombatants[characterIndex].myAbilities[i].costResource.ToString()) {
+
+            switch (player.myAbilities[i].costResource.ToString()) {
                 case "Null":
                     break;
                 case "Spirit":
-                    if (partyCombatants[characterIndex].currentSpirit <
-                        partyCombatants[characterIndex].myAbilities[i].costAmount) {
-                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
-                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+                    if (player.currentSpirit < player.myAbilities[i].costAmount) {
+                        player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                        player.abilityButtons[i].GetComponent<Button>().interactable = false;
                     }
                     break;
                 case "Health":
-                    if (partyCombatants[characterIndex].currentSpirit <
-                        partyCombatants[characterIndex].myAbilities[i].costAmount) {
-                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
-                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+                    if (player.currentHealth < player.myAbilities[i].costAmount) {
+                        player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                        player.abilityButtons[i].GetComponent<Button>().interactable = false;
                     }
                     break;
                 case "Defense":
-                    if (partyCombatants[characterIndex].currentSpirit <
-                        partyCombatants[characterIndex].myAbilities[i].costAmount) {
-                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
-                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+                    if (player.currentDefense < player.myAbilities[i].costAmount) {
+                        player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                        player.abilityButtons[i].GetComponent<Button>().interactable = false;
                     }
                     break;
                 case "SelfDmg":
                     break;
                 case "Armor":
-                    if (partyCombatants[characterIndex].currentSpirit <
-                        partyCombatants[characterIndex].myAbilities[i].costAmount) {
-                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
-                        partyCombatants[characterIndex].abilityButtons[i].GetComponent<Button>().interactable = false;
+                    if (player.currentArmor < player.myAbilities[i].costAmount) {
+                        player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                        player.abilityButtons[i].GetComponent<Button>().interactable = false;
                     }
                     break;
                 case "Special":
                     print("Special resource type was called but isn't programmed in yet.");
                     break;
                 default:
-                    print("Invalid resource of " +  partyCombatants[characterIndex].myAbilities[i].costResource + " supplied");
+                    print("Invalid resource of " +  player.myAbilities[i].costResource + " supplied");
                     break;
             }
             
+            if (player.myAbilities[i].abilityType == Ability.AbilityType.Movement &&
+                player.activeTokens.Any(t => t.tokenName == "Restrict"))
+            {
+                player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                player.abilityButtons[i].GetComponent<Button>().interactable = false;
+            }
         }
     }
 
@@ -1714,6 +1781,7 @@ public class BattleSystem : MonoBehaviour
     public void PassTurn()
     {
         if (state == BattleState.PlayerTurn) {
+            usedAbility = false;
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangePassButtonVisibility(false);
             StartCoroutine(EndRoutine(allCombatants[currentPlayer]));
@@ -1735,8 +1803,8 @@ public class BattleSystem : MonoBehaviour
                 combatGrid.DisableGridButtons(targetIsEnemy);
             }
             
-            allCombatants[currentPlayer].activeAbilityType = null;
-            allCombatants[currentPlayer].activeAbility = 10;
+            /*allCombatants[currentPlayer].activeAbilityType = null;
+            allCombatants[currentPlayer].activeAbility = 10;*/
             
             StopAllCoroutines();
             
@@ -1759,13 +1827,21 @@ public class BattleSystem : MonoBehaviour
         }
 
         if (targetIsEnemy) {
+            List<int> stealthedTargets = new List<int>();
+            
             // Enable buttons for each present enemy
-            foreach (var t in enemyCombatants) {
-                int distance = Math.Abs(t.xPos - activeEntity.xPos) +
-                               Math.Abs(t.yPos - activeEntity.yPos);
-
-                if (distance <= activeAbility.range) {
-                    targetList.Add(t);
+            foreach (BattleEntities entity in enemyCombatants) {
+                int distance = Math.Abs(entity.xPos - activeEntity.xPos) + Math.Abs(entity.yPos - activeEntity.yPos);
+                if (entity.activeTokens.Any(t => t.tokenName == "Stealth")) {
+                    stealthedTargets.Add(enemyCombatants.IndexOf(entity));
+                } else if (distance <= activeAbility.range) {
+                    targetList.Add(entity);
+                }
+            }
+            // Check if all enemies remaining are Stealthed, if so, ignore its effect.
+            if (stealthedTargets.Count == enemyCombatants.Count) {
+                foreach (int index in stealthedTargets) {
+                    targetList.Add(enemyCombatants[index]);
                 }
             }
             for (int i = 0; i < targetList.Count; i++) {
@@ -1826,13 +1902,8 @@ public class BattleSystem : MonoBehaviour
         
         // Check if target is ally or enemy
         int target;
-        if (targetIsEnemy) {
-            target = allCombatants.IndexOf(enemyCombatants[hoveredTarget]);
-            targetEntity = allCombatants[target];
-        } else {
-            target = allCombatants.IndexOf(partyCombatants[hoveredTarget]);
-            targetEntity = allCombatants[target];
-        }
+        target = allCombatants.IndexOf(targetList[hoveredTarget]);
+        targetEntity = allCombatants[target];
         
         int abilityModifier = 0;
         bool singleValue = false;
@@ -1946,9 +2017,6 @@ public class BattleSystem : MonoBehaviour
 
     public void IndicateTarget(int hoveredTarget)
     {
-        targetBeingIndicated = true;
-        SetTargetValuesForDisplay(hoveredTarget);
-        
         int target;
         // Check if target is ally or enemy
         if (targetIsEnemy) {
@@ -1958,6 +2026,9 @@ public class BattleSystem : MonoBehaviour
             target = allCombatants.IndexOf(targetList[hoveredTarget]);
             allCombatants[target].battleVisuals.TargetAllyActive();
         }
+        
+        targetBeingIndicated = true;
+        SetTargetValuesForDisplay(hoveredTarget);
     }
     
     public void StopIndicatingTarget(int hoveredTarget)
@@ -1996,9 +2067,11 @@ public class BattleSystem : MonoBehaviour
         targetIndicatedGrid = true;
         int targetIndex;
         if (targetIsEnemy) {
-            targetIndex = enemyCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
+            //targetIndex = enemyCombatants.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
+            targetIndex = targetList.IndexOf(enemyBattleGrid[positionIndex].occupiedBy);
         } else {
-            targetIndex = partyCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
+            //targetIndex = partyCombatants.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
+            targetIndex = targetList.IndexOf(partyBattleGrid[positionIndex].occupiedBy);
         }
         SetTargetValuesForDisplay(targetIndex);
         
@@ -2323,8 +2396,9 @@ public class BattleSystem : MonoBehaviour
         if (activeEntity.activeTokens.Any(t => t.tokenName == "Burn")) {
             ailmentIndex = activeEntity.activeTokens.FindIndex(t => t.tokenName == "Burn");
             ailmentDamage = (int)(activeEntity.activeTokens[ailmentIndex].tokenCount * burnCounter.tokenValue);
-            activeEntity.activeTokens[ailmentIndex].tokenCount -=
-                (int)(activeEntity.activeTokens[ailmentIndex].tokenCount * 0.5f);
+            print((int)(activeEntity.activeTokens[ailmentIndex].tokenCount * 0.5f));
+            activeEntity.activeTokens[ailmentIndex].tokenCount =
+                Mathf.FloorToInt(activeEntity.activeTokens[ailmentIndex].tokenCount * 0.5f);
         }
 
         if (ignoreDefense) {
@@ -2506,6 +2580,24 @@ public class BattleSystem : MonoBehaviour
             if (t.tokenName == "AntiHeal") {
                 tokensToRemove.Add(t.tokenName);
             }
+            
+            // Check for Restrict tokens
+            if (t.tokenName == "Restrict") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            // Check for Stealth tokens
+            if (t.tokenName == "Stealth") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            // Check for Guard tokens
+            if (t.tokenName == "GuardColumn") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            if (t.tokenName == "GuardRow") {
+                tokensToRemove.Add(t.tokenName);
+            }
         }
 
         foreach (string tokenName in tokensToRemove) {
@@ -2634,6 +2726,14 @@ public class BattleSystem : MonoBehaviour
             if (t.tokenName == "Taunt") {
                 tokensToRemove.Add(t.tokenName);
             }
+            
+            // Check for Guard tokens
+            if (t.tokenName == "GuardColumn") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            if (t.tokenName == "GuardRow") {
+                tokensToRemove.Add(t.tokenName);
+            }
         }
         
         foreach (string tokenName in tokensToRemove) {
@@ -2709,6 +2809,13 @@ public class BattleSystem : MonoBehaviour
         
         foreach (BattleToken t in targetEntity.activeTokens) {
             
+            // Check for Dodge tokens
+            if (t.tokenName == "DodgePlus") {
+                tokensToRemove.Add(t.tokenName);
+            } else if (t.tokenName == "Dodge") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
             // Check for Ward or Isolation
             if (t.tokenName == "Ward") {
                 tokensToRemove.Add(t.tokenName);
@@ -2716,6 +2823,14 @@ public class BattleSystem : MonoBehaviour
 
             // Check for Taunt
             if (t.tokenName == "Taunt") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            // Check for Guard tokens
+            if (t.tokenName == "GuardColumn") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            if (t.tokenName == "GuardRow") {
                 tokensToRemove.Add(t.tokenName);
             }
         }
@@ -2749,6 +2864,14 @@ public class BattleSystem : MonoBehaviour
             if (t.tokenName == "Taunt") {
                 tokensToRemove.Add(t.tokenName);
             }
+            
+            // Check for Guard tokens
+            if (t.tokenName == "GuardColumn") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            if (t.tokenName == "GuardRow") {
+                tokensToRemove.Add(t.tokenName);
+            }
         }
         
         foreach (string tokenName in tokensToRemove) {
@@ -2761,6 +2884,15 @@ public class BattleSystem : MonoBehaviour
         }
         
         targetEntity.battleVisuals.UpdateTokens(targetEntity.activeTokens);
+    }
+
+    private void TriggerTurnStartTokens(BattleEntities entity)
+    {
+        if (entity.activeTokens.Any(t => t.tokenName == "Stagger")) {
+            hasStepped = true;
+            int tokenPosition = entity.activeTokens.FindIndex(t => t.tokenName == "Stagger");
+            entity.activeTokens.RemoveAt(tokenPosition);
+        }
     }
 
     private void TriggerTurnSpeedTokens(BattleEntities entity)
@@ -2815,84 +2947,80 @@ public class BattleSystem : MonoBehaviour
     }
     
     // Character specific methods
-    private IEnumerator BuneViceActOut() // TODO make this reflect ability ranges
+    private IEnumerator BuneViceActOut(int characterIndex) // TODO make this reflect ability ranges
     {
-        StopCoroutine("PlayerTurnRoutine");
-        
         BattleEntities Bune = allCombatants[currentPlayer];
         BattleEntities abilityTarget = null;
         int actOutAbility;
         targetList.Clear();
-        
-        float viceRoll = Random.Range(1, 101);
-        if (viceRoll < Bune.specialResourceFloat) {
-            // Bune uses a random action with a random target
-            print("Bune acts out due to boredom!");
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
-            
-            actOutAbility = Random.Range(1, Bune.myAbilities.Count + 1);
-            Bune.activeAbility = actOutAbility;
 
-            bool targetingFoes = true;
-            switch (Bune.myAbilities[actOutAbility].abilityType) {
-                case Ability.AbilityType.Damage:
-                case Ability.AbilityType.Debuff:
-                    targetList = enemyCombatants;
-                    targetingFoes = true;
-                    break;
-                case  Ability.AbilityType.Heal:
-                case  Ability.AbilityType.Buff:
-                    targetList = partyCombatants;
-                    targetingFoes = false;
-                    break;
-            }
+        StopCoroutine(PlayerTurnRoutine(characterIndex));
+            
+        // Bune uses a random action with a random target
+        print("Bune acts out due to boredom!");
+        yield return new WaitForSeconds(TURN_ACTION_DELAY);
+            
+        actOutAbility = Random.Range(1, PLAYER_NONMOVE_ABILITIES + 1);
+        Bune.activeAbility = actOutAbility;
 
-            bool hasTaunt = false;
-            if (targetingFoes) {
-                foreach (BattleEntities entity in targetList.Where(entity => entity.activeTokens.Any(t => t.tokenName == "Taunt"))) {
-                    abilityTarget = entity;
-                    hasTaunt = true;
-                    break;
-                }
-            }
-            if (!hasTaunt) {
-                abilityTarget = targetList[Random.Range(0, targetList.Count)];
-            }
-            
-            switch (Bune.myAbilities[actOutAbility].abilityType) {
-                case Ability.AbilityType.Damage:
-                    yield return StartCoroutine(DamageAction(Bune, abilityTarget, actOutAbility));
-                    break;
-                case Ability.AbilityType.Debuff:
-                    yield return StartCoroutine(DebuffAction(Bune, abilityTarget, actOutAbility));
-                    break;
-                case  Ability.AbilityType.Heal:
-                    yield return StartCoroutine(HealAction(Bune, abilityTarget, actOutAbility));
-                    break;
-                case  Ability.AbilityType.Buff:
-                    yield return StartCoroutine(BuffAction(Bune, abilityTarget, actOutAbility));
-                    break;
-                default:
-                    print("Invalid ability type of " + Bune.myAbilities[actOutAbility].abilityType +
-                          " called.");
-                    yield break;
-            }
+        bool targetingFoes = true;
+        switch (Bune.myAbilities[actOutAbility].abilityType) {
+            case Ability.AbilityType.Damage:
+            case Ability.AbilityType.Debuff:
+                print("Act-out is targeting enemies");
+                targetList = enemyCombatants;
+                targetingFoes = true;
+                break;
+            case  Ability.AbilityType.Heal:
+            case  Ability.AbilityType.Buff:
+                print("Act-out is targeting allies");
+                targetList = partyCombatants;
+                targetingFoes = false;
+                break;
+        }
 
-            Bune.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
-            Bune.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
-            Bune.combatMenuVisuals.ChangeBackButtonVisibility(false);
-            
-            Bune.specialResourceFloat = BUNE_BASE_ACTOUT;
-            
-            state = BattleState.End;
-            StartCoroutine(EndRoutine(Bune));
-            yield break;
-        } else {
-            Bune.specialResourceFloat += BUNE_ACTOUT_INCREASE;
-            if (Bune.specialResourceFloat > BUNE_MAX_ACTOUT) {
-                Bune.specialResourceFloat = BUNE_MAX_ACTOUT;
+        bool hasTaunt = false;
+        if (targetingFoes) {
+            foreach (BattleEntities entity in targetList.Where(entity => entity.activeTokens.Any(t => t.tokenName == "Taunt"))) {
+                abilityTarget = entity;
+                hasTaunt = true;
+                break;
             }
         }
+        if (!hasTaunt) {
+            int abilityTargetIndex = Random.Range(0, targetList.Count);
+            print(abilityTargetIndex);
+            abilityTarget = targetList[abilityTargetIndex];
+        }
+            
+        switch (Bune.myAbilities[actOutAbility].abilityType) {
+            case Ability.AbilityType.Damage:
+                yield return StartCoroutine(DamageAction(Bune, abilityTarget, actOutAbility));
+                break;
+            case Ability.AbilityType.Debuff:
+                yield return StartCoroutine(DebuffAction(Bune, abilityTarget, actOutAbility));
+                break;
+            case  Ability.AbilityType.Heal:
+                yield return StartCoroutine(HealAction(Bune, abilityTarget, actOutAbility));
+                break;
+            case  Ability.AbilityType.Buff:
+                yield return StartCoroutine(BuffAction(Bune, abilityTarget, actOutAbility));
+                break;
+            default:
+                print("Invalid ability type of " + Bune.myAbilities[actOutAbility].abilityType + " called.");
+                yield break;
+        }
+
+        Bune.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+        Bune.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+        Bune.combatMenuVisuals.ChangeBackButtonVisibility(false);
+        
+        Bune.specialResourceFloat = BUNE_BASE_ACTOUT;
+        
+        state = BattleState.End;
+        StartCoroutine(EndRoutine(Bune));
+        yield break;
+        
     }
 
     private void BuneGainVice(BattleEntities attackTarget)
@@ -2979,7 +3107,9 @@ public class BattleSystem : MonoBehaviour
         
         // Change self position
         if (activeAbility.selfXChange != 0 || activeAbility.selfYChange != 0) {
-            StartCoroutine(SetGridPosition(attacker, activeAbility.selfXChange, activeAbility.selfYChange));
+            if (attacker.activeTokens.All(t => t.tokenName != "Restrict")) {
+                StartCoroutine(SetGridPosition(attacker, activeAbility.selfXChange, activeAbility.selfYChange));
+            }
         }
         
         // Check for hit
@@ -3172,7 +3302,9 @@ public class BattleSystem : MonoBehaviour
         
         // Change self position
         if (activeAbility.selfXChange != 0 || activeAbility.selfYChange != 0) {
-            StartCoroutine(SetGridPosition(healer, activeAbility.selfXChange, activeAbility.selfYChange));
+            if (healer.activeTokens.All(t => t.tokenName != "Restrict")) {
+                StartCoroutine(SetGridPosition(healer, activeAbility.selfXChange, activeAbility.selfYChange));
+            }
         }
         
         // Check for hit
@@ -3318,7 +3450,9 @@ public class BattleSystem : MonoBehaviour
         
         // Change self position
         if (activeAbility.selfXChange != 0 || activeAbility.selfYChange != 0) {
-            StartCoroutine(SetGridPosition(buffer, activeAbility.selfXChange, activeAbility.selfYChange));
+            if (buffer.activeTokens.All(t => t.tokenName != "Restrict")) {
+                StartCoroutine(SetGridPosition(buffer, activeAbility.selfXChange, activeAbility.selfYChange));
+            }
         }
         
         int accRoll = Random.Range(1, 101);
@@ -3413,7 +3547,9 @@ public class BattleSystem : MonoBehaviour
         
         // Change self position
         if (activeAbility.selfXChange != 0 || activeAbility.selfYChange != 0) {
-            StartCoroutine(SetGridPosition(debuffer, activeAbility.selfXChange, activeAbility.selfYChange));
+            if (debuffer.activeTokens.All(t => t.tokenName != "Restrict")) {
+                StartCoroutine(SetGridPosition(debuffer, activeAbility.selfXChange, activeAbility.selfYChange));
+            }
         }
         
         int accRoll = Random.Range(1, 101);

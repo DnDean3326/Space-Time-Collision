@@ -19,4 +19,5 @@ MonoBehaviour:
   tokenValue: 10
   tokenCap: 3
   tokenInverses: []
+  isUnique: 1
   tokenDescription: 

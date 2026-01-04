@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Jump
+  m_Name: Hidey Hide
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Jump
+  abilityName: Hidey Hide
   abilityIcon: {fileID: 0}
-  abilityType: 0
+  abilityType: 2
   abilityWeight: 0
   costResource: 0
   costAmount: 0
-  cooldown: 0
-  range: 3
+  cooldown: 3
+  range: 0
   targetSelf: 0
-  keyStat: 1
-  statModifier: 1
-  dmgMin: 2
-  dmgMax: 5
-  critChance: 10
+  keyStat: 0
+  statModifier: 0
+  dmgMin: 0
+  dmgMax: 0
+  critChance: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -35,12 +35,12 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
-  selfXChange: 0
+  selfXChange: 1
   selfYChange: 0
   targetXChange: 0
   targetYChange: 0
-  selfTokensApplied: 
-  selfTokenCountApplied: 
+  selfTokensApplied: 11000000
+  selfTokenCountApplied: 01000000
   targetTokensApplied: 
   targetTokenCountApplied: 
   selfCritTokensApplied: 

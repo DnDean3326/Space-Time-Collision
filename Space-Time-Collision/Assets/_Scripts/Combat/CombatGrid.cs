@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.Serialization;
 
 public class CombatGrid : MonoBehaviour
 {
@@ -17,11 +17,14 @@ public class CombatGrid : MonoBehaviour
 
     private readonly Color damageColor = new Color32(177, 2, 37, 255);
     private readonly Color healColor = new Color32(83, 183, 122, 255);
-    private readonly Color buffColor = new Color32(36, 173, 204, 255);
+    private readonly Color buffColor = new Color32(28, 113, 162, 255);
     private readonly Color debuffColor = new Color32(193, 93, 37, 255);
     private readonly Color movementColor = new Color32(255,255,255, 255);
     
     private BattleSystem battleSystem;
+    private List<BattleEntities> targetList = new List<BattleEntities>();
+
+    private const float UNUSABLE_TRANSPARENCY = 0.6f;
 
     private void Awake()
     {
@@ -60,33 +63,55 @@ public class CombatGrid : MonoBehaviour
     public void DisplayValidTiles(BattleEntities user, Ability.AbilityType abilityType,
         bool targetingEnemy, bool canTargetSelf)
     {
-        int userPosition;
         int abilityRange = user.myAbilities[user.activeAbility].range;
         int distance;
-        
-        for (int i = 0; i < partyGrid.Length; i++) {
-            if (partyGrid[i].isOccupied) { continue; }
-            if (partyGrid[i].occupiedBy == user) { userPosition = i; break; }
-        }
         
         SetGridImages(abilityType, targetingEnemy);
 
         if (targetingEnemy) {
-            foreach (GridTile tile in enemyGrid) {
+            List<int> stealthedTargets = new List<int>();
+
+            for (int i = 0; i < enemyGrid.Length; i++) {
+                GridTile tile = enemyGrid[i];
                 distance = Math.Abs(user.xPos - tile.xPos) + Math.Abs(user.yPos - tile.yPos);
                 if (abilityRange >= distance) {
-                    tile.gridVisual.SetActive(true);
+                    if (tile.isOccupied && tile.occupiedBy.activeTokens.Any(t => t.tokenName == "Stealth")) {
+                        stealthedTargets.Add(i);
+                    } else {
+                        tile.gridVisual.SetActive(true);
+                    }
+
+                    Color tempColor = tile.gridVisual.GetComponent<Image>().color;
                     if (tile.isOccupied) {
-                        Color tempColor = tile.gridVisual.GetComponent<Image>().color;
+                        if (abilityType == Ability.AbilityType.Movement &&
+                            tile.occupiedBy.activeTokens.Any(t => t.tokenName == "Restrict")) {
+                            tempColor.a = UNUSABLE_TRANSPARENCY;
+                            tile.gridVisual.GetComponent<Image>().color = tempColor;
+                            continue;
+                        }
                         tempColor.a = 1f;
                         tile.gridVisual.GetComponent<Image>().color = tempColor;
-                        
                         tile.gridVisual.GetComponent<Button>().enabled = true;
                         tile.gridVisual.GetComponent<EventTrigger>().enabled = true;
                     } else {
-                        Color tempColor = tile.gridVisual.GetComponent<Image>().color;
-                        tempColor.a = 0.7f;
+                        tempColor.a = UNUSABLE_TRANSPARENCY;
                         tile.gridVisual.GetComponent<Image>().color = tempColor;
+                    }
+                }
+            }
+            targetList = battleSystem.GetEnemyList();
+            if (stealthedTargets.Count == targetList.Count) {
+                print("Number of stealthed targets equal total targets");
+                foreach (var t in stealthedTargets) {
+                    print("Stealthed target enabled button loop");
+                    Color tempColor = enemyGrid[t].gridVisual.GetComponent<Image>().color;
+
+                    if (enemyGrid[t].isOccupied) {
+                        enemyGrid[t].gridVisual.SetActive(true);
+                        tempColor.a = 1f;
+                        enemyGrid[t].gridVisual.GetComponent<Image>().color = tempColor;
+                        enemyGrid[t].gridVisual.GetComponent<Button>().enabled = true;
+                        enemyGrid[t].gridVisual.GetComponent<EventTrigger>().enabled = true;
                     }
                 }
             }
@@ -95,10 +120,15 @@ public class CombatGrid : MonoBehaviour
                 distance = Math.Abs(user.xPos - tile.xPos) + Math.Abs(user.yPos - tile.yPos);
                 if (abilityRange >= distance) {
                     tile.gridVisual.SetActive(true);
+                    Color tempColor = tile.gridVisual.GetComponent<Image>().color;
                     if (tile.isOccupied) {
-                        Color tempColor = tile.gridVisual.GetComponent<Image>().color;
                         if (tile.occupiedBy == user && !canTargetSelf) {
-                            tempColor.a = 0.7f;
+                            tempColor.a = UNUSABLE_TRANSPARENCY;
+                            tile.gridVisual.GetComponent<Image>().color = tempColor;
+                            tile.gridVisual.SetActive(false);
+                        } else if (abilityType == Ability.AbilityType.Movement && 
+                                   tile.occupiedBy.activeTokens.Any(t => t.tokenName == "Restrict")) {
+                            tempColor.a = UNUSABLE_TRANSPARENCY;
                             tile.gridVisual.GetComponent<Image>().color = tempColor;
                             tile.gridVisual.SetActive(false);
                         } else {
@@ -109,8 +139,7 @@ public class CombatGrid : MonoBehaviour
                             tile.gridVisual.GetComponent<EventTrigger>().enabled = true;
                         }
                     } else {
-                        Color tempColor = tile.gridVisual.GetComponent<Image>().color;
-                        tempColor.a = 0.7f;
+                        tempColor.a = UNUSABLE_TRANSPARENCY;
                         tile.gridVisual.GetComponent<Image>().color = tempColor;
                     }
                 }

@@ -19,6 +19,7 @@ public class TurnOrderDisplay : MonoBehaviour
     
     private const float TURN_START_THRESHOLD = 200f;
     private const float Y_CHANGE = -105.6f;
+    private const float X_CHANGE = -33.1f;
 
     public void Awake()
     {
@@ -67,6 +68,7 @@ public class TurnOrderDisplay : MonoBehaviour
         foreach (int index in targetsBeingDisplayed) {
             var transformPosition = turnDisplays[index].transform.position;
             transformPosition.y += Y_CHANGE;
+            transformPosition.x += X_CHANGE;
             turnDisplays[index].transform.position = transformPosition;
         }
     }

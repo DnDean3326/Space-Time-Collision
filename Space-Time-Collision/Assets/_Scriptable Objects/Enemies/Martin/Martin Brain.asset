@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
   enemyAbilities:
   - ability: {fileID: 11400000, guid: 3767aad1552622547a34574e3fd3c574, type: 2}
-    abilityPriority: 9
+    abilityPriority: 4
+    targetMethod: 0
+    targetQualifier: 0
+    randomChance: 0
+  - ability: {fileID: 11400000, guid: ea4724c5a1d2e724aa34ceefe283f01b, type: 2}
+    abilityPriority: 8
     targetMethod: 0
     targetQualifier: 0
     randomChance: 0

@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d3fd5e77bf9d6d448a6b471671072d1, type: 3}
-  m_Name: Ascension
+  m_Name: Rush
   m_EditorClassIdentifier: Assembly-CSharp::Token
-  tokenName: Ascension
-  displayName: Ascension
-  tokenIcon: {fileID: 0}
+  tokenName: Rush
+  displayName: Rush
+  tokenIcon: {fileID: 21300000, guid: 1f1920c2f2601e74e820a0a6193a6121, type: 3}
   tokenType: 0
-  tokenValue: 0
-  tokenCap: 3
-  tokenInverses: []
-  isUnique: 1
+  tokenValue: 1
+  tokenCap: 1
+  tokenInverses:
+  - Restrict
+  isUnique: 0
   tokenDescription: 

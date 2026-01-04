@@ -19,6 +19,7 @@ public class Token : ScriptableObject
     public float tokenValue;
     public int tokenCap;
     public List<String> tokenInverses;
+    public bool isUnique;
 
     public string tokenDescription;
 }
