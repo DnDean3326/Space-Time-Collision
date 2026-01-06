@@ -22,20 +22,17 @@ public class EnemyManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // TODO This will need to be revised down the line to use set encounters
-    public void GenerateEnemiesByEncounter(Encounter[] encounters, int maxNumEnemies)
+    public void GenerateEnemiesByEncounter(Encounter tempEncounter)
     {
         currentEnemies.Clear();
-        int numEnemies = Random.Range(1, 2 + 1);
-
-        for (int i = 0; i < numEnemies; i++) {
-            Encounter tempEncounter = encounters[Random.Range(0, encounters.Length)];
-            int level = Random.Range(tempEncounter.levelMin, tempEncounter.levelMax + 1);
-            GenerateEnemyByName(tempEncounter.enemy.enemyName, level);
+        for (int i = 0; i < tempEncounter.encounterEnemies.Length; i++) {
+            // TODO add level scaling so future worlds get tougher
+            GenerateEnemyByName(tempEncounter.encounterEnemies[i].enemy.enemyName, 1,
+                tempEncounter.encounterEnemies[i].xPos, tempEncounter.encounterEnemies[i].yPos); 
         }
     }
 
-    private void GenerateEnemyByName(string enemyName, int level)
+    private void GenerateEnemyByName(string enemyName, int level, int encounterXPos, int encounterYPos)
     {
         for (int i = 0; i < allEnemies.Length; i++) {
             if (allEnemies[i].enemyName == enemyName) {
@@ -54,8 +51,8 @@ public class EnemyManager : MonoBehaviour
                 float levelModifier = (LEVEL_MODIFIER * (newEnemy.level - 1));
                 
                 // TODO Make this pull from encounter sets
-                newEnemy.xPos = 5 + (currentEnemies.Count(t => t.enemyBaseName == currentEnemies[i].enemyName));
-                newEnemy.yPos = 4 - (currentEnemies.Count(t => t.enemyBaseName == currentEnemies[i].enemyName));
+                newEnemy.xPos = encounterXPos;
+                newEnemy.yPos = encounterYPos;
                 
                 newEnemy.maxHealth = Mathf.RoundToInt(allEnemies[i].baseHealth + (allEnemies[i].baseHealth * levelModifier));
                 newEnemy.currentHealth = newEnemy.maxHealth;

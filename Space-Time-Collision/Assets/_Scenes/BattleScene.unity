@@ -774,7 +774,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
+          m_IntArgument: 26
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1757,7 +1757,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 18
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2460,10 +2460,10 @@ RectTransform:
   - {fileID: 87553540}
   m_Father: {fileID: 141450180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 686.5, y: 0}
-  m_SizeDelta: {x: 336.8, y: 211.2}
+  m_AnchorMin: {x: 0.7958539, y: 0.17031623}
+  m_AnchorMax: {x: 0.9877124, y: 0.8297265}
+  m_AnchoredPosition: {x: 0.5, y: 0}
+  m_SizeDelta: {x: 0.7999878, y: 1.199997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &218398373
 MonoBehaviour:
@@ -3352,7 +3352,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 11
+          m_IntArgument: 27
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3633,7 +3633,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 13
+          m_IntArgument: 29
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4174,10 +4174,10 @@ RectTransform:
   - {fileID: 1186552941}
   m_Father: {fileID: 141450180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -290.5, y: 0}
-  m_SizeDelta: {x: 336.8, y: 211.2}
+  m_AnchorMin: {x: 0.238, y: 0.17031623}
+  m_AnchorMax: {x: 0.4302877, y: 0.8297265}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -0.2000122, y: 1.199997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &380365326
 MonoBehaviour:
@@ -5019,10 +5019,10 @@ RectTransform:
   - {fileID: 646554466}
   m_Father: {fileID: 141450180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -656, y: 0}
-  m_SizeDelta: {x: 421, y: 264}
+  m_AnchorMin: {x: 0.0047169467, y: 0.08545296}
+  m_AnchorMax: {x: 0.246, y: 0.9141368}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &613176559
 CanvasRenderer:
@@ -6162,6 +6162,1769 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7494e60dcb3e8247a731db55d769485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  partyGrid:
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  enemyGrid:
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  - isDestroyed: 0
+    isOccupied: 0
+    occupiedBy:
+      battleAction: 0
+      myName: 
+      myPortrait: {fileID: 0}
+      isPlayer: 0
+      myFirstTurn: 0
+      wasDamagedLastTurn: 0
+      damagedBy: 0
+      activeAbilityType: 
+      target: 0
+      activeAbility: 0
+      level: 0
+      xPos: 0
+      yPos: 0
+      actionPoints: 0
+      ticksToTurn: 0
+      maxHealth: 0
+      currentHealth: 0
+      maxSpirit: 0
+      currentSpirit: 0
+      maxDefense: 0
+      currentDefense: 0
+      maxArmor: 0
+      currentArmor: 0
+      power: 0
+      skill: 0
+      wit: 0
+      mind: 0
+      speed: 0
+      luck: 0
+      critChance: 0
+      resistPierce: 0
+      stunResist: 0
+      debuffResist: 0
+      critResist: 0
+      ailmentResist: 0
+      gainedUniqueTokenLastTurn: 0
+      specialResourceFloat: 0
+      enemyBrain: {fileID: 0}
+      battleVisuals: {fileID: 0}
+      combatMenuVisuals: {fileID: 0}
+      myVisuals: {fileID: 0}
+      abilityButtons: []
+      targetButtons: []
+      targetPortraits: []
+      targetBorders: []
+      myAbilities: []
+      abilityCooldowns: 
+      activeTokens: []
+    gridVisual: {fileID: 0}
+    gridTransform: {fileID: 0}
+    xPos: 0
+    yPos: 0
+  lineBroken: 
   partyGridTransform:
   - {fileID: 128390989}
   - {fileID: 1842125604}
@@ -6196,871 +7959,6 @@ MonoBehaviour:
   - {fileID: 1720268368}
   - {fileID: 702158628}
   - {fileID: 143947057}
-  partyGrid:
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
   enemyGridTransforms:
   - {fileID: 1990577987}
   - {fileID: 173810106}
@@ -7095,871 +7993,39 @@ MonoBehaviour:
   - {fileID: 352592741}
   - {fileID: 1736368137}
   - {fileID: 1501769384}
-  enemyGrid:
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
-  - isOccupied: 0
-    occupiedBy:
-      battleAction: 0
-      myName: 
-      myPortrait: {fileID: 0}
-      isPlayer: 0
-      myFirstTurn: 0
-      wasDamagedLastTurn: 0
-      damagedBy: 0
-      activeAbilityType: 
-      target: 0
-      activeAbility: 0
-      level: 0
-      xPos: 0
-      yPos: 0
-      actionPoints: 0
-      ticksToTurn: 0
-      maxHealth: 0
-      currentHealth: 0
-      maxSpirit: 0
-      currentSpirit: 0
-      maxDefense: 0
-      currentDefense: 0
-      maxArmor: 0
-      currentArmor: 0
-      power: 0
-      skill: 0
-      wit: 0
-      mind: 0
-      speed: 0
-      luck: 0
-      critChance: 0
-      resistPierce: 0
-      stunResist: 0
-      debuffResist: 0
-      critResist: 0
-      ailmentResist: 0
-      gainedUniqueTokenLastTurn: 0
-      specialResourceFloat: 0
-      enemyBrain: {fileID: 0}
-      battleVisuals: {fileID: 0}
-      combatMenuVisuals: {fileID: 0}
-      myVisuals: {fileID: 0}
-      abilityButtons: []
-      targetButtons: []
-      targetPortraits: []
-      targetBorders: []
-      myAbilities: []
-      abilityCooldowns: 
-      activeTokens: []
-    gridVisual: {fileID: 0}
-    gridTransform: {fileID: 0}
-    xPos: 0
-    yPos: 0
+  destroyedGridSprites:
+  - {fileID: 21300000, guid: 4d2ab94187c78f4468f31f0a00281252, type: 3}
+  - {fileID: 21300000, guid: d0f57633fea267148914ea3c17a1ce17, type: 3}
+  - {fileID: 21300000, guid: 546e4f900857c3c43a6f1eb3a1b8443e, type: 3}
+  - {fileID: 21300000, guid: 641ab68bb0988e74f8883a753ef425f7, type: 3}
+  - {fileID: 21300000, guid: 14798dd09a3ba054b8f61f56078f32d9, type: 3}
+  - {fileID: 21300000, guid: 3d6dd32f43b8a144f9f681f4b322eada, type: 3}
+  - {fileID: 21300000, guid: cc19526ef91f6ff4c84c89d4df3c92a1, type: 3}
+  - {fileID: 21300000, guid: 1a90fb95073a91d40a661eef0786a11e, type: 3}
+  - {fileID: 21300000, guid: 62a9b788a1bd3324abde6d71c834bf0d, type: 3}
+  - {fileID: 21300000, guid: a3241971cefed7540b82aaf2f6cbf7ce, type: 3}
+  - {fileID: 21300000, guid: 0a613784b95127c4596aad7ba96364b1, type: 3}
+  - {fileID: 21300000, guid: a64547ba30bb4a84ab196cb425fbd4d7, type: 3}
+  - {fileID: 21300000, guid: 460e7d4642661944da44d15b9d011127, type: 3}
+  - {fileID: 21300000, guid: 3c581f032b6134642b3a63a1067abe34, type: 3}
+  - {fileID: 21300000, guid: 1a71cd0c25e1f504ea37651b52542a5b, type: 3}
+  - {fileID: 21300000, guid: 9b202a5ec4159b543ae39ca1c9c76317, type: 3}
+  - {fileID: 21300000, guid: 257a7c49e564296438991e330390bae5, type: 3}
+  - {fileID: 21300000, guid: d6e761a0b405b3b46bf11c463c3650d6, type: 3}
+  - {fileID: 21300000, guid: 898093ecdfb7f4948a5010764d2d455f, type: 3}
+  - {fileID: 21300000, guid: 8c45f257a349e9b4498af01efa8fda8b, type: 3}
+  - {fileID: 21300000, guid: 4303756827dc7b5419d01d93e6bd63e5, type: 3}
+  - {fileID: 21300000, guid: 5735d4f4630c5154c882fcdf601928a2, type: 3}
+  - {fileID: 21300000, guid: 1df9d4a6c1c02e84ebc01a62240991f9, type: 3}
+  - {fileID: 21300000, guid: a04a9138a103c734eade8562a07f653f, type: 3}
+  - {fileID: 21300000, guid: e5cf3d3db1871634094270647093cb8f, type: 3}
+  - {fileID: 21300000, guid: dfb15aac2d26c0d4c84cc3a2923638cf, type: 3}
+  - {fileID: 21300000, guid: 0a13bff20e6d4da4786bca6aa92f476d, type: 3}
+  - {fileID: 21300000, guid: b0f7f6fed1672d947a11bf51fd0445f2, type: 3}
+  - {fileID: 21300000, guid: 072940da7a8f6b54bb20d79b66c7ebf1, type: 3}
+  - {fileID: 21300000, guid: 5155c240557791641b25a858067b2aaa, type: 3}
+  - {fileID: 21300000, guid: 644fa7ec4c4c17141be9895fa34df402, type: 3}
+  - {fileID: 21300000, guid: 6c8b63a32ccb44c439e1489fc76fa05a, type: 3}
 --- !u!1 &777403764
 GameObject:
   m_ObjectHideFlags: 0
@@ -8380,7 +8446,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
+          m_IntArgument: 21
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8950,7 +9016,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 8
+          m_IntArgument: 24
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -9306,7 +9372,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 9
+          m_IntArgument: 25
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -10308,7 +10374,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 7
+          m_IntArgument: 23
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -11038,10 +11104,10 @@ RectTransform:
   - {fileID: 282340943}
   m_Father: {fileID: 141450180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35, y: 0}
-  m_SizeDelta: {x: 336.8, y: 211.2}
+  m_AnchorMin: {x: 0.42400002, y: 0.17031623}
+  m_AnchorMax: {x: 0.61657083, y: 0.8297265}
+  m_AnchoredPosition: {x: -0.5, y: 0}
+  m_SizeDelta: {x: -0.2000122, y: 1.199997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1231950044
 MonoBehaviour:
@@ -11196,6 +11262,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1245473535}
+  - component: {fileID: 1245473537}
+  - component: {fileID: 1245473536}
   m_Layer: 5
   m_Name: Transform 2
   m_TagString: Untagged
@@ -11217,11 +11285,49 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1300445058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -290.5, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.33085847, y: 0.48427352}
+  m_AnchorMax: {x: 0.33714157, y: 0.51568377}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1245473536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245473534}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1245473537
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245473534}
+  m_CullTransparentMesh: 1
 --- !u!1 &1300445057
 GameObject:
   m_ObjectHideFlags: 0
@@ -11271,6 +11377,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1306489897}
+  - component: {fileID: 1306489899}
+  - component: {fileID: 1306489898}
   m_Layer: 5
   m_Name: Transform 4
   m_TagString: Untagged
@@ -11292,11 +11400,49 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1300445058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 360.5, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.70271236, y: 0.48427352}
+  m_AnchorMax: {x: 0.70914155, y: 0.5157265}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1306489898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306489896}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1306489899
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306489896}
+  m_CullTransparentMesh: 1
 --- !u!1 &1318289057
 GameObject:
   m_ObjectHideFlags: 0
@@ -11409,10 +11555,10 @@ RectTransform:
   - {fileID: 109896470}
   m_Father: {fileID: 141450180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 360.5, y: 0}
-  m_SizeDelta: {x: 336.8, y: 211.2}
+  m_AnchorMin: {x: 0.60971236, y: 0.17031623}
+  m_AnchorMax: {x: 0.80200005, y: 0.8297265}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -0.2000122, y: 1.199997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1333589432
 MonoBehaviour:
@@ -11915,7 +12061,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 6
+          m_IntArgument: 22
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12197,7 +12343,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 12
+          m_IntArgument: 28
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -12782,7 +12928,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 15
+          m_IntArgument: 31
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -13064,7 +13210,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 19
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -13339,6 +13485,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1702533003}
+  - component: {fileID: 1702533005}
+  - component: {fileID: 1702533004}
   m_Layer: 5
   m_Name: Transform 5
   m_TagString: Untagged
@@ -13360,11 +13508,49 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1300445058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 686.5, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.88814616, y: 0.48427352}
+  m_AnchorMax: {x: 0.89528316, y: 0.5157265}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1702533004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702533002}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1702533005
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702533002}
+  m_CullTransparentMesh: 1
 --- !u!1 &1720268368
 GameObject:
   m_ObjectHideFlags: 0
@@ -13647,7 +13833,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 14
+          m_IntArgument: 30
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -13838,7 +14024,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 17
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -13980,7 +14166,12 @@ MonoBehaviour:
   battleStartUI: {fileID: 253983107}
   combatStartUI: {fileID: 365550595}
   combatStartUIAnimator: {fileID: 365550597}
-  hasStepped: 0
+  playerXMin: 1
+  playerXMax: 4
+  enemyXMin: 5
+  enemyXMax: 8
+  yMin: 1
+  yMax: 4
 --- !u!4 &1793564087
 Transform:
   m_ObjectHideFlags: 0
@@ -14087,7 +14278,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 4
+          m_IntArgument: 20
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -14278,7 +14469,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 16
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -15302,6 +15493,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2068542197}
+  - component: {fileID: 2068542199}
+  - component: {fileID: 2068542198}
   m_Layer: 5
   m_Name: Transform 1
   m_TagString: Untagged
@@ -15323,11 +15516,49 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1300445058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -656, y: 0}
+  m_AnchorMin: {x: 0.122570775, y: 0.48427352}
+  m_AnchorMax: {x: 0.128, y: 0.5157265}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2068542198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068542196}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2068542199
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068542196}
+  m_CullTransparentMesh: 1
 --- !u!1 &2072428735
 GameObject:
   m_ObjectHideFlags: 0
@@ -15528,6 +15759,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2097619436}
+  - component: {fileID: 2097619438}
+  - component: {fileID: 2097619437}
   m_Layer: 5
   m_Name: Transform 3
   m_TagString: Untagged
@@ -15549,11 +15782,49 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1300445058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35, y: 0}
+  m_AnchorMin: {x: 0.5171416, y: 0.48427352}
+  m_AnchorMax: {x: 0.5228539, y: 0.51568377}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2097619437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097619435}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2097619438
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097619435}
+  m_CullTransparentMesh: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

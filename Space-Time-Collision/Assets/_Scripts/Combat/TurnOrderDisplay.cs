@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class TurnOrderDisplay : MonoBehaviour
@@ -18,12 +16,19 @@ public class TurnOrderDisplay : MonoBehaviour
     private BattleSystem battleSystem;
     
     private const float TURN_START_THRESHOLD = 200f;
-    private const float Y_CHANGE = -105.6f;
-    private const float X_CHANGE = -33.1f;
+    private float yChange;
+    private float xChange;
 
     public void Awake()
     {
         battleSystem = FindFirstObjectByType<BattleSystem>();
+    }
+
+    public void Start()
+    {
+        RectTransform imageRect = turnDisplays[1].GetComponent<RectTransform>();
+        yChange = imageRect.rect.height / 2;
+        xChange = imageRect.rect.width / 10;
     }
     
     public void SetTurnDisplay(List<BattleEntities> turnOrder)
@@ -67,8 +72,8 @@ public class TurnOrderDisplay : MonoBehaviour
 
         foreach (int index in targetsBeingDisplayed) {
             var transformPosition = turnDisplays[index].transform.position;
-            transformPosition.y += Y_CHANGE;
-            transformPosition.x += X_CHANGE;
+            transformPosition.y -= yChange;
+            transformPosition.x -= xChange;
             turnDisplays[index].transform.position = transformPosition;
         }
     }

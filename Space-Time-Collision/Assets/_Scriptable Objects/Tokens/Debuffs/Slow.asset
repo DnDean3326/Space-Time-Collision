@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Slow
   displayName: Slow
-  tokenIcon: {fileID: 21300000, guid: c1f55021f54cd7f4dae68dfd1d6dee8a, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 32919844f6c791448b4ad8bc4da8eb8f, type: 3}
   tokenType: 1
   tokenValue: 0.5
   tokenCap: 3
   tokenInverses:
   - Haste
+  isUnique: 0
   tokenDescription: 

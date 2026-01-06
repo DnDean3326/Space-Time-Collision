@@ -38,3 +38,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 245aebdcea4668a489f86fda26388722, type: 2}
   stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
   sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
+  baseLineBreakToken: {fileID: 11400000, guid: ecf5cb58eac38024995ede0188254e77, type: 2}
+  baseLineBreakTokenCount: 1

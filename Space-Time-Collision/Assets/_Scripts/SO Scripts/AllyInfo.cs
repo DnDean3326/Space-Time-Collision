@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "AllyInfo", menuName = "Scriptable Objects/AllyInfo")]
 public class AllyInfo : ScriptableObject
@@ -28,4 +29,7 @@ public class AllyInfo : ScriptableObject
     public Ability[] abilities;
     public Ability stepAbility;
     public Ability sprintAbility;
+    
+    [FormerlySerializedAs("lineBreakToken")] public Token baseLineBreakToken;
+    public int baseLineBreakTokenCount;
 }

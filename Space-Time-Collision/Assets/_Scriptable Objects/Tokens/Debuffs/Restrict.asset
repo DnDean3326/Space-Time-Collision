@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Restrict
   displayName: Restrict
-  tokenIcon: {fileID: 21300000, guid: fa85ccc64df359548bdc03e5be7e4bcf, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 92c47b2659982e94584321da136511ba, type: 3}
   tokenType: 1
   tokenValue: 0
   tokenCap: 3

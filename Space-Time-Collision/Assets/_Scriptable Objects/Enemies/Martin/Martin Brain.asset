@@ -18,7 +18,7 @@ MonoBehaviour:
     targetMethod: 0
     targetQualifier: 0
     randomChance: 0
-  - ability: {fileID: 11400000, guid: ea4724c5a1d2e724aa34ceefe283f01b, type: 2}
+  - ability: {fileID: 11400000, guid: 204692701214d0448a634bb41c6e067f, type: 2}
     abilityPriority: 8
     targetMethod: 0
     targetQualifier: 0

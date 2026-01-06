@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TokenInfo
   tokenName: Precision
   displayName: Precision
-  tokenIcon: {fileID: 21300000, guid: b88baafd8f8845b48a553a0cec00f14c, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 1ee556eba917cbe44be60b329aca4022, type: 3}
   tokenType: 0
   tokenValue: 0
   tokenCap: 3
   tokenInverses:
   - Blind
+  isUnique: 0
   tokenDescription: 

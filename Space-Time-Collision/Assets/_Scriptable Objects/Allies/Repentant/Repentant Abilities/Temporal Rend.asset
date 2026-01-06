@@ -20,6 +20,7 @@ MonoBehaviour:
   costAmount: 3
   cooldown: 1
   range: 5
+  targetSelf: 0
   keyStat: 3
   statModifier: 1
   dmgMin: 2
@@ -34,6 +35,10 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  selfXChange: 0
+  selfYChange: 0
+  targetXChange: 0
+  targetYChange: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 
@@ -42,5 +47,11 @@ MonoBehaviour:
   selfCritTokenCountApplied: 
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
+  selfTokensCleared: 
+  targetTokensCleared: 
+  ignoreBlock: 0
+  ignoreDodge: 0
+  ignoreWard: 0
+  ignoreArmor: 0
   description: 'Deal damage\nDelay the target''s next turn\nRange: 5\nCooldown: 1\nCost:
     3 MP'

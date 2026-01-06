@@ -24,5 +24,8 @@ MonoBehaviour:
   baseMind: 0
   baseSpeed: 2
   baseLuck: 3
-  enemyBattleVisualPrefab: {fileID: 3665415145152625354, guid: 082cf59d7c7d587469d3e804cc4400c7, type: 3}
+  baseStunResist: 0
+  baseDebuffResist: 0
+  baseAilmentResist: 0
+  enemyBattleVisualPrefab: {fileID: 3665415145152625354, guid: 409b9916f7c1cf8408bbbacdb795b649, type: 3}
   baseEnemyBrain: {fileID: 11400000, guid: afc2c6ea295c3c045b90fa3854544674, type: 2}

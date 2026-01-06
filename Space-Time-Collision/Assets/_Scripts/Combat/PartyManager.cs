@@ -67,6 +67,9 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.activeAbilities = new List<Ability> { allMembers[i].abilities[0],  allMembers[i].abilities[1], 
                     allMembers[i].abilities[2],  allMembers[i].abilities[3], allMembers[i].stepAbility, allMembers[i].sprintAbility };
                 
+                newPartyMember.lineBreakToken = allMembers[i].baseLineBreakToken;
+                newPartyMember.lineBreakTokenCount = allMembers[i].baseLineBreakTokenCount;
+                
                 currentParty.Add(newPartyMember);
             }
         }
@@ -142,5 +145,7 @@ public class PartyMember
     public GameObject allyMenuVisualPrefab; // what will be displayed on the map
 
     public List<Ability> activeAbilities;
-
+    
+    public Token lineBreakToken;
+    public int lineBreakTokenCount;
 }
