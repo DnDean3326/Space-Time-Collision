@@ -4,7 +4,7 @@ public class EncounterSystem : MonoBehaviour
 {
 
     [SerializeField] private Encounter[] availableEncounters;
-    [SerializeField] private int? lastEncounterUsed = null;
+    //private int? lastEncounterUsed = null;
 
     private EnemyManager enemyManager;
     
@@ -17,13 +17,13 @@ public class EncounterSystem : MonoBehaviour
     void Start()
     {
         int encounterToUse = Random.Range(0, availableEncounters.Length);
-        if (encounterToUse == lastEncounterUsed) {
+        /*if (encounterToUse == lastEncounterUsed) {
             encounterToUse += 1;
             if (encounterToUse >= availableEncounters.Length) {
                 encounterToUse = 0;
             }
-        }
+        }*/
         enemyManager.GenerateEnemiesByEncounter(availableEncounters[encounterToUse]);
-        lastEncounterUsed = encounterToUse;
+        //lastEncounterUsed = encounterToUse;
     }
 }

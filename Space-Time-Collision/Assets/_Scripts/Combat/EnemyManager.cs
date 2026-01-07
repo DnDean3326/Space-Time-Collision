@@ -37,13 +37,13 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < allEnemies.Length; i++) {
             if (allEnemies[i].enemyName == enemyName) {
                 Enemy newEnemy = new Enemy();
-
+                
                 newEnemy.enemyBaseName = allEnemies[i].enemyName;
-                if (currentEnemies.Any(t => t.enemyBaseName == currentEnemies[i].enemyName)) {
-                    newEnemy.enemyName = (allEnemies[i].enemyName + " " + 
-                                          (currentEnemies.Count(t => t.enemyBaseName == currentEnemies[i].enemyName) + 1));
+                if (currentEnemies.Any(t => t.enemyName == newEnemy.enemyBaseName)) {
+                    newEnemy.enemyName = (newEnemy.enemyBaseName + " " + 
+                                          (currentEnemies.Count(t => t.enemyBaseName == newEnemy.enemyBaseName) + 1));
                 } else {
-                    newEnemy.enemyName = allEnemies[i].enemyName;
+                    newEnemy.enemyName = newEnemy.enemyBaseName;
                 }
                 
                 newEnemy.enemyPortrait = allEnemies[i].enemyPortrait;

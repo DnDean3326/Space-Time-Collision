@@ -106,7 +106,7 @@ public class CombatGrid : MonoBehaviour
             lineBroken[row - 1] = true;
             if (row <= GRID_X_MAX) {
                 // Affecting player side
-                battleSystem.playerXMax = (GRID_X_MAX - (GRID_X_MAX - row + 1));
+                battleSystem.playerXMax = row - 1;
                 print("playerXMax = " + battleSystem.playerXMax);
                 Color tempColor = movementColor;
                 for (int i = 0; i < partyGrid.Length; i++) {
@@ -124,7 +124,8 @@ public class CombatGrid : MonoBehaviour
                 }
             } else {
                 // Affecting enemy side
-                battleSystem.enemyXMin = (row - GRID_X_MAX) + GRID_X_MAX;
+                battleSystem.enemyXMin = row + 1;
+                print("enemyXMin = " + battleSystem.enemyXMin);
                 Color tempColor = movementColor;
                 for (int i = 0; i < enemyGrid.Length; i++) {
                     GridTile tile = enemyGrid[i];

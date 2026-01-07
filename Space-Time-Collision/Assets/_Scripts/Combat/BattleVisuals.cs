@@ -16,6 +16,9 @@ public class BattleVisuals : MonoBehaviour
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private GameObject targetIndicator;
     [SerializeField] private GameObject[] tokenSlots;
+    [SerializeField] private GameObject[] tokenTextSlots;
+    [SerializeField] private GameObject[] ailmentSlots;
+    [SerializeField] private GameObject[] ailmentTextSlots;
 
     private int maxHealth;
     private int currentHealth;
@@ -59,7 +62,7 @@ public class BattleVisuals : MonoBehaviour
     private void UpdateHealthBar()
     {
         float currentHP = (float)currentHealth;
-        float maxHP =  (float)maxHealth;
+        float maxHP = (float)maxHealth;
         float hpPercent = (currentHP / maxHP);
         healthBar.fillAmount = hpPercent;
     }
@@ -102,9 +105,30 @@ public class BattleVisuals : MonoBehaviour
 
     public void UpdateTokens(List<BattleToken> activeTokens)
     {
+        int tokenSlotIndex = 0;
+        int ailmentSlotIndex = 0;
         for (int i = 0; i < activeTokens.Count; i++) {
-            tokenSlots[i].SetActive(true);
-            tokenSlots[i].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+            if (activeTokens[i].tokenType == Token.TokenType.Ailments) {
+                ailmentSlots[ailmentSlotIndex].SetActive(true);
+                ailmentSlots[ailmentSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+                if (activeTokens[i].tokenCount > 1) {
+                    ailmentTextSlots[ailmentSlotIndex].SetActive(true);
+                    ailmentTextSlots[ailmentSlotIndex].GetComponentInChildren<Text>().text = "x" + activeTokens[i].tokenCount;
+                } else {
+                    ailmentTextSlots[ailmentSlotIndex].SetActive(false);
+                }
+                ailmentSlotIndex++;
+            } else {
+                tokenSlots[tokenSlotIndex].SetActive(true);
+                tokenSlots[tokenSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+                if (activeTokens[i].tokenCount > 1) {
+                    tokenTextSlots[tokenSlotIndex].SetActive(true);
+                    tokenTextSlots[tokenSlotIndex].GetComponentInChildren<Text>().text = "x" + activeTokens[i].tokenCount;
+                } else {
+                    tokenTextSlots[tokenSlotIndex].SetActive(false);
+                }
+                tokenSlotIndex++;
+            }
         }
         for (int j = activeTokens.Count; j < tokenSlots.Length; j++) {
             tokenSlots[j].SetActive(false);

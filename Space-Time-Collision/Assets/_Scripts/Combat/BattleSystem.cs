@@ -57,15 +57,15 @@ public class BattleSystem : MonoBehaviour
     private BattleToken dodgeToken;
     private BattleToken dodgePlusToken;
     private BattleToken goadToken; // Not implemented
-    private BattleToken guardColumnToken;
-    private BattleToken guardRowToken;
+    private BattleToken guardColumnToken; // Not implemented
+    private BattleToken guardRowToken; // Not implemented
     private BattleToken hasteToken;
     private BattleToken pierceToken;
     private BattleToken precisionToken;
     private BattleToken quickToken;
     private BattleToken riposteToken; // Not implemented
     private BattleToken rushToken;
-    private BattleToken stealthToken; // Not implemented
+    private BattleToken stealthToken;
     private BattleToken tauntToken;
     private BattleToken wardToken;
     
@@ -89,7 +89,8 @@ public class BattleSystem : MonoBehaviour
     private BattleToken viceToken;
     
     // Ailment Counters
-    private BattleToken burnCounter; // Not implemented
+    private BattleToken burnCounter;
+    private BattleToken poisonCounter;
     
     [Header("UI")]
     [SerializeField] private GameObject combatStartUI;
@@ -1074,6 +1075,7 @@ public class BattleSystem : MonoBehaviour
         
         // Set ailment counters
         burnCounter = allTokens.SingleOrDefault(obj => obj.tokenName == "Burn");
+        poisonCounter = allTokens.SingleOrDefault(obj => obj.tokenName == "Poison");
     }
 
     private void GetTurnOrder()
@@ -2553,7 +2555,35 @@ public class BattleSystem : MonoBehaviour
         if (activeEntity.activeTokens.Any(t => t.tokenName == "Burn")) {
             ailmentIndex = activeEntity.activeTokens.FindIndex(t => t.tokenName == "Burn");
             ailmentDamage = (int)(activeEntity.activeTokens[ailmentIndex].tokenCount * burnCounter.tokenValue);
-            print((int)(activeEntity.activeTokens[ailmentIndex].tokenCount * 0.5f));
+            activeEntity.activeTokens[ailmentIndex].tokenCount =
+                Mathf.FloorToInt(activeEntity.activeTokens[ailmentIndex].tokenCount * 0.5f);
+            if (activeEntity.activeTokens[ailmentIndex].tokenCount <= 0) {
+                activeEntity.activeTokens.RemoveAt(ailmentIndex);
+                activeEntity.battleVisuals.UpdateTokens(activeEntity.activeTokens);
+            }
+            
+            int distance;
+            if (activeEntity.isPlayer) {
+                foreach (GridTile tile in partyBattleGrid) {
+                    distance = CalculateTileDistance(tile, activeEntity);
+                    if (distance <= 1 && tile.isOccupied && tile.occupiedBy != activeEntity) {
+                        AddTokens(activeEntity, tile.occupiedBy, "Burn", 2, 0);
+                    }
+                }
+            } else {
+                foreach (GridTile tile in enemyBattleGrid) {
+                    distance = CalculateTileDistance(tile, activeEntity);
+                    if (distance <= 1 && tile.isOccupied && tile.occupiedBy != activeEntity) {
+                        AddTokens(activeEntity, tile.occupiedBy, "Burn", 2, 0);
+                    }
+                }
+            }
+        }
+
+        if (activeEntity.activeTokens.Any(t => t.tokenName == "Poison")) {
+            ignoreDefense = true;
+            ailmentIndex = activeEntity.activeTokens.FindIndex(t => t.tokenName == "Poison");
+            ailmentDamage = (int)(activeEntity.activeTokens[ailmentIndex].tokenCount * poisonCounter.tokenValue);
             activeEntity.activeTokens[ailmentIndex].tokenCount =
                 Mathf.FloorToInt(activeEntity.activeTokens[ailmentIndex].tokenCount * 0.5f);
             if (activeEntity.activeTokens[ailmentIndex].tokenCount <= 0) {
@@ -3294,14 +3324,29 @@ public class BattleSystem : MonoBehaviour
         int critRoll = Random.Range(1, 101);
         if (critRoll < critChance && attacker.activeTokens.All(t => t.tokenName != "Critical")) {
             isCrit = true;
+            if (maxDamageRange < 0) {
+                maxDamageRange = 0;
+            }
             damage = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
             if (!IgnoreArmorWithTokens(attacker, attackTarget) || attacker.myAbilities[attacker.activeAbility].ignoreArmor) {
                 damage -= attackTarget.currentArmor;
             }
+            if (damage < 1) {
+                damage = 1;
+            }
         } else {
+            if (minDamageRange < 0) {
+                minDamageRange = 0;
+            }
+            if (maxDamageRange < 0) {
+                maxDamageRange = 0;
+            }
             damage = Random.Range(minDamageRange, maxDamageRange + 1);
             if (!IgnoreArmorWithTokens(attacker, attackTarget) || attacker.myAbilities[attacker.activeAbility].ignoreArmor) {
                 damage -= attackTarget.currentArmor;
+            }
+            if (damage < 0) {
+                damage = 0;
             }
         }
 

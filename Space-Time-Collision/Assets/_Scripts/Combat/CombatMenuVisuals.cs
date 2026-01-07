@@ -102,8 +102,17 @@ public class CombatMenuVisuals : MonoBehaviour
         hitChanceText.text = hitChance + "%" + '\n' + "Hit";
         critChanceText.text = critChance + "%" + '\n' + "Crit";
         if (!singleValue) {
+            if (dmgMin < 0) {
+                dmgMin = 0;
+            }
+            if (dmgMax < 0) {
+                dmgMax = 0;
+            }
             dmgRangeText.text = dmgMin + "-" + dmgMax + '\n' + type;
         } else {
+            if (dmgMax < 0) {
+                dmgMax = 0;
+            }
             dmgRangeText.text = dmgMax + "\n " + type;
         }
         
