@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Burn
   displayName: Burn
-  tokenIcon: {fileID: -3524757698702100708, guid: 01c90fb0dd11b9d4c9892ac51a3e8aa4, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 01c90fb0dd11b9d4c9892ac51a3e8aa4, type: 3}
   tokenType: 2
   tokenValue: 1
   tokenCap: 99

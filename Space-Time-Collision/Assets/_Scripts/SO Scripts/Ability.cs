@@ -105,6 +105,7 @@ public class Ability : ScriptableObject
         Vice,
         
         Burn,
+        Poison
     }
     
     [Header("Ability Basics")]

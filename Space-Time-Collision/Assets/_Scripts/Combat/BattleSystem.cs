@@ -2567,14 +2567,16 @@ public class BattleSystem : MonoBehaviour
                 foreach (GridTile tile in partyBattleGrid) {
                     distance = CalculateTileDistance(tile, activeEntity);
                     if (distance <= 1 && tile.isOccupied && tile.occupiedBy != activeEntity) {
-                        AddTokens(activeEntity, tile.occupiedBy, "Burn", 2, 0);
+                        AddTokens(activeEntity, tile.occupiedBy, activeEntity.activeTokens[ailmentIndex].tokenName, 
+                            2, 0);
                     }
                 }
             } else {
                 foreach (GridTile tile in enemyBattleGrid) {
                     distance = CalculateTileDistance(tile, activeEntity);
                     if (distance <= 1 && tile.isOccupied && tile.occupiedBy != activeEntity) {
-                        AddTokens(activeEntity, tile.occupiedBy, "Burn", 2, 0);
+                        AddTokens(activeEntity, tile.occupiedBy, activeEntity.activeTokens[ailmentIndex].tokenName, 
+                            2, 0);
                     }
                 }
             }

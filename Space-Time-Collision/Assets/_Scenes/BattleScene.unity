@@ -4368,6 +4368,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e8225391d4574084f8e143069a7215b7, type: 2}
   - {fileID: 11400000, guid: ecf5cb58eac38024995ede0188254e77, type: 2}
   - {fileID: 11400000, guid: 5e0d02eca971bad48bd0f7e0210bcb1c, type: 2}
+  - {fileID: 11400000, guid: 40d1f1344fc24e940b402efdfed6f0f9, type: 2}
   allTokensList: []
 --- !u!4 &449082134
 Transform:
@@ -6204,6 +6205,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6259,6 +6262,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6314,6 +6319,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6369,6 +6376,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6424,6 +6433,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6479,6 +6490,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6534,6 +6547,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6589,6 +6604,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6644,6 +6661,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6699,6 +6718,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6754,6 +6775,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6809,6 +6832,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6864,6 +6889,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6919,6 +6946,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -6974,6 +7003,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7029,6 +7060,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7085,6 +7118,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7140,6 +7175,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7195,6 +7232,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7250,6 +7289,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7305,6 +7346,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7360,6 +7403,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7415,6 +7460,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7470,6 +7517,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7525,6 +7574,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7580,6 +7631,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7635,6 +7688,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7690,6 +7745,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7745,6 +7802,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7800,6 +7859,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7855,6 +7916,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}
@@ -7910,6 +7973,8 @@ MonoBehaviour:
       gainedUniqueTokenLastTurn: 0
       specialResourceFloat: 0
       enemyBrain: {fileID: 0}
+      lineBreakToken: {fileID: 0}
+      lineBreakTokenCount: 0
       battleVisuals: {fileID: 0}
       combatMenuVisuals: {fileID: 0}
       myVisuals: {fileID: 0}

@@ -15,9 +15,13 @@ public class BattleVisuals : MonoBehaviour
     [SerializeField] private TextMeshProUGUI armorText;
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private GameObject targetIndicator;
+    
     [SerializeField] private GameObject[] tokenSlots;
+    [SerializeField] private GameObject[] tokenSlotShadows;
     [SerializeField] private GameObject[] tokenTextSlots;
+    
     [SerializeField] private GameObject[] ailmentSlots;
+    [SerializeField] private GameObject[] ailmentSlotShadows;
     [SerializeField] private GameObject[] ailmentTextSlots;
 
     private int maxHealth;
@@ -107,31 +111,52 @@ public class BattleVisuals : MonoBehaviour
     {
         int tokenSlotIndex = 0;
         int ailmentSlotIndex = 0;
+        
         for (int i = 0; i < activeTokens.Count; i++) {
             if (activeTokens[i].tokenType == Token.TokenType.Ailments) {
-                ailmentSlots[ailmentSlotIndex].SetActive(true);
-                ailmentSlots[ailmentSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
-                if (activeTokens[i].tokenCount > 1) {
-                    ailmentTextSlots[ailmentSlotIndex].SetActive(true);
-                    ailmentTextSlots[ailmentSlotIndex].GetComponentInChildren<Text>().text = "x" + activeTokens[i].tokenCount;
+                if (activeTokens[i].tokenCount >= 1) {
+                    ailmentSlotShadows[ailmentSlotIndex].SetActive(true);
+                    ailmentSlots[ailmentSlotIndex].SetActive(true);
+                    ailmentSlots[ailmentSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+                    
+                    if (activeTokens[i].tokenCount > 1) {
+                        ailmentTextSlots[ailmentSlotIndex].SetActive(true);
+                        ailmentTextSlots[ailmentSlotIndex].GetComponentInChildren<TextMeshProUGUI>().text = "x" + activeTokens[i].tokenCount;
+                    } else {
+                        ailmentTextSlots[ailmentSlotIndex].SetActive(false);
+                    }
                 } else {
                     ailmentTextSlots[ailmentSlotIndex].SetActive(false);
+                    ailmentSlots[ailmentSlotIndex].SetActive(false);
+                    ailmentSlotShadows[ailmentSlotIndex].SetActive(false);
                 }
                 ailmentSlotIndex++;
             } else {
-                tokenSlots[tokenSlotIndex].SetActive(true);
-                tokenSlots[tokenSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
-                if (activeTokens[i].tokenCount > 1) {
-                    tokenTextSlots[tokenSlotIndex].SetActive(true);
-                    tokenTextSlots[tokenSlotIndex].GetComponentInChildren<Text>().text = "x" + activeTokens[i].tokenCount;
+                if (activeTokens[i].tokenCount >= 1) {
+                    tokenSlotShadows[tokenSlotIndex].SetActive(true);
+                    tokenSlots[tokenSlotIndex].SetActive(true);
+                    tokenSlots[tokenSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+
+                    if (activeTokens[i].tokenCount > 1) {
+                        tokenTextSlots[tokenSlotIndex].SetActive(true);
+                        tokenTextSlots[tokenSlotIndex].GetComponentInChildren<TextMeshProUGUI>().text = "x" + activeTokens[i].tokenCount;
+                    } else {
+                        ailmentTextSlots[ailmentSlotIndex].SetActive(false);
+                    }
                 } else {
                     tokenTextSlots[tokenSlotIndex].SetActive(false);
+                    tokenSlots[tokenSlotIndex].SetActive(false);
+                    tokenSlotShadows[tokenSlotIndex].SetActive(false);
                 }
                 tokenSlotIndex++;
             }
         }
-        for (int j = activeTokens.Count; j < tokenSlots.Length; j++) {
+        for (int j = tokenSlotIndex; j < tokenSlots.Length; j++) {
             tokenSlots[j].SetActive(false);
+        }
+        for (int j = ailmentSlotIndex; j < ailmentSlots.Length; j++)
+        {
+            ailmentSlots[j].SetActive(false);
         }
     }
 
