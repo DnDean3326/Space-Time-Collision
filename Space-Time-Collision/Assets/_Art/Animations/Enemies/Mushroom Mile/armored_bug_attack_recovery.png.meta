@@ -1,37 +1,31 @@
 fileFormatVersion: 2
-guid: 0be399333b8f04b8393984c7be14111d
+guid: e68d2ba5c41764a259b1de894c1efc31
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5195201346965040146
-    second: void_button_idle_0
+      213: 1655303187568745191
+    second: armored_bug_attack_recovery_0
   - first:
-      213: -5339486987632009834
-    second: void_button_idle_1
+      213: -8036447514800506795
+    second: armored_bug_attack_recovery_1
   - first:
-      213: -1129737922133113429
-    second: void_button_idle_2
+      213: -4445488504871893533
+    second: armored_bug_attack_recovery_2
   - first:
-      213: 3060275681067111111
-    second: void_button_idle_3
+      213: -365124446117453377
+    second: armored_bug_attack_recovery_3
   - first:
-      213: 5198527253573144684
-    second: void_button_idle_4
+      213: -5729430708433235380
+    second: armored_bug_attack_recovery_4
   - first:
-      213: -5767789939997575558
-    second: void_button_idle_5
+      213: 2975738210483834361
+    second: armored_bug_attack_recovery_5
   - first:
-      213: -2043623432703166248
-    second: void_button_idle_6
+      213: -5738380926992494427
+    second: armored_bug_attack_recovery_6
   - first:
-      213: -3149586994387611003
-    second: void_button_idle_7
-  - first:
-      213: -3999078868212564802
-    second: void_button_idle_8
-  - first:
-      213: 297820984269336157
-    second: void_button_idle_9
+      213: 3978416918489602218
+    second: armored_bug_attack_recovery_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -127,221 +121,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: void_button_idle_0
+      name: armored_bug_attack_recovery_0
       rect:
         serializedVersion: 2
-        x: 147
-        y: 1604
-        width: 1620
-        height: 556
+        x: 0
+        y: 420
+        width: 365
+        height: 420
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ee3948976efe6e7b0800000000000000
-      internalID: -5195201346965040146
+      spriteID: 7ea5b9a9a71d8f610800000000000000
+      internalID: 1655303187568745191
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: void_button_idle_1
+      name: armored_bug_attack_recovery_1
       rect:
         serializedVersion: 2
-        x: 972
-        y: 1593
-        width: 6
-        height: 95
+        x: 365
+        y: 420
+        width: 365
+        height: 420
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 69d9f53efd456e5b0800000000000000
-      internalID: -5339486987632009834
+      spriteID: 558be30709dc87090800000000000000
+      internalID: -8036447514800506795
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: void_button_idle_2
+      name: armored_bug_attack_recovery_2
       rect:
         serializedVersion: 2
-        x: 2067
-        y: 1604
-        width: 1620
-        height: 556
+        x: 730
+        y: 420
+        width: 365
+        height: 420
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ba5c7fd685d5250f0800000000000000
-      internalID: -1129737922133113429
+      spriteID: 3e5470e02c37e42c0800000000000000
+      internalID: -4445488504871893533
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: void_button_idle_3
+      name: armored_bug_attack_recovery_3
       rect:
         serializedVersion: 2
-        x: 2892
-        y: 1593
-        width: 6
-        height: 95
+        x: 1095
+        y: 420
+        width: 365
+        height: 420
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7c295c49488487a20800000000000000
-      internalID: 3060275681067111111
+      spriteID: fb1ab523041deeaf0800000000000000
+      internalID: -365124446117453377
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: void_button_idle_4
+      name: armored_bug_attack_recovery_4
       rect:
         serializedVersion: 2
-        x: 141
-        y: 1071
-        width: 7
-        height: 10
+        x: 1460
+        y: 420
+        width: 365
+        height: 420
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c601a608ef0e42840800000000000000
-      internalID: 5198527253573144684
+      spriteID: c425f926029fc70b0800000000000000
+      internalID: -5729430708433235380
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: void_button_idle_5
+      name: armored_bug_attack_recovery_5
       rect:
         serializedVersion: 2
-        x: 150
-        y: 524
-        width: 1617
-        height: 557
+        x: 0
+        y: 0
+        width: 365
+        height: 420
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a767f5fcb91b4ffa0800000000000000
-      internalID: -5767789939997575558
+      spriteID: 9fd0274e222fb4920800000000000000
+      internalID: 2975738210483834361
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: void_button_idle_6
+      name: armored_bug_attack_recovery_6
       rect:
         serializedVersion: 2
-        x: 2061
-        y: 1071
-        width: 7
-        height: 10
+        x: 365
+        y: 0
+        width: 365
+        height: 420
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8d83017c05793a3e0800000000000000
-      internalID: -2043623432703166248
+      spriteID: 5a05cbc33fc2d50b0800000000000000
+      internalID: -5738380926992494427
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: void_button_idle_7
+      name: armored_bug_attack_recovery_7
       rect:
         serializedVersion: 2
-        x: 2070
-        y: 524
-        width: 1617
-        height: 557
+        x: 730
+        y: 0
+        width: 365
+        height: 420
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 582165ad05b6a44d0800000000000000
-      internalID: -3149586994387611003
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: void_button_idle_8
-      rect:
-        serializedVersion: 2
-        x: 967
-        y: 513
-        width: 11
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ebc3b6715fa6088c0800000000000000
-      internalID: -3999078868212564802
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: void_button_idle_9
-      rect:
-        serializedVersion: 2
-        x: 2887
-        y: 513
-        width: 11
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d5ee7067b92122400800000000000000
-      internalID: 297820984269336157
+      spriteID: aa81afadb1d263730800000000000000
+      internalID: 3978416918489602218
       vertices: []
       indices: 
       edges: []
@@ -350,7 +300,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 3cdea9a2d03e2409a966d87b9fb8677a
     internalID: 0
     vertices: []
     indices: 
@@ -358,18 +308,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":2.0},"gridSpriteSize":{"x":365.0,"y":420.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      void_button_idle_0: -5195201346965040146
-      void_button_idle_1: -5339486987632009834
-      void_button_idle_2: -1129737922133113429
-      void_button_idle_3: 3060275681067111111
-      void_button_idle_4: 5198527253573144684
-      void_button_idle_5: -5767789939997575558
-      void_button_idle_6: -2043623432703166248
-      void_button_idle_7: -3149586994387611003
-      void_button_idle_8: -3999078868212564802
-      void_button_idle_9: 297820984269336157
+      armored_bug_attack_recovery_0: 1655303187568745191
+      armored_bug_attack_recovery_1: -8036447514800506795
+      armored_bug_attack_recovery_2: -4445488504871893533
+      armored_bug_attack_recovery_3: -365124446117453377
+      armored_bug_attack_recovery_4: -5729430708433235380
+      armored_bug_attack_recovery_5: 2975738210483834361
+      armored_bug_attack_recovery_6: -5738380926992494427
+      armored_bug_attack_recovery_7: 3978416918489602218
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
