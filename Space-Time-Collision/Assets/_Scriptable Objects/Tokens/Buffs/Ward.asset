@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Ward
   displayName: Ward
-  tokenIcon: {fileID: 21300000, guid: 73c8343f62f17934ebad2c93004fa9f5, type: 3}
+  tokenIcon: {fileID: 21300000, guid: b56a02f76d79c0040ae93409a164a37f, type: 3}
   tokenType: 0
   tokenValue: 0
   tokenCap: 3
   tokenInverses:
   - Isolation
+  isUnique: 0
   tokenDescription: 

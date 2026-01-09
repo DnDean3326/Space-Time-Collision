@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Stealth
   displayName: Stealth
-  tokenIcon: {fileID: 21300000, guid: 4af5ca74db0696a4898722dced8b8dc1, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 482632690571a794c91953b7b1bb462f, type: 3}
   tokenType: 0
   tokenValue: 0
   tokenCap: 3

@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Taunt
   displayName: Taunt
-  tokenIcon: {fileID: 21300000, guid: 19b7f1aa393005e49b294ad3f53902eb, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 71864f94bfa50754daba2d260c7e7612, type: 3}
   tokenType: 0
   tokenValue: 0
   tokenCap: 3
   tokenInverses:
   - Stealth
+  isUnique: 0
   tokenDescription: 

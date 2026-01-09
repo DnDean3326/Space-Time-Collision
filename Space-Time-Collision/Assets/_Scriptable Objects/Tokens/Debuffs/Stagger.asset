@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Stagger
   displayName: Stagger
-  tokenIcon: {fileID: 21300000, guid: e4736434866072349a35f37ab7e616fb, type: 3}
+  tokenIcon: {fileID: 21300000, guid: b367ae62593b8cc40ad50f0980c34f98, type: 3}
   tokenType: 1
   tokenValue: 0
   tokenCap: 1

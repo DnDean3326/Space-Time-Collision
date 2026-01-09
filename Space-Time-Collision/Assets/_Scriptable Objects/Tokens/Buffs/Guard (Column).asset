@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: GuardColumn
   displayName: Column-Guard
-  tokenIcon: {fileID: 21300000, guid: c8d297fc400544246aee8e71768019ee, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 0e1fd4cee1ec2854c84f3c20a3704f33, type: 3}
   tokenType: 0
   tokenValue: 1
   tokenCap: 3

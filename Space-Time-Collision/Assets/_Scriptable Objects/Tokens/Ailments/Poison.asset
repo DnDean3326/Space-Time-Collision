@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Poison
   displayName: Poison
-  tokenIcon: {fileID: 21300000, guid: 1bc894d885bbcf245a0691516767e1c6, type: 3}
+  tokenIcon: {fileID: 21300000, guid: d8a37fb4c53cdcf42ab7415e53f3394f, type: 3}
   tokenType: 2
   tokenValue: 1
   tokenCap: 99
