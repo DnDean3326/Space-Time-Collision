@@ -1,0 +1,769 @@
+fileFormatVersion: 2
+guid: 90a4edfd05111443ba68c0004ec480cc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1853734339173766044
+    second: armored_bug_idle_spritesheet_0
+  - first:
+      213: 1868247989751894463
+    second: armored_bug_idle_spritesheet_1
+  - first:
+      213: -7775687292461765502
+    second: armored_bug_idle_spritesheet_2
+  - first:
+      213: 6316369317475534865
+    second: armored_bug_idle_spritesheet_3
+  - first:
+      213: -8949517226077730371
+    second: armored_bug_idle_spritesheet_4
+  - first:
+      213: -6533451342341789781
+    second: armored_bug_idle_spritesheet_5
+  - first:
+      213: 8380413115969855754
+    second: armored_bug_idle_spritesheet_6
+  - first:
+      213: 3912419680627613569
+    second: armored_bug_idle_spritesheet_7
+  - first:
+      213: 4444310165837470051
+    second: armored_bug_idle_spritesheet_8
+  - first:
+      213: 377296685187318005
+    second: armored_bug_idle_spritesheet_9
+  - first:
+      213: 7571191159486738544
+    second: armored_bug_idle_spritesheet_10
+  - first:
+      213: -4908948746015899795
+    second: armored_bug_idle_spritesheet_11
+  - first:
+      213: -2351759485465254822
+    second: armored_bug_idle_spritesheet_12
+  - first:
+      213: 5039511308646972744
+    second: armored_bug_idle_spritesheet_13
+  - first:
+      213: -221965876676650715
+    second: armored_bug_idle_spritesheet_14
+  - first:
+      213: 3946695474885599305
+    second: armored_bug_idle_spritesheet_15
+  - first:
+      213: -7236956379410663662
+    second: armored_bug_idle_spritesheet_16
+  - first:
+      213: -2090986290623466756
+    second: armored_bug_idle_spritesheet_17
+  - first:
+      213: 2511645514831964458
+    second: armored_bug_idle_spritesheet_18
+  - first:
+      213: -7335484532929781771
+    second: armored_bug_idle_spritesheet_19
+  - first:
+      213: 4106662661611919611
+    second: armored_bug_idle_spritesheet_20
+  - first:
+      213: 4955755242707769878
+    second: armored_bug_idle_spritesheet_21
+  - first:
+      213: -6428277156789884456
+    second: armored_bug_idle_spritesheet_22
+  - first:
+      213: -3313807137796376024
+    second: armored_bug_idle_spritesheet_23
+  - first:
+      213: -349207010717464256
+    second: armored_bug_idle_spritesheet_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1280
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c93556a5f89c9b910800000000000000
+      internalID: 1853734339173766044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 1280
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb1df75f5a95de910800000000000000
+      internalID: 1868247989751894463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 1280
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28c2c48da95371490800000000000000
+      internalID: -7775687292461765502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 1280
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1184e4ebd6048a750800000000000000
+      internalID: 6316369317475534865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 1180
+        y: 1280
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db9c56cdf7decc380800000000000000
+      internalID: -8949517226077730371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 960
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba72b6eae948455a0800000000000000
+      internalID: -6533451342341789781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 960
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a016860e3553d4470800000000000000
+      internalID: 8380413115969855754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 960
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18f5e0c78f4bb4630800000000000000
+      internalID: 3912419680627613569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 960
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36956628c8c5dad30800000000000000
+      internalID: 4444310165837470051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 1180
+        y: 960
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f0c58f065d6c3500800000000000000
+      internalID: 377296685187318005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 070f8c3ee36421960800000000000000
+      internalID: 7571191159486738544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 640
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6f7f1dcf19efdbb0800000000000000
+      internalID: -4908948746015899795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 640
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5420b7453fdc5fd0800000000000000
+      internalID: -2351759485465254822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 640
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84d7771b5d0ffe540800000000000000
+      internalID: 5039511308646972744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 1180
+        y: 640
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5291e60163b6becf0800000000000000
+      internalID: -221965876676650715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 320
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 940a239bf9a75c630800000000000000
+      internalID: 3946695474885599305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 320
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 217fa36148a219b90800000000000000
+      internalID: -7236956379410663662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 320
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf23d251c035bf2e0800000000000000
+      internalID: -2090986290623466756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 320
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a292349d9482bd220800000000000000
+      internalID: 2511645514831964458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 1180
+        y: 320
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ff195faeaf133a90800000000000000
+      internalID: -7335484532929781771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf81db5ceebcdf830800000000000000
+      internalID: 4106662661611919611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 0
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61a5063f22166c440800000000000000
+      internalID: 4955755242707769878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 0
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d9e7cffbfb2ac6a0800000000000000
+      internalID: -6428277156789884456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 0
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82a3e7927fdf202d0800000000000000
+      internalID: -3313807137796376024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armored_bug_idle_spritesheet_24
+      rect:
+        serializedVersion: 2
+        x: 1180
+        y: 0
+        width: 295
+        height: 320
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0490c1de21e572bf0800000000000000
+      internalID: -349207010717464256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 88c6880a1ec7541cb8b1132322bb7ac1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":5.0},"gridSpriteSize":{"x":295.0,"y":320.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      armored_bug_idle_spritesheet_0: 1853734339173766044
+      armored_bug_idle_spritesheet_1: 1868247989751894463
+      armored_bug_idle_spritesheet_10: 7571191159486738544
+      armored_bug_idle_spritesheet_11: -4908948746015899795
+      armored_bug_idle_spritesheet_12: -2351759485465254822
+      armored_bug_idle_spritesheet_13: 5039511308646972744
+      armored_bug_idle_spritesheet_14: -221965876676650715
+      armored_bug_idle_spritesheet_15: 3946695474885599305
+      armored_bug_idle_spritesheet_16: -7236956379410663662
+      armored_bug_idle_spritesheet_17: -2090986290623466756
+      armored_bug_idle_spritesheet_18: 2511645514831964458
+      armored_bug_idle_spritesheet_19: -7335484532929781771
+      armored_bug_idle_spritesheet_2: -7775687292461765502
+      armored_bug_idle_spritesheet_20: 4106662661611919611
+      armored_bug_idle_spritesheet_21: 4955755242707769878
+      armored_bug_idle_spritesheet_22: -6428277156789884456
+      armored_bug_idle_spritesheet_23: -3313807137796376024
+      armored_bug_idle_spritesheet_24: -349207010717464256
+      armored_bug_idle_spritesheet_3: 6316369317475534865
+      armored_bug_idle_spritesheet_4: -8949517226077730371
+      armored_bug_idle_spritesheet_5: -6533451342341789781
+      armored_bug_idle_spritesheet_6: 8380413115969855754
+      armored_bug_idle_spritesheet_7: 3912419680627613569
+      armored_bug_idle_spritesheet_8: 4444310165837470051
+      armored_bug_idle_spritesheet_9: 377296685187318005
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
