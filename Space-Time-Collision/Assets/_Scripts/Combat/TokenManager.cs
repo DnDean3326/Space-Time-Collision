@@ -6,7 +6,7 @@ public class TokenManager : MonoBehaviour
     [SerializeField] private Token[] allTokens;
     [SerializeField] private List<Token> allTokensList = new List<Token>();
     
-    public List<Token> GetAllTokens()
+    public List<Token> GetTokenInfo()
     {
         allTokensList.AddRange(allTokens);
         return allTokensList;

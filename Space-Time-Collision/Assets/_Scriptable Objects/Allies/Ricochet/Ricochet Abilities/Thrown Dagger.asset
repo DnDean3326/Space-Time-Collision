@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Get Ovah Here
+  m_Name: Thrown Dagger
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Get Ovah Here
+  abilityName: Thrown Dagger
   abilityIcon: {fileID: 0}
   abilityType: 0
-  abilityWeight: 0
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
-  cooldown: 2
+  cooldown: 0
   rangeMin: 2
-  rangeMax: 4
+  rangeMax: 5
   hasAccuracy: 1
   targetSelf: 0
-  attackType: 0
-  keyStat: 1
-  statModifier: 1
-  dmgMin: 1
-  dmgMax: 3
-  critChance: 10
+  attackType: 1
+  keyStat: 2
+  statModifier: 0
+  dmgMin: 2
+  dmgMax: 5
+  critChance: 15
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -40,16 +40,16 @@ MonoBehaviour:
   selfMax: 0
   selfXChange: 0
   selfYChange: 0
-  targetXChange: -2
+  targetXChange: 0
   targetYChange: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 17000000
-  targetTokenCountApplied: 01000000
+  targetTokensApplied: 24000000
+  targetTokenCountApplied: 03000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 1d000000
-  targetCritTokenCountApplied: 01000000
+  targetCritTokensApplied: 
+  targetCritTokenCountApplied: 
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0

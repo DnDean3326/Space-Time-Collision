@@ -24,6 +24,14 @@ public class BattleSystem : MonoBehaviour
         Won,
         Lost
     }
+    
+    private enum DuplicationType
+    {
+        Cleave,
+        Ricochet,
+        Dualcast,
+        None
+    }
 
     [Header("Battle System")]
     [SerializeField] private BattleState state;
@@ -63,6 +71,7 @@ public class BattleSystem : MonoBehaviour
     private BattleToken pierceToken;
     private BattleToken precisionToken;
     private BattleToken quickToken;
+    private BattleToken ricochetToken;
     private BattleToken riposteToken; // Not implemented
     private BattleToken rushToken;
     private BattleToken stealthToken;
@@ -89,6 +98,7 @@ public class BattleSystem : MonoBehaviour
     private BattleToken viceToken;
     
     // Ailment Counters
+    private BattleToken bleedCounter;
     private BattleToken burnCounter;
     private BattleToken poisonCounter;
     
@@ -102,6 +112,9 @@ public class BattleSystem : MonoBehaviour
     private TurnOrderDisplay turnOrderDisplay;
     private CombatGrid combatGrid;
     
+    // Character Specific Logic
+    private RicochetBattleLogic ricochetLogic;
+    
     private int currentPlayer;
     private bool abilitySelected;
     private bool wentBack = false;
@@ -110,8 +123,11 @@ public class BattleSystem : MonoBehaviour
     private bool usedAbility;
     private bool usedLightAction;
     private bool brokeRow;
+    private bool abilityDuplicated = false;
     private bool targetBeingIndicated = false;
     private bool targetIndicatedGrid = false;
+    
+    private DuplicationType duplicationType = DuplicationType.None;
     
     // Grid Variables
     private const int BASE_PLAYER_X_MIN = 1;
@@ -168,6 +184,8 @@ public class BattleSystem : MonoBehaviour
         tokenManager = FindFirstObjectByType<TokenManager>();
         turnOrderDisplay = FindFirstObjectByType<TurnOrderDisplay>();
         combatGrid = FindFirstObjectByType<CombatGrid>();
+
+        ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
     }
     
     
@@ -905,6 +923,8 @@ public class BattleSystem : MonoBehaviour
         wentBack = false;
         usedLightAction = false;
         usedAbility = true;
+        abilityDuplicated = false;
+        duplicationType = DuplicationType.None;
         activeEntity.wasDamagedLastTurn = false;
         activeEntity.damagedBy = 100;
 
@@ -1028,7 +1048,7 @@ public class BattleSystem : MonoBehaviour
     private void InitializeBattleTokens()
     {
         List<Token> currentTokens = new List<Token>();
-        currentTokens = tokenManager.GetAllTokens();
+        currentTokens = tokenManager.GetTokenInfo();
 
         for (int i = 0; i < currentTokens.Count; i++) {
             BattleToken battleToken = new BattleToken();
@@ -1055,6 +1075,7 @@ public class BattleSystem : MonoBehaviour
         pierceToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Pierce");
         precisionToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Precision");
         quickToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Quick");
+        ricochetToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Ricochet");
         riposteToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Riposte");
         rushToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Rush");
         stealthToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Stealth");
@@ -1081,8 +1102,15 @@ public class BattleSystem : MonoBehaviour
         viceToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Vice");
         
         // Set ailment counters
+        bleedCounter = allTokens.SingleOrDefault(obj => obj.tokenName == "Bleed");
         burnCounter = allTokens.SingleOrDefault(obj => obj.tokenName == "Burn");
         poisonCounter = allTokens.SingleOrDefault(obj => obj.tokenName == "Poison");
+    }
+
+    public BattleToken GetTokenIdentity(string tokenName)
+    {
+        BattleToken tempToken = allTokens.SingleOrDefault(obj => obj.tokenName == tokenName);
+        return tempToken;
     }
 
     private void GetTurnOrder()
@@ -1417,7 +1445,6 @@ public class BattleSystem : MonoBehaviour
             }
                 
             newGridPos = GetGridPosition(entity);
-            print(GetGridPosition(entity));
 
             if (partyBattleGrid[newGridPos].isOccupied && partyBattleGrid[newGridPos].occupiedBy != entity) {
                 BattleEntities movePartner = partyBattleGrid[newGridPos].occupiedBy;
@@ -2079,8 +2106,9 @@ public class BattleSystem : MonoBehaviour
         int max = 0;
         int crit = 0;
         
-        SetAbilityValues(activeEntity, ref abilityModifier, ref isCrit, ref acc, ref min,
+        SetAbilityValuesAgainstTarget(activeEntity, targetEntity, ref abilityModifier, ref isCrit, ref acc, ref min,
             ref max, ref crit);
+        print("Min: " + min + "\nMax: " + max);
         
         // Check for damage abilities
         if (activeEntity.myAbilities[activeEntity.activeAbility].abilityType == Ability.AbilityType.Damage) {
@@ -2100,7 +2128,20 @@ public class BattleSystem : MonoBehaviour
             RunDebuffAgainstTargetTokens(activeEntity, targetEntity, ref isCrit, ref acc , ref crit);
         }
 
-        crit -= allCombatants[target].critResist;
+        switch (activeEntity.myAbilities[activeEntity.activeAbility].abilityType) {
+            case Ability.AbilityType.Damage:
+            case Ability.AbilityType.Debuff:
+                crit -= allCombatants[target].critResist;
+                break;
+            case Ability.AbilityType.Heal:
+            case Ability.AbilityType.Buff:
+            case Ability.AbilityType.Movement:
+            case Ability.AbilityType.Other:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
         if (crit < 0) {
             crit = 0;
         }
@@ -2127,7 +2168,7 @@ public class BattleSystem : MonoBehaviour
         activeEntity.combatMenuVisuals.SetAbilityValues(acc, min, max, crit, isDamage, singleValue);
         
         // Methods for displaying the updated resources and turn order
-        PreviewSelfGain(activeEntity);
+        if (!abilityDuplicated) { PreviewSelfGain(activeEntity); }
         PreviewTargetResourceValue(targetEntity);
 
         bool hasSpeedToken = false;
@@ -2210,7 +2251,7 @@ public class BattleSystem : MonoBehaviour
         
         int target = allCombatants.IndexOf(targetList[hoveredTarget]);
         EndTargetResourcePreview(allCombatants[target]);
-        EndSelfGainPreview(allCombatants[currentPlayer]);
+        if (!abilityDuplicated) { EndSelfGainPreview(allCombatants[currentPlayer]); }
         RevertTurnSpeed(allCombatants[target]);
         
         allCombatants[target].battleVisuals.TargetInactive();
@@ -2269,7 +2310,7 @@ public class BattleSystem : MonoBehaviour
         }
         
         EndTargetResourcePreview(allCombatants[targetIndex]);
-        EndSelfGainPreview(allCombatants[currentPlayer]);
+        if (!abilityDuplicated) { EndSelfGainPreview(allCombatants[currentPlayer]); }
         RevertTurnSpeed(allCombatants[targetIndex]);
         allCombatants[targetIndex].battleVisuals.TargetInactive();
     }
@@ -2334,32 +2375,122 @@ public class BattleSystem : MonoBehaviour
 
     private int GetAbilityModifier(BattleEntities activeEntity, int activeAbilityIndex)
     {
-        string abilityKey = activeEntity.myAbilities[activeAbilityIndex].keyStat.ToString();
+        Ability.KeyStat abilityKey = activeEntity.myAbilities[activeAbilityIndex].keyStat;
         int abilityKeyMod = activeEntity.myAbilities[activeAbilityIndex].statModifier;
         int abilityModifier = 0;
+        int tempInt = 0;
         
         switch (abilityKey)
         {
-            case "Null":
+            case Ability.KeyStat.Null:
                 abilityModifier = 0;
                 break;
-            case "Power":
+            case Ability.KeyStat.Power:
                 abilityModifier = activeEntity.power * abilityKeyMod;
                 break;
-            case "Skill":
+            case Ability.KeyStat.Skill:
                 abilityModifier = activeEntity.skill * abilityKeyMod;
                 break;
-            case "Wit":
+            case Ability.KeyStat.Wit:
                 abilityModifier = activeEntity.wit * abilityKeyMod;
                 break;
-            case "Mind":
+            case Ability.KeyStat.Mind:
                 abilityModifier = activeEntity.mind * abilityKeyMod;
                 break;
-            case "Speed":
+            case Ability.KeyStat.Speed:
                 abilityModifier = activeEntity.speed * abilityKeyMod;
                 break;
-            case "Luck":
+            case Ability.KeyStat.Luck:
                 abilityModifier = activeEntity.luck * abilityKeyMod;
+                break;
+            case Ability.KeyStat.SelfBuffCount:
+                foreach (BattleToken token in activeEntity.activeTokens) {
+                    if (token.tokenType == Token.TokenType.Buff) {
+                        tempInt += token.tokenCount;
+                    }
+                }
+                abilityModifier = tempInt * abilityKeyMod;
+                break;
+            case Ability.KeyStat.SelfDebuffCount:
+                foreach (BattleToken token in activeEntity.activeTokens) {
+                    if (token.tokenType == Token.TokenType.Debuff) {
+                        tempInt += token.tokenCount;
+                    }
+                }
+                abilityModifier = tempInt * abilityKeyMod;
+                break;
+            case Ability.KeyStat.TargetBuffCount:
+            case Ability.KeyStat.TargetDebuffCount:
+                abilityModifier = 0;
+                break;
+            default:
+                print("Invalid damage key of " +  abilityKey + " supplied");
+                break;
+        }
+        return abilityModifier;
+    }
+
+    private int GetAbilityModifierAgainstTarget(BattleEntities activeEntity, BattleEntities targetEntity, int activeAbilityIndex)
+    {
+        Ability.KeyStat abilityKey = activeEntity.myAbilities[activeAbilityIndex].keyStat;
+        int abilityKeyMod = activeEntity.myAbilities[activeAbilityIndex].statModifier;
+        int abilityModifier = 0;
+        int tempInt = 0;
+        
+        switch (abilityKey)
+        {
+            case Ability.KeyStat.Null:
+                abilityModifier = 0;
+                break;
+            case Ability.KeyStat.Power:
+                abilityModifier = activeEntity.power * abilityKeyMod;
+                break;
+            case Ability.KeyStat.Skill:
+                abilityModifier = activeEntity.skill * abilityKeyMod;
+                break;
+            case Ability.KeyStat.Wit:
+                abilityModifier = activeEntity.wit * abilityKeyMod;
+                break;
+            case Ability.KeyStat.Mind:
+                abilityModifier = activeEntity.mind * abilityKeyMod;
+                break;
+            case Ability.KeyStat.Speed:
+                abilityModifier = activeEntity.speed * abilityKeyMod;
+                break;
+            case Ability.KeyStat.Luck:
+                abilityModifier = activeEntity.luck * abilityKeyMod;
+                break;
+            case Ability.KeyStat.SelfBuffCount:
+                foreach (BattleToken token in activeEntity.activeTokens) {
+                    if (token.tokenType == Token.TokenType.Buff) {
+                        tempInt += token.tokenCount;
+                    }
+                }
+                abilityModifier = tempInt * abilityKeyMod;
+                break;
+            case Ability.KeyStat.SelfDebuffCount:
+                foreach (BattleToken token in activeEntity.activeTokens) {
+                    if (token.tokenType == Token.TokenType.Debuff) {
+                        tempInt += token.tokenCount;
+                    }
+                }
+                abilityModifier = tempInt * abilityKeyMod;
+                break;
+            case Ability.KeyStat.TargetBuffCount:
+                foreach (BattleToken token in targetEntity.activeTokens) {
+                    if (token.tokenType == Token.TokenType.Buff) {
+                        tempInt += token.tokenCount;
+                    }
+                }
+                abilityModifier = tempInt * abilityKeyMod;
+                break;
+            case Ability.KeyStat.TargetDebuffCount:
+                foreach (BattleToken token in targetEntity.activeTokens) {
+                    if (token.tokenType == Token.TokenType.Debuff) {
+                        tempInt += token.tokenCount;
+                    }
+                }
+                abilityModifier = tempInt * abilityKeyMod;
                 break;
             default:
                 print("Invalid damage key of " +  abilityKey + " supplied");
@@ -2407,6 +2538,17 @@ public class BattleSystem : MonoBehaviour
         ref bool isCrit, ref float acc, ref int min, ref int max, ref int crit)
     {
         abilityModifier = GetAbilityModifier(activeEntity, activeEntity.activeAbility);
+        
+        isCrit = false;
+        min = activeEntity.myAbilities[activeEntity.activeAbility].dmgMin + abilityModifier;
+        max = activeEntity.myAbilities[activeEntity.activeAbility].dmgMax + abilityModifier;
+        crit = activeEntity.critChance + activeEntity.myAbilities[activeEntity.activeAbility].critChance;
+    }
+
+    private void SetAbilityValuesAgainstTarget(BattleEntities activeEntity, BattleEntities targetEntity,
+        ref int abilityModifier, ref bool isCrit, ref float acc, ref int min, ref int max, ref int crit)
+    {
+        abilityModifier = GetAbilityModifierAgainstTarget(activeEntity, targetEntity, activeEntity.activeAbility);
         
         isCrit = false;
         min = activeEntity.myAbilities[activeEntity.activeAbility].dmgMin + abilityModifier;
@@ -2630,6 +2772,17 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
+        if (activeEntity.activeTokens.Any(t => t.tokenName == "Bleed")) {
+            ignoreDefense = true;
+            ailmentIndex = activeEntity.activeTokens.FindIndex(t => t.tokenName == "Bleed");
+            ailmentDamage = (int)(activeEntity.activeTokens[ailmentIndex].tokenCount * bleedCounter.tokenValue);
+            activeEntity.activeTokens[ailmentIndex].tokenCount -= 1;
+            if (activeEntity.activeTokens[ailmentIndex].tokenCount <= 0) {
+                activeEntity.activeTokens.RemoveAt(ailmentIndex);
+                activeEntity.battleVisuals.UpdateTokens(activeEntity.activeTokens);
+            }
+        }
+
         if (ignoreDefense) {
             activeEntity.currentHealth -= ailmentDamage;
         } else {
@@ -2674,6 +2827,8 @@ public class BattleSystem : MonoBehaviour
         string inverseOne;
         string inverseTwo;
         BattleToken tokenAdded = allTokens.FirstOrDefault(t => tokenName == t.tokenName);
+
+        if (recipientEntity.currentDefense > 0 && tokenName == "Bleed") { return; }
 
         if (tokenAdded != null) {
             switch (tokenAdded.tokenType) {
@@ -2874,6 +3029,16 @@ public class BattleSystem : MonoBehaviour
             if (t.tokenName == "Pierce") {
                 tokensToRemove.Add(t.tokenName);
             }
+            
+            // Check for Precision tokens
+            if (t.tokenName == "Precision") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            // Check for Ricochet tokens
+            if (t.tokenName == "Ricochet") {
+                tokensToRemove.Add(t.tokenName);
+            }
         }
 
         foreach (string tokenName in tokensToRemove) {
@@ -2910,6 +3075,79 @@ public class BattleSystem : MonoBehaviour
 
             // Check for Blind tokens
             if (t.tokenName == "Blind") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            // Check for Precision tokens
+            if (t.tokenName == "Precision") {
+                tokensToRemove.Add(t.tokenName);
+            }
+        }
+        
+        foreach (string tokenName in tokensToRemove) {
+            int tokenIndex = activeEntity.activeTokens.FindIndex(t => t.tokenName == tokenName);
+            if (activeEntity.activeTokens[tokenIndex].tokenCount > 1) {
+                activeEntity.activeTokens[tokenIndex].tokenCount -= 1;
+            } else {
+                activeEntity.activeTokens.RemoveAt(tokenIndex);
+            }
+        }
+        
+        activeEntity.battleVisuals.UpdateTokens(activeEntity.activeTokens);
+    }
+    
+    private void RemoveSelfBuffTokens(BattleEntities activeEntity)
+    {
+        List<string> tokensToRemove = new List<string>();
+        
+        foreach (BattleToken t in activeEntity.activeTokens) {
+
+            // Check for Critical tokens
+            if (t.tokenName == "Critical") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            // Check for Blind tokens
+            if (t.tokenName == "Blind" && activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            // Check for Precision tokens
+            if (t.tokenName == "Precision") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            // Check for Ricochet tokens
+            if (t.tokenName == "Ricochet") {
+                tokensToRemove.Add(t.tokenName);
+            }
+        }
+        
+        foreach (string tokenName in tokensToRemove) {
+            int tokenIndex = activeEntity.activeTokens.FindIndex(t => t.tokenName == tokenName);
+            if (activeEntity.activeTokens[tokenIndex].tokenCount > 1) {
+                activeEntity.activeTokens[tokenIndex].tokenCount -= 1;
+            } else {
+                activeEntity.activeTokens.RemoveAt(tokenIndex);
+            }
+        }
+        
+        activeEntity.battleVisuals.UpdateTokens(activeEntity.activeTokens);
+    }
+    
+    private void RemoveSelfDebuffTokens(BattleEntities activeEntity)
+    {
+        List<string> tokensToRemove = new List<string>();
+        
+        foreach (BattleToken t in activeEntity.activeTokens) {
+
+            // Check for Critical tokens
+            if (t.tokenName == "Critical") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            // Check for Precision tokens
+            if (t.tokenName == "Precision") {
                 tokensToRemove.Add(t.tokenName);
             }
         }
@@ -3020,6 +3258,11 @@ public class BattleSystem : MonoBehaviour
             
             // Check for Ward
             if (t.tokenName == "Isolation") {
+                tokensToRemove.Add(t.tokenName);
+            }
+            
+            // Check for Precision tokens
+            if (t.tokenName == "Precision") {
                 tokensToRemove.Add(t.tokenName);
             }
         }
@@ -3279,7 +3522,64 @@ public class BattleSystem : MonoBehaviour
             }
         }
     }
-    
+
+    private void SetAbilityTokens(ref List<BattleToken> targetTokens, ref List<int> targetTokensCount,
+        ref List<BattleToken> selfTokens, ref List<int> selfTokensCount, Ability activeAbility)
+    {
+        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
+            var tokenType = activeAbility.targetTokensApplied[i];
+            BattleToken tokenToAdd = allTokens.Find(t => t.tokenName == tokenType.ToString());
+            targetTokens.Add(tokenToAdd);
+            targetTokensCount.Add(activeAbility.targetTokenCountApplied[i]);
+        }
+        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
+            var tokenType = activeAbility.selfTokensApplied[i];
+            BattleToken tokenToAdd = allTokens.Find(t => t.tokenName == tokenType.ToString());
+            selfTokens.Add(tokenToAdd);
+            selfTokensCount.Add(activeAbility.selfTokenCountApplied[i]);
+        }
+    }
+
+    private void SetAbilityCritTokens(ref List<BattleToken> targetTokens, ref List<int> targetTokensCount,
+        ref List<BattleToken> selfTokens, ref List<int> selfTokensCount, Ability activeAbility)
+    {
+        for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
+            var tokenType = activeAbility.targetCritTokensApplied[i];
+            BattleToken tokenToAdd = allTokens.Find(t => t.tokenName == tokenType.ToString());
+            targetTokens.Add(tokenToAdd);
+            targetTokensCount.Add(activeAbility.targetCritTokenCountApplied[i]);
+        }
+        for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
+            var tokenType = activeAbility.selfCritTokensApplied[i];
+            BattleToken tokenToAdd = allTokens.Find(t => t.tokenName == tokenType.ToString());
+            selfTokens.Add(tokenToAdd);
+            selfTokensCount.Add(activeAbility.selfCritTokenCountApplied[i]);
+        }
+    }
+
+    private void SetYMovement(BattleEntities activeEntity, BattleEntities targetEntity, Ability activeAbility, 
+        ref int selfYTravel, ref int targetYTravel)
+    {
+        if (activeAbility.selfYChangeToCenter) {
+            if (activeEntity.yPos <= (BASE_Y_MAX / 2)) {
+                selfYTravel = activeAbility.selfYChange;
+            } else {
+                selfYTravel = (activeAbility.selfYChange * -1);
+            }
+        } else {
+            selfYTravel = activeAbility.selfYChange;
+        }
+
+        if (activeAbility.targetYChangeToCenter) {
+            if (targetEntity.yPos <= (BASE_Y_MAX / 2)) {
+                targetYTravel = activeAbility.selfYChange;
+            } else {
+                targetYTravel = (activeAbility.selfYChange * -1);
+            }
+        } else {
+            targetYTravel = activeAbility.selfYChange;
+        }
+    }
     
     private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget, int activeAbilityIndex)
     {
@@ -3303,7 +3603,7 @@ public class BattleSystem : MonoBehaviour
         string secondaryTarget = activeAbility.secondaryTarget.ToString();
         
         // Get damage values
-        SetAbilityValues(attacker, ref damageModifier, ref isCrit, ref acc, ref minDamageRange,
+        SetAbilityValuesAgainstTarget(attacker, attackTarget, ref damageModifier, ref isCrit, ref acc, ref minDamageRange,
                 ref maxDamageRange, ref critChance);
         
         // Run damage against tokens
@@ -3311,9 +3611,48 @@ public class BattleSystem : MonoBehaviour
             ref maxDamageRange, ref critChance);
         RunAbilityAgainstTargetTokens(attacker, attackTarget, activeAbility, ref isCrit, ref acc, ref minDamageRange,
             ref maxDamageRange, ref critChance);
+        
+        // Get secondary damage values
+        SetSecondaryAbilityValues(attacker, ref secondaryModifier,  ref secondaryValue); secondaryDamage = secondaryValue;
+        
+        // Determine move distance
+        int selfXTravel = activeAbility.selfXChange;
+        int selfYTravel = 0;
+        int targetXTravel = activeAbility.targetXChange;
+        int targetYTravel = 0;
+        SetYMovement(attacker, attackTarget, activeAbility, ref selfYTravel, ref targetYTravel);
+        
+        // Determine which and how many tokens will be applied by the ability
+        List<BattleToken> targetTokens = new List<BattleToken>();
+        List<int> targetTokensCount = new List<int>();
+        List<BattleToken> selfTokens = new List<BattleToken>();
+        List<int> selfTokensCount = new List<int>();
 
+        SetAbilityTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+
+        if (abilityDuplicated) {
+            switch (duplicationType) {
+                case DuplicationType.Cleave:
+                    break;
+                case DuplicationType.Ricochet:
+                    minDamageRange = Mathf.FloorToInt(minDamageRange * ricochetToken.tokenValue);
+                    maxDamageRange = Mathf.FloorToInt(maxDamageRange * ricochetToken.tokenValue);
+                    break;
+                case DuplicationType.Dualcast:
+                    break;
+                case DuplicationType.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        // Check character logic
         if (attacker.myName == "Bune") {
             BuneGainVice(attackTarget);
+        } else if (attacker.myName == "Tre") {
+            ricochetLogic.RicochetAttackLogic(activeAbility, ref critChance, ref selfXTravel, ref selfYTravel,
+                ref targetTokens, ref targetTokensCount);
         }
         
         // Reduce crit chance by target's crit resist
@@ -3322,25 +3661,19 @@ public class BattleSystem : MonoBehaviour
             critChance = 0;
         }
         
-        // Get secondary damage values
-        SetSecondaryAbilityValues(attacker, ref secondaryModifier,  ref secondaryValue); secondaryDamage = secondaryValue;
-        
         // Clear tokens from self
         if (activeAbility.targetTokensCleared.Length > 0) {
-            foreach (Ability.TokenOption token in activeAbility.selfTokensCleared) {
-                ClearTokens(attacker, token.ToString());
+            foreach (Ability.TokenOption token in activeAbility.targetTokensCleared) {
+                if (attacker.activeTokens.Any(t => t.tokenName == token.ToString())) {
+                    ClearTokens(attacker, token.ToString());
+                }
             }
         }
         
-        // Apply tokens to self
-        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
-            AddTokens(attacker, attacker, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i], 0);
-        }
-        
         // Change self position
-        if (activeAbility.selfXChange != 0 || activeAbility.selfYChange != 0) {
+        if ((selfXTravel != 0 || selfYTravel != 0) && !abilityDuplicated) {
             if (attacker.activeTokens.All(t => t.tokenName != "Restrict")) {
-                StartCoroutine(SetGridPosition(attacker, activeAbility.selfXChange, activeAbility.selfYChange));
+                StartCoroutine(SetGridPosition(attacker, selfXTravel, selfYTravel));
             }
         }
         
@@ -3351,10 +3684,28 @@ public class BattleSystem : MonoBehaviour
                 attackTarget.battleVisuals.AbilityMisses();
                 RemoveSelfDamageTokens(attacker);
                 RemoveTokensOnMiss(attackTarget);
-                SelfGain(attacker, activeAbility, isCrit);
+                if (!abilityDuplicated) {
+                    SelfGain(attacker, activeAbility, isCrit);
+                    if (!abilityDuplicated) {
+                        for (int i = 0; i < selfTokens.Count; i++) {
+                            AddTokens(attacker, attacker, selfTokens[i].tokenName, selfTokensCount[i], 0);
+                        }
+                    }
+                }
+                
+                // Check character logic on miss
+                if (!abilityDuplicated) {
+                    if (attacker.myName == "Tre") {
+                        int bulletsUsed = ricochetLogic.FindBulletsUsed(activeAbility.abilityName);
+                        ricochetLogic.ReduceBulletCount(bulletsUsed);
+                    }
+                }
+                
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
-                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                if (!abilityDuplicated) {
+                    yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                }
                 SaveResources();
                 yield break;
             }
@@ -3362,7 +3713,7 @@ public class BattleSystem : MonoBehaviour
         
         // Check for crit and determine damage values for crit
         int critRoll = Random.Range(1, 101);
-        if (critRoll < critChance && attacker.activeTokens.All(t => t.tokenName != "Critical")) {
+        if (critRoll <= critChance && attacker.activeTokens.All(t => t.tokenName != "Critical")) {
             isCrit = true;
             if (maxDamageRange < 0) {
                 maxDamageRange = 0;
@@ -3393,28 +3744,25 @@ public class BattleSystem : MonoBehaviour
         // Clear tokens from the target
         if (activeAbility.targetTokensCleared.Length > 0) {
             foreach (Ability.TokenOption token in activeAbility.targetTokensCleared) {
-                ClearTokens(attackTarget, token.ToString());
+                if (attackTarget.activeTokens.Any(t => t.tokenName == token.ToString())) {
+                    ClearTokens(attackTarget, token.ToString());
+                }
             }
         }
         
         // Change target position
-        if (activeAbility.targetXChange != 0 || activeAbility.targetYChange != 0) {
-            StartCoroutine(SetGridPosition(attackTarget, activeAbility.targetXChange, activeAbility.targetYChange));
+        if (targetXTravel != 0 || targetYTravel != 0) {
+            StartCoroutine(SetGridPosition(attackTarget, targetXTravel, targetYTravel));
         }
         
         // Restore self values
-        SelfGain(attacker, activeAbility, isCrit);
+        if (!abilityDuplicated) {
+            SelfGain(attacker, activeAbility, isCrit);
+        }
         
         // Apply on crit tokens if attack crit
         if (isCrit) {
-            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
-                AddTokens(attacker, attacker, activeAbility.selfCritTokensApplied[i].ToString(),
-                    activeAbility.selfCritTokenCountApplied[i], 0);
-            }
-            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
-                AddTokens(attacker, attackTarget, activeAbility.targetCritTokensApplied[i].ToString(),
-                    activeAbility.targetCritTokenCountApplied[i], attackTarget.resistPierce);
-            }
+            SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
         }
         
         // Remove appropriate tokens
@@ -3449,19 +3797,27 @@ public class BattleSystem : MonoBehaviour
                     print("Invalid secondary target of " +  secondaryTarget + " supplied");
                     break;
             }
-            print(attackTarget.myName + " " + secondaryTarget + " damaged by " + secondaryDamage + ".");
         }
         
+        
+        // Apply tokens to self
+        if (!abilityDuplicated) {
+            for (int i = 0; i < selfTokens.Count; i++) {
+                AddTokens(attacker, attacker, selfTokens[i].tokenName, selfTokensCount[i], 0);
+            }
+        }
         // Apply target tokens
-        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
-            AddTokens(attacker, attackTarget, activeAbility.targetTokensApplied[i].ToString(),
-                activeAbility.targetTokenCountApplied[i], attacker.resistPierce);
+        for (int i = 0; i < targetTokens.Count; i++) {
+            AddTokens(attacker, attackTarget, targetTokens[i].tokenName, targetTokensCount[i],
+                attacker.resistPierce);
         }
         
         // Play combat animations
-        attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
         attackTarget.battleVisuals.PlayHitAnimation(damage, isCrit); // target plays on hit animation
-        yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        if (!abilityDuplicated) {
+            attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        }
         
         // Deal the damage to defense, or if the target has none, to HP
         if (attackTarget.currentDefense > 0) {
@@ -3479,8 +3835,10 @@ public class BattleSystem : MonoBehaviour
 
         attackTarget.wasDamagedLastTurn = true;
         attackTarget.damagedBy = allCombatants.IndexOf(attacker);
-        
-        yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+
+        if (!abilityDuplicated) {
+            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+        }
         SaveResources();
         if (attackTarget.isPlayer) {
             attackTarget.UpdatePlayerUI();
@@ -3500,6 +3858,33 @@ public class BattleSystem : MonoBehaviour
                 
             } else if (!attackTarget.isPlayer) {
                 enemyCombatants.Remove(attackTarget);
+            }
+        }
+        
+        if (activeAbility.attackType == Ability.AttackType.Ranged &&
+            attacker.activeTokens.Any(t => t.tokenName == "Ricochet") &&
+            !abilityDuplicated) {
+            List<BattleEntities> ricochetTargetList = new List<BattleEntities>();
+            foreach (BattleEntities entity in enemyCombatants) {
+                int distance = CalculateTargetDistance(entity, attackTarget);
+                if (distance <= 2 && distance >= 1) {
+                    ricochetTargetList.Add(entity);
+                }
+            }
+
+            if (ricochetTargetList.Count > 0) {
+                int ricochetTargetIndex = Random.Range(0, ricochetTargetList.Count);
+                abilityDuplicated = true;
+                duplicationType = DuplicationType.Ricochet;
+                yield return StartCoroutine(DamageAction(attacker, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
+            }
+        }
+        
+        // Check character logic post-attack
+        if (!abilityDuplicated) {
+            if (attacker.myName == "Tre") {
+                int bulletsUsed = ricochetLogic.FindBulletsUsed(activeAbility.abilityName);
+                ricochetLogic.ReduceBulletCount(bulletsUsed);
             }
         }
     }
@@ -3524,7 +3909,7 @@ public class BattleSystem : MonoBehaviour
         string secondaryTarget = activeAbility.secondaryTarget.ToString();
         
         // Get heal values
-        SetAbilityValues(healer, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange,
+        SetAbilityValuesAgainstTarget(healer, healTarget, ref restoreModifier, ref isCrit, ref acc, ref minDamageRange,
             ref maxDamageRange, ref critChance);
 
         // Check heal against tokens
@@ -3535,22 +3920,51 @@ public class BattleSystem : MonoBehaviour
         SetSecondaryAbilityValues(healer, ref secondaryModifier,  ref secondaryValue);
         secondaryRestore = secondaryValue;
         
-        // Clear tokens from self
-        if (activeAbility.targetTokensCleared.Length > 0) {
-            foreach (Ability.TokenOption token in activeAbility.selfTokensCleared) {
-                ClearTokens(healer, token.ToString());
+        // Determine move distance
+        int selfXTravel = activeAbility.selfXChange;
+        int selfYTravel = 0;
+        int targetXTravel = activeAbility.targetXChange;
+        int targetYTravel = 0;
+        SetYMovement(healer, healTarget, activeAbility, ref selfYTravel, ref targetYTravel);
+        
+        // Determine which and how many tokens will be applied by the ability
+        List<BattleToken> targetTokens = new List<BattleToken>();
+        List<int> targetTokensCount = new List<int>();
+        List<BattleToken> selfTokens = new List<BattleToken>();
+        List<int> selfTokensCount = new List<int>();
+
+        SetAbilityTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+        
+        if (abilityDuplicated) {
+            switch (duplicationType) {
+                case DuplicationType.Cleave:
+                    break;
+                case DuplicationType.Ricochet:
+                    minDamageRange = Mathf.FloorToInt(minDamageRange * ricochetToken.tokenValue);
+                    maxDamageRange = Mathf.FloorToInt(maxDamageRange * ricochetToken.tokenValue);
+                    break;
+                case DuplicationType.Dualcast:
+                    break;
+                case DuplicationType.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
         
-        // Apply self tokens
-        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
-            AddTokens(healer, healer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i], 0);
+        // Clear tokens from self
+        if (activeAbility.targetTokensCleared.Length > 0) {
+            foreach (Ability.TokenOption token in activeAbility.targetTokensCleared) {
+                if (healer.activeTokens.Any(t => t.tokenName == token.ToString())) {
+                    ClearTokens(healer, token.ToString());
+                }
+            }
         }
         
         // Change self position
-        if (activeAbility.selfXChange != 0 || activeAbility.selfYChange != 0) {
+        if ((selfXTravel != 0 || selfYTravel != 0) && !abilityDuplicated) {
             if (healer.activeTokens.All(t => t.tokenName != "Restrict")) {
-                StartCoroutine(SetGridPosition(healer, activeAbility.selfXChange, activeAbility.selfYChange));
+                StartCoroutine(SetGridPosition(healer, selfXTravel, selfYTravel));
             }
         }
         
@@ -3560,11 +3974,19 @@ public class BattleSystem : MonoBehaviour
             if (accRoll > (int)acc) {
                 healTarget.battleVisuals.AbilityMisses();
                 RemoveSelfHealTokens(healer);
-                SelfGain(healer, activeAbility, isCrit);
-            
+                if (!abilityDuplicated) {
+                    SelfGain(healer, activeAbility, isCrit);
+                    if (!abilityDuplicated) {
+                        for (int i = 0; i < selfTokens.Count; i++) {
+                            AddTokens(healer, healer, selfTokens[i].tokenName, selfTokensCount[i], 0);
+                        }
+                    }
+                }
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
-                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                if (!abilityDuplicated) {
+                    yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                }
                 SaveResources();
                 yield break;
             }
@@ -3572,7 +3994,7 @@ public class BattleSystem : MonoBehaviour
         
         // Check for crit then determine heal value either way
         int critRoll = Random.Range(1, 101);
-        if (critRoll < critChance && healer.activeTokens.All(t => t.tokenName != "Critical")) {
+        if (critRoll <= critChance && healer.activeTokens.All(t => t.tokenName != "Critical")) {
             isCrit = true;
             restore = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
         } else {
@@ -3582,16 +4004,20 @@ public class BattleSystem : MonoBehaviour
         // Clear tokens from the target
         if (activeAbility.targetTokensCleared.Length > 0) {
             foreach (Ability.TokenOption token in activeAbility.targetTokensCleared) {
-                ClearTokens(healTarget, token.ToString());
+                if (healTarget.activeTokens.Any(t => t.tokenName == token.ToString())) {
+                    ClearTokens(healTarget, token.ToString());
+                }
             }
         }
         
         // Change target position
-        if (activeAbility.targetXChange != 0 || activeAbility.targetYChange != 0) {
-            StartCoroutine(SetGridPosition(healTarget, activeAbility.targetXChange, activeAbility.targetYChange));
+        if (targetXTravel != 0 || targetYTravel != 0) {
+            StartCoroutine(SetGridPosition(healTarget, targetXTravel, targetYTravel));
         }
         
-        SelfGain(healer, activeAbility, isCrit);
+        if (!abilityDuplicated) {
+            SelfGain(healer, activeAbility, isCrit);
+        }
         
         // Check for Anti-Heal
         if (IgnoreRestoreWithTokens(healer, healTarget)) {
@@ -3599,15 +4025,9 @@ public class BattleSystem : MonoBehaviour
             secondaryRestore *= (int)antiHealToken.tokenValue;
         }
         
-        // Add on crit tokens, if applicable
+        // Apply on crit tokens if attack crit
         if (isCrit) {
-            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
-                AddTokens(healer, healer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i], 0);
-            }
-            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
-                AddTokens(healer, healTarget, activeAbility.targetCritTokensApplied[i].ToString(),
-                    activeAbility.targetCritTokenCountApplied[i], 0);
-            }
+            SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
         }
         
         // Remove appropriate tokens
@@ -3641,20 +4061,31 @@ public class BattleSystem : MonoBehaviour
             }
         }
         
-        // Heal the target
-        //healer.battleVisuals.PlayAttackAnimation(); // play the attack animation
-        healTarget.currentDefense += restore; // restore HP
-        healTarget.battleVisuals.PlayHealAnimation(restore, isCrit); // target plays on hit animation
-        
+        // Apply tokens to self
+        if (!abilityDuplicated) {
+            for (int i = 0; i < selfTokens.Count; i++) {
+                AddTokens(healer, healer, selfTokens[i].tokenName, selfTokensCount[i], 0);
+            }
+        }
         // Apply target tokens
-        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
-            AddTokens(healer, healTarget, activeAbility.targetTokensApplied[i].ToString(),
-                activeAbility.targetTokenCountApplied[i], 0);
+        for (int i = 0; i < targetTokens.Count; i++) {
+            AddTokens(healer, healTarget, targetTokens[i].tokenName, targetTokensCount[i],
+                healer.resistPierce);
         }
         
-        yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        healTarget.battleVisuals.PlayHealAnimation(restore, isCrit); // target plays on heal animation
+
+        if (!abilityDuplicated) {
+            // Eventual animation call
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        }
         
-        yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+        // Heal the target
+        healTarget.currentDefense += restore; // restore HP
+        
+        if (!abilityDuplicated) {
+            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+        }
         SaveResources();
         // Update the UI
         if (healTarget.isPlayer) {
@@ -3663,6 +4094,25 @@ public class BattleSystem : MonoBehaviour
         } else if (!healTarget.isPlayer) {
             healTarget.UpdateEnemyUI();
             healer.UpdateEnemyUI();
+        }
+        
+        if (activeAbility.attackType == Ability.AttackType.Ranged &&
+            healer.activeTokens.Any(t => t.tokenName == "Ricochet") &&
+            !abilityDuplicated) {
+            List<BattleEntities> ricochetTargetList = new List<BattleEntities>();
+            foreach (BattleEntities entity in enemyCombatants) {
+                int distance = CalculateTargetDistance(entity, healTarget);
+                if (distance <= 2 && distance >= 1) {
+                    ricochetTargetList.Add(entity);
+                }
+            }
+
+            if (ricochetTargetList.Count > 0) {
+                int ricochetTargetIndex = Random.Range(0, ricochetTargetList.Count);
+                abilityDuplicated = true;
+                duplicationType = DuplicationType.Ricochet;
+                yield return StartCoroutine(HealAction(healer, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
+            }
         }
     }
 
@@ -3678,27 +4128,39 @@ public class BattleSystem : MonoBehaviour
         int critChance = 0;
         
         // Get ability values
-        SetAbilityValues(buffer, ref abilityModifier, ref isCrit, ref acc, ref minDamageRange,
+        SetAbilityValuesAgainstTarget(buffer, buffTarget, ref abilityModifier, ref isCrit, ref acc, ref minDamageRange,
             ref maxDamageRange, ref critChance);
         
         RunBuffAgainstSelfTokens(buffer, ref isCrit, ref acc, ref critChance);
         
+        // Determine move distance
+        int selfXTravel = activeAbility.selfXChange;
+        int selfYTravel = 0;
+        int targetXTravel = activeAbility.targetXChange;
+        int targetYTravel = 0;
+        SetYMovement(buffer, buffTarget, activeAbility, ref selfYTravel, ref targetYTravel);
+        
+        // Determine which and how many tokens will be applied by the ability
+        List<BattleToken> targetTokens = new List<BattleToken>();
+        List<int> targetTokensCount = new List<int>();
+        List<BattleToken> selfTokens = new List<BattleToken>();
+        List<int> selfTokensCount = new List<int>();
+
+        SetAbilityTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+        
         // Clear tokens from self
-        if (activeAbility.targetTokensCleared.Length > 0) {
+        if (activeAbility.targetTokensCleared.Length > 0 && !abilityDuplicated) {
             foreach (Ability.TokenOption token in activeAbility.selfTokensCleared) {
-                ClearTokens(buffer, token.ToString());
+                if (buffer.activeTokens.Any(t => t.tokenName == token.ToString())) {
+                    ClearTokens(buffer, token.ToString());
+                }
             }
         }
         
-        // Apply self tokens
-        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
-            AddTokens(buffer, buffer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i], 0);
-        }
-        
         // Change self position
-        if (activeAbility.selfXChange != 0 || activeAbility.selfYChange != 0) {
+        if ((selfXTravel != 0 || selfYTravel != 0) && !abilityDuplicated) {
             if (buffer.activeTokens.All(t => t.tokenName != "Restrict")) {
-                StartCoroutine(SetGridPosition(buffer, activeAbility.selfXChange, activeAbility.selfYChange));
+                StartCoroutine(SetGridPosition(buffer, selfXTravel, selfYTravel));
             }
         }
         
@@ -3708,17 +4170,27 @@ public class BattleSystem : MonoBehaviour
             if (accRoll > (int)acc) {
                 buffTarget.battleVisuals.AbilityMisses();
                 RemoveTokensOnMiss(buffTarget);
-                SelfGain(buffer, activeAbility, isCrit);
+                if (!abilityDuplicated) {
+                    SelfGain(buffer, activeAbility, isCrit);
+                    // Apply tokens to self
+                    if (!abilityDuplicated) {
+                        for (int i = 0; i < selfTokens.Count; i++) {
+                            AddTokens(buffer, buffer, selfTokens[i].tokenName, selfTokensCount[i], 0);
+                        }
+                    }
+                }
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
-                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                if (!abilityDuplicated) {
+                    yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                }
                 SaveResources();
                 yield break;
             }
         }
         
         int critRoll = Random.Range(1, 101);
-        if (critRoll < critChance) {
+        if (critRoll <= critChance) {
             isCrit = true;
         }
         
@@ -3726,36 +4198,69 @@ public class BattleSystem : MonoBehaviour
         // Clear tokens from the target
         if (activeAbility.targetTokensCleared.Length > 0) {
             foreach (Ability.TokenOption token in activeAbility.targetTokensCleared) {
-                ClearTokens(buffTarget, token.ToString());
+                if (buffTarget.activeTokens.Any(t => t.tokenName == token.ToString())) {
+                    ClearTokens(buffTarget, token.ToString());
+                }
             }
         }
         
         // Change target position
-        if (activeAbility.targetXChange != 0 || activeAbility.targetYChange != 0) {
-            StartCoroutine(SetGridPosition(buffTarget, activeAbility.targetXChange, activeAbility.targetYChange));
+        if (targetXTravel != 0 || targetYTravel != 0) {
+            StartCoroutine(SetGridPosition(buffTarget, targetXTravel, targetYTravel));
         }
-
+        
+        RemoveSelfBuffTokens(buffer);
         RemoveTargetBuffTokens(buffTarget);
         
-        SelfGain(buffer, activeAbility, isCrit);
+        if (!abilityDuplicated) {
+            SelfGain(buffer, activeAbility, isCrit);
+        }
 
+        // Apply on crit tokens if attack crit
         if (isCrit) {
-            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
-                AddTokens(buffer, buffer, activeAbility.selfCritTokensApplied[i].ToString(), activeAbility.selfCritTokenCountApplied[i], 0);
-            }
-            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
-                AddTokens(buffer, buffTarget, activeAbility.targetCritTokensApplied[i].ToString(), activeAbility.targetCritTokenCountApplied[i], 0);
-            }
+            SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
         }
         
-        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
-            AddTokens(buffer,buffTarget, activeAbility.targetTokensApplied[i].ToString(), activeAbility.targetTokenCountApplied[i], 0);
+        // Apply tokens to self
+        if (!abilityDuplicated) {
+            for (int i = 0; i < selfTokens.Count; i++) {
+                AddTokens(buffer, buffer, selfTokens[i].tokenName, selfTokensCount[i], 0);
+            }
+        }
+        // Apply target tokens
+        for (int i = 0; i < targetTokens.Count; i++) {
+            AddTokens(buffer, buffTarget, targetTokens[i].tokenName, targetTokensCount[i],
+                buffer.resistPierce);
         }
         
-        yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        if (!abilityDuplicated) {
+            // Eventual animation call
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        }
         
-        yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+        if (!abilityDuplicated) {
+            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+        }
         SaveResources();
+        
+        if (activeAbility.attackType == Ability.AttackType.Ranged &&
+            buffer.activeTokens.Any(t => t.tokenName == "Ricochet") &&
+            !abilityDuplicated) {
+            List<BattleEntities> ricochetTargetList = new List<BattleEntities>();
+            foreach (BattleEntities entity in enemyCombatants) {
+                int distance = CalculateTargetDistance(entity, buffTarget);
+                if (distance <= 2 && distance >= 1) {
+                    ricochetTargetList.Add(entity);
+                }
+            }
+
+            if (ricochetTargetList.Count > 0) {
+                int ricochetTargetIndex = Random.Range(0, ricochetTargetList.Count);
+                abilityDuplicated = true;
+                duplicationType = DuplicationType.Ricochet;
+                yield return StartCoroutine(BuffAction(buffer, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
+            }
+        }
     }
     
     private IEnumerator DebuffAction(BattleEntities debuffer, BattleEntities debuffTarget, int activeAbilityIndex)
@@ -3770,11 +4275,26 @@ public class BattleSystem : MonoBehaviour
         int critChance = 0;
         
         // Get ability values
-        SetAbilityValues(debuffer, ref abilityModifier, ref isCrit, ref acc, ref minDamageRange,
+        SetAbilityValuesAgainstTarget(debuffer, debuffTarget, ref abilityModifier, ref isCrit, ref acc, ref minDamageRange,
             ref maxDamageRange, ref critChance);
         
         RunDebuffAgainstSelfTokens(debuffer, ref isCrit, ref acc, ref critChance);
         RunDebuffAgainstTargetTokens(debuffer, debuffTarget, ref isCrit, ref acc, ref critChance);
+        
+        // Determine move distance
+        int selfXTravel = activeAbility.selfXChange;
+        int selfYTravel = 0;
+        int targetXTravel = activeAbility.targetXChange;
+        int targetYTravel = 0;
+        SetYMovement(debuffer, debuffTarget, activeAbility, ref selfYTravel, ref targetYTravel);
+        
+        // Determine which and how many tokens will be applied by the ability
+        List<BattleToken> targetTokens = new List<BattleToken>();
+        List<int> targetTokensCount = new List<int>();
+        List<BattleToken> selfTokens = new List<BattleToken>();
+        List<int> selfTokensCount = new List<int>();
+
+        SetAbilityTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
         
         // Reduce crit chance by target's crit resist
         critChance -= debuffTarget.critResist;
@@ -3784,20 +4304,17 @@ public class BattleSystem : MonoBehaviour
         
         // Clear tokens from self
         if (activeAbility.targetTokensCleared.Length > 0) {
-            foreach (Ability.TokenOption token in activeAbility.selfTokensCleared) {
-                ClearTokens(debuffer, token.ToString());
+            foreach (Ability.TokenOption token in activeAbility.targetTokensCleared) {
+                if (debuffer.activeTokens.Any(t => t.tokenName == token.ToString())) {
+                    ClearTokens(debuffer, token.ToString());
+                }
             }
         }
         
-        // Apply self tokens
-        for (int i = 0; i < activeAbility.selfTokensApplied.Length; i++) {
-            AddTokens(debuffer, debuffer, activeAbility.selfTokensApplied[i].ToString(), activeAbility.selfTokenCountApplied[i], 0);
-        }
-        
         // Change self position
-        if (activeAbility.selfXChange != 0 || activeAbility.selfYChange != 0) {
+        if ((selfXTravel != 0 || selfYTravel != 0) && !abilityDuplicated) {
             if (debuffer.activeTokens.All(t => t.tokenName != "Restrict")) {
-                StartCoroutine(SetGridPosition(debuffer, activeAbility.selfXChange, activeAbility.selfYChange));
+                StartCoroutine(SetGridPosition(debuffer, selfXTravel, selfYTravel));
             }
         }
         
@@ -3807,56 +4324,96 @@ public class BattleSystem : MonoBehaviour
             if (accRoll > (int)acc) {
                 debuffTarget.battleVisuals.AbilityMisses();
                 RemoveTokensOnMiss(debuffTarget);
-                SelfGain(debuffer, activeAbility, isCrit);
+                if (!abilityDuplicated) {
+                    SelfGain(debuffer, activeAbility, isCrit);
+                    // Apply tokens to self
+                    if (!abilityDuplicated) {
+                        for (int i = 0; i < selfTokens.Count; i++) {
+                            AddTokens(debuffer, debuffer, selfTokens[i].tokenName, selfTokensCount[i], 0);
+                        }
+                    }
+                }
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
-                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                if (!abilityDuplicated) {
+                    yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                }
                 SaveResources();
                 yield break;
             }
         }
         
         int critRoll = Random.Range(1, 101);
-        if (critRoll + debuffTarget.critResist < critChance) {
+        if (critRoll <= critChance) {
             isCrit = true;
         }
         
+        // Apply on crit tokens if attack crit
         if (isCrit) {
-            for (int i = 0; i < activeAbility.selfCritTokensApplied.Length; i++) {
-                AddTokens(debuffer, debuffer, activeAbility.selfCritTokensApplied[i].ToString(),
-                    activeAbility.selfCritTokenCountApplied[i], 0);
-            }
-            for (int i = 0; i < activeAbility.targetCritTokensApplied.Length; i++) {
-                AddTokens(debuffer, debuffTarget, activeAbility.targetCritTokensApplied[i].ToString(),
-                    activeAbility.targetCritTokenCountApplied[i], debuffer.resistPierce);
-            }
+            SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
         }
         
         // Clear tokens from the target
         if (activeAbility.targetTokensCleared.Length > 0) {
             foreach (Ability.TokenOption token in activeAbility.targetTokensCleared) {
-                ClearTokens(debuffTarget, token.ToString());
+                if (debuffTarget.activeTokens.Any(t => t.tokenName == token.ToString())) {
+                    ClearTokens(debuffTarget, token.ToString());
+                }
             }
         }
         
         // Change target position
-        if (activeAbility.targetXChange != 0 || activeAbility.targetYChange != 0) {
-            StartCoroutine(SetGridPosition(debuffTarget, activeAbility.targetXChange, activeAbility.targetYChange));
+        if (targetXTravel != 0 || targetYTravel != 0) {
+            StartCoroutine(SetGridPosition(debuffTarget, targetXTravel, targetYTravel));
         }
         
+        RemoveSelfDebuffTokens(debuffTarget);
         RemoveTargetDebuffTokens(debuffTarget);
         
-        SelfGain(debuffer, activeAbility, isCrit);
-        
-        for (int i = 0; i < activeAbility.targetTokensApplied.Length; i++) {
-            AddTokens(debuffer, debuffTarget, activeAbility.targetTokensApplied[i].ToString(),
-                activeAbility.targetTokenCountApplied[i], debuffer.resistPierce);
+        if (!abilityDuplicated) {
+            SelfGain(debuffer, activeAbility, isCrit);
         }
         
-        yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        // Apply tokens to self
+        if (!abilityDuplicated) {
+            for (int i = 0; i < selfTokens.Count; i++) {
+                AddTokens(debuffer, debuffer, selfTokens[i].tokenName, selfTokensCount[i], 0);
+            }
+        }
+        // Apply target tokens
+        for (int i = 0; i < targetTokens.Count; i++) {
+            AddTokens(debuffer, debuffTarget, targetTokens[i].tokenName, targetTokensCount[i],
+                debuffer.resistPierce);
+        }
         
-        yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+        if (!abilityDuplicated) {
+            // Eventual animation call
+            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        }
+        
+        if (!abilityDuplicated) {
+            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+        }
         SaveResources();
+        
+        if (activeAbility.attackType == Ability.AttackType.Ranged &&
+            debuffer.activeTokens.Any(t => t.tokenName == "Ricochet") &&
+            !abilityDuplicated) {
+            List<BattleEntities> ricochetTargetList = new List<BattleEntities>();
+            foreach (BattleEntities entity in enemyCombatants) {
+                int distance = CalculateTargetDistance(entity, debuffTarget);
+                if (distance <= 2 && distance >= 1) {
+                    ricochetTargetList.Add(entity);
+                }
+            }
+
+            if (ricochetTargetList.Count > 0) {
+                int ricochetTargetIndex = Random.Range(0, ricochetTargetList.Count);
+                abilityDuplicated = true;
+                duplicationType = DuplicationType.Ricochet;
+                yield return StartCoroutine(DebuffAction(debuffer, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
+            }
+        }
     }
 
     private IEnumerator ConsumeResources(int activeAbilityIndex)

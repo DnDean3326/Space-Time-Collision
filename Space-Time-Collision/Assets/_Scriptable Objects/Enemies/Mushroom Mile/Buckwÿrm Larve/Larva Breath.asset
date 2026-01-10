@@ -44,7 +44,7 @@ MonoBehaviour:
   targetYChange: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 15000000
+  targetTokensApplied: 16000000
   targetTokenCountApplied: 01000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 

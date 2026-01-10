@@ -23,6 +23,7 @@ MonoBehaviour:
   rangeMax: 3
   hasAccuracy: 1
   targetSelf: 0
+  attackType: 0
   keyStat: 1
   statModifier: 2
   dmgMin: 4
@@ -41,7 +42,7 @@ MonoBehaviour:
   selfYChange: 0
   targetXChange: 0
   targetYChange: 0
-  selfTokensApplied: 20000000
+  selfTokensApplied: 21000000
   selfTokenCountApplied: 01000000
   targetTokensApplied: 
   targetTokenCountApplied: 

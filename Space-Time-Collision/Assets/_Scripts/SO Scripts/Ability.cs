@@ -50,7 +50,11 @@ public class Ability : ScriptableObject
         Wit,
         Mind,
         Speed,
-        Luck
+        Luck,
+        SelfBuffCount,
+        TargetBuffCount,
+        SelfDebuffCount,
+        TargetDebuffCount
     }
 
     public enum SecondaryTarget
@@ -90,6 +94,7 @@ public class Ability : ScriptableObject
         Pierce,
         Precision,
         Quick,
+        Ricochet,
         Riposte,
         Rush,
         Stealth,
@@ -113,6 +118,7 @@ public class Ability : ScriptableObject
         Ascension,
         Vice,
         
+        Bleed,
         Burn,
         Poison
     }
@@ -156,8 +162,10 @@ public class Ability : ScriptableObject
     [Header("Movement Values")]
     public int selfXChange;
     public int selfYChange;
+    public bool selfYChangeToCenter = false;
     public int targetXChange;
     public int targetYChange;
+    public bool targetYChangeToCenter = false;
 
     [Header("Tokens Interactions")]
     public TokenOption[] selfTokensApplied;
