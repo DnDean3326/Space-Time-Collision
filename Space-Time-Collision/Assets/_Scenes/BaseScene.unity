@@ -268,7 +268,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EncounterSystem
   availableEncounters:
   - {fileID: 11400000, guid: 7ea9302733ef8ee478f6781b38110ea8, type: 2}
-  lastEncounterUsed: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
