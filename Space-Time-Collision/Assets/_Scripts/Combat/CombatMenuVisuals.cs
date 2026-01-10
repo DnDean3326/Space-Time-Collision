@@ -17,6 +17,7 @@ public class CombatMenuVisuals : MonoBehaviour
     [SerializeField] private GameObject[] targetButtons;
     [SerializeField] private GameObject[] targetPortraits;
     [SerializeField] private GameObject[] targetBorders;
+    [SerializeField] private GameObject passButton;
     [SerializeField] private GameObject backButton;
     
     [Header("UI Text")]
@@ -33,6 +34,13 @@ public class CombatMenuVisuals : MonoBehaviour
     private void Awake()
     {
         battleSystem = FindFirstObjectByType<BattleSystem>();
+    }
+
+    private void Start()
+    {
+        foreach (GameObject targetButton in targetButtons) {
+            targetButton.SetActive(false);
+        }
     }
     
     public void SetMenuStartingValues(int maxSpirit, int currentSpirit)
@@ -72,6 +80,11 @@ public class CombatMenuVisuals : MonoBehaviour
     {
         abilityEffectText.gameObject.SetActive(visible);
     }
+    
+    public void ChangePassButtonVisibility(bool visible)
+    {
+        passButton.SetActive(visible);
+    }
 
     public void ChangeBackButtonVisibility(bool visible)
     {
@@ -89,8 +102,17 @@ public class CombatMenuVisuals : MonoBehaviour
         hitChanceText.text = hitChance + "%" + '\n' + "Hit";
         critChanceText.text = critChance + "%" + '\n' + "Crit";
         if (!singleValue) {
+            if (dmgMin < 0) {
+                dmgMin = 0;
+            }
+            if (dmgMax < 0) {
+                dmgMax = 0;
+            }
             dmgRangeText.text = dmgMin + "-" + dmgMax + '\n' + type;
         } else {
+            if (dmgMax < 0) {
+                dmgMax = 0;
+            }
             dmgRangeText.text = dmgMax + "\n " + type;
         }
         
@@ -125,9 +147,14 @@ public class CombatMenuVisuals : MonoBehaviour
     
     public void ChooseTargetButton(int currentTarget)
     {
-        battleSystem.SelectTarget(currentTarget);
+        battleSystem.SelectTargetWithButtons(currentTarget);
     }
 
+    public void PassButton()
+    {
+        battleSystem.PassTurn();
+    }
+    
     public void BackButton()
     {
         battleSystem.BackToAbilities();
@@ -156,6 +183,4 @@ public class CombatMenuVisuals : MonoBehaviour
     {
         battleSystem.StopIndicatingTarget(hoveredTarget);
     }
-    
-    // TODO create OnHover methods for targeted enemy damage ranges
 }

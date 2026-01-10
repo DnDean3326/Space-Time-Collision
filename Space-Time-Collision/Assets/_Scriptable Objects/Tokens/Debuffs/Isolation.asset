@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Isolation
   displayName: Isolation
-  tokenIcon: {fileID: 21300000, guid: 0aadfdec9135aa547a74aab25b88a429, type: 3}
+  tokenIcon: {fileID: 21300000, guid: b39755db2b3cb944fb19fc3167bdb240, type: 3}
   tokenType: 1
   tokenValue: 0
   tokenCap: 3
   tokenInverses:
   - Ward
+  isUnique: 0
   tokenDescription: 

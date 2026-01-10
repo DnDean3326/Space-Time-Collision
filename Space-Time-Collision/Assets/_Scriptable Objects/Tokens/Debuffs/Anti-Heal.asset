@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: AntiHeal
   displayName: Anti-Heal
-  tokenIcon: {fileID: 21300000, guid: b6dc421c8270d2b4788c06e8f40ff64c, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 0e75622bd394e3048b5869b2fbd01724, type: 3}
   tokenType: 1
   tokenValue: 0
   tokenCap: 3
   tokenInverses: []
+  isUnique: 0
   tokenDescription: 

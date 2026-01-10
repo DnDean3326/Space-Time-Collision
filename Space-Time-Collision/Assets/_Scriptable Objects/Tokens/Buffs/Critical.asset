@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Critical
   displayName: Critical
-  tokenIcon: {fileID: 21300000, guid: 18eebaff42a04cf47b17a940b418830a, type: 3}
+  tokenIcon: {fileID: 21300000, guid: b9ea03585c2ad324481851d2d99f7a86, type: 3}
   tokenType: 0
   tokenValue: 0
   tokenCap: 3
   tokenInverses: []
+  isUnique: 0
   tokenDescription: 

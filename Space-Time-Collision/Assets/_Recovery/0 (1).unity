@@ -266,11 +266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61db72094cda9154695d74c8c153c233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EncounterSystem
-  enemiesInScene:
-  - enemy: {fileID: 11400000, guid: 26f7472d970e39241a4be687dcc0e5b1, type: 2}
-    levelMin: 1
-    levelMax: 1
-  maxNumEnemies: 4
+  availableEncounters:
+  - {fileID: 11400000, guid: 7ea9302733ef8ee478f6781b38110ea8, type: 2}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,7 +767,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
   allEnemies:
   - {fileID: 11400000, guid: 26f7472d970e39241a4be687dcc0e5b1, type: 2}
-  - {fileID: 11400000, guid: 20e1cdbec28fb1a4ca62aa669f7b7c1d, type: 2}
   - {fileID: 11400000, guid: 88ec8a9771cccf44a8730ddc30d19e91, type: 2}
   currentEnemies: []
 --- !u!1 &1267142159
@@ -925,11 +921,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartyManager
   allMembers:
   - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
-  - {fileID: 11400000, guid: c3119035b5a9dc54aba5e2a8f9263cab, type: 2}
+  - {fileID: 11400000, guid: 25d862b567b05f347b8e0159d6033c4a, type: 2}
   currentParty: []
   defaultPartyMembers:
   - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
-  - {fileID: 11400000, guid: c3119035b5a9dc54aba5e2a8f9263cab, type: 2}
+  - {fileID: 11400000, guid: 25d862b567b05f347b8e0159d6033c4a, type: 2}
 --- !u!1 &1624233795
 GameObject:
   m_ObjectHideFlags: 0

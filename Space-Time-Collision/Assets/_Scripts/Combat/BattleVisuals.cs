@@ -5,12 +5,24 @@ using System.Collections.Generic;
 
 public class BattleVisuals : MonoBehaviour
 {
-    [SerializeField] private Slider healthBar;
-    [SerializeField] private Slider defenseBar;
+    [Header("Sprites")]
+    [SerializeField] private GameObject myVisuals;
+    [SerializeField] private GameObject myAura;
+    
+    [Header("Value Info")]
+    [SerializeField] private Image healthBar;
+    [SerializeField] private Image defenseBar;
     [SerializeField] private TextMeshProUGUI armorText;
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private GameObject targetIndicator;
+    
     [SerializeField] private GameObject[] tokenSlots;
+    [SerializeField] private GameObject[] tokenSlotShadows;
+    [SerializeField] private GameObject[] tokenTextSlots;
+    
+    [SerializeField] private GameObject[] ailmentSlots;
+    [SerializeField] private GameObject[] ailmentSlotShadows;
+    [SerializeField] private GameObject[] ailmentTextSlots;
 
     private int maxHealth;
     private int currentHealth;
@@ -26,6 +38,7 @@ public class BattleVisuals : MonoBehaviour
     private const string MISS_PARAM = "MissTrigger";
     private const string IS_DEAD_PARAM = "DeadTrigger";
     private const string MY_TURN_BOOL = "IsMyTurn";
+    private const string SHARED_ROW_BOOL = "IsSharingRow";
 
     private const string TARGET_ENEMY_ACTIVE = "TargetingEnemy";
     private const string TARGET_ALLY_ACTIVE = "TargetingAlly";
@@ -52,14 +65,18 @@ public class BattleVisuals : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        healthBar.maxValue = maxHealth;
-        healthBar.value = currentHealth;
+        float currentHP = (float)currentHealth;
+        float maxHP = (float)maxHealth;
+        float hpPercent = (currentHP / maxHP);
+        healthBar.fillAmount = hpPercent;
     }
 
     private void UpdateDefenseBar()
     {
-        defenseBar.maxValue = maxDefense;
-        defenseBar.value = currentDefense;
+        float currentDP = (float)currentDefense;
+        float maxHP = (float)maxDefense;
+        float defensePercent = (currentDP / maxHP);
+        defenseBar.fillAmount = defensePercent;
     }
 
     private void UpdateArmor()
@@ -92,12 +109,54 @@ public class BattleVisuals : MonoBehaviour
 
     public void UpdateTokens(List<BattleToken> activeTokens)
     {
+        int tokenSlotIndex = 0;
+        int ailmentSlotIndex = 0;
+        
         for (int i = 0; i < activeTokens.Count; i++) {
-            tokenSlots[i].SetActive(true);
-            tokenSlots[i].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+            if (activeTokens[i].tokenType == Token.TokenType.Ailments) {
+                if (activeTokens[i].tokenCount >= 1) {
+                    ailmentSlotShadows[ailmentSlotIndex].SetActive(true);
+                    ailmentSlots[ailmentSlotIndex].SetActive(true);
+                    ailmentSlots[ailmentSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+                    
+                    if (activeTokens[i].tokenCount > 1) {
+                        ailmentTextSlots[ailmentSlotIndex].SetActive(true);
+                        ailmentTextSlots[ailmentSlotIndex].GetComponentInChildren<TextMeshProUGUI>().text = "x" + activeTokens[i].tokenCount;
+                    } else {
+                        ailmentTextSlots[ailmentSlotIndex].SetActive(false);
+                    }
+                } else {
+                    ailmentTextSlots[ailmentSlotIndex].SetActive(false);
+                    ailmentSlots[ailmentSlotIndex].SetActive(false);
+                    ailmentSlotShadows[ailmentSlotIndex].SetActive(false);
+                }
+                ailmentSlotIndex++;
+            } else {
+                if (activeTokens[i].tokenCount >= 1) {
+                    tokenSlotShadows[tokenSlotIndex].SetActive(true);
+                    tokenSlots[tokenSlotIndex].SetActive(true);
+                    tokenSlots[tokenSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+
+                    if (activeTokens[i].tokenCount > 1) {
+                        tokenTextSlots[tokenSlotIndex].SetActive(true);
+                        tokenTextSlots[tokenSlotIndex].GetComponentInChildren<TextMeshProUGUI>().text = "x" + activeTokens[i].tokenCount;
+                    } else {
+                        ailmentTextSlots[ailmentSlotIndex].SetActive(false);
+                    }
+                } else {
+                    tokenTextSlots[tokenSlotIndex].SetActive(false);
+                    tokenSlots[tokenSlotIndex].SetActive(false);
+                    tokenSlotShadows[tokenSlotIndex].SetActive(false);
+                }
+                tokenSlotIndex++;
+            }
         }
-        for (int j = activeTokens.Count; j < tokenSlots.Length; j++) {
+        for (int j = tokenSlotIndex; j < tokenSlots.Length; j++) {
             tokenSlots[j].SetActive(false);
+        }
+        for (int j = ailmentSlotIndex; j < ailmentSlots.Length; j++)
+        {
+            ailmentSlots[j].SetActive(false);
         }
     }
 
@@ -110,7 +169,7 @@ public class BattleVisuals : MonoBehaviour
     {
         myAnimator.SetTrigger(IS_HIT_PARAM);
         if (isCrit) {
-            damageText.text = damageDealt + "!";
+            damageText.text = "CRIT!\n" + damageDealt;
         } else {
             damageText.text = damageDealt.ToString();
         }
@@ -127,7 +186,7 @@ public class BattleVisuals : MonoBehaviour
     {
         myAnimator.SetTrigger(IS_HEALED_PARAM);
         if (isCrit) {
-            damageText.text = restoreApplied + "!";
+            damageText.text = "CRIT!\n" + restoreApplied;
         } else {
             damageText.text = restoreApplied.ToString();
         }
@@ -141,6 +200,14 @@ public class BattleVisuals : MonoBehaviour
     public void SetMyTurnAnimation(bool myTurn)
     {
         myAnimator.SetBool(MY_TURN_BOOL, myTurn);
+        if (myTurn) {
+            SetMyOrder(6);
+        }
+    }
+
+    public void SetSharedRowAnimation(bool sharedRow)
+    {
+        myAnimator.SetBool(SHARED_ROW_BOOL, sharedRow);
     }
 
     public void TargetEnemyActive()
@@ -160,5 +227,11 @@ public class BattleVisuals : MonoBehaviour
         targetIndicator.SetActive(false);
         indicatorAnimator.SetBool(TARGET_ENEMY_ACTIVE, false);
         indicatorAnimator.SetBool(TARGET_ALLY_ACTIVE, false);
+    }
+
+    public void SetMyOrder(int newOrder)
+    {
+        myVisuals.GetComponent<SpriteRenderer>().sortingOrder = newOrder;
+        myAura.GetComponent<SpriteRenderer>().sortingOrder = (newOrder - 1);
     }
 }

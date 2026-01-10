@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Vice
   displayName: Vice
-  tokenIcon: {fileID: 21300000, guid: c0e2675c2b0b3234f8fbf556a54ec2be, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 16c4d21cde3691a4aa6eff6bb6c4b657, type: 3}
   tokenType: 0
   tokenValue: 10
   tokenCap: 3
   tokenInverses: []
+  isUnique: 1
   tokenDescription: 

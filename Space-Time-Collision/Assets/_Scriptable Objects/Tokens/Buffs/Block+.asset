@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: BlockPlus
   displayName: Block+
-  tokenIcon: {fileID: 21300000, guid: 2d7b22a44b4e5a645837b16a133cba49, type: 3}
+  tokenIcon: {fileID: 21300000, guid: d162523c6a661354ab81f96ef2c8fe30, type: 3}
   tokenType: 0
   tokenValue: 0.75
   tokenCap: 3

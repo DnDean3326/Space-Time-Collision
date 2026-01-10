@@ -32,7 +32,11 @@ MonoBehaviour:
   abilities:
   - {fileID: 11400000, guid: c35cb5da6362732499eedbb590e52e85, type: 2}
   - {fileID: 11400000, guid: 55c1a27871b6ad549af074d214a49f83, type: 2}
-  - {fileID: 11400000, guid: d39d3e11a681c6540b81e6e19ca14c99, type: 2}
   - {fileID: 11400000, guid: 3658ce03a3e373c498c721ea064760ae, type: 2}
+  - {fileID: 11400000, guid: d39d3e11a681c6540b81e6e19ca14c99, type: 2}
   - {fileID: 11400000, guid: be9958622257dec4599663d4323ba80a, type: 2}
   - {fileID: 11400000, guid: c92ed9bf5e981dd478755dfed1704250, type: 2}
+  stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
+  sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
+  baseLineBreakToken: {fileID: 11400000, guid: 150ec9065214cb143b7090fa3821c806, type: 2}
+  baseLineBreakTokenCount: 1

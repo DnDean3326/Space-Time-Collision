@@ -3,8 +3,8 @@ using UnityEngine;
 public class EncounterSystem : MonoBehaviour
 {
 
-    [SerializeField] private Encounter[] enemiesInScene;
-    [SerializeField] private int maxNumEnemies;
+    [SerializeField] private Encounter[] availableEncounters;
+    //private int? lastEncounterUsed = null;
 
     private EnemyManager enemyManager;
     
@@ -16,14 +16,14 @@ public class EncounterSystem : MonoBehaviour
     
     void Start()
     {
-        enemyManager.GenerateEnemiesByEncounter(enemiesInScene, maxNumEnemies);
+        int encounterToUse = Random.Range(0, availableEncounters.Length);
+        /*if (encounterToUse == lastEncounterUsed) {
+            encounterToUse += 1;
+            if (encounterToUse >= availableEncounters.Length) {
+                encounterToUse = 0;
+            }
+        }*/
+        enemyManager.GenerateEnemiesByEncounter(availableEncounters[encounterToUse]);
+        //lastEncounterUsed = encounterToUse;
     }
-}
-
-[System.Serializable]
-public class Encounter
-{
-    public EnemyInfo enemy;
-    public int levelMin;
-    public int levelMax;
 }

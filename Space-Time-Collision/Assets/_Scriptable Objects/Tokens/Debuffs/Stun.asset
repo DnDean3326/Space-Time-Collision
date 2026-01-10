@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Stun
   displayName: Stun
-  tokenIcon: {fileID: 21300000, guid: 81fc816f8a42ac3479c8a6fbab139179, type: 3}
+  tokenIcon: {fileID: 21300000, guid: c354077ddc4a6654d8fc13e46d8a24e7, type: 3}
   tokenType: 1
   tokenValue: 0
   tokenCap: 1
   tokenInverses: []
+  isUnique: 0
   tokenDescription: 

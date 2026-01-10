@@ -10,6 +10,7 @@ public class Ability : ScriptableObject
         Heal,
         Buff,
         Debuff,
+        Movement,
         Other
     }
 
@@ -17,7 +18,8 @@ public class Ability : ScriptableObject
     {
         Heavy,
         Light,
-        Free
+        Free,
+        Step
     }
 
     public enum CostResource
@@ -103,6 +105,7 @@ public class Ability : ScriptableObject
         Vice,
         
         Burn,
+        Poison
     }
     
     [Header("Ability Basics")]
@@ -116,6 +119,7 @@ public class Ability : ScriptableObject
     public int costAmount;
     public int cooldown;
     public int range;
+    public bool targetSelf;
     
     [Header("Ability Values")]
     public KeyStat keyStat;
@@ -136,6 +140,12 @@ public class Ability : ScriptableObject
     public int selfStatModifier;
     public int selfMin;
     public int selfMax;
+
+    [Header("Movement Values")]
+    public int selfXChange;
+    public int selfYChange;
+    public int targetXChange;
+    public int targetYChange;
 
     [Header("Tokens Interactions")]
     public TokenOption[] selfTokensApplied;
