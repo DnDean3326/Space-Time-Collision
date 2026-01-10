@@ -19,8 +19,8 @@ public class PartyManager : MonoBehaviour
             Destroy(gameObject);
         } else {
             _instance = gameObject;
-            AddMemberToPartyByName(defaultPartyMembers[0].allyName, BASE_LEVEL);
             AddMemberToPartyByName(defaultPartyMembers[1].allyName, BASE_LEVEL);
+            AddMemberToPartyByName(defaultPartyMembers[0].allyName, BASE_LEVEL);
         }
         
         DontDestroyOnLoad(gameObject);
@@ -37,8 +37,8 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.level = level;
 
                 // TODO let players set their party formation
-                newPartyMember.xPos = 4 - i;
-                newPartyMember.yPos = 4 - i;
+                newPartyMember.xPos = 4 - currentParty.Count;
+                newPartyMember.yPos = 4 - currentParty.Count;
                 
                 newPartyMember.maxHealth = allMembers[i].baseHealth;
                 newPartyMember.currentHealth = newPartyMember.maxHealth;

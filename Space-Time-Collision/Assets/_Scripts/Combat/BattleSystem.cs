@@ -1388,7 +1388,9 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator SetGridPosition(BattleEntities entity, int xMove, int yMove)
     {
+        print(xMove + ", " + yMove);
         int oldGridPos = GetGridPosition(entity);
+        print(GetGridPosition(entity));
         int newGridPos;
         Vector3 oldPos;
         Vector3 newPos;
@@ -1410,8 +1412,9 @@ public class BattleSystem : MonoBehaviour
             }
                 
             newGridPos = GetGridPosition(entity);
+            print(GetGridPosition(entity));
 
-            if (partyBattleGrid[newGridPos].isOccupied) {
+            if (partyBattleGrid[newGridPos].isOccupied && partyBattleGrid[newGridPos].occupiedBy != entity) {
                 BattleEntities movePartner = partyBattleGrid[newGridPos].occupiedBy;
                 
                 // Swap spaces with the target if they are not immobilized
@@ -1475,7 +1478,7 @@ public class BattleSystem : MonoBehaviour
                 
             newGridPos = GetGridPosition(entity);
 
-            if (enemyBattleGrid[newGridPos].isOccupied) {
+            if (enemyBattleGrid[newGridPos].isOccupied && enemyBattleGrid[newGridPos].occupiedBy != entity) {
                 BattleEntities movePartner = enemyBattleGrid[newGridPos].occupiedBy;
                 
                 // Swap spaces with the target if they are not immobilized

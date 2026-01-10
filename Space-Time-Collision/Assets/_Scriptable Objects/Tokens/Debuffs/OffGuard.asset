@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: OffGuard
   displayName: Off-Guard
-  tokenIcon: {fileID: 21300000, guid: a94c4378d5a838240b16af29202b9c52, type: 3}
+  tokenIcon: {fileID: 21300000, guid: aab3d67b248108c40b3a035214875648, type: 3}
   tokenType: 1
   tokenValue: 0
   tokenCap: 3

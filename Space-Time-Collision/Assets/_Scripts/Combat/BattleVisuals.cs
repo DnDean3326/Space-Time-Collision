@@ -8,6 +8,7 @@ public class BattleVisuals : MonoBehaviour
     [Header("Sprites")]
     [SerializeField] private GameObject myVisuals;
     [SerializeField] private GameObject myAura;
+    [SerializeField] private GameObject myUI;
     
     [Header("Value Info")]
     [SerializeField] private Image healthBar;
@@ -29,9 +30,19 @@ public class BattleVisuals : MonoBehaviour
     private int maxDefense;
     private int currentDefense;
     private int armor;
+    
     private Animator myAnimator;
     private Animator indicatorAnimator;
+    private SpriteRenderer visualsSprite;
+    private SpriteRenderer auraSprite;
+    private Canvas uiCanvas;
+
+    private List<Image> ailmentImages;
+    private List<TextMeshProUGUI> ailmentCountText;
     
+    private List<Image> tokenImages;
+    private List<TextMeshProUGUI> tokenCountText;
+        
     private const string IS_ATTACK_PARAM = "AttackTrigger";
     private const string IS_HIT_PARAM = "HitTrigger";
     private const string IS_HEALED_PARAM = "HealedTrigger";
@@ -45,8 +56,31 @@ public class BattleVisuals : MonoBehaviour
 
     private void Awake()
     {
+        // Components for animation
         myAnimator = GetComponent<Animator>();
         indicatorAnimator = targetIndicator.GetComponent<Animator>();
+
+        // Components for layering
+        visualsSprite = myVisuals.GetComponent<SpriteRenderer>();
+        auraSprite = myAura.GetComponent<SpriteRenderer>();
+        uiCanvas = myUI.GetComponent<Canvas>();
+        
+        /*// Components for tokens
+        for (int i = 0; i < ailmentSlots.Length; i++) {
+            Image tempImage = ailmentSlots[i].GetComponent<Image>();
+            TextMeshProUGUI tempText = ailmentTextSlots[i].GetComponentInChildren<TextMeshProUGUI>();
+            
+            ailmentImages.Add(tempImage);
+            ailmentCountText.Add(tempText);
+        }
+        
+        for (int i = 0; i < tokenSlots.Length; i++) {
+            Image tempImage = tokenSlots[i].GetComponent<Image>();
+            TextMeshProUGUI tempText = tokenTextSlots[i].GetComponentInChildren<TextMeshProUGUI>();
+            
+            tokenImages.Add(tempImage);
+            tokenCountText.Add(tempText);
+        }*/
     }
 
     public void SetStartingValues(int maxHealth, int currentHealth, int maxDefense,  int armor)
@@ -117,11 +151,11 @@ public class BattleVisuals : MonoBehaviour
                 if (activeTokens[i].tokenCount >= 1) {
                     ailmentSlotShadows[ailmentSlotIndex].SetActive(true);
                     ailmentSlots[ailmentSlotIndex].SetActive(true);
-                    ailmentSlots[ailmentSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+                    ailmentSlots[tokenSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
                     
                     if (activeTokens[i].tokenCount > 1) {
                         ailmentTextSlots[ailmentSlotIndex].SetActive(true);
-                        ailmentTextSlots[ailmentSlotIndex].GetComponentInChildren<TextMeshProUGUI>().text = "x" + activeTokens[i].tokenCount;
+                        ailmentTextSlots[tokenSlotIndex].GetComponentInChildren<TextMeshProUGUI>().text = "x" + activeTokens[i].tokenCount;
                     } else {
                         ailmentTextSlots[ailmentSlotIndex].SetActive(false);
                     }
@@ -231,7 +265,8 @@ public class BattleVisuals : MonoBehaviour
 
     public void SetMyOrder(int newOrder)
     {
-        myVisuals.GetComponent<SpriteRenderer>().sortingOrder = newOrder;
-        myAura.GetComponent<SpriteRenderer>().sortingOrder = (newOrder - 1);
+        uiCanvas.sortingOrder = (newOrder + 1);
+        visualsSprite.sortingOrder = newOrder;
+        auraSprite.sortingOrder = (newOrder - 1);
     }
 }

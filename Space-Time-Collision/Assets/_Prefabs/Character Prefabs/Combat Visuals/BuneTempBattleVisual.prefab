@@ -2254,6 +2254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleVisuals
   myVisuals: {fileID: 5541279764556264496}
   myAura: {fileID: 1757096287032548235}
+  myUI: {fileID: 7356452558302155948}
   healthBar: {fileID: 1718465739789783646}
   defenseBar: {fileID: 5779097585457132896}
   armorText: {fileID: 4298271566672163672}
@@ -4223,8 +4224,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: -1476152859
-  m_SortingOrder: 0
+  m_SortingLayerID: 1231956013
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &1738538669955232869
 MonoBehaviour:
