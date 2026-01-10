@@ -108,7 +108,7 @@ public class BattleSystem : MonoBehaviour
     private bool targetSelected;
     private bool targetIsEnemy;
     private bool usedAbility;
-    private bool hasStepped;
+    private bool usedLightAction;
     private bool brokeRow;
     private bool targetBeingIndicated = false;
     private bool targetIndicatedGrid = false;
@@ -316,7 +316,7 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.PlayerTurn) {
             currentPlayer = characterIndex;
-            if (!wentBack && !hasStepped) {
+            if (!wentBack && !usedLightAction) {
 
                 TriggerTurnStartTokens(allCombatants[characterIndex]);
                 RemoveSelfTurnStartTokens(allCombatants[characterIndex]);
@@ -546,13 +546,13 @@ public class BattleSystem : MonoBehaviour
                     break;
             }
 
-            if (abilityInUse.abilityWeight == Ability.AbilityWeight.Step) {
+            if (abilityInUse.abilityWeight == Ability.AbilityWeight.Light) {
                 if (activeCharacter.activeTokens.Any(t => t.tokenName == "Rush")) {
                     int tokenPosition = activeCharacter.activeTokens.FindIndex(t => t.tokenName == "Rush");
                     activeCharacter.activeTokens.RemoveAt(tokenPosition);
                     activeCharacter.battleVisuals.UpdateTokens(activeCharacter.activeTokens);
                 } else {
-                    hasStepped = true;
+                    usedLightAction = true;
                 }
                 BackToAbilities();
             } else {
@@ -572,6 +572,7 @@ public class BattleSystem : MonoBehaviour
             EnemyBrain myBrain = activeEnemy.enemyBrain;
             List<EnemyAbility> validAbilities = new List<EnemyAbility>();
             
+            TriggerTurnStartTokens(allCombatants[characterIndex]);
             RemoveSelfTurnStartTokens(activeEnemy);
             activeEnemy.battleVisuals.SetMyTurnAnimation(true);
             activeEnemy.actionPoints -= TURN_START_THRESHOLD;
@@ -584,12 +585,16 @@ public class BattleSystem : MonoBehaviour
             // Check is abilities have valid targets
             for (int i = 0; i < myBrain.enemyAbilities.Count; i++) {
                 if (activeEnemy.abilityCooldowns[i] <= 0) {
+                    if (usedLightAction &&
+                        myBrain.enemyAbilities[i].ability.abilityWeight == Ability.AbilityWeight.Heavy) { continue; }
                     switch (myBrain.enemyAbilities[i].ability.abilityType) {
                         case Ability.AbilityType.Damage:
                         case Ability.AbilityType.Debuff:
                             foreach (BattleEntities entity in partyCombatants) {
                                 int distance = CalculateTargetDistance(entity, activeEnemy);
-                                if (distance <= myBrain.enemyAbilities[i].ability.range && entity.activeTokens.All(t => t.tokenName != "Stealth"))  {
+                                if (distance <= myBrain.enemyAbilities[i].ability.rangeMax &&
+                                    distance >= myBrain.enemyAbilities[i].ability.rangeMin &&
+                                    entity.activeTokens.All(t => t.tokenName != "Stealth"))  {
                                     validAbilities.Add(myBrain.enemyAbilities[i]);
                                 }
                             }
@@ -598,7 +603,8 @@ public class BattleSystem : MonoBehaviour
                         case Ability.AbilityType.Buff:
                             foreach (BattleEntities entity in enemyCombatants) {
                                 int distance = CalculateTargetDistance(entity, activeEnemy);
-                                if (distance <= myBrain.enemyAbilities[i].ability.range) {
+                                if (distance <= myBrain.enemyAbilities[i].ability.rangeMax &&
+                                    distance >= myBrain.enemyAbilities[i].ability.rangeMin) {
                                     validAbilities.Add(myBrain.enemyAbilities[i]);
                                 }
                             }
@@ -663,7 +669,8 @@ public class BattleSystem : MonoBehaviour
                     case Ability.AbilityType.Debuff:
                         foreach (BattleEntities entity in partyCombatants) {
                             int distance = CalculateTargetDistance(entity, activeEnemy);
-                            if (distance <= abilityUsed.ability.range  && entity.activeTokens.All(t => t.tokenName != "Stealth")) {
+                            if (distance <= abilityUsed.ability.rangeMax && distance >= abilityUsed.ability.rangeMin &&
+                                entity.activeTokens.All(t => t.tokenName != "Stealth")) {
                                 targetList.Add(entity);
                             }
                         }
@@ -673,7 +680,7 @@ public class BattleSystem : MonoBehaviour
                     case Ability.AbilityType.Buff:
                         foreach (BattleEntities t in enemyCombatants) {
                             int distance = CalculateTargetDistance(t, activeEnemy);
-                            if (distance <= abilityUsed.ability.range) {
+                            if (distance <= abilityUsed.ability.rangeMax && distance >= abilityUsed.ability.rangeMin) {
                                 targetList.Add(t);
                             }
                         }
@@ -873,7 +880,7 @@ public class BattleSystem : MonoBehaviour
     {
         // If a move action was used, turn off move buttons
         if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement
-            && allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityWeight != Ability.AbilityWeight.Step) {
+            && allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityWeight != Ability.AbilityWeight.Light) {
             combatGrid.DisableGridButtons(targetIsEnemy);
         }
         
@@ -896,7 +903,7 @@ public class BattleSystem : MonoBehaviour
         // Reset turn-related values
         activeEntity.battleVisuals.SetMyTurnAnimation(false);
         wentBack = false;
-        hasStepped = false;
+        usedLightAction = false;
         usedAbility = true;
         activeEntity.wasDamagedLastTurn = false;
         activeEntity.damagedBy = 100;
@@ -1388,9 +1395,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator SetGridPosition(BattleEntities entity, int xMove, int yMove)
     {
-        print(xMove + ", " + yMove);
         int oldGridPos = GetGridPosition(entity);
-        print(GetGridPosition(entity));
         int newGridPos;
         Vector3 oldPos;
         Vector3 newPos;
@@ -1621,8 +1626,8 @@ public class BattleSystem : MonoBehaviour
     {
         BattleEntities player = partyCombatants[characterIndex];
         for (int i = 0; i < player.myAbilities.Count; i++) {
-            if (player.abilityCooldowns[i] > 0 || player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Heavy && hasStepped || 
-                player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Step && hasStepped) {
+            if (player.abilityCooldowns[i] > 0 || player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Heavy && usedLightAction || 
+                player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Light && usedLightAction) {
                 player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
                 player.abilityButtons[i].GetComponent<Button>().interactable = false;
             }  else {
@@ -1996,7 +2001,7 @@ public class BattleSystem : MonoBehaviour
                 int distance = CalculateTargetDistance(entity, activeEntity);
                 if (entity.activeTokens.Any(t => t.tokenName == "Stealth")) {
                     stealthedTargets.Add(enemyCombatants.IndexOf(entity));
-                } else if (distance <= activeAbility.range) {
+                } else if (distance <= activeAbility.rangeMax && distance >= activeAbility.rangeMin) {
                     targetList.Add(entity);
                 }
             }
@@ -2018,7 +2023,7 @@ public class BattleSystem : MonoBehaviour
             foreach (BattleEntities entity in partyCombatants) {
                 int distance = CalculateTargetDistance(entity, activeEntity);
 
-                if (distance <= activeAbility.range) {
+                if (distance <= activeAbility.rangeMax && distance >= activeAbility.rangeMin) {
                     targetList.Add(entity);
                 }
             }
@@ -2084,9 +2089,15 @@ public class BattleSystem : MonoBehaviour
                 ref singleValue, ref acc, ref min, ref max, ref crit);
         }
         
-        // Check heal against tokens
+        // Check against heal affecting tokens
         if (activeEntity.myAbilities[activeEntity.activeAbility].abilityType == Ability.AbilityType.Heal) {
             RunHealAgainstSelfTokens(activeEntity, ref abilityModifier, ref singleValue, ref acc, ref min, ref max, ref crit);
+        }
+        
+        // Check against debuff affecting tokens
+        if (activeEntity.myAbilities[activeEntity.activeAbility].abilityType == Ability.AbilityType.Debuff) {
+            RunDebuffAgainstSelfTokens(activeEntity, ref isCrit, ref acc, ref crit);
+            RunDebuffAgainstTargetTokens(activeEntity, targetEntity, ref isCrit, ref acc , ref crit);
         }
 
         crit -= allCombatants[target].critResist;
@@ -2443,7 +2454,7 @@ public class BattleSystem : MonoBehaviour
                 break;
             }
             // Check for Blind tokens
-            if (token.tokenName == "Blind") {
+            if (token.tokenName == "Blind" && activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
                 acc *= (1 - blindToken.tokenValue);
                 break;
             }
@@ -2477,17 +2488,17 @@ public class BattleSystem : MonoBehaviour
                 break;
             }
             // Check for Blind tokens
-            if (token.tokenName == "Blind") {
+            if (token.tokenName == "Blind" && activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
                 acc *= (1 - blindToken.tokenValue);
                 break;
             }
         }
     }
     
-    private void RunAbilityAgainstTargetTokens(BattleEntities entity, BattleEntities targetEntity, Ability ability, ref bool isCrit, ref float acc,
+    private void RunAbilityAgainstTargetTokens(BattleEntities activeEntity, BattleEntities targetEntity, Ability ability, ref bool isCrit, ref float acc,
         ref int min, ref int max, ref int crit)
     {
-        bool hasPrecision = entity.activeTokens.Any(t => t.tokenName == "Precision");
+        bool hasPrecision = activeEntity.activeTokens.Any(t => t.tokenName == "Precision");
         
         foreach (BattleToken token in targetEntity.activeTokens) {
             // Check for Block or Vulnerable tokens
@@ -2506,11 +2517,13 @@ public class BattleSystem : MonoBehaviour
             }
 
             // Check for Dodge tokens
-            if (token.tokenName == "DodgePlus" && !hasPrecision  && !ability.ignoreDodge) {
-                acc = (int)(acc * (1 - dodgePlusToken.tokenValue));
+            if (token.tokenName == "DodgePlus" && !hasPrecision  && !ability.ignoreDodge &&
+                activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+                acc = (acc * (1 - dodgePlusToken.tokenValue));
                 break;
-            } else if (token.tokenName == "Dodge" && !hasPrecision  && !ability.ignoreDodge) {
-                acc = (int)(acc * (1 - dodgeToken.tokenValue));
+            } else if (token.tokenName == "Dodge" && !hasPrecision  && !ability.ignoreDodge && 
+                       activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+                acc = (acc * (1 - dodgeToken.tokenValue));
                 break;
             }
         }
@@ -2526,7 +2539,7 @@ public class BattleSystem : MonoBehaviour
                 break;
             }
             // Check for Blind tokens
-            if (token.tokenName == "Blind") {
+            if (token.tokenName == "Blind" && activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
                 acc *= (1 - blindToken.tokenValue);
                 break;
             }
@@ -2543,8 +2556,28 @@ public class BattleSystem : MonoBehaviour
                 break;
             }
             // Check for Blind tokens
-            if (token.tokenName == "Blind") {
+            if (token.tokenName == "Blind" && activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
                 acc *= (1 - blindToken.tokenValue);
+                break;
+            }
+        }
+    }
+
+    private void RunDebuffAgainstTargetTokens(BattleEntities activeEntity, BattleEntities targetEntity, ref bool isCrit,
+        ref float acc, ref int crit)
+    {
+        bool hasPrecision = activeEntity.activeTokens.Any(t => t.tokenName == "Precision");
+        Ability activeAbility = activeEntity.myAbilities[activeEntity.activeAbility];
+        
+        foreach (BattleToken token in activeEntity.activeTokens) {
+            // Check for Dodge tokens
+            if (token.tokenName == "DodgePlus" && !hasPrecision  && !activeAbility.ignoreDodge &&
+                activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+                acc = (acc * (1 - dodgePlusToken.tokenValue));
+                break;
+            } else if (token.tokenName == "Dodge" && !hasPrecision  && !activeAbility.ignoreDodge && 
+                       activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+                acc = (acc * (1 - dodgeToken.tokenValue));
                 break;
             }
         }
@@ -3089,7 +3122,7 @@ public class BattleSystem : MonoBehaviour
     private void TriggerTurnStartTokens(BattleEntities entity)
     {
         if (entity.activeTokens.Any(t => t.tokenName == "Stagger")) {
-            hasStepped = true;
+            usedLightAction = true;
             int tokenPosition = entity.activeTokens.FindIndex(t => t.tokenName == "Stagger");
             entity.activeTokens.RemoveAt(tokenPosition);
         }
@@ -3312,17 +3345,19 @@ public class BattleSystem : MonoBehaviour
         }
         
         // Check for hit
-        int accRoll = Random.Range(1, 101);
-        if (accRoll > (int)acc) {
-            attackTarget.battleVisuals.AbilityMisses();
-            RemoveSelfDamageTokens(attacker);
-            RemoveTokensOnMiss(attackTarget);
-            SelfGain(attacker, activeAbility, isCrit);
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        if (activeAbility.hasAccuracy) {
+            int accRoll = Random.Range(1, 101);
+            if (accRoll > (int)acc) {
+                attackTarget.battleVisuals.AbilityMisses();
+                RemoveSelfDamageTokens(attacker);
+                RemoveTokensOnMiss(attackTarget);
+                SelfGain(attacker, activeAbility, isCrit);
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-            SaveResources();
-            yield break;
+                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                SaveResources();
+                yield break;
+            }
         }
         
         // Check for crit and determine damage values for crit
@@ -3520,17 +3555,19 @@ public class BattleSystem : MonoBehaviour
         }
         
         // Check for hit
-        int accRoll = Random.Range(1, 101);
-        if (accRoll > (int)acc) {
-            healTarget.battleVisuals.AbilityMisses();
-            RemoveSelfHealTokens(healer);
-            SelfGain(healer, activeAbility, isCrit);
+        if (activeAbility.hasAccuracy) {
+            int accRoll = Random.Range(1, 101);
+            if (accRoll > (int)acc) {
+                healTarget.battleVisuals.AbilityMisses();
+                RemoveSelfHealTokens(healer);
+                SelfGain(healer, activeAbility, isCrit);
             
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-            SaveResources();
-            yield break;
+                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                SaveResources();
+                yield break;
+            }
         }
         
         // Check for crit then determine heal value either way
@@ -3665,16 +3702,19 @@ public class BattleSystem : MonoBehaviour
             }
         }
         
-        int accRoll = Random.Range(1, 101);
-        if (accRoll > (int)acc) {
-            buffTarget.battleVisuals.AbilityMisses();
-            RemoveTokensOnMiss(buffTarget);
-            SelfGain(buffer, activeAbility, isCrit);
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        // Check for hit
+        if (activeAbility.hasAccuracy) {
+            int accRoll = Random.Range(1, 101);
+            if (accRoll > (int)acc) {
+                buffTarget.battleVisuals.AbilityMisses();
+                RemoveTokensOnMiss(buffTarget);
+                SelfGain(buffer, activeAbility, isCrit);
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-            SaveResources();
-            yield break;
+                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                SaveResources();
+                yield break;
+            }
         }
         
         int critRoll = Random.Range(1, 101);
@@ -3734,6 +3774,7 @@ public class BattleSystem : MonoBehaviour
             ref maxDamageRange, ref critChance);
         
         RunDebuffAgainstSelfTokens(debuffer, ref isCrit, ref acc, ref critChance);
+        RunDebuffAgainstTargetTokens(debuffer, debuffTarget, ref isCrit, ref acc, ref critChance);
         
         // Reduce crit chance by target's crit resist
         critChance -= debuffTarget.critResist;
@@ -3760,16 +3801,19 @@ public class BattleSystem : MonoBehaviour
             }
         }
         
-        int accRoll = Random.Range(1, 101);
-        if (accRoll > (int)acc) {
-            debuffTarget.battleVisuals.AbilityMisses();
-            RemoveTokensOnMiss(debuffTarget);
-            SelfGain(debuffer, activeAbility, isCrit);
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        // Check for hit
+        if (activeAbility.hasAccuracy) {
+            int accRoll = Random.Range(1, 101);
+            if (accRoll > (int)acc) {
+                debuffTarget.battleVisuals.AbilityMisses();
+                RemoveTokensOnMiss(debuffTarget);
+                SelfGain(debuffer, activeAbility, isCrit);
+                yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
-            SaveResources();
-            yield break;
+                yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                SaveResources();
+                yield break;
+            }
         }
         
         int critRoll = Random.Range(1, 101);

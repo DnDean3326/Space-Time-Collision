@@ -13,16 +13,6 @@ MonoBehaviour:
   m_Name: Larva Brain
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
   enemyAbilities:
-  - ability: {fileID: 11400000, guid: a55e733508117d24d9892a61458e8750, type: 2}
-    abilityPriority: 5
-    targetMethod: 1
-    targetQualifier: 2
-    randomChance: 8
-  - ability: {fileID: 11400000, guid: 8f9655049abe4a6409912c94e4bb888a, type: 2}
-    abilityPriority: 3
-    targetMethod: 2
-    targetQualifier: 5
-    randomChance: 12
   - ability: {fileID: 11400000, guid: f8bf5570bd646964a9dae9f185c93954, type: 2}
     abilityPriority: 6
     targetMethod: 2
@@ -31,8 +21,18 @@ MonoBehaviour:
   - ability: {fileID: 11400000, guid: c2a415ae45a47864cbc4aa426c1de200, type: 2}
     abilityPriority: 6
     targetMethod: 2
-    targetQualifier: 3
+    targetQualifier: 2
     randomChance: 0
+  - ability: {fileID: 11400000, guid: a55e733508117d24d9892a61458e8750, type: 2}
+    abilityPriority: 5
+    targetMethod: 1
+    targetQualifier: 2
+    randomChance: 8
+  - ability: {fileID: 11400000, guid: 8f9655049abe4a6409912c94e4bb888a, type: 2}
+    abilityPriority: 30
+    targetMethod: 2
+    targetQualifier: 5
+    randomChance: 12
   - ability: {fileID: 11400000, guid: b03521fa417c6c24f9eee6a5c5a1ab7d, type: 2}
     abilityPriority: 10
     targetMethod: 0

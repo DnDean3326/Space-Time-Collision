@@ -268,7 +268,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EncounterSystem
   availableEncounters:
   - {fileID: 11400000, guid: 7ea9302733ef8ee478f6781b38110ea8, type: 2}
-  lastEncounterUsed: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,10 +922,12 @@ MonoBehaviour:
   allMembers:
   - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
   - {fileID: 11400000, guid: 25d862b567b05f347b8e0159d6033c4a, type: 2}
+  - {fileID: 11400000, guid: 20fa378dba5af754d904596e26a7344a, type: 2}
   currentParty: []
   defaultPartyMembers:
   - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
   - {fileID: 11400000, guid: 25d862b567b05f347b8e0159d6033c4a, type: 2}
+  - {fileID: 11400000, guid: 20fa378dba5af754d904596e26a7344a, type: 2}
 --- !u!1 &1624233795
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +1012,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
+  m_fontSize: 69.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

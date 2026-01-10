@@ -64,23 +64,6 @@ public class BattleVisuals : MonoBehaviour
         visualsSprite = myVisuals.GetComponent<SpriteRenderer>();
         auraSprite = myAura.GetComponent<SpriteRenderer>();
         uiCanvas = myUI.GetComponent<Canvas>();
-        
-        /*// Components for tokens
-        for (int i = 0; i < ailmentSlots.Length; i++) {
-            Image tempImage = ailmentSlots[i].GetComponent<Image>();
-            TextMeshProUGUI tempText = ailmentTextSlots[i].GetComponentInChildren<TextMeshProUGUI>();
-            
-            ailmentImages.Add(tempImage);
-            ailmentCountText.Add(tempText);
-        }
-        
-        for (int i = 0; i < tokenSlots.Length; i++) {
-            Image tempImage = tokenSlots[i].GetComponent<Image>();
-            TextMeshProUGUI tempText = tokenTextSlots[i].GetComponentInChildren<TextMeshProUGUI>();
-            
-            tokenImages.Add(tempImage);
-            tokenCountText.Add(tempText);
-        }*/
     }
 
     public void SetStartingValues(int maxHealth, int currentHealth, int maxDefense,  int armor)
@@ -235,7 +218,7 @@ public class BattleVisuals : MonoBehaviour
     {
         myAnimator.SetBool(MY_TURN_BOOL, myTurn);
         if (myTurn) {
-            SetMyOrder(6);
+            SetMyOrder(10);
         }
     }
 
@@ -265,7 +248,7 @@ public class BattleVisuals : MonoBehaviour
 
     public void SetMyOrder(int newOrder)
     {
-        uiCanvas.sortingOrder = (newOrder + 1);
+        uiCanvas.sortingOrder = newOrder;
         visualsSprite.sortingOrder = newOrder;
         auraSprite.sortingOrder = (newOrder - 1);
     }

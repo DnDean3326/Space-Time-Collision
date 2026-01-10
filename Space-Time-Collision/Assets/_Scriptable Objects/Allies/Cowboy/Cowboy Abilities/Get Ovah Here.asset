@@ -19,7 +19,9 @@ MonoBehaviour:
   costResource: 0
   costAmount: 0
   cooldown: 2
-  range: 4
+  rangeMin: 2
+  rangeMax: 4
+  hasAccuracy: 1
   targetSelf: 0
   keyStat: 1
   statModifier: 1

@@ -17,9 +17,18 @@ public class Ability : ScriptableObject
     public enum AbilityWeight
     {
         Heavy,
+        Medium,
         Light,
         Free,
-        Step
+    }
+
+    public enum AttackType
+    {
+        Melee,
+        Ranged,
+        Magic,
+        Tech,
+        None
     }
 
     public enum CostResource
@@ -118,10 +127,13 @@ public class Ability : ScriptableObject
     public CostResource costResource;
     public int costAmount;
     public int cooldown;
-    public int range;
+    public int rangeMin;
+    public int rangeMax;
+    public bool hasAccuracy;
     public bool targetSelf;
-    
+
     [Header("Ability Values")]
+    public AttackType attackType;
     public KeyStat keyStat;
     public int statModifier;
     public int dmgMin;

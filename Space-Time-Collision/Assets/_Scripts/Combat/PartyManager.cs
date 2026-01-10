@@ -21,6 +21,7 @@ public class PartyManager : MonoBehaviour
             _instance = gameObject;
             AddMemberToPartyByName(defaultPartyMembers[1].allyName, BASE_LEVEL);
             AddMemberToPartyByName(defaultPartyMembers[0].allyName, BASE_LEVEL);
+            AddMemberToPartyByName(defaultPartyMembers[2].allyName, BASE_LEVEL);
         }
         
         DontDestroyOnLoad(gameObject);

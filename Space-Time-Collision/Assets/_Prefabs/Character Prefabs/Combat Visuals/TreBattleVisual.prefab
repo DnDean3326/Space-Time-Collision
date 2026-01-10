@@ -64,7 +64,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1231956013
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &4661822214048164559
 MonoBehaviour:
@@ -1676,7 +1676,7 @@ Animator:
   m_GameObject: {fileID: 3261590451165467516}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 905420cbb9dff894c8fa80ff8329d386, type: 2}
+  m_Controller: {fileID: 9100000, guid: a474640ce518a3a49a005e280c798fdf, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

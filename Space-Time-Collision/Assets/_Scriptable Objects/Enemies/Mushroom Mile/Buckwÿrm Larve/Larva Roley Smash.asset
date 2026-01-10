@@ -15,12 +15,15 @@ MonoBehaviour:
   abilityName: Roley Smash
   abilityIcon: {fileID: 0}
   abilityType: 0
-  abilityWeight: 0
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
   cooldown: 0
-  range: 4
+  rangeMin: 1
+  rangeMax: 3
+  hasAccuracy: 1
   targetSelf: 0
+  attackType: 0
   keyStat: 1
   statModifier: 0
   dmgMin: 3
