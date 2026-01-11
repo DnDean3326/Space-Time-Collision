@@ -26,6 +26,12 @@ TextureImporter:
   - first:
       213: -6333433565515103352
     second: renee_combat_idle_glow_7
+  - first:
+      213: 1653319628391035172
+    second: renee_combat_idle_glow_8
+  - first:
+      213: 2930919957228260665
+    second: renee_combat_idle_glow_9
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -125,7 +131,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1300
+        y: 2600
         width: 900
         height: 1300
       alignment: 0
@@ -147,7 +153,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 900
-        y: 1300
+        y: 2600
         width: 900
         height: 1300
       alignment: 0
@@ -169,7 +175,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1800
-        y: 1300
+        y: 2600
         width: 900
         height: 1300
       alignment: 0
@@ -190,7 +196,7 @@ TextureImporter:
       name: renee_combat_idle_glow_3
       rect:
         serializedVersion: 2
-        x: 2700
+        x: 0
         y: 1300
         width: 900
         height: 1300
@@ -212,7 +218,7 @@ TextureImporter:
       name: renee_combat_idle_glow_4
       rect:
         serializedVersion: 2
-        x: 3600
+        x: 900
         y: 1300
         width: 900
         height: 1300
@@ -234,8 +240,8 @@ TextureImporter:
       name: renee_combat_idle_glow_5
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 1800
+        y: 1300
         width: 900
         height: 1300
       alignment: 0
@@ -256,7 +262,7 @@ TextureImporter:
       name: renee_combat_idle_glow_6
       rect:
         serializedVersion: 2
-        x: 3600
+        x: 0
         y: 0
         width: 900
         height: 1300
@@ -274,11 +280,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: renee_combat_idle_glow_7
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 900
+        height: 1300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 883cfe66abf1b18a0800000000000000
+      internalID: -6333433565515103352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 2d64a9e4052794de6979794389012760
+    spriteID: 7c95f7bfb33144a1ebdde7ecc3a4864d
     internalID: 0
     vertices: []
     indices: 
@@ -288,7 +316,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":5.0,"y":2.0},"gridSpriteSize":{"x":900.0,"y":1300.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":3.0},"gridSpriteSize":{"x":900.0,"y":1300.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       renee_combat_idle_glow_0: 6739488973461126795
       renee_combat_idle_glow_1: -8316062882563755723
@@ -297,6 +325,7 @@ TextureImporter:
       renee_combat_idle_glow_4: 4657408607338268412
       renee_combat_idle_glow_5: 2972326558239080689
       renee_combat_idle_glow_6: 1209012308367699914
+      renee_combat_idle_glow_7: -6333433565515103352
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
