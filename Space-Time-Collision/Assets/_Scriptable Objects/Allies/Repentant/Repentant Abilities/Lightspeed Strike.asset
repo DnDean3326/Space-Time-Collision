@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Ravages of Time
+  m_Name: Lightspeed Strike
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Ravages of Time
+  abilityName: Lightspeed Strike
   abilityIcon: {fileID: 0}
-  abilityType: 3
-  abilityWeight: 1
-  costResource: 1
-  costAmount: 2
-  cooldown: 1
+  abilityType: 0
+  abilityWeight: 0
+  costResource: 0
+  costAmount: 0
+  cooldown: 0
   rangeMin: 1
   rangeMax: 4
   hasAccuracy: 1
   targetSelf: 0
-  attackType: 2
-  keyStat: 0
-  statModifier: 0
-  dmgMin: 0
-  dmgMax: 0
-  critChance: 15
+  attackType: 0
+  keyStat: 5
+  statModifier: 1
+  dmgMin: 5
+  dmgMax: 10
+  critChance: 20
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -38,8 +38,8 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
-  bannedColumns: 
-  selfXChange: 0
+  bannedColumns: 04000000
+  selfXChange: 3
   selfYChange: 0
   selfYChangeToCenter: 0
   targetXChange: 0
@@ -47,17 +47,16 @@ MonoBehaviour:
   targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 1c00000016000000
-  targetTokenCountApplied: 0100000001000000
-  selfCritTokensApplied: 
-  selfCritTokenCountApplied: 
-  targetCritTokensApplied: 21000000
-  targetCritTokenCountApplied: 01000000
+  targetTokensApplied: 
+  targetTokenCountApplied: 
+  selfCritTokensApplied: 0b000000
+  selfCritTokenCountApplied: 01000000
+  targetCritTokensApplied: 
+  targetCritTokenCountApplied: 
   selfTokensCleared: 
   targetTokensCleared: 
-  ignoreBlock: 0
+  ignoreBlock: 1
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 'Apply Off-Guard I and Slow I\nOn a crit apply Break I\nRange: 3\nCooldown:
-    1\nCost: 2MP'
+  description: 

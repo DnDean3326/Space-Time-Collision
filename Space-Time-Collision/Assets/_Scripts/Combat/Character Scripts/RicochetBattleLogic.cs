@@ -92,8 +92,8 @@ public class RicochetBattleLogic : MonoBehaviour
         }
     }
 
-    public void RicochetAttackLogic(Ability activeAbility, ref int critChance, ref int selfXTravel, ref int selfYTravel,
-        ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
+    public void RicochetAttackLogic(Ability activeAbility, ref int minDamage, ref int maxDamage, ref int critChance,
+        ref int selfXTravel, ref int selfYTravel, ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
     {
         int bulletCountUsed = FindBulletsUsed(activeAbility.abilityName);
         List<BulletType> bulletsUsed = CheckCurrentBullets(bulletCountUsed);
@@ -107,6 +107,9 @@ public class RicochetBattleLogic : MonoBehaviour
                     // Force the attack to apply Burn
                     targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
                     targetTokensCount.Add(3);
+                } else if (bulletsUsed.Any(t => t == BulletType.Blank)) {
+                    minDamage = 0;
+                    maxDamage = 0;
                 }
                 break;
             case "Sinful Shell":
@@ -117,6 +120,32 @@ public class RicochetBattleLogic : MonoBehaviour
                     // Force the attack to apply Burn
                     targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
                     targetTokensCount.Add(3);
+                }  else if (bulletsUsed.Any(t => t == BulletType.Blank)) {
+                    minDamage = 0;
+                    maxDamage = 0;
+                }
+                break;
+            case "Strafe Shooting": //TODO review this ability
+                if (bulletsUsed.Any(t => t == BulletType.Critical)) {
+                    // Count crit bullets
+                    int critCount = bulletsUsed.Count(t => t == BulletType.Critical);
+                    
+                    // Force the attack to crit
+                    critChance = 300;
+                    selfYTravel *= (critCount + 1);
+                } else if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
+                    // Count incendiary bullets
+                    int incendiaryCount = bulletsUsed.Count(t => t == BulletType.Critical);
+                    
+                    // Force the attack to apply Burn
+                    targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
+                    targetTokensCount.Add(2 * incendiaryCount);
+                }  else if (bulletsUsed.Any(t => t == BulletType.Blank)) {
+                    // Count misfire bullets
+                    int misfireCount = bulletsUsed.Count(t => t == BulletType.Critical);
+
+                    minDamage *= (1 - (1 / 3 * misfireCount));
+                    maxDamage *= (1 - (1 / 3 * misfireCount));
                 }
                 break;
         }

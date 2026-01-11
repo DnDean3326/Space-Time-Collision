@@ -160,6 +160,7 @@ public class Ability : ScriptableObject
     public int selfMax;
 
     [Header("Movement Values")]
+    public int[] bannedColumns;
     public int selfXChange;
     public int selfYChange;
     public bool selfYChangeToCenter = false;

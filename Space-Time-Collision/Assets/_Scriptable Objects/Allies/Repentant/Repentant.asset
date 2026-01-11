@@ -31,6 +31,7 @@ MonoBehaviour:
   allyMenuVisualPrefab: {fileID: 4016972724149583921, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
   abilities:
   - {fileID: 11400000, guid: c35cb5da6362732499eedbb590e52e85, type: 2}
+  - {fileID: 11400000, guid: d8f4e484ef14a4b4f95d5d6109f6f8bf, type: 2}
   - {fileID: 11400000, guid: 55c1a27871b6ad549af074d214a49f83, type: 2}
   - {fileID: 11400000, guid: 3658ce03a3e373c498c721ea064760ae, type: 2}
   - {fileID: 11400000, guid: d39d3e11a681c6540b81e6e19ca14c99, type: 2}

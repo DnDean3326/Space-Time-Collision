@@ -613,6 +613,10 @@ public class BattleSystem : MonoBehaviour
                                 if (distance <= myBrain.enemyAbilities[i].ability.rangeMax &&
                                     distance >= myBrain.enemyAbilities[i].ability.rangeMin &&
                                     entity.activeTokens.All(t => t.tokenName != "Stealth"))  {
+                                    if (myBrain.enemyAbilities[i].ability.bannedColumns.Length > 0 &&
+                                        myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => t == entity.xPos)) {
+                                        continue;
+                                    }
                                     validAbilities.Add(myBrain.enemyAbilities[i]);
                                 }
                             }
@@ -1414,7 +1418,6 @@ public class BattleSystem : MonoBehaviour
 
             xChange = (chosenTile.xPos - currentTile.xPos);
             yChange = (chosenTile.yPos - currentTile.yPos);
-            print(xChange + " " + yChange);
 
             targetSelected = true;
         }
@@ -1645,7 +1648,7 @@ public class BattleSystem : MonoBehaviour
                 
             }
         }
-
+        
         yield break;
     }
 
@@ -1655,9 +1658,18 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < player.myAbilities.Count; i++) {
             if (player.abilityCooldowns[i] > 0 || player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Heavy && usedLightAction || 
                 player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Light && usedLightAction) {
+                
                 player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
                 player.abilityButtons[i].GetComponent<Button>().interactable = false;
             }  else {
+                if (player.myAbilities[i].bannedColumns.Length > 0 &&
+                    player.myAbilities[i].bannedColumns.Any(t => t == player.xPos)) {
+                    
+                    player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                    player.abilityButtons[i].GetComponent<Button>().interactable = false;
+                    continue;
+                }
+                
                 player.abilityButtons[i].GetComponent<Image>().color = new Color(255,255,255);
                 player.abilityButtons[i].GetComponent<Button>().interactable = true;
             }
@@ -2108,7 +2120,6 @@ public class BattleSystem : MonoBehaviour
         
         SetAbilityValuesAgainstTarget(activeEntity, targetEntity, ref abilityModifier, ref isCrit, ref acc, ref min,
             ref max, ref crit);
-        print("Min: " + min + "\nMax: " + max);
         
         // Check for damage abilities
         if (activeEntity.myAbilities[activeEntity.activeAbility].abilityType == Ability.AbilityType.Damage) {
@@ -3651,8 +3662,8 @@ public class BattleSystem : MonoBehaviour
         if (attacker.myName == "Bune") {
             BuneGainVice(attackTarget);
         } else if (attacker.myName == "Tre") {
-            ricochetLogic.RicochetAttackLogic(activeAbility, ref critChance, ref selfXTravel, ref selfYTravel,
-                ref targetTokens, ref targetTokensCount);
+            ricochetLogic.RicochetAttackLogic(activeAbility, ref minDamageRange, ref maxDamageRange, ref critChance,
+                ref selfXTravel, ref selfYTravel, ref targetTokens, ref targetTokensCount);
         }
         
         // Reduce crit chance by target's crit resist
@@ -4106,7 +4117,7 @@ public class BattleSystem : MonoBehaviour
                     ricochetTargetList.Add(entity);
                 }
             }
-
+            
             if (ricochetTargetList.Count > 0) {
                 int ricochetTargetIndex = Random.Range(0, ricochetTargetList.Count);
                 abilityDuplicated = true;
