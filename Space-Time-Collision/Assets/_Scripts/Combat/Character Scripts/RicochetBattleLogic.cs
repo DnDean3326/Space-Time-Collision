@@ -106,12 +106,17 @@ public class RicochetBattleLogic : MonoBehaviour
                 } else if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
                     // Force the attack to apply Burn
                     targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
-                    targetTokensCount.Add(2);
+                    targetTokensCount.Add(3);
                 }
                 break;
             case "Sinful Shell":
                 if (bulletsUsed.Any(t => t == BulletType.Critical)) {
-                    
+                    // Force the attack to crit
+                    critChance = 300;
+                } else if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
+                    // Force the attack to apply Burn
+                    targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
+                    targetTokensCount.Add(3);
                 }
                 break;
         }
