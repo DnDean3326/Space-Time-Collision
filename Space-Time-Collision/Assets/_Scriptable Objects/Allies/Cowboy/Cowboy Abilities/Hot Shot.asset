@@ -19,7 +19,11 @@ MonoBehaviour:
   costResource: 0
   costAmount: 0
   cooldown: 1
-  range: 6
+  rangeMin: 3
+  rangeMax: 6
+  hasAccuracy: 1
+  targetSelf: 0
+  attackType: 1
   keyStat: 2
   statModifier: 1
   dmgMin: 4
@@ -34,9 +38,13 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  selfXChange: 0
+  selfYChange: 0
+  targetXChange: 0
+  targetYChange: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 23000000
+  targetTokensApplied: 25000000
   targetTokenCountApplied: 03000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 

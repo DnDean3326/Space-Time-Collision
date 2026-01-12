@@ -8,6 +8,7 @@ public class BattleVisuals : MonoBehaviour
     [Header("Sprites")]
     [SerializeField] private GameObject myVisuals;
     [SerializeField] private GameObject myAura;
+    [SerializeField] private GameObject myUI;
     
     [Header("Value Info")]
     [SerializeField] private Image healthBar;
@@ -29,9 +30,19 @@ public class BattleVisuals : MonoBehaviour
     private int maxDefense;
     private int currentDefense;
     private int armor;
+    
     private Animator myAnimator;
     private Animator indicatorAnimator;
+    private SpriteRenderer visualsSprite;
+    private SpriteRenderer auraSprite;
+    private Canvas uiCanvas;
+
+    private List<Image> ailmentImages;
+    private List<TextMeshProUGUI> ailmentCountText;
     
+    private List<Image> tokenImages;
+    private List<TextMeshProUGUI> tokenCountText;
+        
     private const string IS_ATTACK_PARAM = "AttackTrigger";
     private const string IS_HIT_PARAM = "HitTrigger";
     private const string IS_HEALED_PARAM = "HealedTrigger";
@@ -45,8 +56,14 @@ public class BattleVisuals : MonoBehaviour
 
     private void Awake()
     {
+        // Components for animation
         myAnimator = GetComponent<Animator>();
         indicatorAnimator = targetIndicator.GetComponent<Animator>();
+
+        // Components for layering
+        visualsSprite = myVisuals.GetComponent<SpriteRenderer>();
+        auraSprite = myAura.GetComponent<SpriteRenderer>();
+        uiCanvas = myUI.GetComponent<Canvas>();
     }
 
     public void SetStartingValues(int maxHealth, int currentHealth, int maxDefense,  int armor)
@@ -117,11 +134,11 @@ public class BattleVisuals : MonoBehaviour
                 if (activeTokens[i].tokenCount >= 1) {
                     ailmentSlotShadows[ailmentSlotIndex].SetActive(true);
                     ailmentSlots[ailmentSlotIndex].SetActive(true);
-                    ailmentSlots[ailmentSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+                    ailmentSlots[tokenSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
                     
                     if (activeTokens[i].tokenCount > 1) {
                         ailmentTextSlots[ailmentSlotIndex].SetActive(true);
-                        ailmentTextSlots[ailmentSlotIndex].GetComponentInChildren<TextMeshProUGUI>().text = "x" + activeTokens[i].tokenCount;
+                        ailmentTextSlots[tokenSlotIndex].GetComponentInChildren<TextMeshProUGUI>().text = "x" + activeTokens[i].tokenCount;
                     } else {
                         ailmentTextSlots[ailmentSlotIndex].SetActive(false);
                     }
@@ -201,7 +218,7 @@ public class BattleVisuals : MonoBehaviour
     {
         myAnimator.SetBool(MY_TURN_BOOL, myTurn);
         if (myTurn) {
-            SetMyOrder(6);
+            SetMyOrder(10);
         }
     }
 
@@ -231,7 +248,8 @@ public class BattleVisuals : MonoBehaviour
 
     public void SetMyOrder(int newOrder)
     {
-        myVisuals.GetComponent<SpriteRenderer>().sortingOrder = newOrder;
-        myAura.GetComponent<SpriteRenderer>().sortingOrder = (newOrder - 1);
+        uiCanvas.sortingOrder = newOrder;
+        visualsSprite.sortingOrder = newOrder;
+        auraSprite.sortingOrder = (newOrder - 1);
     }
 }

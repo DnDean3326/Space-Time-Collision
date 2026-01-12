@@ -17,9 +17,18 @@ public class Ability : ScriptableObject
     public enum AbilityWeight
     {
         Heavy,
+        Medium,
         Light,
         Free,
-        Step
+    }
+
+    public enum AttackType
+    {
+        Melee,
+        Ranged,
+        Magic,
+        Tech,
+        None
     }
 
     public enum CostResource
@@ -41,7 +50,11 @@ public class Ability : ScriptableObject
         Wit,
         Mind,
         Speed,
-        Luck
+        Luck,
+        SelfBuffCount,
+        TargetBuffCount,
+        SelfDebuffCount,
+        TargetDebuffCount
     }
 
     public enum SecondaryTarget
@@ -81,6 +94,7 @@ public class Ability : ScriptableObject
         Pierce,
         Precision,
         Quick,
+        Ricochet,
         Riposte,
         Rush,
         Stealth,
@@ -104,6 +118,7 @@ public class Ability : ScriptableObject
         Ascension,
         Vice,
         
+        Bleed,
         Burn,
         Poison
     }
@@ -118,10 +133,13 @@ public class Ability : ScriptableObject
     public CostResource costResource;
     public int costAmount;
     public int cooldown;
-    public int range;
+    public int rangeMin;
+    public int rangeMax;
+    public bool hasAccuracy;
     public bool targetSelf;
-    
+
     [Header("Ability Values")]
+    public AttackType attackType;
     public KeyStat keyStat;
     public int statModifier;
     public int dmgMin;
@@ -142,10 +160,13 @@ public class Ability : ScriptableObject
     public int selfMax;
 
     [Header("Movement Values")]
+    public int[] bannedColumns;
     public int selfXChange;
     public int selfYChange;
+    public bool selfYChangeToCenter = false;
     public int targetXChange;
     public int targetYChange;
+    public bool targetYChangeToCenter = false;
 
     [Header("Tokens Interactions")]
     public TokenOption[] selfTokensApplied;

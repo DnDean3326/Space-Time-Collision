@@ -15,12 +15,15 @@ MonoBehaviour:
   abilityName: Rollback
   abilityIcon: {fileID: 0}
   abilityType: 2
-  abilityWeight: 0
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
   cooldown: 2
-  range: 0
+  rangeMin: 0
+  rangeMax: 0
+  hasAccuracy: 0
   targetSelf: 1
+  attackType: 4
   keyStat: 0
   statModifier: 0
   dmgMin: 0

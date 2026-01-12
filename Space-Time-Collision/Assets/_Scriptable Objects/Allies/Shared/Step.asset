@@ -15,12 +15,15 @@ MonoBehaviour:
   abilityName: Step
   abilityIcon: {fileID: 0}
   abilityType: 4
-  abilityWeight: 3
+  abilityWeight: 2
   costResource: 0
   costAmount: 0
   cooldown: 0
-  range: 1
+  rangeMin: 1
+  rangeMax: 1
+  hasAccuracy: 0
   targetSelf: 0
+  attackType: 0
   keyStat: 0
   statModifier: 0
   dmgMin: 0

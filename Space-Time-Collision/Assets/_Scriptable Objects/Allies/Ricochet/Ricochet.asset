@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7286e639bc0ef9a4a9a974c478cad697, type: 3}
+  m_Name: Ricochet
+  m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
+  allyName: Tre
+  allyPortrait: {fileID: 21300000, guid: 4ad51e0b48e534c4d90d5c3d982b6fc8, type: 3}
+  baseHealth: 25
+  baseDefense: 20
+  baseArmor: 3
+  baseSpirit: 0
+  basePower: 2
+  baseSkill: 6
+  baseWit: 4
+  baseMind: 1
+  baseSpeed: 4
+  baseLuck: 4
+  baseStunResist: 15
+  baseDebuffResist: 10
+  baseAilmentResist: 5
+  allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 179dab15a64745449bdfdd5892204481, type: 3}
+  allyMenuVisualPrefab: {fileID: 4016972724149583921, guid: d7959bae6ea22264e9949054e119ad0b, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: 257dae12db8cbc14a8132c0f7d2138ad, type: 2}
+  - {fileID: 11400000, guid: d9423b8ff8ca8444e940c9a25d5cb15e, type: 2}
+  - {fileID: 11400000, guid: bdd91ac260b876040a75d64b52f11549, type: 2}
+  - {fileID: 11400000, guid: cfb7c2b72f69e004cac564e7ccf8bffc, type: 2}
+  - {fileID: 11400000, guid: 1566e28c186fbb74db25d0d13f0ef0c5, type: 2}
+  - {fileID: 11400000, guid: 069666cd7f2846c4292090f819a100ba, type: 2}
+  - {fileID: 11400000, guid: da5676ab5430a6249ab03500d5069d16, type: 2}
+  stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
+  sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
+  baseLineBreakToken: {fileID: 11400000, guid: 096701f00a8463647a9b41da08bcc634, type: 2}
+  baseLineBreakTokenCount: 1

@@ -146,14 +146,15 @@ public class CombatGrid : MonoBehaviour
 
     public void DisplayValidRowBreakTiles(BattleEntities user, int frontRow)
     {
-        int moveRange = user.myAbilities[user.activeAbility].range;
+        int moveMinRange = user.myAbilities[user.activeAbility].rangeMin;
+        int moveMaxRange = user.myAbilities[user.activeAbility].rangeMax;
         int distance;
         
         foreach (GridTile tile in enemyGrid) {
             if (tile.xPos != frontRow) { continue; }
             distance = battleSystem.CalculateTileDistance(tile, user);
             Color tempColor = tile.gridVisual.GetComponent<Image>().color;
-            if (moveRange >= distance) {
+            if (moveMaxRange >= distance && moveMinRange <= distance) {
                 tile.gridVisual.SetActive(true);
                 tempColor.a = 1f;
                 tile.gridVisual.GetComponent<Image>().color = tempColor;
@@ -166,7 +167,8 @@ public class CombatGrid : MonoBehaviour
     public void DisplayValidTiles(BattleEntities user, Ability.AbilityType abilityType,
         bool targetingEnemy, bool canTargetSelf)
     {
-        int abilityRange = user.myAbilities[user.activeAbility].range;
+        int abilityMinRange = user.myAbilities[user.activeAbility].rangeMin;
+        int abilityMaxRange = user.myAbilities[user.activeAbility].rangeMax;
         int distance;
         
         SetGridImages(abilityType, targetingEnemy);
@@ -178,7 +180,7 @@ public class CombatGrid : MonoBehaviour
                 if (enemyGrid[i].isDestroyed) { continue; }
                 GridTile tile = enemyGrid[i];
                 distance = battleSystem.CalculateTileDistance(tile, user);
-                if (abilityRange >= distance) {
+                if (abilityMaxRange >= distance && abilityMinRange <= distance) {
                     if (tile.isOccupied && tile.occupiedBy.activeTokens.Any(t => t.tokenName == "Stealth")) {
                         stealthedTargets.Add(i);
                     } else {
@@ -223,7 +225,7 @@ public class CombatGrid : MonoBehaviour
             foreach (GridTile tile in partyGrid) {
                 if (tile.isDestroyed) { continue; }
                 distance = battleSystem.CalculateTileDistance(tile, user);
-                if (abilityRange >= distance) {
+                if (abilityMaxRange >= distance && abilityMinRange <= distance) {
                     tile.gridVisual.SetActive(true);
                     Color tempColor = tile.gridVisual.GetComponent<Image>().color;
                     if (tile.isOccupied) {

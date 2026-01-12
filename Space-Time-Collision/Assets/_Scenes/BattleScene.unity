@@ -4350,6 +4350,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: db9f52c01cba6e54896f5f62a9aeb138, type: 2}
   - {fileID: 11400000, guid: 2cc6643999ca3c344827574cad36a14d, type: 2}
   - {fileID: 11400000, guid: 27303d0012e2a0b478aa43c20bff91d7, type: 2}
+  - {fileID: 11400000, guid: 096701f00a8463647a9b41da08bcc634, type: 2}
   - {fileID: 11400000, guid: 87b7e4fd874f91d428cded8a0d6daa44, type: 2}
   - {fileID: 11400000, guid: 44d073ad01a3b8443b9a6ce92e617aee, type: 2}
   - {fileID: 11400000, guid: 61a16652f68adc341bf98e65b577a2f7, type: 2}
@@ -4367,6 +4368,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 08031efb7ab90414f99f3f7b5673e21a, type: 2}
   - {fileID: 11400000, guid: e8225391d4574084f8e143069a7215b7, type: 2}
   - {fileID: 11400000, guid: ecf5cb58eac38024995ede0188254e77, type: 2}
+  - {fileID: 11400000, guid: 2f679c912e0a6d84b8505e2989eb75fc, type: 2}
   - {fileID: 11400000, guid: 5e0d02eca971bad48bd0f7e0210bcb1c, type: 2}
   - {fileID: 11400000, guid: 40d1f1344fc24e940b402efdfed6f0f9, type: 2}
   allTokensList: []
@@ -4379,7 +4381,7 @@ Transform:
   m_GameObject: {fileID: 449082132}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.12356, y: 0.00026, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
