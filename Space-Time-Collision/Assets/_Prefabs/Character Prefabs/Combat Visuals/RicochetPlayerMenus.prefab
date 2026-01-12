@@ -2617,7 +2617,7 @@ GameObject:
   - component: {fileID: 2677281056055766186}
   - component: {fileID: 801557962036557180}
   m_Layer: 0
-  m_Name: TrePlayerMenus
+  m_Name: RicochetPlayerMenus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

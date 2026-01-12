@@ -40,7 +40,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.35}
+  m_AnchoredPosition: {x: 0, y: 2.1}
   m_SizeDelta: {x: 12, y: 7.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5383424620510152431
@@ -64,7 +64,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 1231956013
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &4661822214048164559
 MonoBehaviour:
@@ -826,7 +826,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 009c36ac2ea0e42a2adb3f39872136b4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 27fd6400128aa204189d77c2f2eb1833, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1642,7 +1642,7 @@ GameObject:
   - component: {fileID: 6564135639588113273}
   - component: {fileID: 2016875731901133911}
   m_Layer: 0
-  m_Name: TreBattleVisual
+  m_Name: RepentantBattleVisual
   m_TagString: BattleVisuals
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1676,7 +1676,7 @@ Animator:
   m_GameObject: {fileID: 3261590451165467516}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a474640ce518a3a49a005e280c798fdf, type: 2}
+  m_Controller: {fileID: 9100000, guid: 905420cbb9dff894c8fa80ff8329d386, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2743,7 +2743,7 @@ Transform:
   m_GameObject: {fileID: 5541279764556264496}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.95, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2799,7 +2799,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 03fd43ec75ed8458daeb1884a1d4fbdf, type: 3}
+  m_Sprite: {fileID: -374265289532135223, guid: bd7f85899083648a0a496f820f60f1c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4482,8 +4482,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1231956013
-  m_SortingLayer: 2
+  m_SortingLayerID: -1088861843
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}

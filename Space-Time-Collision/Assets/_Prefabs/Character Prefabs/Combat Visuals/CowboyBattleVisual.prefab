@@ -1165,7 +1165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3731240290069269585
 Transform:
   m_ObjectHideFlags: 0
@@ -2194,7 +2194,7 @@ GameObject:
   - component: {fileID: 6564135639588113273}
   - component: {fileID: 2016875731901133911}
   m_Layer: 0
-  m_Name: BuneTempBattleVisual
+  m_Name: CowboyBattleVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
