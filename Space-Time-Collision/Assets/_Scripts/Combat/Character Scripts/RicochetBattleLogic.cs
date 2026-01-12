@@ -93,7 +93,8 @@ public class RicochetBattleLogic : MonoBehaviour
     }
 
     public void RicochetAttackLogic(Ability activeAbility, ref int minDamage, ref int maxDamage, ref int critChance,
-        ref int selfXTravel, ref int selfYTravel, ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
+        ref int selfXTravel, ref int selfYTravel, ref List<BattleToken> selfTokens, ref List<int> selfTokensCount, 
+        ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
     {
         int bulletCountUsed = FindBulletsUsed(activeAbility.abilityName);
         List<BulletType> bulletsUsed = CheckCurrentBullets(bulletCountUsed);

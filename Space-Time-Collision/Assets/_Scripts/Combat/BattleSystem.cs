@@ -113,6 +113,7 @@ public class BattleSystem : MonoBehaviour
     private CombatGrid combatGrid;
     
     // Character Specific Logic
+    private RepentantBattleLogic repentantLogic;
     private RicochetBattleLogic ricochetLogic;
     
     private int currentPlayer;
@@ -186,6 +187,7 @@ public class BattleSystem : MonoBehaviour
         combatGrid = FindFirstObjectByType<CombatGrid>();
 
         ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
+        repentantLogic = FindFirstObjectByType<RepentantBattleLogic>();
     }
     
     
@@ -565,12 +567,15 @@ public class BattleSystem : MonoBehaviour
             }
 
             if (abilityInUse.abilityWeight == Ability.AbilityWeight.Light) {
-                if (activeCharacter.activeTokens.Any(t => t.tokenName == "Rush")) {
+                if (activeCharacter.activeTokens.Any(t => t.tokenName == "Rush") &&
+                    abilityInUse.abilityName == "Step") {
                     int tokenPosition = activeCharacter.activeTokens.FindIndex(t => t.tokenName == "Rush");
                     activeCharacter.activeTokens.RemoveAt(tokenPosition);
                     activeCharacter.battleVisuals.UpdateTokens(activeCharacter.activeTokens);
                 } else {
                     usedLightAction = true;
+                    int abilityIndex = activeCharacter.myAbilities.IndexOf(abilityInUse);
+                    activeCharacter.abilityCooldowns[abilityIndex] += abilityInUse.cooldown;
                 }
                 BackToAbilities();
             } else {
@@ -613,8 +618,16 @@ public class BattleSystem : MonoBehaviour
                                 if (distance <= myBrain.enemyAbilities[i].ability.rangeMax &&
                                     distance >= myBrain.enemyAbilities[i].ability.rangeMin &&
                                     entity.activeTokens.All(t => t.tokenName != "Stealth"))  {
+                                    
+                                    int brokenPlayerColumns = 0;
+                                    bool[] lineBrokenStatus = combatGrid.GetLineBreakInfo();
+                                    foreach (bool isBroken in lineBrokenStatus) {
+                                        if (isBroken) {
+                                            brokenPlayerColumns++;
+                                        }
+                                    }
                                     if (myBrain.enemyAbilities[i].ability.bannedColumns.Length > 0 &&
-                                        myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => t == entity.xPos)) {
+                                        myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => (t + brokenPlayerColumns) == entity.xPos)) {
                                         continue;
                                     }
                                     validAbilities.Add(myBrain.enemyAbilities[i]);
@@ -1656,20 +1669,35 @@ public class BattleSystem : MonoBehaviour
     {
         BattleEntities player = partyCombatants[characterIndex];
         for (int i = 0; i < player.myAbilities.Count; i++) {
+            // Character ability blocking logic
+            if (player.myName == "Renée") {
+                print(player.myAbilities[i].abilityName);
+                print(repentantLogic.RepentantUseLogic(player, player.myAbilities[i]));
+                if (repentantLogic.RepentantUseLogic(player, player.myAbilities[i])) {
+                    player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                    player.abilityButtons[i].GetComponent<Button>().interactable = false;
+                    continue;
+                }
+            }
             if (player.abilityCooldowns[i] > 0 || player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Heavy && usedLightAction || 
                 player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Light && usedLightAction) {
                 
                 player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
                 player.abilityButtons[i].GetComponent<Button>().interactable = false;
-            }  else {
+            } else {
+                int brokenPlayerColumns = 0;
+                bool[] lineBrokenStatus = combatGrid.GetLineBreakInfo();
+                foreach (bool isBroken in lineBrokenStatus) {
+                    if (isBroken) {
+                        brokenPlayerColumns++;
+                    }
+                }
                 if (player.myAbilities[i].bannedColumns.Length > 0 &&
-                    player.myAbilities[i].bannedColumns.Any(t => t == player.xPos)) {
-                    
+                    player.myAbilities[i].bannedColumns.Any(t => (t - brokenPlayerColumns) == player.xPos)) {
                     player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
                     player.abilityButtons[i].GetComponent<Button>().interactable = false;
                     continue;
                 }
-                
                 player.abilityButtons[i].GetComponent<Image>().color = new Color(255,255,255);
                 player.abilityButtons[i].GetComponent<Button>().interactable = true;
             }
@@ -3606,6 +3634,7 @@ public class BattleSystem : MonoBehaviour
         int minDamageRange = 0;
         int maxDamageRange = 0;
         int critChance = 0;
+        bool isLethal = false;
         
         // Declare secondary damage values, if any
         int secondaryDamage;
@@ -3624,7 +3653,8 @@ public class BattleSystem : MonoBehaviour
             ref maxDamageRange, ref critChance);
         
         // Get secondary damage values
-        SetSecondaryAbilityValues(attacker, ref secondaryModifier,  ref secondaryValue); secondaryDamage = secondaryValue;
+        SetSecondaryAbilityValues(attacker, ref secondaryModifier,  ref secondaryValue); 
+        secondaryDamage = secondaryValue;
         
         // Determine move distance
         int selfXTravel = activeAbility.selfXChange;
@@ -3659,11 +3689,15 @@ public class BattleSystem : MonoBehaviour
         }
 
         // Check character logic
-        if (attacker.myName == "Bune") {
+        if (attacker.myName == "Renée") {
+            repentantLogic.RepentantAbilityLogic(attacker, attackTarget, activeAbility, ref minDamageRange,
+                ref maxDamageRange, ref secondaryDamage, ref critChance, ref selfTokens, ref selfTokensCount,
+                ref targetTokens, ref targetTokensCount);
+        } else if (attacker.myName == "Bune") {
             BuneGainVice(attackTarget);
         } else if (attacker.myName == "Tre") {
             ricochetLogic.RicochetAttackLogic(activeAbility, ref minDamageRange, ref maxDamageRange, ref critChance,
-                ref selfXTravel, ref selfYTravel, ref targetTokens, ref targetTokensCount);
+                ref selfXTravel, ref selfYTravel, ref selfTokens, ref selfTokensCount, ref targetTokens, ref targetTokensCount);
         }
         
         // Reduce crit chance by target's crit resist
@@ -3810,19 +3844,6 @@ public class BattleSystem : MonoBehaviour
             }
         }
         
-        
-        // Apply tokens to self
-        if (!abilityDuplicated) {
-            for (int i = 0; i < selfTokens.Count; i++) {
-                AddTokens(attacker, attacker, selfTokens[i].tokenName, selfTokensCount[i], 0);
-            }
-        }
-        // Apply target tokens
-        for (int i = 0; i < targetTokens.Count; i++) {
-            AddTokens(attacker, attackTarget, targetTokens[i].tokenName, targetTokensCount[i],
-                attacker.resistPierce);
-        }
-        
         // Play combat animations
         attackTarget.battleVisuals.PlayHitAnimation(damage, isCrit); // target plays on hit animation
         if (!abilityDuplicated) {
@@ -3842,6 +3863,28 @@ public class BattleSystem : MonoBehaviour
             }
         } else {
             attackTarget.currentHealth -= damage;
+        }
+        if (attackTarget.currentHealth <= 0) {
+            isLethal = true;
+        }
+        
+        // Check character lethal logic
+        if (isLethal) {
+            if (attacker.myName == "Renée") {
+                repentantLogic.RepentantLethalLogic(attacker, activeAbility, ref selfTokens, ref selfTokensCount);
+            }
+        }
+        
+        // Apply tokens to self
+        if (!abilityDuplicated) {
+            for (int i = 0; i < selfTokens.Count; i++) {
+                AddTokens(attacker, attacker, selfTokens[i].tokenName, selfTokensCount[i], 0);
+            }
+        }
+        // Apply target tokens
+        for (int i = 0; i < targetTokens.Count; i++) {
+            AddTokens(attacker, attackTarget, targetTokens[i].tokenName, targetTokensCount[i],
+                attacker.resistPierce);
         }
 
         attackTarget.wasDamagedLastTurn = true;
@@ -3961,6 +4004,12 @@ public class BattleSystem : MonoBehaviour
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+        
+        if (healer.myName == "Renée") {
+            repentantLogic.RepentantAbilityLogic(healer, healTarget, activeAbility, ref minDamageRange,
+                ref maxDamageRange, ref secondaryRestore, ref critChance, ref selfTokens, ref selfTokensCount,
+                ref targetTokens, ref targetTokensCount);
         }
         
         // Clear tokens from self
@@ -4159,6 +4208,13 @@ public class BattleSystem : MonoBehaviour
 
         SetAbilityTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
         
+        if (buffer.myName == "Renée") {
+            int secondaryValue = 0;
+            repentantLogic.RepentantAbilityLogic(buffer, buffTarget, activeAbility, ref minDamageRange,
+                ref maxDamageRange, ref secondaryValue, ref critChance, ref selfTokens, ref selfTokensCount,
+                ref targetTokens, ref targetTokensCount);
+        }
+        
         // Clear tokens from self
         if (activeAbility.targetTokensCleared.Length > 0 && !abilityDuplicated) {
             foreach (Ability.TokenOption token in activeAbility.selfTokensCleared) {
@@ -4285,6 +4341,16 @@ public class BattleSystem : MonoBehaviour
         int maxDamageRange = 0;
         int critChance = 0;
         
+        // Declare secondary damage values, if any
+        int secondaryDamage;
+        int secondaryModifier = 0;
+        int secondaryValue = 0;
+        string secondaryTarget = activeAbility.secondaryTarget.ToString();
+        
+        // Get secondary damage values
+        SetSecondaryAbilityValues(debuffer, ref secondaryModifier,  ref secondaryValue); 
+        secondaryDamage = secondaryValue;
+        
         // Get ability values
         SetAbilityValuesAgainstTarget(debuffer, debuffTarget, ref abilityModifier, ref isCrit, ref acc, ref minDamageRange,
             ref maxDamageRange, ref critChance);
@@ -4306,6 +4372,12 @@ public class BattleSystem : MonoBehaviour
         List<int> selfTokensCount = new List<int>();
 
         SetAbilityTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+        
+        if (debuffer.myName == "Renée") {
+            repentantLogic.RepentantAbilityLogic(debuffer, debuffTarget, activeAbility, ref minDamageRange,
+                ref maxDamageRange, ref secondaryDamage, ref critChance, ref selfTokens, ref selfTokensCount,
+                ref targetTokens, ref targetTokensCount);
+        }
         
         // Reduce crit chance by target's crit resist
         critChance -= debuffTarget.critResist;
@@ -4395,6 +4467,36 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < targetTokens.Count; i++) {
             AddTokens(debuffer, debuffTarget, targetTokens[i].tokenName, targetTokensCount[i],
                 debuffer.resistPierce);
+        }
+        
+        // Apply Secondary Damage
+        if (secondaryTarget != "Null") {
+            switch (secondaryTarget) {
+                case "Bonus":
+                    print("Bonus does not work for debuffs");
+                    break;
+                case "Spirit":
+                    debuffTarget.currentSpirit -= secondaryDamage;
+                    if (debuffTarget.currentSpirit < 0) {
+                        debuffTarget.currentSpirit = 0;
+                    }
+                    break;
+                case "Armor":
+                    debuffTarget.currentArmor -= secondaryDamage;
+                    if (debuffTarget.currentArmor < 0) {
+                        debuffTarget.currentArmor = 0;
+                    }
+                    break;
+                case "ActionPoints":
+                    debuffTarget.actionPoints -= secondaryDamage;
+                    if (debuffTarget.actionPoints < 0) {
+                        debuffTarget.actionPoints = 0;
+                    }
+                    break;
+                default:
+                    print("Invalid secondary target of " +  secondaryTarget + " supplied");
+                    break;
+            }
         }
         
         if (!abilityDuplicated) {

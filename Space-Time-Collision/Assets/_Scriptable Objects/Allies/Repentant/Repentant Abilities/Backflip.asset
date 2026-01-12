@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Weighted End
+  m_Name: Backflip
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Weighted End
+  abilityName: Backflip
   abilityIcon: {fileID: 0}
-  abilityType: 0
-  abilityWeight: 0
+  abilityType: 2
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
-  cooldown: 1
-  rangeMin: 1
-  rangeMax: 3
-  hasAccuracy: 1
-  targetSelf: 0
-  attackType: 0
-  keyStat: 1
-  statModifier: 2
-  dmgMin: 4
-  dmgMax: 6
-  critChance: 10
-  secondaryTarget: 3
-  secondaryStat: 1
-  secondaryStatModifier: 1
+  cooldown: 0
+  rangeMin: 0
+  rangeMax: 0
+  hasAccuracy: 0
+  targetSelf: 1
+  attackType: 4
+  keyStat: 0
+  statModifier: 0
+  dmgMin: 0
+  dmgMax: 0
+  critChance: 0
+  secondaryTarget: 0
+  secondaryStat: 0
+  secondaryStatModifier: 0
   secondaryValue: 0
   selfTarget: 0
   selfStat: 0
@@ -39,14 +39,14 @@ MonoBehaviour:
   selfMin: 0
   selfMax: 0
   bannedColumns: 
-  selfXChange: 0
+  selfXChange: -2
   selfYChange: 0
   selfYChangeToCenter: 0
-  targetXChange: 2
+  targetXChange: 0
   targetYChange: 0
   targetYChangeToCenter: 0
-  selfTokensApplied: 1c00000021000000
-  selfTokenCountApplied: 0100000001000000
+  selfTokensApplied: 07000000
+  selfTokenCountApplied: 02000000
   targetTokensApplied: 
   targetTokenCountApplied: 
   selfCritTokensApplied: 

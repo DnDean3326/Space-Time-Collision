@@ -17,7 +17,7 @@ MonoBehaviour:
   abilityType: 1
   abilityWeight: 0
   costResource: 1
-  costAmount: 6
+  costAmount: 4
   cooldown: 2
   rangeMin: 0
   rangeMax: 2
@@ -25,23 +25,26 @@ MonoBehaviour:
   targetSelf: 1
   attackType: 2
   keyStat: 4
-  statModifier: 2
-  dmgMin: 5
-  dmgMax: 10
-  critChance: 20
+  statModifier: 1
+  dmgMin: 4
+  dmgMax: 8
+  critChance: 5
   secondaryTarget: 4
   secondaryStat: 0
-  secondaryStatModifier: 0
-  secondaryValue: 50
+  secondaryStatModifier: 40
+  secondaryValue: 40
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 
@@ -56,5 +59,4 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 'Restore HP\nMake the target''s turn start sooner\nRange: 2\nCooldown:
-    2\nCost: 6 MP'
+  description: 
