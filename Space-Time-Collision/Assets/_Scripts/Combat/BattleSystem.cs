@@ -913,6 +913,11 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntities activeEntity)
     {
+        // Call character turn end logic
+        if (activeEntity.myName == "Renée") {
+            repentantLogic.AscensionMax(activeEntity);
+        }
+        
         // If a move action was used, turn off move buttons
         if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement
             && allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityWeight != Ability.AbilityWeight.Light) {
@@ -3688,16 +3693,20 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
-        // Check character logic
-        if (attacker.myName == "Renée") {
-            repentantLogic.RepentantAbilityLogic(attacker, attackTarget, activeAbility, ref minDamageRange,
-                ref maxDamageRange, ref secondaryDamage, ref critChance, ref selfTokens, ref selfTokensCount,
-                ref targetTokens, ref targetTokensCount);
-        } else if (attacker.myName == "Bune") {
-            BuneGainVice(attackTarget);
-        } else if (attacker.myName == "Tre") {
-            ricochetLogic.RicochetAttackLogic(activeAbility, ref minDamageRange, ref maxDamageRange, ref critChance,
-                ref selfXTravel, ref selfYTravel, ref selfTokens, ref selfTokensCount, ref targetTokens, ref targetTokensCount);
+        switch (attacker.myName) {
+            // Check character logic
+            case "Renée":
+                repentantLogic.RepentantAbilityLogic(attacker, attackTarget, activeAbility, ref minDamageRange,
+                    ref maxDamageRange, ref secondaryDamage, ref critChance, ref selfTokens, ref selfTokensCount,
+                    ref targetTokens, ref targetTokensCount);
+                break;
+            case "Bune":
+                BuneGainVice(attackTarget);
+                break;
+            case "Tre":
+                ricochetLogic.RicochetAttackLogic(activeAbility, ref minDamageRange, ref maxDamageRange, ref critChance,
+                    ref selfXTravel, ref selfYTravel, ref selfTokens, ref selfTokensCount, ref targetTokens, ref targetTokensCount);
+                break;
         }
         
         // Reduce crit chance by target's crit resist
