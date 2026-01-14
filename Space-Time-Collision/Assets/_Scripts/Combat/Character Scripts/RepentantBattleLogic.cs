@@ -7,9 +7,9 @@ public class RepentantBattleLogic : MonoBehaviour
     private const int MAX_ASCENSION = 2;
     private BattleSystem battleSystem;
     
-    private void Awake()
+    public void RepentantBattleSystemLink(BattleSystem battleSystem)
     {
-        battleSystem = FindFirstObjectByType<BattleSystem>();
+        this.battleSystem = battleSystem;
     }
 
     public bool RepentantUseLogic(BattleEntities repentant, Ability ability)

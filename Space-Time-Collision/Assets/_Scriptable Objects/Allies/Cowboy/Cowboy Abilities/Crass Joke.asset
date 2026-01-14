@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Hot Shot
+  m_Name: Crass Joke
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Hot Shot
+  abilityName: Crass Joke
   abilityIcon: {fileID: 0}
-  abilityType: 0
-  abilityWeight: 0
+  abilityType: 3
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
   cooldown: 1
-  rangeMin: 3
-  rangeMax: 7
+  rangeMin: 1
+  rangeMax: 3
   hasAccuracy: 1
   targetSelf: 0
-  attackType: 1
-  keyStat: 2
-  statModifier: 1
-  dmgMin: 4
-  dmgMax: 7
-  critChance: 20
+  attackType: 4
+  keyStat: 0
+  statModifier: 0
+  dmgMin: 0
+  dmgMax: 0
+  critChance: 15
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -45,12 +45,12 @@ MonoBehaviour:
   targetXChange: 0
   targetYChange: 0
   targetYChangeToCenter: 0
-  selfTokensApplied: 
-  selfTokenCountApplied: 
-  targetTokensApplied: 25000000
-  targetTokenCountApplied: 03000000
-  selfCritTokensApplied: 
-  selfCritTokenCountApplied: 
+  selfTokensApplied: 13000000
+  selfTokenCountApplied: 01000000
+  targetTokensApplied: 17000000
+  targetTokenCountApplied: 02000000
+  selfCritTokensApplied: 03000000
+  selfCritTokenCountApplied: 01000000
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
   selfTokensCleared: 

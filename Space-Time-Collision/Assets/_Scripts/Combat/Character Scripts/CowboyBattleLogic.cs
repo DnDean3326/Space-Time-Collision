@@ -14,15 +14,15 @@ public class CowboyBattleLogic : MonoBehaviour
     private float currentActoutChance;
     
     private BattleSystem battleSystem;
-    
-    private void Awake()
-    {
-        battleSystem = FindFirstObjectByType<BattleSystem>();
-    }
 
     private void Start()
     {
         currentActoutChance = COWBOY_BASE_ACTOUT;
+    }
+
+    public void CowboyBattleSystemLink(BattleSystem battleSystem)
+    {
+        this.battleSystem = battleSystem;
     }
     
     public void GainedVice(bool didGainVice)
@@ -97,5 +97,40 @@ public class CowboyBattleLogic : MonoBehaviour
         }
 
         return blockAbility;
+    }
+
+    public void CowboyAbilityLogic(BattleEntities cowboy, BattleEntities target, Ability activeAbility,
+        ref int minDamage, ref int maxDamage, ref int secondaryValue, ref int critChance, ref List<BattleToken> selfTokens,
+        ref List<int> selfTokensCount, ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
+    {
+        switch (activeAbility.abilityName) {
+            case "Burning Buckshot":
+                if (cowboy.activeTokens.Any(t => t.tokenName == "Vice")) {
+                    int viceIndex = cowboy.activeTokens.FindIndex(t => t.tokenName == "Vice");
+                    int viceCount = cowboy.activeTokens[viceIndex].tokenCount;
+                    targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
+                    targetTokensCount.Add(viceCount);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void CowboyCritLogic(BattleEntities cowboy, BattleEntities target, Ability activeAbility, ref List<BattleToken> selfTokens,
+        ref List<int> selfTokensCount, ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
+    {
+        switch (activeAbility.abilityName) {
+            case "Burning Buckshot":
+                if (cowboy.activeTokens.Any(t => t.tokenName == "Vice")) {
+                    int viceIndex = cowboy.activeTokens.FindIndex(t => t.tokenName == "Vice");
+                    int viceCount = cowboy.activeTokens[viceIndex].tokenCount;
+                    targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
+                    targetTokensCount.Add(viceCount);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

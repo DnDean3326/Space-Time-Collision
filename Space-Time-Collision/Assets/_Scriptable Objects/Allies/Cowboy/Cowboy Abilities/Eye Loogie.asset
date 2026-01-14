@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: AP Round
+  m_Name: Eye Loogie
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Armor-Penetrating Round
+  abilityName: Eye Loogie
   abilityIcon: {fileID: 0}
-  abilityType: 0
-  abilityWeight: 0
+  abilityType: 3
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
   cooldown: 1
-  rangeMin: 3
-  rangeMax: 8
+  rangeMin: 0
+  rangeMax: 0
   hasAccuracy: 1
   targetSelf: 0
   attackType: 1
-  keyStat: 2
-  statModifier: 1
-  dmgMin: 5
-  dmgMax: 7
+  keyStat: 0
+  statModifier: 0
+  dmgMin: 0
+  dmgMax: 0
   critChance: 20
-  secondaryTarget: 3
+  secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 2
+  secondaryValue: 0
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
@@ -47,12 +47,12 @@ MonoBehaviour:
   targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 
-  targetTokenCountApplied: 
+  targetTokensApplied: 1600000025000000
+  targetTokenCountApplied: 0100000003000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 21000000
-  targetCritTokenCountApplied: 01000000
+  targetCritTokensApplied: 25000000
+  targetCritTokenCountApplied: 02000000
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0

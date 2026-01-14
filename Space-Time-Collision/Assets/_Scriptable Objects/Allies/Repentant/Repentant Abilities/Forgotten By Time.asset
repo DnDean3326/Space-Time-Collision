@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Forgotten By Name
+  m_Name: Forgotten By Time
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Forgotten By Time
   abilityIcon: {fileID: 0}

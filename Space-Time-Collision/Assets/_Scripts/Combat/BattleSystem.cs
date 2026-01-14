@@ -182,15 +182,14 @@ public class BattleSystem : MonoBehaviour
         turnOrderDisplay = FindFirstObjectByType<TurnOrderDisplay>();
         combatGrid = FindFirstObjectByType<CombatGrid>();
         
-        repentantLogic = FindFirstObjectByType<RepentantBattleLogic>();
-        cowboyLogic = FindFirstObjectByType<CowboyBattleLogic>();
-        ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
+        
     }
     
     
-    void Start()
+    private void Start()
     {
         combatGrid.GetGridInfo(ref partyBattleGrid, ref enemyBattleGrid);
+        LinkCharacterLogics();
         CreatePartyEntities();
         CreateEnemyEntities();
         InitializeBattleTokens();
@@ -198,6 +197,23 @@ public class BattleSystem : MonoBehaviour
         battleStartUI.SetActive(true);
     }
 
+    private void LinkCharacterLogics()
+    {
+        repentantLogic = FindFirstObjectByType<RepentantBattleLogic>();
+        repentantLogic.RepentantBattleSystemLink(this);
+        
+        cowboyLogic = FindFirstObjectByType<CowboyBattleLogic>();
+        cowboyLogic.CowboyBattleSystemLink(this);
+        
+        ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
+        ricochetLogic.RicochetBattleSystemLink(this);
+    }
+
+    public List<BattleEntities> GetPartyList()
+    {
+        return partyCombatants;
+    }
+    
     public List<BattleEntities> GetEnemyList()
     {
         return enemyCombatants;
@@ -3705,8 +3721,9 @@ public class BattleSystem : MonoBehaviour
                 // Check character logic on miss
                 if (!abilityDuplicated) {
                     if (attacker.myName == "Tre") {
-                        int bulletsUsed = ricochetLogic.FindBulletsUsed(activeAbility.abilityName);
-                        ricochetLogic.ReduceBulletCount(bulletsUsed);
+                        if (activeAbility.costResource == Ability.CostResource.Spirit) {
+                            ricochetLogic.ReduceBulletCount(activeAbility.costAmount);
+                        }
                     }
                 }
                 
@@ -3901,8 +3918,9 @@ public class BattleSystem : MonoBehaviour
         // Check character logic post-attack
         if (!abilityDuplicated) {
             if (attacker.myName == "Tre") {
-                int bulletsUsed = ricochetLogic.FindBulletsUsed(activeAbility.abilityName);
-                ricochetLogic.ReduceBulletCount(bulletsUsed);
+                if (activeAbility.costResource == Ability.CostResource.Spirit) {
+                    ricochetLogic.ReduceBulletCount(activeAbility.costAmount);
+                }
             }
         }
     }
