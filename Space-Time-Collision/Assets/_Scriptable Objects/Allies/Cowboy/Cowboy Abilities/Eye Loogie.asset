@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Weighted End
+  m_Name: Eye Loogie
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Weighted End
+  abilityName: Eye Loogie
   abilityIcon: {fileID: 0}
-  abilityType: 0
-  abilityWeight: 0
+  abilityType: 3
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
   cooldown: 1
-  rangeMin: 1
-  rangeMax: 3
+  rangeMin: 0
+  rangeMax: 0
   hasAccuracy: 1
   targetSelf: 0
-  attackType: 0
-  keyStat: 1
-  statModifier: 2
-  dmgMin: 4
-  dmgMax: 6
-  critChance: 10
-  secondaryTarget: 3
-  secondaryStat: 1
-  secondaryStatModifier: 1
+  attackType: 1
+  keyStat: 0
+  statModifier: 0
+  dmgMin: 0
+  dmgMax: 0
+  critChance: 20
+  secondaryTarget: 0
+  secondaryStat: 0
+  secondaryStatModifier: 0
   secondaryValue: 0
   selfTarget: 0
   selfStat: 0
@@ -42,17 +42,17 @@ MonoBehaviour:
   selfXChange: 0
   selfYChange: 0
   selfYChangeToCenter: 0
-  targetXChange: 2
+  targetXChange: 0
   targetYChange: 0
   targetYChangeToCenter: 0
-  selfTokensApplied: 1c00000021000000
-  selfTokenCountApplied: 0100000001000000
-  targetTokensApplied: 
-  targetTokenCountApplied: 
+  selfTokensApplied: 
+  selfTokenCountApplied: 
+  targetTokensApplied: 1600000025000000
+  targetTokenCountApplied: 0100000003000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 
-  targetCritTokenCountApplied: 
+  targetCritTokensApplied: 25000000
+  targetCritTokenCountApplied: 02000000
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0

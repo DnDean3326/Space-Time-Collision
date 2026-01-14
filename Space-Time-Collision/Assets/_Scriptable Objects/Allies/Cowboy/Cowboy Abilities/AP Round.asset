@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
   m_Name: AP Round
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: AP Round
+  abilityName: Armor-Penetrating Round
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
-  costResource: 1
-  costAmount: 2
+  costResource: 0
+  costAmount: 0
   cooldown: 1
   rangeMin: 3
-  rangeMax: 6
+  rangeMax: 8
   hasAccuracy: 1
   targetSelf: 0
   attackType: 1
@@ -28,27 +28,30 @@ MonoBehaviour:
   statModifier: 1
   dmgMin: 5
   dmgMax: 7
-  critChance: 25
+  critChance: 20
   secondaryTarget: 3
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 3
+  secondaryValue: 2
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 
   targetTokenCountApplied: 
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 14000000
+  targetCritTokensApplied: 21000000
   targetCritTokenCountApplied: 01000000
   selfTokensCleared: 
   targetTokensCleared: 

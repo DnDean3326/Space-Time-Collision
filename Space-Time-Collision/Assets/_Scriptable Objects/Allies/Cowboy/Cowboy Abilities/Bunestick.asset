@@ -38,15 +38,18 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 
   targetTokenCountApplied: 
-  selfCritTokensApplied: 22000000
+  selfCritTokensApplied: 23000000
   selfCritTokenCountApplied: 01000000
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 

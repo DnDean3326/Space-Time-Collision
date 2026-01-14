@@ -16,8 +16,8 @@ MonoBehaviour:
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
-  costResource: 0
-  costAmount: 0
+  costResource: 1
+  costAmount: 1
   cooldown: 0
   rangeMin: 3
   rangeMax: 8

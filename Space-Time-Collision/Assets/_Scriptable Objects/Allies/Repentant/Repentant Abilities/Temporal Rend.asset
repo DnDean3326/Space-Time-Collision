@@ -26,8 +26,8 @@ MonoBehaviour:
   attackType: 2
   keyStat: 3
   statModifier: 1
-  dmgMin: 2
-  dmgMax: 5
+  dmgMin: 3
+  dmgMax: 6
   critChance: 15
   secondaryTarget: 4
   secondaryStat: 0
@@ -38,10 +38,13 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 
@@ -56,5 +59,4 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 'Deal damage\nDelay the target''s next turn\nRange: 5\nCooldown: 1\nCost:
-    3 MP'
+  description: 

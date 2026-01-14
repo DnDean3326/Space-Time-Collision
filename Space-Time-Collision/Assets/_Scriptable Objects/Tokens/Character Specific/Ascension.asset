@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Ascension
   displayName: Ascension
-  tokenIcon: {fileID: 0}
+  tokenIcon: {fileID: 21300000, guid: 6d04a9083a49db34fbfa31f4e7e5d73c, type: 3}
   tokenType: 0
   tokenValue: 0
-  tokenCap: 3
+  tokenCap: 5
   tokenInverses: []
   isUnique: 1
   tokenDescription: 

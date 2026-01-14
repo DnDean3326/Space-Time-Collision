@@ -16,8 +16,8 @@ MonoBehaviour:
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 1
-  costResource: 0
-  costAmount: 0
+  costResource: 1
+  costAmount: 2
   cooldown: 1
   rangeMin: 1
   rangeMax: 2
@@ -26,9 +26,9 @@ MonoBehaviour:
   attackType: 0
   keyStat: 1
   statModifier: 1
-  dmgMin: 3
+  dmgMin: 2
   dmgMax: 5
-  critChance: 15
+  critChance: 10
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -38,18 +38,21 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
-  targetXChange: 1
+  selfYChangeToCenter: 0
+  targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 23000000
   selfTokenCountApplied: 01000000
-  targetTokensApplied: 
-  targetTokenCountApplied: 
+  targetTokensApplied: 20000000
+  targetTokenCountApplied: 01000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 20000000
-  targetCritTokenCountApplied: 01000000
+  targetCritTokensApplied: 
+  targetCritTokenCountApplied: 
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0
