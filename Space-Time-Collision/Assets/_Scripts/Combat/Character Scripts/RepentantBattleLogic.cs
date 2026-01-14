@@ -7,7 +7,7 @@ public class RepentantBattleLogic : MonoBehaviour
     private const int MAX_ASCENSION = 2;
     private BattleSystem battleSystem;
     
-    void Awake()
+    private void Awake()
     {
         battleSystem = FindFirstObjectByType<BattleSystem>();
     }

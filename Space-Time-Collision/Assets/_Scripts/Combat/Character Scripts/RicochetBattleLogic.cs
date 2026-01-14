@@ -19,6 +19,7 @@ public class RicochetBattleLogic : MonoBehaviour
     [SerializeField] private List<BulletType> bulletList;
     Random rng = new Random();
     private BattleSystem battleSystem;
+    private PartyManager partyManager;
 
     void Awake()
     {

@@ -31,11 +31,11 @@ MonoBehaviour:
   allyMenuVisualPrefab: {fileID: 4016972724149583921, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
   abilities:
   - {fileID: 11400000, guid: b61b0ac76bb8b3440a11582c0f324a27, type: 2}
-  - {fileID: 11400000, guid: 7326111dfb09ec342852f0f9e6509870, type: 2}
+  - {fileID: 11400000, guid: 4c4cf029afa4db94ea5c416fae58f0f4, type: 2}
   - {fileID: 11400000, guid: 55c1a27871b6ad549af074d214a49f83, type: 2}
   - {fileID: 11400000, guid: abfdeeec18c55b94585985e77c1f5619, type: 2}
+  - {fileID: 11400000, guid: 7326111dfb09ec342852f0f9e6509870, type: 2}
   - {fileID: 11400000, guid: 884c20f956772ea429b804d5ac3d055f, type: 2}
-  - {fileID: 11400000, guid: 4c4cf029afa4db94ea5c416fae58f0f4, type: 2}
   - {fileID: 11400000, guid: 31901cf3044266c43924cbc162fbd5e7, type: 2}
   - {fileID: 11400000, guid: 017e50ba638699b4ba450433059fa4ea, type: 2}
   - {fileID: 11400000, guid: 6edb0f70c4665fb449a2f9656c24584b, type: 2}
