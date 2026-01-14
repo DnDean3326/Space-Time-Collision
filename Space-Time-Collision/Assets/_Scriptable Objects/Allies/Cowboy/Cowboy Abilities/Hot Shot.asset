@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Get Ovah Here
+  m_Name: Hot Shot
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Get Ovah Here
+  abilityName: Hot Shot
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
   costResource: 0
   costAmount: 0
-  cooldown: 0
-  rangeMin: 2
-  rangeMax: 4
+  cooldown: 1
+  rangeMin: 3
+  rangeMax: 7
   hasAccuracy: 1
   targetSelf: 0
-  attackType: 0
-  keyStat: 1
+  attackType: 1
+  keyStat: 2
   statModifier: 1
-  dmgMin: 1
-  dmgMax: 3
-  critChance: 0
+  dmgMin: 4
+  dmgMax: 7
+  critChance: 15
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -42,17 +42,17 @@ MonoBehaviour:
   selfXChange: 0
   selfYChange: 0
   selfYChangeToCenter: 0
-  targetXChange: -2
+  targetXChange: 0
   targetYChange: 0
   targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 21000000
-  targetTokenCountApplied: 01000000
+  targetTokensApplied: 25000000
+  targetTokenCountApplied: 03000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 1d000000
-  targetCritTokenCountApplied: 01000000
+  targetCritTokensApplied: 25000000
+  targetCritTokenCountApplied: 02000000
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0

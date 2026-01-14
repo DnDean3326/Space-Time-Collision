@@ -14,28 +14,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
   allyName: Bune
   allyPortrait: {fileID: 21300000, guid: f0407f1b3deff1d45bf082795876764d, type: 3}
-  baseHealth: 72
-  baseDefense: 8
+  baseHealth: 69
+  baseDefense: 11
   baseArmor: 0
   baseSpirit: 21
   basePower: 4
-  baseSkill: 5
+  baseSkill: 4
   baseWit: 1
   baseMind: 2
   baseSpeed: 3
-  baseLuck: 4
+  baseLuck: 5
   baseStunResist: 30
   baseDebuffResist: 0
-  baseAilmentResist: 20
+  baseAilmentResist: 25
   allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 2137c1e5c1320b643adef3536e068d67, type: 3}
   allyMenuVisualPrefab: {fileID: 4016972724149583921, guid: 7740826e7e0be7045bd0482261fcb083, type: 3}
   abilities:
-  - {fileID: 11400000, guid: 9bebecf08acdeeb46a6e7f10365df8b3, type: 2}
-  - {fileID: 11400000, guid: 512ae6588bcc7d54b96b39d7a76f2115, type: 2}
-  - {fileID: 11400000, guid: d7c6e1478a000fb49804e36b31174dd2, type: 2}
-  - {fileID: 11400000, guid: 4f43de50d16ea224fac7538c943b43de, type: 2}
-  - {fileID: 11400000, guid: 48dcec8258f10dd4d8fcbd291ffc38d9, type: 2}
   - {fileID: 11400000, guid: 245aebdcea4668a489f86fda26388722, type: 2}
+  - {fileID: 11400000, guid: 7a447fef603972b419690cb01d1f7f87, type: 2}
+  - {fileID: 11400000, guid: 48dcec8258f10dd4d8fcbd291ffc38d9, type: 2}
+  - {fileID: 11400000, guid: 158dc8b1d1f464f40aa6d8f086da5484, type: 2}
+  - {fileID: 11400000, guid: 2bf29efeb3c6d0842965cf0c0840a178, type: 2}
+  - {fileID: 11400000, guid: 16b67ccfb6974ac4dace7ab37c160251, type: 2}
+  - {fileID: 11400000, guid: 9bebecf08acdeeb46a6e7f10365df8b3, type: 2}
+  - {fileID: 11400000, guid: f3ba2246445baf942b946f770f32b27a, type: 2}
+  - {fileID: 11400000, guid: 7b419b45b82abbf489898b0bfec5be23, type: 2}
+  - {fileID: 11400000, guid: d23e77475ad03124781520d509095527, type: 2}
+  - {fileID: 11400000, guid: 512ae6588bcc7d54b96b39d7a76f2115, type: 2}
+  - {fileID: 11400000, guid: 4f43de50d16ea224fac7538c943b43de, type: 2}
+  - {fileID: 11400000, guid: 7f6a58140e4590949a56c0effc9c5b9e, type: 2}
+  - {fileID: 11400000, guid: 6d6d0ebe835472c40b8c7c798c302e0f, type: 2}
+  - {fileID: 11400000, guid: 1c5710a72716e6e4e94b30c405d086fc, type: 2}
+  - {fileID: 11400000, guid: 532dec69bc24c4f4cb3d31b7390d9da0, type: 2}
+  - {fileID: 11400000, guid: 4ba244273fea4834ea053b53d0681e48, type: 2}
+  - {fileID: 11400000, guid: 213d2161a4020154cb6ef6b3c33a9403, type: 2}
   stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
   sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
   baseLineBreakToken: {fileID: 11400000, guid: ecf5cb58eac38024995ede0188254e77, type: 2}

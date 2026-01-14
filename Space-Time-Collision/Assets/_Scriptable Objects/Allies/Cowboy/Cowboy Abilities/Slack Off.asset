@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Ability
+  m_Name: Slack Off
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: 
+  abilityName: Slack Off
   abilityIcon: {fileID: 0}
-  abilityType: 0
+  abilityType: 1
   abilityWeight: 0
   costResource: 0
   costAmount: 0
-  cooldown: 0
+  cooldown: 2
   rangeMin: 0
   rangeMax: 0
   hasAccuracy: 0
-  targetSelf: 0
-  attackType: 0
-  keyStat: 0
-  statModifier: 0
-  dmgMin: 0
-  dmgMax: 0
-  critChance: 0
-  secondaryTarget: 0
+  targetSelf: 1
+  attackType: 4
+  keyStat: 1
+  statModifier: 1
+  dmgMin: 8
+  dmgMax: 16
+  critChance: 10
+  secondaryTarget: 4
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 0
+  secondaryValue: 50
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
@@ -45,12 +45,12 @@ MonoBehaviour:
   targetXChange: 0
   targetYChange: 0
   targetYChangeToCenter: 0
-  selfTokensApplied: 
-  selfTokenCountApplied: 
+  selfTokensApplied: 230000001d000000
+  selfTokenCountApplied: 0100000002000000
   targetTokensApplied: 
   targetTokenCountApplied: 
-  selfCritTokensApplied: 
-  selfCritTokenCountApplied: 
+  selfCritTokensApplied: 01000000
+  selfCritTokenCountApplied: 02000000
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
   selfTokensCleared: 
