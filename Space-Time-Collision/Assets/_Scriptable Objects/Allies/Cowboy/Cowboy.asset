@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cowboy
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
   allyName: Bune
-  allyPortrait: {fileID: 21300000, guid: f0407f1b3deff1d45bf082795876764d, type: 3}
+  allyPortrait: {fileID: 21300000, guid: 87c8b018258d24805afb650e4191b966, type: 3}
   baseHealth: 69
   baseDefense: 11
   baseArmor: 0

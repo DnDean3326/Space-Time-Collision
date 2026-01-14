@@ -32,7 +32,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: tempcowboy_active
+  m_Name: cowboy_active
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -317,7 +317,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: temppart_idle_sharedrow
+  m_Name: cowboy_idle_sharedrow
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -335,7 +335,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7b1a048af1c8ef1488238499d9a5be47, type: 2}
+  m_Motion: {fileID: 7400000, guid: 88542c7df84d5354a9c938406cc3aea6, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -561,7 +561,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: tempparty_idle
+  m_Name: cowboy_idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -579,7 +579,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 721a4c7aa159f1b4783241f7f12c95c4, type: 2}
+  m_Motion: {fileID: 7400000, guid: 937b4e3423bbad745be546ea83cebdc1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

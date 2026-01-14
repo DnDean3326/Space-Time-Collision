@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Repentant
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
   allyName: "Ren\xE9e"
-  allyPortrait: {fileID: 21300000, guid: 485ea0d3fe20a844dbebec457327d14e, type: 3}
+  allyPortrait: {fileID: 21300000, guid: 64a46331c15bd45ada4ef7020073f7b2, type: 3}
   baseHealth: 38
   baseDefense: 18
   baseArmor: 2
