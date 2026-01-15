@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 55fa364ea7a055845946e20d82fa4338
+guid: a372a34b8b686e346b78b0be7ab1bbe0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6240724426285054604
-    second: normalammo_0
+      213: -8829248432264427853
+    second: generic-button_0
+  - first:
+      213: 450464729275773635
+    second: generic-button_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: normalammo_0
+      name: generic-button_0
       rect:
         serializedVersion: 2
-        x: 48
-        y: 18
-        width: 528
-        height: 529
+        x: 4
+        y: 11
+        width: 1113
+        height: 406
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +131,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c8af2d90dc18b9650800000000000000
-      internalID: 6240724426285054604
+      spriteID: 3b644398455387580800000000000000
+      internalID: -8829248432264427853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: generic-button_1
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 11
+        width: 15
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c2335cd84f504600800000000000000
+      internalID: 450464729275773635
       vertices: []
       indices: 
       edges: []
@@ -148,7 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      normalammo_0: 6240724426285054604
+      generic-button_0: -8829248432264427853
+      generic-button_1: 450464729275773635
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
