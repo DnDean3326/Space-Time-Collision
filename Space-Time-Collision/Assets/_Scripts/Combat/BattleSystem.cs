@@ -118,6 +118,7 @@ public class BattleSystem : MonoBehaviour
     private RicochetBattleLogic ricochetLogic;
     
     private int currentPlayer;
+    private int extraCastCount = 0;
     private bool abilitySelected;
     private bool wentBack = false;
     private bool targetSelected;
@@ -942,6 +943,7 @@ public class BattleSystem : MonoBehaviour
         usedLightAction = false;
         usedAbility = true;
         abilityDuplicated = false;
+        extraCastCount = 0;
         duplicationType = DuplicationType.None;
         activeEntity.wasDamagedLastTurn = false;
         activeEntity.damagedBy = 100;
@@ -2648,22 +2650,22 @@ public class BattleSystem : MonoBehaviour
         foreach (BattleToken token in activeEntity.activeTokens) {
             // Check for Boost or Break tokens
             if (token.tokenName == "BoostPlus") {
-                min = (int)(min * (1 + boostPlusToken.tokenValue));
-                max = (int)(max * (1 + boostPlusToken.tokenValue));
+                min = Mathf.FloorToInt(min * (1 + boostPlusToken.tokenValue));
+                max = Mathf.FloorToInt(max * (1 + boostPlusToken.tokenValue));
                 break;
             } else if (token.tokenName == "Boost") {
-                min = (int)(min * (1 + boostToken.tokenValue));
-                max = (int)(max * (1 + boostToken.tokenValue));
+                min = Mathf.FloorToInt(min * (1 + boostToken.tokenValue));
+                max = Mathf.FloorToInt(max * (1 + boostToken.tokenValue));
                 break;
             } else if (token.tokenName == "Break") {
-                min = (int)(min * (1 - breakToken.tokenValue));
-                max = (int)(max * (1 - breakToken.tokenValue));
+                min = Mathf.FloorToInt(min * (1 - breakToken.tokenValue));
+                max = Mathf.FloorToInt(max * (1 - breakToken.tokenValue));
                 break;
             }
             // Check for Critical tokens
             if (token.tokenName == "Critical") {
                 crit = 100;
-                max = (int)(max * CRIT_DAMAGE_MODIFIER);
+                max = Mathf.FloorToInt(max * CRIT_DAMAGE_MODIFIER);
                 min = max;
                 isCrit = true;
                 break;
@@ -2684,16 +2686,16 @@ public class BattleSystem : MonoBehaviour
         foreach (BattleToken token in targetEntity.activeTokens) {
             // Check for Block or Vulnerable tokens
             if (token.tokenName == "BlockPlus" && !hasPrecision && !ability.ignoreBlock) {
-                min = (int)(min * (1 - blockPlusToken.tokenValue));
-                max = (int)(max * (1 - blockPlusToken.tokenValue));
+                min = Mathf.FloorToInt(min * (1 - blockPlusToken.tokenValue));
+                max = Mathf.FloorToInt(max * (1 - blockPlusToken.tokenValue));
                 break;
             } else if (token.tokenName == "Block" && !hasPrecision && !ability.ignoreBlock) {
-                min = (int)(min * (1 - blockToken.tokenValue));
-                max = (int)(max * (1 - blockToken.tokenValue));
+                min = Mathf.FloorToInt(min * (1 - blockToken.tokenValue));
+                max = Mathf.FloorToInt(max * (1 - blockToken.tokenValue));
                 break;
             } else if (token.tokenName == "Vulnerable") {
-                min = (int)(min * (1 + vulnerableToken.tokenValue));
-                max = (int)(max * (1 + vulnerableToken.tokenValue));
+                min = Mathf.FloorToInt(min * (1 + vulnerableToken.tokenValue));
+                max = Mathf.FloorToInt(max * (1 + vulnerableToken.tokenValue));
                 break;
             }
 
@@ -3675,7 +3677,7 @@ public class BattleSystem : MonoBehaviour
                 cowboyLogic.CowboyGainVice(allCombatants[currentPlayer], attackTarget);
                 break;
             case "Tre":
-                ricochetLogic.RicochetAttackLogic(activeAbility, ref minDamageRange, ref maxDamageRange, ref critChance,
+                ricochetLogic.RicochetAttackLogic(attacker, activeAbility, ref minDamageRange, ref maxDamageRange, ref critChance,
                     ref selfXTravel, ref selfYTravel, ref selfTokens, ref selfTokensCount, ref targetTokens, ref targetTokensCount);
                 break;
         }
@@ -3722,17 +3724,24 @@ public class BattleSystem : MonoBehaviour
                 if (!abilityDuplicated) {
                     if (attacker.myName == "Tre") {
                         if (activeAbility.costResource == Ability.CostResource.Spirit) {
-                            ricochetLogic.ReduceBulletCount(activeAbility.costAmount);
+                            ricochetLogic.ReduceBulletCount(activeAbility);
                         }
                     }
                 }
                 
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
-        
+
                 if (!abilityDuplicated) {
                     yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
                 }
                 SaveResources();
+                
+                // Check for extra casts
+                if (extraCastCount < activeAbility.extraCasts) {
+                    extraCastCount++;
+                    yield return StartCoroutine(DamageAction(attacker, attackTarget, activeAbilityIndex));
+                }
+                
                 yield break;
             }
         }
@@ -3827,7 +3836,7 @@ public class BattleSystem : MonoBehaviour
         
         // Play combat animations
         attackTarget.battleVisuals.PlayHitAnimation(damage, isCrit); // target plays on hit animation
-        if (!abilityDuplicated) {
+        if (!abilityDuplicated && extraCastCount == 0) {
             attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
         }
@@ -3871,7 +3880,7 @@ public class BattleSystem : MonoBehaviour
         attackTarget.wasDamagedLastTurn = true;
         attackTarget.damagedBy = allCombatants.IndexOf(attacker);
 
-        if (!abilityDuplicated) {
+        if (!abilityDuplicated && extraCastCount == 0) {
             yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
         }
         SaveResources();
@@ -3914,12 +3923,18 @@ public class BattleSystem : MonoBehaviour
                 yield return StartCoroutine(DamageAction(attacker, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
             }
         }
+
+        // Check for extra casts
+        if (extraCastCount < activeAbility.extraCasts) {
+            extraCastCount++;
+            yield return StartCoroutine(DamageAction(attacker, attackTarget, activeAbilityIndex));
+        }
         
         // Check character logic post-attack
         if (!abilityDuplicated) {
             if (attacker.myName == "Tre") {
                 if (activeAbility.costResource == Ability.CostResource.Spirit) {
-                    ricochetLogic.ReduceBulletCount(activeAbility.costAmount);
+                    ricochetLogic.ReduceBulletCount(activeAbility);
                 }
             }
         }
@@ -4025,11 +4040,18 @@ public class BattleSystem : MonoBehaviour
                     }
                 }
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
-        
+
                 if (!abilityDuplicated) {
                     yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
                 }
                 SaveResources();
+                
+                // Check for extra casts
+                if (extraCastCount < activeAbility.extraCasts) {
+                    extraCastCount++;
+                    yield return StartCoroutine(DamageAction(healer, healTarget, activeAbilityIndex));
+                }
+                
                 yield break;
             }
         }
@@ -4116,8 +4138,7 @@ public class BattleSystem : MonoBehaviour
         }
         
         healTarget.battleVisuals.PlayHealAnimation(restore, isCrit); // target plays on heal animation
-
-        if (!abilityDuplicated) {
+        if (!abilityDuplicated && extraCastCount == 0) {
             // Eventual animation call
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
         }
@@ -4155,6 +4176,12 @@ public class BattleSystem : MonoBehaviour
                 duplicationType = DuplicationType.Ricochet;
                 yield return StartCoroutine(HealAction(healer, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
             }
+        }
+        
+        // Check for extra casts
+        if (extraCastCount < activeAbility.extraCasts) {
+            extraCastCount++;
+            yield return StartCoroutine(DamageAction(healer, healTarget, activeAbilityIndex));
         }
     }
 
@@ -4229,11 +4256,18 @@ public class BattleSystem : MonoBehaviour
                     }
                 }
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
-        
+                
                 if (!abilityDuplicated) {
                     yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
                 }
                 SaveResources();
+                
+                // Check for extra casts
+                if (extraCastCount < activeAbility.extraCasts) {
+                    extraCastCount++;
+                    yield return StartCoroutine(DamageAction(buffer, buffTarget, activeAbilityIndex));
+                }
+                
                 yield break;
             }
         }
@@ -4282,7 +4316,7 @@ public class BattleSystem : MonoBehaviour
                 buffer.resistPierce);
         }
         
-        if (!abilityDuplicated) {
+        if (!abilityDuplicated && extraCastCount == 0) {
             // Eventual animation call
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
         }
@@ -4309,6 +4343,12 @@ public class BattleSystem : MonoBehaviour
                 duplicationType = DuplicationType.Ricochet;
                 yield return StartCoroutine(BuffAction(buffer, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
             }
+        }
+        
+        // Check for extra casts
+        if (extraCastCount < activeAbility.extraCasts) {
+            extraCastCount++;
+            yield return StartCoroutine(DamageAction(buffer, buffTarget, activeAbilityIndex));
         }
     }
     
@@ -4404,6 +4444,13 @@ public class BattleSystem : MonoBehaviour
                     yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
                 }
                 SaveResources();
+                
+                // Check for extra casts
+                if (extraCastCount < activeAbility.extraCasts) {
+                    extraCastCount++;
+                    yield return StartCoroutine(DamageAction(debuffer, debuffTarget, activeAbilityIndex));
+                }
+                
                 yield break;
             }
         }
@@ -4481,7 +4528,7 @@ public class BattleSystem : MonoBehaviour
             }
         }
         
-        if (!abilityDuplicated) {
+        if (!abilityDuplicated && extraCastCount == 0) {
             // Eventual animation call
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
         }
@@ -4508,6 +4555,12 @@ public class BattleSystem : MonoBehaviour
                 duplicationType = DuplicationType.Ricochet;
                 yield return StartCoroutine(DebuffAction(debuffer, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
             }
+        }
+        
+        // Check for extra casts
+        if (extraCastCount < activeAbility.extraCasts) {
+            extraCastCount++;
+            yield return StartCoroutine(DamageAction(debuffer, debuffTarget, activeAbilityIndex));
         }
     }
 

@@ -81,9 +81,13 @@ public class RicochetBattleLogic : MonoBehaviour
         return tempList;
     }
     
-    public void ReduceBulletCount(int bulletReduction)
+    public void ReduceBulletCount(Ability activeAbility)
     {
-        for (int i = 0; i < bulletReduction; i++) {
+        if (activeAbility.extraCasts == 0) {
+            for (int i = 0; i < activeAbility.costAmount; i++) {
+                bulletList.RemoveAt(0);
+            }
+        } else {
             bulletList.RemoveAt(0);
         }
         
@@ -96,7 +100,7 @@ public class RicochetBattleLogic : MonoBehaviour
         }
     }
 
-    public void RicochetAttackLogic(Ability activeAbility, ref int minDamage, ref int maxDamage, ref int critChance,
+    public void RicochetAttackLogic(BattleEntities ricochet, Ability activeAbility, ref int minDamage, ref int maxDamage, ref int critChance,
         ref int selfXTravel, ref int selfYTravel, ref List<BattleToken> selfTokens, ref List<int> selfTokensCount, 
         ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
     {
@@ -112,6 +116,65 @@ public class RicochetBattleLogic : MonoBehaviour
                     // Force the attack to apply Burn
                     targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
                     targetTokensCount.Add(3);
+                } else if (bulletsUsed.Any(t => t == BulletType.Blank)) {
+                    minDamage = 0;
+                    maxDamage = 0;
+                }
+                break;
+            case "Percent Pusher":
+                if (ricochet.activeTokens.Any(t => t.tokenName == "BoostPlus")) {
+                    BattleToken boostPlus = ricochet.activeTokens.First(t => t.tokenName == "BoostPlus");
+                    
+                    // Reset Min and Max damage values in order to use new Boost Plus formulas
+                    minDamage = activeAbility.dmgMin + ricochet.skill;
+                    maxDamage = activeAbility.dmgMax + ricochet.skill;
+                    
+                    minDamage = Mathf.FloorToInt(minDamage * (1 + (boostPlus.tokenValue * 2)));
+                    maxDamage = Mathf.FloorToInt(maxDamage * (1 + (boostPlus.tokenValue * 2)));
+                } else if (ricochet.activeTokens.Any(t => t.tokenName == "Boost")) {
+                    BattleToken boost = ricochet.activeTokens.First(t => t.tokenName == "Boost");
+                    
+                    // Reset Min and Max damage values in order to use new Boost formulas
+                    minDamage = activeAbility.dmgMin + ricochet.skill;
+                    maxDamage = activeAbility.dmgMax + ricochet.skill;
+                    
+                    minDamage = Mathf.FloorToInt(minDamage * (1 + (boost.tokenValue * 2)));
+                    maxDamage = Mathf.FloorToInt(maxDamage * (1 + (boost.tokenValue * 2)));
+                }
+                
+                if (bulletsUsed.Any(t => t == BulletType.Critical)) {
+                    // Force the attack to crit
+                    critChance = 300;
+                } else if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
+                    // Force the attack to apply Burn
+                    targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
+                    targetTokensCount.Add(3);
+                } else if (bulletsUsed.Any(t => t == BulletType.Blank)) {
+                    minDamage = 0;
+                    maxDamage = 0;
+                }
+                break;
+            case "Point Blank Shot":
+                if (bulletsUsed.Any(t => t == BulletType.Critical)) {
+                    // Force the attack to crit
+                    critChance = 300;
+                } else if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
+                    // Force the attack to apply Burn
+                    targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
+                    targetTokensCount.Add(4);
+                } else if (bulletsUsed.Any(t => t == BulletType.Blank)) {
+                    minDamage = 0;
+                    maxDamage = 0;
+                }
+                break;
+            case "Double Tap":
+                if (bulletsUsed.Any(t => t == BulletType.Critical)) {
+                    // Force the attack to crit
+                    critChance = 300;
+                } else if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
+                    // Force the attack to apply Burn
+                    targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
+                    targetTokensCount.Add(2);
                 } else if (bulletsUsed.Any(t => t == BulletType.Blank)) {
                     minDamage = 0;
                     maxDamage = 0;
@@ -139,6 +202,12 @@ public class RicochetBattleLogic : MonoBehaviour
                     minDamage *= (1 - (1 / 3 * misfireCount));
                     maxDamage *= (1 - (1 / 3 * misfireCount));
                 }
+                break;
+            case "Slide Fire":
+                break;
+            case "Computerized Fire":
+                break;
+            case "Risky Reload":
                 break;
         }
     }

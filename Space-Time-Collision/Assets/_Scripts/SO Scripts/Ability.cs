@@ -145,6 +145,7 @@ public class Ability : ScriptableObject
     public int dmgMin;
     public int dmgMax;
     public int critChance;
+    public int extraCasts;
     
     [Header("Secondary")]
     public SecondaryTarget secondaryTarget;

@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Thrown Dagger
+  m_Name: Eye Slice
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Thrown Dagger
+  abilityName: Eye Slice
   abilityIcon: {fileID: 0}
   abilityType: 0
-  abilityWeight: 1
+  abilityWeight: 0
   costResource: 0
   costAmount: 0
-  cooldown: 0
-  rangeMin: 2
-  rangeMax: 5
+  cooldown: 1
+  rangeMin: 1
+  rangeMax: 2
   hasAccuracy: 1
   targetSelf: 0
-  attackType: 1
-  keyStat: 2
-  statModifier: 0
-  dmgMin: 2
-  dmgMax: 5
-  critChance: 15
+  attackType: 0
+  keyStat: 1
+  statModifier: 1
+  dmgMin: 3
+  dmgMax: 6
+  critChance: 10
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -38,14 +38,17 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 24000000
-  targetTokenCountApplied: 03000000
+  targetTokensApplied: 1600000024000000
+  targetTokenCountApplied: 0100000002000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
   targetCritTokensApplied: 

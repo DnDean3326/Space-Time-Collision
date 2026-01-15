@@ -30,22 +30,22 @@ MonoBehaviour:
   allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 63880d098158e7e40b9d9a5cc2fc5a7c, type: 3}
   allyMenuVisualPrefab: {fileID: 4016972724149583921, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
   abilities:
-  - {fileID: 11400000, guid: b61b0ac76bb8b3440a11582c0f324a27, type: 2}
-  - {fileID: 11400000, guid: 4c4cf029afa4db94ea5c416fae58f0f4, type: 2}
-  - {fileID: 11400000, guid: 55c1a27871b6ad549af074d214a49f83, type: 2}
-  - {fileID: 11400000, guid: d39d3e11a681c6540b81e6e19ca14c99, type: 2}
-  - {fileID: 11400000, guid: abfdeeec18c55b94585985e77c1f5619, type: 2}
-  - {fileID: 11400000, guid: 7326111dfb09ec342852f0f9e6509870, type: 2}
-  - {fileID: 11400000, guid: 884c20f956772ea429b804d5ac3d055f, type: 2}
-  - {fileID: 11400000, guid: 31901cf3044266c43924cbc162fbd5e7, type: 2}
   - {fileID: 11400000, guid: 017e50ba638699b4ba450433059fa4ea, type: 2}
+  - {fileID: 11400000, guid: 7326111dfb09ec342852f0f9e6509870, type: 2}
   - {fileID: 11400000, guid: 6edb0f70c4665fb449a2f9656c24584b, type: 2}
+  - {fileID: 11400000, guid: b61b0ac76bb8b3440a11582c0f324a27, type: 2}
   - {fileID: 11400000, guid: 6d02f65853caec6449e727a3cb54ef9d, type: 2}
+  - {fileID: 11400000, guid: abfdeeec18c55b94585985e77c1f5619, type: 2}
+  - {fileID: 11400000, guid: 4c4cf029afa4db94ea5c416fae58f0f4, type: 2}
   - {fileID: 11400000, guid: be9958622257dec4599663d4323ba80a, type: 2}
+  - {fileID: 11400000, guid: d39d3e11a681c6540b81e6e19ca14c99, type: 2}
+  - {fileID: 11400000, guid: 31901cf3044266c43924cbc162fbd5e7, type: 2}
+  - {fileID: 11400000, guid: 55c1a27871b6ad549af074d214a49f83, type: 2}
   - {fileID: 11400000, guid: 03407e9ef4ff68a44a317f1f5b028872, type: 2}
   - {fileID: 11400000, guid: 2784050b4992df14cb77a6257e0fe23a, type: 2}
   - {fileID: 11400000, guid: 0327451faa516a240baacc5f5b92a69b, type: 2}
   - {fileID: 11400000, guid: fe97a1137b302d140ad2d6178b8cca1d, type: 2}
+  - {fileID: 11400000, guid: 884c20f956772ea429b804d5ac3d055f, type: 2}
   - {fileID: 11400000, guid: fe705cde08252834d84fce1a4d0a28f7, type: 2}
   stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
   sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
