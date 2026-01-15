@@ -94,7 +94,8 @@ public class BattleSystem : MonoBehaviour
     private BattleToken vulnerableToken;
     
     // Character Specific Tokens
-    private BattleToken ascensionToken; // Not implemented
+    private BattleToken ascensionToken;
+    private BattleToken killseekerToken;
     private BattleToken viceToken;
     
     // Ailment Counters
@@ -1114,6 +1115,7 @@ public class BattleSystem : MonoBehaviour
         
         // Set character specific tokens
         ascensionToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Ascension");
+        killseekerToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Killseeker");
         viceToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Vice");
         
         // Set ailment counters
@@ -3862,6 +3864,11 @@ public class BattleSystem : MonoBehaviour
         if (isLethal) {
             if (attacker.myName == "Renée") {
                 repentantLogic.RepentantLethalLogic(attacker, activeAbility, ref selfTokens, ref selfTokensCount);
+            }
+
+            if (attacker.activeTokens.Any(t => t.tokenName == "Killseeker")) {
+                selfTokens.Add(GetTokenIdentity("Boost"));
+                selfTokensCount.Add(1);
             }
         }
         

@@ -180,7 +180,7 @@ public class RicochetBattleLogic : MonoBehaviour
                     maxDamage = 0;
                 }
                 break;
-            case "Strafe Shooting": //TODO review this ability
+            case "Strafe Shooting":
                 if (bulletsUsed.Any(t => t == BulletType.Critical)) {
                     // Count crit bullets
                     int critCount = bulletsUsed.Count(t => t == BulletType.Critical);
@@ -207,7 +207,11 @@ public class RicochetBattleLogic : MonoBehaviour
 
                 if (bulletsUsed.Any(t => t == BulletType.Normal)) {
                     int normalCount = bulletsUsed.Count(t => t == BulletType.Normal);
-                    // TODO Reveal the next (normalCount) bullets in the clip
+                    bulletsUsed = CheckCurrentBullets(normalCount);
+                    // TODO Reveal the next (bulletsUsed) bullets in the clip
+                    foreach (var bullet in bulletsUsed) {
+                        print(bullet.ToString());
+                    }
                 }
                 break;
             case "Slide Fire":
@@ -279,6 +283,7 @@ public class RicochetBattleLogic : MonoBehaviour
     public void RicochetBuffLogic(BattleEntities ricochet, Ability activeAbility, ref List<BattleToken> selfTokens,
         ref List<int> selfTokensCount)
     {
+        List<BulletType> bulletsUsed;
         switch (activeAbility.abilityName) {
             case "Lethal Reload":
                 GenerateBulletClip(BulletType.Critical, 2, 1);
@@ -288,7 +293,7 @@ public class RicochetBattleLogic : MonoBehaviour
                 break;
             case "Eject":
                 int bulletCountUsed = activeAbility.costAmount;
-                List<BulletType> bulletsUsed = CheckCurrentBullets(bulletCountUsed);
+                bulletsUsed = CheckCurrentBullets(bulletCountUsed);
 
                 if (bulletsUsed.Any(t => t == BulletType.Critical)) {
                     selfTokens.Add(battleSystem.GetTokenIdentity("Blind"));
@@ -304,6 +309,13 @@ public class RicochetBattleLogic : MonoBehaviour
                     selfTokensCount.Add(2);
                     selfTokens.Add(battleSystem.GetTokenIdentity("Ricochet"));
                     selfTokensCount.Add(1);
+                }
+                break;
+            case "Calculate":
+                bulletsUsed = CheckCurrentBullets(1);
+                // TODO Reveal the next (bulletsUsed) bullets in the clip
+                foreach (var bullet in bulletsUsed) {
+                    print(bullet.ToString());
                 }
                 break;
         }

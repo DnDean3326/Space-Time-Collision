@@ -29,6 +29,7 @@ MonoBehaviour:
   dmgMin: 4
   dmgMax: 10
   critChance: 10
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -47,7 +48,7 @@ MonoBehaviour:
   targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 25000000
+  targetTokensApplied: 26000000
   targetTokenCountApplied: 02000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 

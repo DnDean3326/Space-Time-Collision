@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Fist of the Devil
+  m_Name: Risky Reload
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Fist of the Devil
+  abilityName: Risky Reload
   abilityIcon: {fileID: 0}
   abilityType: 0
-  abilityWeight: 1
+  abilityWeight: 0
   costResource: 1
-  costAmount: 2
-  cooldown: 1
-  rangeMin: 1
-  rangeMax: 2
+  costAmount: 1
+  cooldown: 2
+  rangeMin: 2
+  rangeMax: 6
   hasAccuracy: 1
   targetSelf: 0
-  attackType: 0
-  keyStat: 1
+  attackType: 1
+  keyStat: 2
   statModifier: 1
-  dmgMin: 2
-  dmgMax: 5
-  critChance: 10
+  dmgMin: 3
+  dmgMax: 6
+  critChance: 25
   extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
@@ -46,14 +46,14 @@ MonoBehaviour:
   targetXChange: 0
   targetYChange: 0
   targetYChangeToCenter: 0
-  selfTokensApplied: 24000000
-  selfTokenCountApplied: 01000000
-  targetTokensApplied: 20000000
-  targetTokenCountApplied: 01000000
+  selfTokensApplied: 
+  selfTokenCountApplied: 
+  targetTokensApplied: 
+  targetTokenCountApplied: 
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 
-  targetCritTokenCountApplied: 
+  targetCritTokensApplied: 20000000
+  targetCritTokenCountApplied: 01000000
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0

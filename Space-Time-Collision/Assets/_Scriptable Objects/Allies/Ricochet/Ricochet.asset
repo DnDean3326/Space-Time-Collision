@@ -31,9 +31,26 @@ MonoBehaviour:
   allyMenuVisualPrefab: {fileID: 4016972724149583921, guid: d7959bae6ea22264e9949054e119ad0b, type: 3}
   abilities:
   - {fileID: 11400000, guid: cfb7c2b72f69e004cac564e7ccf8bffc, type: 2}
+  - {fileID: 11400000, guid: 1566e28c186fbb74db25d0d13f0ef0c5, type: 2}
+  - {fileID: 11400000, guid: 78699ad54a43ae44da04252ed7b314c1, type: 2}
   - {fileID: 11400000, guid: 88992e631e1c876439e8c7ffb40a95a7, type: 2}
   - {fileID: 11400000, guid: e9e1a92246cc1f7499a0ba356ac8c010, type: 2}
+  - {fileID: 11400000, guid: 74f19ce194f3f74408c3b87ee01d3b9c, type: 2}
+  - {fileID: 11400000, guid: aa715397420e6964aba317e1e5c04a50, type: 2}
   - {fileID: 11400000, guid: fde795b1f7917c04383bdc2b2a124e91, type: 2}
+  - {fileID: 11400000, guid: 069666cd7f2846c4292090f819a100ba, type: 2}
+  - {fileID: 11400000, guid: 9ec1d7e384f7b7b4f9fe6a691577046d, type: 2}
+  - {fileID: 11400000, guid: 26cf057f33f0c1047957570bb9bb2448, type: 2}
+  - {fileID: 11400000, guid: f609df36696dfbd4fa01fd6c5189354a, type: 2}
+  - {fileID: 11400000, guid: 847b83805fa2d4f4eb3a33c8235138a4, type: 2}
+  - {fileID: 11400000, guid: a291a4064eab70a448d0c6def72188c8, type: 2}
+  - {fileID: 11400000, guid: fc618b123989c414c809c9a7e7fbfb29, type: 2}
+  - {fileID: 11400000, guid: fc0ed006491fba1408ed404355656301, type: 2}
+  - {fileID: 11400000, guid: da5676ab5430a6249ab03500d5069d16, type: 2}
+  - {fileID: 11400000, guid: 257dae12db8cbc14a8132c0f7d2138ad, type: 2}
+  - {fileID: 11400000, guid: 7cb45c1adcc16504a970193f6feaec35, type: 2}
+  - {fileID: 11400000, guid: 06bf1b282f6fe6647bd75a5e0ff24f4a, type: 2}
+  - {fileID: 11400000, guid: c037c5042cb8cf945b8fd6e0f4d3369d, type: 2}
   stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
   sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
   baseLineBreakToken: {fileID: 11400000, guid: 096701f00a8463647a9b41da08bcc634, type: 2}

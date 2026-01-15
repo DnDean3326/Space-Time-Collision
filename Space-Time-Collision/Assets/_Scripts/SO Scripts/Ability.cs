@@ -116,6 +116,7 @@ public class Ability : ScriptableObject
         Vulnerable,
         
         Ascension,
+        Killseeker,
         Vice,
         
         Bleed,
