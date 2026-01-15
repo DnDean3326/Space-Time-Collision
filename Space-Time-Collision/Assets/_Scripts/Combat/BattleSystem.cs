@@ -4002,7 +4002,8 @@ public class BattleSystem : MonoBehaviour
                     throw new ArgumentOutOfRangeException();
             }
         }
-        
+
+        // Check character logic
         if (healer.myName == "Renée") {
             repentantLogic.RepentantAbilityLogic(healer, healTarget, activeAbility, ref minDamageRange,
                 ref maxDamageRange, ref secondaryRestore, ref critChance, ref selfTokens, ref selfTokensCount,
@@ -4217,11 +4218,14 @@ public class BattleSystem : MonoBehaviour
 
         SetAbilityTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
         
+        // Check character logic
         if (buffer.myName == "Renée") {
             int secondaryValue = 0;
             repentantLogic.RepentantAbilityLogic(buffer, buffTarget, activeAbility, ref minDamageRange,
                 ref maxDamageRange, ref secondaryValue, ref critChance, ref selfTokens, ref selfTokensCount,
                 ref targetTokens, ref targetTokensCount);
+        } else if (buffer.myName == "Tre") {
+            ricochetLogic.RicochetBuffLogic(buffer, activeAbility, ref selfTokens, ref selfTokensCount);
         }
         
         // Clear tokens from self

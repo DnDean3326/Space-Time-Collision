@@ -188,26 +188,123 @@ public class RicochetBattleLogic : MonoBehaviour
                     // Force the attack to crit
                     critChance = 300;
                     selfYTravel *= (critCount + 1);
-                } else if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
+                }
+                if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
                     // Count incendiary bullets
-                    int incendiaryCount = bulletsUsed.Count(t => t == BulletType.Critical);
+                    int incendiaryCount = bulletsUsed.Count(t => t == BulletType.Incendiary);
                     
                     // Force the attack to apply Burn
                     targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
                     targetTokensCount.Add(2 * incendiaryCount);
-                }  else if (bulletsUsed.Any(t => t == BulletType.Blank)) {
+                }
+                if (bulletsUsed.Any(t => t == BulletType.Blank)) {
                     // Count misfire bullets
-                    int misfireCount = bulletsUsed.Count(t => t == BulletType.Critical);
+                    int misfireCount = bulletsUsed.Count(t => t == BulletType.Blank);
 
-                    minDamage *= (1 - (1 / 3 * misfireCount));
-                    maxDamage *= (1 - (1 / 3 * misfireCount));
+                    minDamage -= (4 * misfireCount);
+                    maxDamage -= (4 * misfireCount);
+                }
+
+                if (bulletsUsed.Any(t => t == BulletType.Normal)) {
+                    int normalCount = bulletsUsed.Count(t => t == BulletType.Normal);
+                    // TODO Reveal the next (normalCount) bullets in the clip
                 }
                 break;
             case "Slide Fire":
+                if (bulletsUsed.Any(t => t == BulletType.Critical)) {
+                    // Count crit bullets
+                    int critCount = bulletsUsed.Count(t => t == BulletType.Critical);
+                    
+                    // Force the attack to crit
+                    critChance = 300;
+                    selfXTravel *= (critCount + 1);
+                }
+                if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
+                    // Count incendiary bullets
+                    int incendiaryCount = bulletsUsed.Count(t => t == BulletType.Incendiary);
+                    
+                    // Force the attack to apply Burn
+                    targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
+                    targetTokensCount.Add(2 * incendiaryCount);
+                }
+                if (bulletsUsed.Any(t => t == BulletType.Blank)) {
+                    // Count misfire bullets
+                    int misfireCount = bulletsUsed.Count(t => t == BulletType.Blank);
+
+                    minDamage -= (4 * misfireCount);
+                    maxDamage -= (4 * misfireCount);
+                }
+                
+                selfTokens.Add(battleSystem.GetTokenIdentity("Dodge"));
+                selfTokensCount.Add(selfYTravel);
                 break;
             case "Computerized Fire":
+                if (bulletsUsed.Any(t => t == BulletType.Critical)) {
+                    // Count crit bullets
+                    int critCount = bulletsUsed.Count(t => t == BulletType.Critical);
+                    
+                    // Increase damage
+                    minDamage += (2 * critCount);
+                    maxDamage += (2 * critCount);
+                }
+                if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
+                    // Count incendiary bullets
+                    int incendiaryCount = bulletsUsed.Count(t => t == BulletType.Incendiary);
+                    
+                    // Force the attack to apply Burn
+                    targetTokens.Add(battleSystem.GetTokenIdentity("Burn"));
+                    targetTokensCount.Add(incendiaryCount);
+                }
                 break;
             case "Risky Reload":
+                GenerateBulletClip(BulletType.Critical, 2, 2);
+                bulletsUsed = CheckCurrentBullets(bulletCountUsed);
+                
+                if (bulletsUsed.Any(t => t == BulletType.Critical)) {
+                    // Force the attack to crit
+                    critChance = 300;
+                } else if (bulletsUsed.Any(t => t == BulletType.Blank)) {
+                    minDamage = 0;
+                    maxDamage = 0;
+                    
+                    selfTokens.Add(battleSystem.GetTokenIdentity("OffGuard"));
+                    selfTokensCount.Add(1);
+                    selfTokens.Add(battleSystem.GetTokenIdentity("Slow"));
+                    selfTokensCount.Add(1);
+                }
+                break;
+        }
+    }
+
+    public void RicochetBuffLogic(BattleEntities ricochet, Ability activeAbility, ref List<BattleToken> selfTokens,
+        ref List<int> selfTokensCount)
+    {
+        switch (activeAbility.abilityName) {
+            case "Lethal Reload":
+                GenerateBulletClip(BulletType.Critical, 2, 1);
+                break;
+            case "Incendiary Reload":
+                GenerateBulletClip(BulletType.Incendiary, 3, 1);
+                break;
+            case "Eject":
+                int bulletCountUsed = activeAbility.costAmount;
+                List<BulletType> bulletsUsed = CheckCurrentBullets(bulletCountUsed);
+
+                if (bulletsUsed.Any(t => t == BulletType.Critical)) {
+                    selfTokens.Add(battleSystem.GetTokenIdentity("Blind"));
+                    selfTokensCount.Add(1);
+                } else if (bulletsUsed.Any(t => t == BulletType.Incendiary)) {
+                    selfTokens.Add(battleSystem.GetTokenIdentity("Burn"));
+                    selfTokensCount.Add(2);
+                } else if (bulletsUsed.Any(t => t == BulletType.Normal)) {
+                    selfTokens.Add(battleSystem.GetTokenIdentity("Pierce"));
+                    selfTokensCount.Add(1);
+                } else if (bulletsUsed.Any(t => t == BulletType.Blank)) {
+                    selfTokens.Add(battleSystem.GetTokenIdentity("Boost"));
+                    selfTokensCount.Add(2);
+                    selfTokens.Add(battleSystem.GetTokenIdentity("Ricochet"));
+                    selfTokensCount.Add(1);
+                }
                 break;
         }
     }
