@@ -18,7 +18,7 @@ MonoBehaviour:
   abilityWeight: 1
   costResource: 1
   costAmount: 3
-  cooldown: 2
+  cooldown: 1
   rangeMin: 1
   rangeMax: 2
   hasAccuracy: 0
@@ -38,10 +38,13 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 01000000

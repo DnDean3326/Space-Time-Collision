@@ -18,7 +18,7 @@ MonoBehaviour:
   abilityWeight: 0
   costResource: 0
   costAmount: 0
-  cooldown: 0
+  cooldown: 1
   rangeMin: 1
   rangeMax: 3
   hasAccuracy: 1
@@ -30,20 +30,23 @@ MonoBehaviour:
   dmgMax: 6
   critChance: 10
   secondaryTarget: 3
-  secondaryStat: 0
-  secondaryStatModifier: 0
-  secondaryValue: 2
+  secondaryStat: 1
+  secondaryStatModifier: 1
+  secondaryValue: 0
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
-  targetXChange: 0
+  selfYChangeToCenter: 0
+  targetXChange: 2
   targetYChange: 0
-  selfTokensApplied: 21000000
-  selfTokenCountApplied: 01000000
+  targetYChangeToCenter: 0
+  selfTokensApplied: 1c00000021000000
+  selfTokenCountApplied: 0100000001000000
   targetTokensApplied: 
   targetTokenCountApplied: 
   selfCritTokensApplied: 
@@ -56,5 +59,4 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 'Deal damage and 2 armor damage\nGain Vulnerable I\nRange: 3\nCooldown:
-    1'
+  description: 

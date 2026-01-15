@@ -20,7 +20,7 @@ MonoBehaviour:
   costAmount: 0
   cooldown: 1
   rangeMin: 3
-  rangeMax: 6
+  rangeMax: 7
   hasAccuracy: 1
   targetSelf: 0
   attackType: 1
@@ -28,7 +28,7 @@ MonoBehaviour:
   statModifier: 1
   dmgMin: 4
   dmgMax: 7
-  critChance: 20
+  critChance: 15
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -38,18 +38,21 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 25000000
   targetTokenCountApplied: 03000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 
-  targetCritTokenCountApplied: 
+  targetCritTokensApplied: 25000000
+  targetCritTokenCountApplied: 02000000
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0

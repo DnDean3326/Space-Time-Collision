@@ -113,6 +113,8 @@ public class BattleSystem : MonoBehaviour
     private CombatGrid combatGrid;
     
     // Character Specific Logic
+    private RepentantBattleLogic repentantLogic;
+    private CowboyBattleLogic cowboyLogic;
     private RicochetBattleLogic ricochetLogic;
     
     private int currentPlayer;
@@ -169,11 +171,6 @@ public class BattleSystem : MonoBehaviour
     public const float MindDebuffMod = 2;
     public const float LuckCritMod = 1;
     
-    // Character Specific Consts
-    private const float BUNE_BASE_ACTOUT = 10f;
-    private const float BUNE_MAX_ACTOUT = 70f;
-    private const float BUNE_ACTOUT_INCREASE = 30f;
-    
     // Animator Constants
     private const string BATTLE_START_END = "EndTrigger";
 
@@ -184,14 +181,15 @@ public class BattleSystem : MonoBehaviour
         tokenManager = FindFirstObjectByType<TokenManager>();
         turnOrderDisplay = FindFirstObjectByType<TurnOrderDisplay>();
         combatGrid = FindFirstObjectByType<CombatGrid>();
-
-        ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
+        
+        
     }
     
     
-    void Start()
+    private void Start()
     {
         combatGrid.GetGridInfo(ref partyBattleGrid, ref enemyBattleGrid);
+        LinkCharacterLogics();
         CreatePartyEntities();
         CreateEnemyEntities();
         InitializeBattleTokens();
@@ -199,6 +197,23 @@ public class BattleSystem : MonoBehaviour
         battleStartUI.SetActive(true);
     }
 
+    private void LinkCharacterLogics()
+    {
+        repentantLogic = FindFirstObjectByType<RepentantBattleLogic>();
+        repentantLogic.RepentantBattleSystemLink(this);
+        
+        cowboyLogic = FindFirstObjectByType<CowboyBattleLogic>();
+        cowboyLogic.CowboyBattleSystemLink(this);
+        
+        ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
+        ricochetLogic.RicochetBattleSystemLink(this);
+    }
+
+    public List<BattleEntities> GetPartyList()
+    {
+        return partyCombatants;
+    }
+    
     public List<BattleEntities> GetEnemyList()
     {
         return enemyCombatants;
@@ -344,28 +359,11 @@ public class BattleSystem : MonoBehaviour
                 // Run character specific Methods
                 switch (allCombatants[currentPlayer].myName) {
                     case "Bune":
-                        if (allCombatants[currentPlayer].activeTokens.All(t => t.tokenName != "Vice") && !allCombatants[currentPlayer].myFirstTurn) {
-                            
-                            float viceRoll = Random.Range(1, 101);
-                            if (viceRoll < allCombatants[currentPlayer].specialResourceFloat) {
-                                yield return StartCoroutine(BuneViceActOut(characterIndex));
-                                
-                                allCombatants[currentPlayer].specialResourceFloat += BUNE_ACTOUT_INCREASE;
-                                if (allCombatants[currentPlayer].specialResourceFloat > BUNE_MAX_ACTOUT) {
-                                    allCombatants[currentPlayer].specialResourceFloat = BUNE_MAX_ACTOUT;
-                                }
-                                
-                                yield break;
-                            }
-                        } else {
-                            allCombatants[currentPlayer].specialResourceFloat = BUNE_BASE_ACTOUT;
-                        }
+                        yield return StartCoroutine(cowboyLogic.CowboyTurnStartLogic(allCombatants[currentPlayer]));
                         break;
                     default:
                         break;
                 }
-                
-                allCombatants[currentPlayer].gainedUniqueTokenLastTurn = false;
             }
             
             allCombatants[currentPlayer].battleVisuals.SetMyTurnAnimation(true);
@@ -565,12 +563,15 @@ public class BattleSystem : MonoBehaviour
             }
 
             if (abilityInUse.abilityWeight == Ability.AbilityWeight.Light) {
-                if (activeCharacter.activeTokens.Any(t => t.tokenName == "Rush")) {
+                if (activeCharacter.activeTokens.Any(t => t.tokenName == "Rush") &&
+                    abilityInUse.abilityName == "Step") {
                     int tokenPosition = activeCharacter.activeTokens.FindIndex(t => t.tokenName == "Rush");
                     activeCharacter.activeTokens.RemoveAt(tokenPosition);
                     activeCharacter.battleVisuals.UpdateTokens(activeCharacter.activeTokens);
                 } else {
                     usedLightAction = true;
+                    int abilityIndex = activeCharacter.myAbilities.IndexOf(abilityInUse);
+                    activeCharacter.abilityCooldowns[abilityIndex] += abilityInUse.cooldown;
                 }
                 BackToAbilities();
             } else {
@@ -613,8 +614,16 @@ public class BattleSystem : MonoBehaviour
                                 if (distance <= myBrain.enemyAbilities[i].ability.rangeMax &&
                                     distance >= myBrain.enemyAbilities[i].ability.rangeMin &&
                                     entity.activeTokens.All(t => t.tokenName != "Stealth"))  {
+                                    
+                                    int brokenPlayerColumns = 0;
+                                    bool[] lineBrokenStatus = combatGrid.GetLineBreakInfo();
+                                    foreach (bool isBroken in lineBrokenStatus) {
+                                        if (isBroken) {
+                                            brokenPlayerColumns++;
+                                        }
+                                    }
                                     if (myBrain.enemyAbilities[i].ability.bannedColumns.Length > 0 &&
-                                        myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => t == entity.xPos)) {
+                                        myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => (t + brokenPlayerColumns) == entity.xPos)) {
                                         continue;
                                     }
                                     validAbilities.Add(myBrain.enemyAbilities[i]);
@@ -900,6 +909,11 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntities activeEntity)
     {
+        // Call character turn end logic
+        if (activeEntity.myName == "Renée") {
+            repentantLogic.AscensionMax(activeEntity);
+        }
+        
         // If a move action was used, turn off move buttons
         if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement
             && allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityWeight != Ability.AbilityWeight.Light) {
@@ -989,11 +1003,6 @@ public class BattleSystem : MonoBehaviour
             // Assign Line Break token
             tempEntity.lineBreakToken = currentParty[i].lineBreakToken;
             tempEntity.lineBreakTokenCount = currentParty[i].lineBreakTokenCount;
-            
-            // Assign character specific values
-            if (tempEntity.myName == "Bune") {
-                tempEntity.specialResourceFloat = BUNE_BASE_ACTOUT;
-            }
 
             FindMyGridPosition(tempEntity);
             
@@ -1656,20 +1665,39 @@ public class BattleSystem : MonoBehaviour
     {
         BattleEntities player = partyCombatants[characterIndex];
         for (int i = 0; i < player.myAbilities.Count; i++) {
+            // Character ability blocking logic
+            if (player.myName == "Renée") {
+                if (repentantLogic.RepentantUseLogic(player, player.myAbilities[i])) {
+                    player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                    player.abilityButtons[i].GetComponent<Button>().interactable = false;
+                    continue;
+                }
+            } else if (player.myName == "Bune") {
+                if (cowboyLogic.CowboyUseLogic(player, player.myAbilities[i])) {
+                    player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
+                    player.abilityButtons[i].GetComponent<Button>().interactable = false;
+                    continue;
+                }
+            }
             if (player.abilityCooldowns[i] > 0 || player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Heavy && usedLightAction || 
                 player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Light && usedLightAction) {
                 
                 player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
                 player.abilityButtons[i].GetComponent<Button>().interactable = false;
-            }  else {
+            } else {
+                int brokenPlayerColumns = 0;
+                bool[] lineBrokenStatus = combatGrid.GetLineBreakInfo();
+                foreach (bool isBroken in lineBrokenStatus) {
+                    if (isBroken) {
+                        brokenPlayerColumns++;
+                    }
+                }
                 if (player.myAbilities[i].bannedColumns.Length > 0 &&
-                    player.myAbilities[i].bannedColumns.Any(t => t == player.xPos)) {
-                    
+                    player.myAbilities[i].bannedColumns.Any(t => (t - brokenPlayerColumns) == player.xPos)) {
                     player.abilityButtons[i].GetComponent<Image>().color = new Color(40,40,40);
                     player.abilityButtons[i].GetComponent<Button>().interactable = false;
                     continue;
                 }
-                
                 player.abilityButtons[i].GetComponent<Image>().color = new Color(255,255,255);
                 player.abilityButtons[i].GetComponent<Button>().interactable = true;
             }
@@ -2830,8 +2858,8 @@ public class BattleSystem : MonoBehaviour
             originalToken.tokenDescription);
         return battleToken;
     }
-    
-    private void AddTokens(BattleEntities applyingEntity, BattleEntities recipientEntity, string tokenName, int tokenCount, int resistPierce)
+
+    public void AddTokens(BattleEntities applyingEntity, BattleEntities recipientEntity, string tokenName, int tokenCount, int resistPierce)
     {
         int tIndex = 100;
         bool notPresent = true;
@@ -2934,7 +2962,7 @@ public class BattleSystem : MonoBehaviour
         
         // Check and mark unique tokens added
         if (recipientEntity.myName == "Bune" && tokenAdded.tokenName == "Vice") {
-            recipientEntity.gainedUniqueTokenLastTurn = true;
+            cowboyLogic.GainedVice(true);
         }
 
         if (resistPierce != PREVIEW_RESIST_PIERCE) {
@@ -2956,7 +2984,7 @@ public class BattleSystem : MonoBehaviour
     {
         // Run character specific end of turn Methods
         if (activeEntity.myName == "Bune") {
-            BuneRemoveVice();
+            cowboyLogic.CowboyRemoveVice(activeEntity);
         }
         
         List<string> tokensToRemove = new List<string>();
@@ -3432,107 +3460,6 @@ public class BattleSystem : MonoBehaviour
         return (healTarget.activeTokens.Any(t => t.tokenName == "AntiHeal") && 
                 healer.activeTokens.All(t => t.tokenName != "Precision"));
     }
-    
-    // Character specific methods
-    private IEnumerator BuneViceActOut(int characterIndex) // TODO make this reflect ability ranges
-    {
-        BattleEntities Bune = allCombatants[currentPlayer];
-        BattleEntities abilityTarget = null;
-        int actOutAbility;
-        targetList.Clear();
-
-        StopCoroutine(PlayerTurnRoutine(characterIndex));
-            
-        // Bune uses a random action with a random target
-        print("Bune acts out due to boredom!");
-        yield return new WaitForSeconds(TURN_ACTION_DELAY);
-            
-        actOutAbility = Random.Range(1, PLAYER_NONMOVE_ABILITIES + 1);
-        Bune.activeAbility = actOutAbility;
-
-        bool targetingFoes = true;
-        switch (Bune.myAbilities[actOutAbility].abilityType) {
-            case Ability.AbilityType.Damage:
-            case Ability.AbilityType.Debuff:
-                print("Act-out is targeting enemies");
-                targetList = enemyCombatants;
-                targetingFoes = true;
-                break;
-            case  Ability.AbilityType.Heal:
-            case  Ability.AbilityType.Buff:
-                print("Act-out is targeting allies");
-                targetList = partyCombatants;
-                targetingFoes = false;
-                break;
-        }
-
-        bool hasTaunt = false;
-        if (targetingFoes) {
-            foreach (BattleEntities entity in targetList.Where(entity => entity.activeTokens.Any(t => t.tokenName == "Taunt"))) {
-                abilityTarget = entity;
-                hasTaunt = true;
-                break;
-            }
-        }
-        if (!hasTaunt) {
-            int abilityTargetIndex = Random.Range(0, targetList.Count);
-            print(abilityTargetIndex);
-            abilityTarget = targetList[abilityTargetIndex];
-        }
-            
-        switch (Bune.myAbilities[actOutAbility].abilityType) {
-            case Ability.AbilityType.Damage:
-                yield return StartCoroutine(DamageAction(Bune, abilityTarget, actOutAbility));
-                break;
-            case Ability.AbilityType.Debuff:
-                yield return StartCoroutine(DebuffAction(Bune, abilityTarget, actOutAbility));
-                break;
-            case  Ability.AbilityType.Heal:
-                yield return StartCoroutine(HealAction(Bune, abilityTarget, actOutAbility));
-                break;
-            case  Ability.AbilityType.Buff:
-                yield return StartCoroutine(BuffAction(Bune, abilityTarget, actOutAbility));
-                break;
-            default:
-                print("Invalid ability type of " + Bune.myAbilities[actOutAbility].abilityType + " called.");
-                yield break;
-        }
-
-        Bune.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
-        Bune.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
-        Bune.combatMenuVisuals.ChangeBackButtonVisibility(false);
-        
-        Bune.specialResourceFloat = BUNE_BASE_ACTOUT;
-        
-        state = BattleState.End;
-        StartCoroutine(EndRoutine(Bune));
-        yield break;
-        
-    }
-
-    private void BuneGainVice(BattleEntities attackTarget)
-    {
-        BattleEntities Bune = allCombatants[currentPlayer];
-
-        if (attackTarget.activeTokens.Any(t => t.tokenName == "AntiHeal") ||
-            attackTarget.activeTokens.Any(t => t.tokenName == "Isolation") ||
-            attackTarget.activeTokens.Any(t => t.tokenName == "OffGuard") ||
-            //attackTarget.activeTokens.Any(t => t.tokenName == "Stagger") ||
-            //attackTarget.activeTokens.Any(t => t.tokenName == "Stun") ||
-            attackTarget.activeTokens.Any(t => t.tokenName == "Vulnerable")) {
-            AddTokens(Bune, Bune, "Vice", 1, 0);
-        }
-    }
-    
-    private void BuneRemoveVice()
-    {
-        BattleEntities Bune = allCombatants[currentPlayer];
-        if (Bune.activeTokens.Any(t => t.tokenName == "Vice")) {
-            if (!Bune.wasDamagedLastTurn && !Bune.gainedUniqueTokenLastTurn) {
-                Bune.activeTokens.RemoveAll(t => t.tokenName == "Vice");
-            }
-        }
-    }
 
     private void SetAbilityTokens(ref List<BattleToken> targetTokens, ref List<int> targetTokensCount,
         ref List<BattleToken> selfTokens, ref List<int> selfTokensCount, Ability activeAbility)
@@ -3592,6 +3519,83 @@ public class BattleSystem : MonoBehaviour
         }
     }
     
+    // Character specific methods
+    public IEnumerator CowboyViceActOut(BattleEntities cowboy) // TODO make this reflect ability ranges
+    {
+        BattleEntities abilityTarget = null;
+        int actOutAbility;
+        targetList.Clear();
+
+        int characterIndex = allCombatants.IndexOf(cowboy);
+
+        StopCoroutine(PlayerTurnRoutine(characterIndex));
+            
+        // Bune uses a random action with a random target
+        print("Bune acts out due to boredom!");
+        yield return new WaitForSeconds(TURN_ACTION_DELAY);
+            
+        actOutAbility = Random.Range(1, PLAYER_NONMOVE_ABILITIES + 1);
+        cowboy.activeAbility = actOutAbility;
+
+        bool targetingFoes = true;
+        switch (cowboy.myAbilities[actOutAbility].abilityType) {
+            case Ability.AbilityType.Damage:
+            case Ability.AbilityType.Debuff:
+                print("Act-out is targeting enemies");
+                targetList = enemyCombatants;
+                targetingFoes = true;
+                break;
+            case  Ability.AbilityType.Heal:
+            case  Ability.AbilityType.Buff:
+                print("Act-out is targeting allies");
+                targetList = partyCombatants;
+                targetingFoes = false;
+                break;
+        }
+
+        bool hasTaunt = false;
+        if (targetingFoes) {
+            foreach (BattleEntities entity in targetList.Where(entity => entity.activeTokens.Any(t => t.tokenName == "Taunt"))) {
+                abilityTarget = entity;
+                hasTaunt = true;
+                break;
+            }
+        }
+        if (!hasTaunt) {
+            int abilityTargetIndex = Random.Range(0, targetList.Count);
+            print(abilityTargetIndex);
+            abilityTarget = targetList[abilityTargetIndex];
+        }
+            
+        switch (cowboy.myAbilities[actOutAbility].abilityType) {
+            case Ability.AbilityType.Damage:
+                yield return StartCoroutine(DamageAction(cowboy, abilityTarget, actOutAbility));
+                break;
+            case Ability.AbilityType.Debuff:
+                yield return StartCoroutine(DebuffAction(cowboy, abilityTarget, actOutAbility));
+                break;
+            case  Ability.AbilityType.Heal:
+                yield return StartCoroutine(HealAction(cowboy, abilityTarget, actOutAbility));
+                break;
+            case  Ability.AbilityType.Buff:
+                yield return StartCoroutine(BuffAction(cowboy, abilityTarget, actOutAbility));
+                break;
+            default:
+                print("Invalid ability type of " + cowboy.myAbilities[actOutAbility].abilityType + " called.");
+                yield break;
+        }
+
+        cowboy.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+        cowboy.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+        cowboy.combatMenuVisuals.ChangeBackButtonVisibility(false);
+
+        cowboyLogic.ResetCowboyActout();
+        
+        state = BattleState.End;
+        StartCoroutine(EndRoutine(cowboy));
+        yield break;
+    }
+    
     private IEnumerator DamageAction(BattleEntities attacker, BattleEntities attackTarget, int activeAbilityIndex)
     {
         Ability activeAbility = attacker.myAbilities[activeAbilityIndex];
@@ -3606,6 +3610,7 @@ public class BattleSystem : MonoBehaviour
         int minDamageRange = 0;
         int maxDamageRange = 0;
         int critChance = 0;
+        bool isLethal = false;
         
         // Declare secondary damage values, if any
         int secondaryDamage;
@@ -3624,7 +3629,8 @@ public class BattleSystem : MonoBehaviour
             ref maxDamageRange, ref critChance);
         
         // Get secondary damage values
-        SetSecondaryAbilityValues(attacker, ref secondaryModifier,  ref secondaryValue); secondaryDamage = secondaryValue;
+        SetSecondaryAbilityValues(attacker, ref secondaryModifier,  ref secondaryValue); 
+        secondaryDamage = secondaryValue;
         
         // Determine move distance
         int selfXTravel = activeAbility.selfXChange;
@@ -3658,12 +3664,20 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
-        // Check character logic
-        if (attacker.myName == "Bune") {
-            BuneGainVice(attackTarget);
-        } else if (attacker.myName == "Tre") {
-            ricochetLogic.RicochetAttackLogic(activeAbility, ref minDamageRange, ref maxDamageRange, ref critChance,
-                ref selfXTravel, ref selfYTravel, ref targetTokens, ref targetTokensCount);
+        switch (attacker.myName) {
+            // Check character logic
+            case "Renée":
+                repentantLogic.RepentantAbilityLogic(attacker, attackTarget, activeAbility, ref minDamageRange,
+                    ref maxDamageRange, ref secondaryDamage, ref critChance, ref selfTokens, ref selfTokensCount,
+                    ref targetTokens, ref targetTokensCount);
+                break;
+            case "Bune":
+                cowboyLogic.CowboyGainVice(allCombatants[currentPlayer], attackTarget);
+                break;
+            case "Tre":
+                ricochetLogic.RicochetAttackLogic(activeAbility, ref minDamageRange, ref maxDamageRange, ref critChance,
+                    ref selfXTravel, ref selfYTravel, ref selfTokens, ref selfTokensCount, ref targetTokens, ref targetTokensCount);
+                break;
         }
         
         // Reduce crit chance by target's crit resist
@@ -3707,8 +3721,9 @@ public class BattleSystem : MonoBehaviour
                 // Check character logic on miss
                 if (!abilityDuplicated) {
                     if (attacker.myName == "Tre") {
-                        int bulletsUsed = ricochetLogic.FindBulletsUsed(activeAbility.abilityName);
-                        ricochetLogic.ReduceBulletCount(bulletsUsed);
+                        if (activeAbility.costResource == Ability.CostResource.Spirit) {
+                            ricochetLogic.ReduceBulletCount(activeAbility.costAmount);
+                        }
                     }
                 }
                 
@@ -3810,19 +3825,6 @@ public class BattleSystem : MonoBehaviour
             }
         }
         
-        
-        // Apply tokens to self
-        if (!abilityDuplicated) {
-            for (int i = 0; i < selfTokens.Count; i++) {
-                AddTokens(attacker, attacker, selfTokens[i].tokenName, selfTokensCount[i], 0);
-            }
-        }
-        // Apply target tokens
-        for (int i = 0; i < targetTokens.Count; i++) {
-            AddTokens(attacker, attackTarget, targetTokens[i].tokenName, targetTokensCount[i],
-                attacker.resistPierce);
-        }
-        
         // Play combat animations
         attackTarget.battleVisuals.PlayHitAnimation(damage, isCrit); // target plays on hit animation
         if (!abilityDuplicated) {
@@ -3842,6 +3844,28 @@ public class BattleSystem : MonoBehaviour
             }
         } else {
             attackTarget.currentHealth -= damage;
+        }
+        if (attackTarget.currentHealth <= 0) {
+            isLethal = true;
+        }
+        
+        // Check character lethal logic
+        if (isLethal) {
+            if (attacker.myName == "Renée") {
+                repentantLogic.RepentantLethalLogic(attacker, activeAbility, ref selfTokens, ref selfTokensCount);
+            }
+        }
+        
+        // Apply tokens to self
+        if (!abilityDuplicated) {
+            for (int i = 0; i < selfTokens.Count; i++) {
+                AddTokens(attacker, attacker, selfTokens[i].tokenName, selfTokensCount[i], 0);
+            }
+        }
+        // Apply target tokens
+        for (int i = 0; i < targetTokens.Count; i++) {
+            AddTokens(attacker, attackTarget, targetTokens[i].tokenName, targetTokensCount[i],
+                attacker.resistPierce);
         }
 
         attackTarget.wasDamagedLastTurn = true;
@@ -3894,8 +3918,9 @@ public class BattleSystem : MonoBehaviour
         // Check character logic post-attack
         if (!abilityDuplicated) {
             if (attacker.myName == "Tre") {
-                int bulletsUsed = ricochetLogic.FindBulletsUsed(activeAbility.abilityName);
-                ricochetLogic.ReduceBulletCount(bulletsUsed);
+                if (activeAbility.costResource == Ability.CostResource.Spirit) {
+                    ricochetLogic.ReduceBulletCount(activeAbility.costAmount);
+                }
             }
         }
     }
@@ -3961,6 +3986,12 @@ public class BattleSystem : MonoBehaviour
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+        
+        if (healer.myName == "Renée") {
+            repentantLogic.RepentantAbilityLogic(healer, healTarget, activeAbility, ref minDamageRange,
+                ref maxDamageRange, ref secondaryRestore, ref critChance, ref selfTokens, ref selfTokensCount,
+                ref targetTokens, ref targetTokensCount);
         }
         
         // Clear tokens from self
@@ -4159,6 +4190,13 @@ public class BattleSystem : MonoBehaviour
 
         SetAbilityTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
         
+        if (buffer.myName == "Renée") {
+            int secondaryValue = 0;
+            repentantLogic.RepentantAbilityLogic(buffer, buffTarget, activeAbility, ref minDamageRange,
+                ref maxDamageRange, ref secondaryValue, ref critChance, ref selfTokens, ref selfTokensCount,
+                ref targetTokens, ref targetTokensCount);
+        }
+        
         // Clear tokens from self
         if (activeAbility.targetTokensCleared.Length > 0 && !abilityDuplicated) {
             foreach (Ability.TokenOption token in activeAbility.selfTokensCleared) {
@@ -4285,6 +4323,16 @@ public class BattleSystem : MonoBehaviour
         int maxDamageRange = 0;
         int critChance = 0;
         
+        // Declare secondary damage values, if any
+        int secondaryDamage;
+        int secondaryModifier = 0;
+        int secondaryValue = 0;
+        string secondaryTarget = activeAbility.secondaryTarget.ToString();
+        
+        // Get secondary damage values
+        SetSecondaryAbilityValues(debuffer, ref secondaryModifier,  ref secondaryValue); 
+        secondaryDamage = secondaryValue;
+        
         // Get ability values
         SetAbilityValuesAgainstTarget(debuffer, debuffTarget, ref abilityModifier, ref isCrit, ref acc, ref minDamageRange,
             ref maxDamageRange, ref critChance);
@@ -4306,6 +4354,12 @@ public class BattleSystem : MonoBehaviour
         List<int> selfTokensCount = new List<int>();
 
         SetAbilityTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+        
+        if (debuffer.myName == "Renée") {
+            repentantLogic.RepentantAbilityLogic(debuffer, debuffTarget, activeAbility, ref minDamageRange,
+                ref maxDamageRange, ref secondaryDamage, ref critChance, ref selfTokens, ref selfTokensCount,
+                ref targetTokens, ref targetTokensCount);
+        }
         
         // Reduce crit chance by target's crit resist
         critChance -= debuffTarget.critResist;
@@ -4395,6 +4449,36 @@ public class BattleSystem : MonoBehaviour
         for (int i = 0; i < targetTokens.Count; i++) {
             AddTokens(debuffer, debuffTarget, targetTokens[i].tokenName, targetTokensCount[i],
                 debuffer.resistPierce);
+        }
+        
+        // Apply Secondary Damage
+        if (secondaryTarget != "Null") {
+            switch (secondaryTarget) {
+                case "Bonus":
+                    print("Bonus does not work for debuffs");
+                    break;
+                case "Spirit":
+                    debuffTarget.currentSpirit -= secondaryDamage;
+                    if (debuffTarget.currentSpirit < 0) {
+                        debuffTarget.currentSpirit = 0;
+                    }
+                    break;
+                case "Armor":
+                    debuffTarget.currentArmor -= secondaryDamage;
+                    if (debuffTarget.currentArmor < 0) {
+                        debuffTarget.currentArmor = 0;
+                    }
+                    break;
+                case "ActionPoints":
+                    debuffTarget.actionPoints -= secondaryDamage;
+                    if (debuffTarget.actionPoints < 0) {
+                        debuffTarget.actionPoints = 0;
+                    }
+                    break;
+                default:
+                    print("Invalid secondary target of " +  secondaryTarget + " supplied");
+                    break;
+            }
         }
         
         if (!abilityDuplicated) {
@@ -4600,10 +4684,6 @@ public class BattleEntities
     public int debuffResist;
     public int critResist;
     public int ailmentResist;
-    
-    // Variables for use with character-specific mechanics
-    public bool gainedUniqueTokenLastTurn;
-    public float specialResourceFloat;
     
     // Enemy Only
     public EnemyBrain enemyBrain;

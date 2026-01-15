@@ -13,8 +13,12 @@ public class PartyManager : MonoBehaviour
 
     private const int BASE_LEVEL = 1;
 
+    private RicochetBattleLogic ricochetLogic;
+
     private void Awake()
     {
+        ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
+        
         if (_instance != null) {
             Destroy(gameObject);
         } else {
@@ -25,6 +29,11 @@ public class PartyManager : MonoBehaviour
         }
         
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        ricochetLogic.InitializeRicochet(currentParty);
     }
 
     private void AddMemberToPartyByName(string memberName, int level)

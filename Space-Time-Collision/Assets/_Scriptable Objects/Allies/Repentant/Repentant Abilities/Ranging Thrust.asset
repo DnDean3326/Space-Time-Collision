@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityName: Ranging Thrust
   abilityIcon: {fileID: 0}
   abilityType: 0
-  abilityWeight: 0
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
   cooldown: 0
@@ -23,11 +23,12 @@ MonoBehaviour:
   rangeMax: 4
   hasAccuracy: 1
   targetSelf: 0
+  attackType: 0
   keyStat: 1
   statModifier: 1
   dmgMin: 3
-  dmgMax: 7
-  critChance: 10
+  dmgMax: 6
+  critChance: 20
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -37,15 +38,18 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 
   targetTokenCountApplied: 
-  selfCritTokensApplied: 07000000
+  selfCritTokensApplied: 05000000
   selfCritTokenCountApplied: 01000000
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
@@ -55,4 +59,4 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 'Deal damage\nGain Dodge I on a crit.\nRange: 4'
+  description: 

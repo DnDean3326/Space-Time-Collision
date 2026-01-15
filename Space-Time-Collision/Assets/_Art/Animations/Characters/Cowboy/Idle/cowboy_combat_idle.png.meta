@@ -1,28 +1,49 @@
 fileFormatVersion: 2
-guid: 2d6d5fbea412a4097bae8770a47f41e4
+guid: 706097724e19a45b2972508852322470
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5227868856748329506
-    second: cowboy_combat_idle_glow_0
+      213: -6169908399643279812
+    second: cowboy_combat_idle_0
   - first:
-      213: -4399855861160694916
-    second: cowboy_combat_idle_glow_1
+      213: 5573584187787755146
+    second: cowboy_combat_idle_1
   - first:
-      213: -1929410787505965298
-    second: cowboy_combat_idle_glow_2
+      213: -1280069132632282222
+    second: cowboy_combat_idle_2
   - first:
-      213: -5820503929700252823
-    second: cowboy_combat_idle_glow_3
+      213: -1392654516757232691
+    second: cowboy_combat_idle_3
   - first:
-      213: 6240867962093148302
-    second: cowboy_combat_idle_glow_4
+      213: 6967325879363457315
+    second: cowboy_combat_idle_4
   - first:
-      213: 2989986125157709210
-    second: cowboy_combat_idle_glow_5
+      213: -5023496345347595834
+    second: cowboy_combat_idle_5
   - first:
-      213: -5545523353811203888
-    second: cowboy_combat_idle_glow_6
+      213: 3150568962636680874
+    second: cowboy_combat_idle_6
+  - first:
+      213: -8052231039608766051
+    second: cowboy_combat_idle_7
+  - first:
+      213: 7703991494690638772
+    second: cowboy_combat_idle_8
+  - first:
+      213: -2210808852898196140
+    second: cowboy_combat_idle_9
+  - first:
+      213: -447187794895385787
+    second: cowboy_combat_idle_10
+  - first:
+      213: -5351065020474927339
+    second: cowboy_combat_idle_11
+  - first:
+      213: -2647714190834569688
+    second: cowboy_combat_idle_12
+  - first:
+      213: -4373342130738077728
+    second: cowboy_combat_idle_13
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -69,7 +90,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 600
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -114,11 +135,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cowboy_combat_idle_glow_0
+      name: cowboy_combat_idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -133,14 +167,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 22acfcad60f1d8840800000000000000
-      internalID: 5227868856748329506
+      spriteID: c3e30960005106aa0800000000000000
+      internalID: -6169908399643279812
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cowboy_combat_idle_glow_1
+      name: cowboy_combat_idle_1
       rect:
         serializedVersion: 2
         x: 900
@@ -155,14 +189,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c7ba89cd76290f2c0800000000000000
-      internalID: -4399855861160694916
+      spriteID: a8eb2d6e949595d40800000000000000
+      internalID: 5573584187787755146
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cowboy_combat_idle_glow_2
+      name: cowboy_combat_idle_2
       rect:
         serializedVersion: 2
         x: 1800
@@ -177,14 +211,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e0776e87c1b5935e0800000000000000
-      internalID: -1929410787505965298
+      spriteID: 29ba28de7e74c3ee0800000000000000
+      internalID: -1280069132632282222
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cowboy_combat_idle_glow_3
+      name: cowboy_combat_idle_3
       rect:
         serializedVersion: 2
         x: 0
@@ -199,14 +233,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9638378a38a693fa0800000000000000
-      internalID: -5820503929700252823
+      spriteID: dc387d9781c4cace0800000000000000
+      internalID: -1392654516757232691
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cowboy_combat_idle_glow_4
+      name: cowboy_combat_idle_4
       rect:
         serializedVersion: 2
         x: 900
@@ -221,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e889da298540c9650800000000000000
-      internalID: 6240867962093148302
+      spriteID: 32158d909f9e0b060800000000000000
+      internalID: 6967325879363457315
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cowboy_combat_idle_glow_5
+      name: cowboy_combat_idle_5
       rect:
         serializedVersion: 2
         x: 1800
@@ -243,14 +277,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a953f590a809e7920800000000000000
-      internalID: 2989986125157709210
+      spriteID: 6c1651580b4f84ab0800000000000000
+      internalID: -5023496345347595834
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cowboy_combat_idle_glow_6
+      name: cowboy_combat_idle_6
       rect:
         serializedVersion: 2
         x: 0
@@ -265,36 +299,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0d8437224e75a03b0800000000000000
-      internalID: -5545523353811203888
+      spriteID: aae845277c119bb20800000000000000
+      internalID: 3150568962636680874
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cowboy_combat_idle_glow_7
-      rect:
-        serializedVersion: 2
-        x: 900
-        y: 0
-        width: 900
-        height: 1300
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 777e3e70c38f34f789e6dc751a276eac
-      internalID: 1873577494
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cowboy_combat_idle_glow_8
+      name: cowboy_combat_idle_7
       rect:
         serializedVersion: 2
         x: 1800
@@ -307,10 +319,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: b0e07563043404d99a87d71a355ec5f2
-      internalID: 678001265
+      spriteID: d91ceb2388ab04090800000000000000
+      internalID: -8052231039608766051
       vertices: []
       indices: 
       edges: []
@@ -319,7 +331,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e2c030216d93e4ba1aa6a77d7c7f889c
+    spriteID: 94c9bb703c9e44a85bd591b1be8396be
     internalID: 0
     vertices: []
     indices: 
@@ -331,15 +343,14 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":3.0},"gridSpriteSize":{"x":900.0,"y":1300.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      cowboy_combat_idle_glow_0: 5227868856748329506
-      cowboy_combat_idle_glow_1: -4399855861160694916
-      cowboy_combat_idle_glow_2: -1929410787505965298
-      cowboy_combat_idle_glow_3: -5820503929700252823
-      cowboy_combat_idle_glow_4: 6240867962093148302
-      cowboy_combat_idle_glow_5: 2989986125157709210
-      cowboy_combat_idle_glow_6: -5545523353811203888
-      cowboy_combat_idle_glow_7: 1873577494
-      cowboy_combat_idle_glow_8: 678001265
+      cowboy_combat_idle_0: -6169908399643279812
+      cowboy_combat_idle_1: 5573584187787755146
+      cowboy_combat_idle_2: -1280069132632282222
+      cowboy_combat_idle_3: -1392654516757232691
+      cowboy_combat_idle_4: 6967325879363457315
+      cowboy_combat_idle_5: -5023496345347595834
+      cowboy_combat_idle_6: 3150568962636680874
+      cowboy_combat_idle_7: -8052231039608766051
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
