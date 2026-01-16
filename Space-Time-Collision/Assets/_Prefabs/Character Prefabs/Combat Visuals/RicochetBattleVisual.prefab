@@ -8,10 +8,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1757096287032548235, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3261590451165467516, guid: dc7e02b286856814db1fd1db96957898, type: 3}
       propertyPath: m_Name
-      value: PlayerBattleVisual
+      value: RicochetBattleVisual
       objectReference: {fileID: 0}
+    - target: {fileID: 3967796546373067122, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6229575981434165471, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 48d14d7f09c5a4cb098797c1f1441716, type: 3}
+    - target: {fileID: 6564135639588113273, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: a474640ce518a3a49a005e280c798fdf, type: 2}
     - target: {fileID: 6940219764758562436, guid: dc7e02b286856814db1fd1db96957898, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -52,6 +68,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8549982676091356961, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9e619f768c52847ee92feb5e692ed3ff, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

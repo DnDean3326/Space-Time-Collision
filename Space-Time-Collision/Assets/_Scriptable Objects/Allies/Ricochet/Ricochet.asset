@@ -27,7 +27,7 @@ MonoBehaviour:
   baseStunResist: 15
   baseDebuffResist: 10
   baseAilmentResist: 5
-  allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 179dab15a64745449bdfdd5892204481, type: 3}
+  allyBattleVisualPrefab: {fileID: 3777790120046526853, guid: 179dab15a64745449bdfdd5892204481, type: 3}
   allyMenuVisualPrefab: {fileID: 1824181497641327979, guid: 333689992736e4c42907b64702e3066b, type: 3}
   abilities:
   - {fileID: 11400000, guid: cfb7c2b72f69e004cac564e7ccf8bffc, type: 2}

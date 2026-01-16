@@ -7,31 +7,39 @@ public class Tooltip : MonoBehaviour
 {
     private static Tooltip instance;
     
-    [SerializeField] private Camera uiCamera;
+    [SerializeField] private RectTransform canvasRectTransform;
     
     private TextMeshProUGUI tooltipText;
     private RectTransform backgroundRectTransform;
-    private RectTransform parentRectTransform;
+    private RectTransform rectTransform;
 
     private void Awake()
     {
         instance = this;
         
-        parentRectTransform = transform.parent.GetComponent<RectTransform>();
+        canvasRectTransform = transform.parent.GetComponent<RectTransform>();
+        rectTransform = transform.GetComponent<RectTransform>();
         tooltipText = transform.Find("Tooltip Text").GetComponent<TextMeshProUGUI>();
         backgroundRectTransform = transform.Find("Tooltip BG").GetComponent<RectTransform>();
     }
 
     private void Start()
     {
-        gameObject.SetActive(false);
+        HideTooltip();
     }
 
     private void Update()
     {
-        Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRectTransform, Mouse.current.position.ReadValue(), null, out localPoint);
-        transform.localPosition = localPoint;
+        Vector2 anchoredPosition = Mouse.current.position.value / canvasRectTransform.localScale.x;
+
+        if (anchoredPosition.x + backgroundRectTransform.rect.width > canvasRectTransform.rect.width) {
+            anchoredPosition.x = canvasRectTransform.rect.width - backgroundRectTransform.rect.width;
+        }
+        if (anchoredPosition.y + backgroundRectTransform.rect.height > canvasRectTransform.rect.height) {
+            anchoredPosition.y = canvasRectTransform.rect.height - backgroundRectTransform.rect.height;
+        }
+        
+        rectTransform.anchoredPosition = anchoredPosition;
     }
     
     private void ShowTooltip(string boldTooltipString, string tooltipString)
