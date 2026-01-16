@@ -20,4 +20,5 @@ MonoBehaviour:
   tokenCap: 99
   tokenInverses: []
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: Take damage equal to your bleed. \nYou cannot gain bleed if you
+    have defense. \nOnly remove one bleed token at the end of your turn.

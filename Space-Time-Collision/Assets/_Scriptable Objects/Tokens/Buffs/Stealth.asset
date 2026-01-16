@@ -21,4 +21,5 @@ MonoBehaviour:
   tokenInverses:
   - Taunt
   isUnique: 0
-  tokenDescription: You cannot be directly targeted by enemy abilities.
+  tokenDescription: You cannot be directly targeted by enemy abilities until your
+    next turn.

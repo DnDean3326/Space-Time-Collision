@@ -20,4 +20,4 @@ MonoBehaviour:
   tokenCap: 1
   tokenInverses: []
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: Skip your next turn.

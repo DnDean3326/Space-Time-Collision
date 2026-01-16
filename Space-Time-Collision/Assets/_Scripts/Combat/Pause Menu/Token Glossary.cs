@@ -9,6 +9,8 @@ public class TokenGlossary : MonoBehaviour
     [SerializeField] private GameObject buffGlossary;
     [SerializeField] private GameObject debuffGlossary;
     [SerializeField] private GameObject ailmentGlossary;
+    [SerializeField] private GameObject tokenGlossary;
+
     
     private const float ROW_MAX = 10f;
     private const float GLOSSARY_SPACE = 10f;
@@ -39,6 +41,7 @@ public class TokenGlossary : MonoBehaviour
         SetBuffTokens();
         SetDebuffTokens();
         SetAilmentTokens();
+        //SetGlossaryPosition();
     }
 
     private void SetBuffTokens()

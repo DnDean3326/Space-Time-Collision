@@ -20,4 +20,6 @@ MonoBehaviour:
   tokenCap: 3
   tokenInverses: []
   isUnique: 1
-  tokenDescription: 
+  tokenDescription: Increase your crit chance by 10% for each Vice token.\nRemove
+    a token when your turn ends if you did not gain Vice or take damage since your
+    last turn.

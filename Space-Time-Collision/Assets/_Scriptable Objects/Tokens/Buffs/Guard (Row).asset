@@ -21,4 +21,5 @@ MonoBehaviour:
   tokenInverses:
   - Stealth
   isUnique: 0
-  tokenDescription: Allies behind you in your row cannot be targeted.
+  tokenDescription: Allies behind you in your row cannot be targeted. \nRemove a
+    token when you are targeted.

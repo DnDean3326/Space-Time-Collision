@@ -22,4 +22,5 @@ MonoBehaviour:
   - Boost+
   - Boost
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: 'Apply 50% less damage/healing with your next damage/healing
+    ability. '

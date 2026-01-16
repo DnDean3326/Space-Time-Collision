@@ -20,4 +20,4 @@ MonoBehaviour:
   tokenCap: 99
   tokenInverses: []
   isUnique: 0
-  tokenDescription: At the end of your turn lose HP equal to the poison you have.
+  tokenDescription: Lose HP equal to your Poison.

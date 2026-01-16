@@ -20,5 +20,5 @@ MonoBehaviour:
   tokenCap: 99
   tokenInverses: []
   isUnique: 0
-  tokenDescription: At the end of your turn take damage equal to your burn. \nWhen
-    you take this damage all adjacent allies gain Burn II.
+  tokenDescription: Take damage equal to your Burn. \nApply Burn II to all adjacent
+    allies at the end of your turn.
