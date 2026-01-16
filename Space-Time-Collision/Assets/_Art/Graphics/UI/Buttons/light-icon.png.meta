@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 55fa364ea7a055845946e20d82fa4338
+guid: 13d648a7939fe11488c37ec19d508063
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6240724426285054604
-    second: normalammo_0
+      213: -1676329499125831993
+    second: light-icon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: normalammo_0
+      name: light-icon_0
       rect:
         serializedVersion: 2
-        x: 48
-        y: 18
-        width: 528
-        height: 529
+        x: 0
+        y: 5
+        width: 747
+        height: 747
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c8af2d90dc18b9650800000000000000
-      internalID: 6240724426285054604
+      spriteID: 7c6a81eb33b7cb8e0800000000000000
+      internalID: -1676329499125831993
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      normalammo_0: 6240724426285054604
+      light-icon_0: -1676329499125831993
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
