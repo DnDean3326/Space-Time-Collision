@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: BoostPlus
   displayName: Boost+
-  tokenIcon: {fileID: 21300000, guid: c9f3ba6f518cbc24f99a929d0e851d56, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 156dabb63a423ab488e70b1ea028d705, type: 3}
   tokenType: 0
   tokenValue: 0.75
   tokenCap: 3
   tokenInverses:
   - Break
   isUnique: 0
-  tokenDescription: Apply 75% more damage/healing with your next damage/healing ability.
+  tokenDescription: 

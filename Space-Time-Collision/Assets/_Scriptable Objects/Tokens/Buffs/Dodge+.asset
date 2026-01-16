@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: DodgePlus
   displayName: Dodge+
-  tokenIcon: {fileID: 21300000, guid: db23e147e2f2f8a4e9a1eb6077249a49, type: 3}
+  tokenIcon: {fileID: 21300000, guid: d369b636af1468549bffff0664722ee6, type: 3}
   tokenType: 0
   tokenValue: 0.75
   tokenCap: 3
   tokenInverses:
   - Off-Guard
   isUnique: 0
-  tokenDescription: 75% chance to dodge next hostile ability.
+  tokenDescription: 
