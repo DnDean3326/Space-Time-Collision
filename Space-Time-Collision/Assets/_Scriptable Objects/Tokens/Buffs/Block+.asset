@@ -20,4 +20,5 @@ MonoBehaviour:
   tokenCap: 3
   tokenInverses:
   - Vulnerable
-  tokenDescription: 
+  isUnique: 0
+  tokenDescription: Take 75% less damage from the next attack.

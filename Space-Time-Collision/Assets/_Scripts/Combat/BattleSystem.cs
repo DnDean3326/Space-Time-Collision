@@ -184,17 +184,16 @@ public class BattleSystem : MonoBehaviour
         turnOrderDisplay = FindFirstObjectByType<TurnOrderDisplay>();
         combatGrid = FindFirstObjectByType<CombatGrid>();
         
-        
-    }
-    
-    
-    private void Start()
-    {
         combatGrid.GetGridInfo(ref partyBattleGrid, ref enemyBattleGrid);
         LinkCharacterLogics();
         CreatePartyEntities();
         CreateEnemyEntities();
         InitializeBattleTokens();
+    }
+    
+    
+    private void Start()
+    {
         StartCoroutine(StartRoutine());
         battleStartUI.SetActive(true);
     }
@@ -219,6 +218,16 @@ public class BattleSystem : MonoBehaviour
     public List<BattleEntities> GetEnemyList()
     {
         return enemyCombatants;
+    }
+
+    public BattleEntities GetActiveEntity()
+    {
+        return allCombatants[currentPlayer];
+    }
+
+    public List<BattleToken> GetAllTokens()
+    {
+        return allTokens;
     }
     
     // Battle state routines
@@ -1090,7 +1099,7 @@ public class BattleSystem : MonoBehaviour
         hasteToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Haste");
         pierceToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Pierce");
         precisionToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Precision");
-        quickToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Quick");
+        //quickToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Quick");
         ricochetToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Ricochet");
         riposteToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Riposte");
         rushToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Rush");
@@ -1102,7 +1111,7 @@ public class BattleSystem : MonoBehaviour
         antiHealToken = allTokens.SingleOrDefault(obj => obj.tokenName == "AntiHeal");
         blindToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Blind");
         breakToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Break");
-        delayToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Delay");
+        //delayToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Delay");
         goadedToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Goaded");
         isolationToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Isolation");
         linkToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Link");

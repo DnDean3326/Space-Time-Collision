@@ -20,4 +20,5 @@ MonoBehaviour:
   tokenCap: 3
   tokenInverses:
   - Break
-  tokenDescription: 
+  isUnique: 0
+  tokenDescription: Apply 50% more damage/healing with your next damage/healing ability.

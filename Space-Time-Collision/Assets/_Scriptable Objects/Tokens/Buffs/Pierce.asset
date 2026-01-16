@@ -20,4 +20,4 @@ MonoBehaviour:
   tokenCap: 3
   tokenInverses: []
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: Ignore armor with your next damage ability.
