@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Ricochet
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
   allyName: Tre
-  allyPortrait: {fileID: 21300000, guid: c7597e40997394fb7b6284c2f5fbed11, type: 3}
+  allyTurnPortrait: {fileID: 21300000, guid: a0f45d8c8e72b493685c53a36a57a656, type: 3}
+  allySquarePortrait: {fileID: 21300000, guid: c5f48ac201e2449e2be1dfc70e58cbd2, type: 3}
+  allyShadowPortrait: {fileID: 0}
+  allySignature: {fileID: 0}
   baseHealth: 25
   baseDefense: 20
   baseArmor: 3

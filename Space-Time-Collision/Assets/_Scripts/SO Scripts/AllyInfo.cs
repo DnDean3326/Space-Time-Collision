@@ -5,7 +5,10 @@ using UnityEngine.Serialization;
 public class AllyInfo : ScriptableObject
 {
     public string allyName;
-    public Sprite allyPortrait;
+    [FormerlySerializedAs("allyPortrait")] public Sprite allyTurnPortrait;
+    public Sprite allySquarePortrait;
+    public Sprite allyShadowPortrait;
+    public Sprite allySignature;
     
     public int baseHealth;
     public int baseDefense;
@@ -30,6 +33,6 @@ public class AllyInfo : ScriptableObject
     public Ability stepAbility;
     public Ability sprintAbility;
     
-    [FormerlySerializedAs("lineBreakToken")] public Token baseLineBreakToken;
+    public Token baseLineBreakToken;
     public int baseLineBreakTokenCount;
 }

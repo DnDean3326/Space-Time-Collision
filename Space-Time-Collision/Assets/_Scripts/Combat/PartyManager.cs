@@ -43,7 +43,7 @@ public class PartyManager : MonoBehaviour
                 PartyMember newPartyMember = new PartyMember();
                 
                 newPartyMember.memberName = allMembers[i].allyName;
-                newPartyMember.memberPortrait = allMembers[i].allyPortrait;
+                newPartyMember.memberPortrait = allMembers[i].allyTurnPortrait;
                 newPartyMember.level = level;
 
                 // TODO let players set their party formation

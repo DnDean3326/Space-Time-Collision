@@ -17,8 +17,6 @@ public class CombatMenuVisuals : MonoBehaviour
     [Header("UI Buttons")]
     [SerializeField] private GameObject[] abilityButtons;
     [SerializeField] private GameObject[] targetButtons;
-    [SerializeField] private GameObject[] targetPortraits;
-    [SerializeField] private GameObject[] targetBorders;
     [SerializeField] private GameObject passButton;
     [SerializeField] private GameObject backButton;
     
@@ -30,6 +28,7 @@ public class CombatMenuVisuals : MonoBehaviour
 
     [Header("Ability Borders")]
     [SerializeField] private List<Image> abilityBorders = new List<Image>();
+    [SerializeField] private List<Image> targetBorders = new List<Image>();
     [SerializeField] private Sprite lightBorder;
     [SerializeField] private Sprite mediumBorder;
     [SerializeField] private Sprite heavyBorder;
@@ -44,6 +43,9 @@ public class CombatMenuVisuals : MonoBehaviour
     private List<Image> abilityImages = new List<Image>();
     private List<Button> myAbilityButtons = new List<Button>();
     private List<TextMeshProUGUI> abilityTexts = new List<TextMeshProUGUI>();
+    private List<Image> targetImages = new List<Image>();
+    private List<Button> myTargetButtons = new List<Button>();
+    private List<TextMeshProUGUI> targetTexts = new List<TextMeshProUGUI>();
     private int maxSpirit;
     private int currentSpirit;
     
@@ -62,6 +64,15 @@ public class CombatMenuVisuals : MonoBehaviour
             myAbilityButtons.Add(tempButton);
             TextMeshProUGUI tempText = abilityButton.GetComponentInChildren<TextMeshProUGUI>();
             abilityTexts.Add(tempText);
+        }
+
+        foreach (GameObject targetButton in targetButtons) {
+            Image tempImage = targetButton.GetComponent<Image>();
+            targetImages.Add(tempImage);
+            Button tempButton = targetButton.GetComponent<Button>();
+            myTargetButtons.Add(tempButton);
+            TextMeshProUGUI tempText = targetButton.GetComponentInChildren<TextMeshProUGUI>();
+            targetTexts.Add(tempText);
         }
     }
 
@@ -128,6 +139,21 @@ public class CombatMenuVisuals : MonoBehaviour
     {
         return myAbilityButtons;
     }
+
+    public GameObject[] GetTargetButtons()
+    {
+        return targetButtons;
+    }
+    
+    public List<Image> GetTargetImages()
+    {
+        return targetImages;
+    }
+    
+    public List<Image> GetTargetBorders()
+    {
+        return targetBorders;
+    }
     
     public void SetMenuStartingValues(int maxSpirit, int currentSpirit)
     {
@@ -182,7 +208,8 @@ public class CombatMenuVisuals : MonoBehaviour
         backButton.SetActive(visible);
     }
 
-    public void SetAbilityValues(float hitChance, int dmgMin, int dmgMax, int critChance, bool isDamage, bool singleValue)
+    public void SetAbilityValues(float hitChance, int dmgMin, int dmgMax, int critChance, bool isDamage,
+        bool singleValue)
     {
         string type;
         if (isDamage) {
@@ -190,38 +217,26 @@ public class CombatMenuVisuals : MonoBehaviour
         } else {
             type = "Heal";
         }
+
         hitChanceText.text = hitChance + "%" + '\n' + "Hit";
         critChanceText.text = critChance + "%" + '\n' + "Crit";
         if (!singleValue) {
             if (dmgMin < 0) {
                 dmgMin = 0;
             }
+
             if (dmgMax < 0) {
                 dmgMax = 0;
             }
+
             dmgRangeText.text = dmgMin + "-" + dmgMax + '\n' + type;
         } else {
             if (dmgMax < 0) {
                 dmgMax = 0;
             }
+
             dmgRangeText.text = dmgMax + "\n " + type;
         }
-        
-    }
-    
-    public GameObject[] GetTargetButtons()
-    {
-        return targetButtons;
-    }
-
-    public GameObject[] GetTargetPortraits()
-    {
-        return targetPortraits;
-    }
-    
-    public GameObject[] GetTargetBorders()
-    {
-        return targetBorders;
     }
 
     // Button OnClick methods

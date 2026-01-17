@@ -191,7 +191,6 @@ public class BattleSystem : MonoBehaviour
         InitializeBattleTokens();
     }
     
-    
     private void Start()
     {
         StartCoroutine(StartRoutine());
@@ -218,6 +217,11 @@ public class BattleSystem : MonoBehaviour
     public List<BattleEntity> GetEnemyList()
     {
         return enemyCombatants;
+    }
+
+    public List<BattleEntity> GetTargetList()
+    {
+        return targetList;
     }
 
     public BattleEntity GetActiveEntity()
@@ -1002,8 +1006,6 @@ public class BattleSystem : MonoBehaviour
             tempEntity.battleVisuals = tempBattleVisuals;
             tempEntity.combatMenuVisuals = tempCombatMenuVisuals;
             tempEntity.targetButtons = tempEntity.combatMenuVisuals.GetTargetButtons();
-            tempEntity.targetPortraits = tempEntity.combatMenuVisuals.GetTargetPortraits();
-            tempEntity.targetBorders = tempEntity.combatMenuVisuals.GetTargetBorders();
             
             // Assign abilities to character TODO Make this also update visuals
             tempEntity.myAbilities = partyManager.GetActiveAbilities(i);
@@ -2067,6 +2069,9 @@ public class BattleSystem : MonoBehaviour
             activeEntity.targetButtons[i].SetActive(false); 
         }
 
+        List<Image> entityTargetImages = activeEntity.combatMenuVisuals.GetTargetImages();
+        List<Image> entityTargetBorders = activeEntity.combatMenuVisuals.GetTargetBorders();
+        
         if (targetIsEnemy) {
             List<int> stealthedTargets = new List<int>();
             
@@ -2087,10 +2092,8 @@ public class BattleSystem : MonoBehaviour
             }
             for (int i = 0; i < targetList.Count; i++) {
                 activeEntity.targetButtons[i].SetActive(true);
-                activeEntity.targetPortraits[i].GetComponent<Image>().sprite =
-                    targetList[i].myPortrait;
-                activeEntity.targetBorders[i].GetComponentInChildren<Image>().color =
-                    new Color32(255, 0, 0, 255);
+                entityTargetImages[i].sprite = targetList[i].myPortrait;
+                entityTargetBorders[i].color = new Color32(255, 0, 0, 255);
             }
         } else {
             // Enable buttons for each present ally
@@ -2104,10 +2107,8 @@ public class BattleSystem : MonoBehaviour
 
             for (int i = 0; i < targetList.Count; i++) {
                 activeEntity.targetButtons[i].SetActive(true);
-                activeEntity.targetPortraits[i].GetComponent<Image>().sprite =
-                    targetList[i].myPortrait;
-                activeEntity.targetBorders[i].GetComponentInChildren<Image>().color =
-                    new Color32(147, 229, 242, 255);
+                entityTargetImages[i].sprite = targetList[i].myPortrait;
+                entityTargetBorders[i].color= new Color32(147, 229, 242, 255);
             }
         }
         
