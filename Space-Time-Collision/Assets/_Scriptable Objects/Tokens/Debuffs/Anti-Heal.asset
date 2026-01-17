@@ -20,4 +20,5 @@ MonoBehaviour:
   tokenCap: 3
   tokenInverses: []
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: You cannot regain HP or Defense until your next turn. \nRemove
+    a token when you would regain HP or Defense.

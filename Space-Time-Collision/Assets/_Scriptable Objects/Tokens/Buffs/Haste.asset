@@ -21,4 +21,4 @@ MonoBehaviour:
   tokenInverses:
   - Slow
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: Increase your action point gain by 50% until your next turn.

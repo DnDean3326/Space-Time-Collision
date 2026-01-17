@@ -20,4 +20,5 @@ MonoBehaviour:
   tokenCap: 3
   tokenInverses:
   - Off-Guard
-  tokenDescription: 
+  isUnique: 0
+  tokenDescription: 50% chance to dodge next hostile ability.

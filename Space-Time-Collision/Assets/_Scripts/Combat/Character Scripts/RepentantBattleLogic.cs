@@ -12,7 +12,7 @@ public class RepentantBattleLogic : MonoBehaviour
         this.battleSystem = battleSystem;
     }
 
-    public bool RepentantUseLogic(BattleEntities repentant, Ability ability)
+    public bool RepentantUseLogic(BattleEntity repentant, Ability ability)
     {
         bool blockAbility = false;
         switch (ability.abilityName) {
@@ -36,7 +36,7 @@ public class RepentantBattleLogic : MonoBehaviour
         return blockAbility;
     }
     
-    public void RepentantAbilityLogic(BattleEntities repentant, BattleEntities target, Ability activeAbility, ref int minDamage,
+    public void RepentantAbilityLogic(BattleEntity repentant, BattleEntity target, Ability activeAbility, ref int minDamage,
         ref int maxDamage, ref int secondaryValue, ref int critChance, ref List<BattleToken> selfTokens, ref List<int> selfTokensCount,
         ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
     {
@@ -155,7 +155,7 @@ public class RepentantBattleLogic : MonoBehaviour
         AscensionMax(repentant);
     }
 
-    public void RepentantLethalLogic(BattleEntities repentant, Ability activeAbility, ref List<BattleToken> selfTokens, 
+    public void RepentantLethalLogic(BattleEntity repentant, Ability activeAbility, ref List<BattleToken> selfTokens, 
         ref List<int> selfTokensCount)
     {
         switch (activeAbility.abilityName) {
@@ -171,7 +171,7 @@ public class RepentantBattleLogic : MonoBehaviour
         }
     }
 
-    public void AscensionMax(BattleEntities repentant)
+    public void AscensionMax(BattleEntity repentant)
     {
         if (repentant.activeTokens.Any(t => t.tokenName == "Ascension")) {
             int ascensionIndex = repentant.activeTokens.FindIndex(t => t.tokenName == "Ascension");

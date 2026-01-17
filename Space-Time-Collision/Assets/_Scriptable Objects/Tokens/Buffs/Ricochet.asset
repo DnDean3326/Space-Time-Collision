@@ -20,4 +20,6 @@ MonoBehaviour:
   tokenCap: 3
   tokenInverses: []
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: On a hit, your next ranged ability repeats the attack against
+    another target on the same side within 2 tiles. \nThis repeated usage applies
+    25% less damage/healing.

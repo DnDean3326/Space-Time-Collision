@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -26,21 +28,105 @@ public class CombatMenuVisuals : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dmgRangeText;
     [SerializeField] private TextMeshProUGUI critChanceText;
 
+    [Header("Ability Borders")]
+    [SerializeField] private List<Image> abilityBorders = new List<Image>();
+    [SerializeField] private Sprite lightBorder;
+    [SerializeField] private Sprite mediumBorder;
+    [SerializeField] private Sprite heavyBorder;
+
+    private readonly Color32 levelOneColor = new Color32(206,137,70, 255);
+    private readonly Color32 levelTwoColor = new Color32(196,196,196, 255);
+    private readonly Color32 levelThreeColor = new Color32(239,191,4, 255);
+    private readonly Color32 levelFourColor = new Color32(155,178,203, 255);
+
+    private BattleEntity me;
     private BattleSystem battleSystem;
-    
+    private List<Image> abilityImages = new List<Image>();
+    private List<Button> myAbilityButtons = new List<Button>();
+    private List<TextMeshProUGUI> abilityTexts = new List<TextMeshProUGUI>();
     private int maxSpirit;
     private int currentSpirit;
     
     private void Awake()
     {
         battleSystem = FindFirstObjectByType<BattleSystem>();
+        
+        foreach (GameObject targetButton in targetButtons) {
+            targetButton.SetActive(false);
+        }
+
+        foreach (GameObject abilityButton in abilityButtons) {
+            Image tempImage = abilityButton.GetComponent<Image>();
+            abilityImages.Add(tempImage);
+            Button tempButton = abilityButton.GetComponent<Button>();
+            myAbilityButtons.Add(tempButton);
+            TextMeshProUGUI tempText = abilityButton.GetComponentInChildren<TextMeshProUGUI>();
+            abilityTexts.Add(tempText);
+        }
     }
 
     private void Start()
     {
-        foreach (GameObject targetButton in targetButtons) {
-            targetButton.SetActive(false);
+        abilitySelectUI.SetActive(false);
+        targetSelectUI.SetActive(false);
+    }
+
+    public void SetMyEntity(BattleEntity myself)
+    {
+        me = myself;
+    }
+
+    public void SetMyAbilityBar()
+    {
+        for (int i = 0; i < abilityButtons.Length; i++) {
+            Sprite tempSprite;
+            switch (me.myAbilities[i].abilityWeight) {
+                case Ability.AbilityWeight.Heavy:
+                    tempSprite = heavyBorder;
+                    break;
+                case Ability.AbilityWeight.Medium:
+                    tempSprite = mediumBorder;
+                    break;
+                case Ability.AbilityWeight.Light:
+                    tempSprite = lightBorder;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            abilityBorders[i].sprite = tempSprite;
+
+            Color32 tempColor;
+            switch (me.myAbilities[i].abilityLevel) {
+                case 1:
+                    tempColor = levelOneColor;
+                    break;
+                case 2:
+                    tempColor = levelTwoColor;
+                    break;
+                case 3:
+                    tempColor = levelThreeColor;
+                    break;
+                case 4:
+                    tempColor = levelFourColor;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            abilityBorders[i].color = tempColor;
+            
+            //abilityImages[i].sprite = me.myAbilities[i].abilityIcon; // TODO: Once ability icons are in, uncomment this line
+            abilityTexts[i].text = me.myAbilities[i].abilityName;
         }
+    }
+
+    public List<Image> GetAbilityImages()
+    {
+        return abilityImages;
+    }
+    
+    public List<Button> GetAbilityButtons()
+    {
+        return myAbilityButtons;
     }
     
     public void SetMenuStartingValues(int maxSpirit, int currentSpirit)
@@ -54,6 +140,11 @@ public class CombatMenuVisuals : MonoBehaviour
     
     private void UpdateSpiritBar()
     {
+        if (me.myName == "Tre") {
+            spText.text = currentSpirit + " / " + maxSpirit;
+            return;
+        }
+        
         spiritBar.maxValue = maxSpirit;
         spiritBar.value = currentSpirit;
         
@@ -116,11 +207,6 @@ public class CombatMenuVisuals : MonoBehaviour
             dmgRangeText.text = dmgMax + "\n " + type;
         }
         
-    }
-
-    public GameObject[] GetAbilityButtons()
-    {
-        return abilityButtons;
     }
     
     public GameObject[] GetTargetButtons()

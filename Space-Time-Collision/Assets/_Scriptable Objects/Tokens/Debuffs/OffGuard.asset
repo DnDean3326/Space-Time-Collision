@@ -22,4 +22,4 @@ MonoBehaviour:
   - Dodge+
   - Dodge
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: 'Do not reduce damage by your armor until your next turn. '

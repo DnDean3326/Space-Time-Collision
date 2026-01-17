@@ -21,4 +21,5 @@ MonoBehaviour:
   tokenInverses:
   - Block+
   - Block
-  tokenDescription: 
+  isUnique: 0
+  tokenDescription: Take 50% more damage from the next damage ability.

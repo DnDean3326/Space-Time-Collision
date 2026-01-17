@@ -21,4 +21,5 @@ MonoBehaviour:
   tokenInverses:
   - Restrict
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: 'The next time you Step it counts as a free action. \nCan only
+    trigger once each turn. '

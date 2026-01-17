@@ -21,4 +21,4 @@ MonoBehaviour:
   tokenInverses:
   - Vulnerable
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: Take 75% less damage from the next attack.

@@ -21,4 +21,5 @@ MonoBehaviour:
   tokenInverses:
   - Stealth
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: If you are in range for an enemy's ability they must target you.
+    \nRemove a token when you are targeted.

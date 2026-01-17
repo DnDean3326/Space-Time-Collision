@@ -23,12 +23,13 @@ MonoBehaviour:
   rangeMax: 0
   hasAccuracy: 0
   targetSelf: 1
-  attackType: 4
+  attackType: 3
   keyStat: 0
   statModifier: 0
   dmgMin: 0
   dmgMax: 0
   critChance: 0
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -38,16 +39,17 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
   selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
   targetYChangeToCenter: 0
-  selfTokensApplied: 
-  selfTokenCountApplied: 
-  targetTokensApplied: 0d0000000f000000
-  targetTokenCountApplied: 0100000001000000
+  selfTokensApplied: 0d0000000f000000
+  selfTokenCountApplied: 0100000001000000
+  targetTokensApplied: 
+  targetTokenCountApplied: 
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
   targetCritTokensApplied: 

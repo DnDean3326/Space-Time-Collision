@@ -21,4 +21,5 @@ MonoBehaviour:
   tokenInverses:
   - Ward
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: Nullify any buffs and aids from the next ability that would apply
+    them to you.

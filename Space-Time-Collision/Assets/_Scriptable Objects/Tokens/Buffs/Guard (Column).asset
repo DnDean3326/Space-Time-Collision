@@ -21,4 +21,5 @@ MonoBehaviour:
   tokenInverses:
   - Stealth
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: Allies on the same column as you cannot be targeted. \nRemove
+    a token when you are targeted.

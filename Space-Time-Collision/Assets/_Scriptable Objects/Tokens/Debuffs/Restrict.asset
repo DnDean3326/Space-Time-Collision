@@ -21,4 +21,4 @@ MonoBehaviour:
   tokenInverses:
   - Rush
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: You cannot be moved or move until your next turn.

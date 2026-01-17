@@ -20,4 +20,5 @@ MonoBehaviour:
   tokenCap: 3
   tokenInverses:
   - Precision
-  tokenDescription: 
+  isUnique: 0
+  tokenDescription: Your next ability with accuracy has a 50% chance to miss.

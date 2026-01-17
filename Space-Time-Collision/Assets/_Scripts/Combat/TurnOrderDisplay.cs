@@ -31,7 +31,7 @@ public class TurnOrderDisplay : MonoBehaviour
         xChange = imageRect.rect.width / 10;
     }
     
-    public void SetTurnDisplay(List<BattleEntities> turnOrder)
+    public void SetTurnDisplay(List<BattleEntity> turnOrder)
     {
         for (int i = 0; i < turnPortraits.Length; i++) {
             turnPortraits[i].GetComponent<Image>().sprite = turnOrder[i].myPortrait;

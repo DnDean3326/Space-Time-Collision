@@ -35,7 +35,7 @@ public class CowboyBattleLogic : MonoBehaviour
         currentActoutChance = COWBOY_BASE_ACTOUT;
     }
     
-    public void CowboyGainVice(BattleEntities bune, BattleEntities attackTarget)
+    public void CowboyGainVice(BattleEntity bune, BattleEntity attackTarget)
     {if (attackTarget.activeTokens.Any(t => t.tokenName == "AntiHeal") ||
             attackTarget.activeTokens.Any(t => t.tokenName == "Isolation") ||
             attackTarget.activeTokens.Any(t => t.tokenName == "OffGuard") ||
@@ -46,7 +46,7 @@ public class CowboyBattleLogic : MonoBehaviour
         }
     }
     
-    public void CowboyRemoveVice(BattleEntities bune)
+    public void CowboyRemoveVice(BattleEntity bune)
     {
         if (bune.activeTokens.Any(t => t.tokenName == "Vice")) {
             if (!bune.wasDamagedLastTurn && !gainedVice) {
@@ -55,7 +55,7 @@ public class CowboyBattleLogic : MonoBehaviour
         }
     }
 
-    public IEnumerator CowboyTurnStartLogic(BattleEntities cowboy)
+    public IEnumerator CowboyTurnStartLogic(BattleEntity cowboy)
     {
         if (cowboy.activeTokens.All(t => t.tokenName != "Vice") && !cowboy.myFirstTurn) {
                             
@@ -77,7 +77,7 @@ public class CowboyBattleLogic : MonoBehaviour
         gainedVice = false;
     }
     
-    public bool CowboyUseLogic(BattleEntities cowboy, Ability ability)
+    public bool CowboyUseLogic(BattleEntity cowboy, Ability ability)
     {
         bool blockAbility = false;
         switch (ability.abilityName) {
@@ -99,7 +99,7 @@ public class CowboyBattleLogic : MonoBehaviour
         return blockAbility;
     }
 
-    public void CowboyAbilityLogic(BattleEntities cowboy, BattleEntities target, Ability activeAbility,
+    public void CowboyAbilityLogic(BattleEntity cowboy, BattleEntity target, Ability activeAbility,
         ref int minDamage, ref int maxDamage, ref int secondaryValue, ref int critChance, ref List<BattleToken> selfTokens,
         ref List<int> selfTokensCount, ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
     {
@@ -117,7 +117,7 @@ public class CowboyBattleLogic : MonoBehaviour
         }
     }
 
-    public void CowboyCritLogic(BattleEntities cowboy, BattleEntities target, Ability activeAbility, ref List<BattleToken> selfTokens,
+    public void CowboyCritLogic(BattleEntity cowboy, BattleEntity target, Ability activeAbility, ref List<BattleToken> selfTokens,
         ref List<int> selfTokensCount, ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
     {
         switch (activeAbility.abilityName) {

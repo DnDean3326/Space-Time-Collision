@@ -21,4 +21,5 @@ MonoBehaviour:
   tokenInverses:
   - Isolation
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: Resist any debuffs and ailments from the next ability that would
+    apply them to you.

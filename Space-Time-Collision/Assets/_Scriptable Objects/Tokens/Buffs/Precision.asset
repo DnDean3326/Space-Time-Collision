@@ -21,4 +21,4 @@ MonoBehaviour:
   tokenInverses:
   - Blind
   isUnique: 0
-  tokenDescription: 
+  tokenDescription: Ignore adverse tokens on the target with your next ability.
