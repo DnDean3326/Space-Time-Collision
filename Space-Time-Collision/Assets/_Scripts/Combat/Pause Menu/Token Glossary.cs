@@ -13,7 +13,6 @@ public class TokenGlossary : MonoBehaviour
 
     private const float ROW_MAX = 10f;
     private const float GLOSSARY_SPACE = 10f;
-
     
     private BattleSystem battleSystem;
     private List<BattleToken> allTokens;
@@ -21,6 +20,7 @@ public class TokenGlossary : MonoBehaviour
     private RectTransform debuffRect;
     private RectTransform ailmentRect;
     private float glossaryYSize;
+    
     private readonly Color32 buffColor = new Color32(42, 186, 219, 255);
     private readonly Color32 debuffColor = new Color32(192, 61, 35, 255);
     private readonly Color32 ailmentColor = new Color32(173, 105, 198, 255);

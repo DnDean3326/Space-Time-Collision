@@ -84,9 +84,16 @@ public class PartyManager : MonoBehaviour
             }
         }
     }
-    
-    // TODO Build a function to allow the election of abilities from a list
 
+    public List<AllyInfo> GetAllAllies()
+    {
+        List<AllyInfo> allyList = new List<AllyInfo>();
+        foreach (AllyInfo ally in allMembers) {
+            allyList.Add(ally);
+        }
+        return allyList;
+    }
+    
     public List<PartyMember> GetCurrentParty()
     {
         List<PartyMember> aliveParty = new List<PartyMember>();
