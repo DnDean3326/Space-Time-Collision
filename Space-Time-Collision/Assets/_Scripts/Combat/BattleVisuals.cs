@@ -12,7 +12,9 @@ public class BattleVisuals : MonoBehaviour
     
     [Header("Value Info")]
     [SerializeField] private Image healthBar;
+    [SerializeField] private GameObject healthText;
     [SerializeField] private Image defenseBar;
+    [SerializeField] private GameObject defenseText;
     [SerializeField] private TextMeshProUGUI armorText;
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private GameObject targetIndicator;
@@ -30,12 +32,15 @@ public class BattleVisuals : MonoBehaviour
     private int maxDefense;
     private int currentDefense;
     private int armor;
+    private bool wasSharingRow;
     
     private Animator myAnimator;
     private Animator indicatorAnimator;
     private SpriteRenderer visualsSprite;
     private SpriteRenderer auraSprite;
     private Canvas uiCanvas;
+    private TextMeshProUGUI healthTMP;
+    private TextMeshProUGUI defenseTMP;
 
     private List<Image> ailmentImages;
     private List<TextMeshProUGUI> ailmentCountText;
@@ -64,6 +69,15 @@ public class BattleVisuals : MonoBehaviour
         visualsSprite = myVisuals.GetComponent<SpriteRenderer>();
         auraSprite = myAura.GetComponent<SpriteRenderer>();
         uiCanvas = myUI.GetComponent<Canvas>();
+        
+        // Components for HP/Defense text display
+        healthTMP = healthText.GetComponent<TextMeshProUGUI>();
+        defenseTMP = defenseText.GetComponent<TextMeshProUGUI>();
+    }
+
+    private void Start()
+    {
+        HideHealth();
     }
 
     public void SetStartingValues(int maxHealth, int currentHealth, int maxDefense,  int armor)
@@ -73,6 +87,9 @@ public class BattleVisuals : MonoBehaviour
         this.maxDefense = maxDefense;
         this.currentDefense = this.maxDefense;
         this.armor = armor;
+
+        healthTMP.text = this.currentHealth + " / " + this.maxHealth;
+        defenseTMP.text = currentDefense + " / " + this.maxDefense;
         
         armorText.text = armor.ToString();
         UpdateHealthBar();
@@ -82,17 +99,23 @@ public class BattleVisuals : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        float currentHP = (float)currentHealth;
-        float maxHP = (float)maxHealth;
+        float currentHP = currentHealth;
+        float maxHP = maxHealth;
         float hpPercent = (currentHP / maxHP);
+        
+        healthTMP.text = currentHP + " / " + maxHP;
+        
         healthBar.fillAmount = hpPercent;
     }
 
     private void UpdateDefenseBar()
     {
         float currentDP = (float)currentDefense;
-        float maxHP = (float)maxDefense;
-        float defensePercent = (currentDP / maxHP);
+        float maxDP = (float)maxDefense;
+        float defensePercent = (currentDP / maxDP);
+        
+        defenseTMP.text = currentDP + " / " + maxDP;
+        
         defenseBar.fillAmount = defensePercent;
     }
 
@@ -254,4 +277,25 @@ public class BattleVisuals : MonoBehaviour
     }
     
     // OnHover Enter Methods
+
+    public void DisplayHealth()
+    {
+        wasSharingRow = myAnimator.GetBool(SHARED_ROW_BOOL);
+        healthText.SetActive(true);
+        defenseText.SetActive(true);
+        if (wasSharingRow) {
+            myAnimator.SetBool(SHARED_ROW_BOOL, false);
+        }
+    }
+    
+    // OnHover Exit Methods
+
+    public void HideHealth()
+    {
+        healthText.SetActive(false);
+        defenseText.SetActive(false);
+        if (wasSharingRow) {
+            myAnimator.SetBool(SHARED_ROW_BOOL, true);
+        }
+    }
 }
