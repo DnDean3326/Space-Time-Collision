@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 991a463b31075c94bbe797475efa5c6e
+guid: 8f7f435f6eaaec24d81a00ba1adb0ef5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5156776694448688124
-    second: bar_0
+      213: -2701818915754415745
+    second: defense_0
+  - first:
+      213: 4814634074710440713
+    second: defense_1
+  - first:
+      213: 4269632901923139880
+    second: defense_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 600
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -96,43 +102,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bar_0
+      name: defense_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1
-        width: 688
-        height: 212
+        x: 27
+        y: 123
+        width: 485
+        height: 72
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cfb80a2f41d809740800000000000000
-      internalID: 5156776694448688124
+      spriteID: f79e60fc206318ad0800000000000000
+      internalID: -2701818915754415745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: defense_1
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 191
+        width: 25
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90b7b929e2401d240800000000000000
+      internalID: 4814634074710440713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: defense_2
+      rect:
+        serializedVersion: 2
+        x: 493
+        y: 190
+        width: 17
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 821f278b088c04b30800000000000000
+      internalID: 4269632901923139880
       vertices: []
       indices: 
       edges: []
@@ -161,7 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bar_0: 5156776694448688124
+      defense_0: -2701818915754415745
+      defense_1: 4814634074710440713
+      defense_2: 4269632901923139880
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
