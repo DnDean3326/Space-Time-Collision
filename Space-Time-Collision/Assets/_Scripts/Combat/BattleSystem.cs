@@ -2195,8 +2195,8 @@ public class BattleSystem : MonoBehaviour
         bool isDamage;
         if (activeEntity.activeAbilityType == "Damage") {
             isDamage = true;
-            if (activeEntity.activeTokens.All(t => t.tokenName != "Pierce") ||
-                activeEntity.activeTokens.All(t => t.tokenName != "OffGuard")) {
+            if (!IgnoreArmorWithTokens(activeEntity, targetEntity) &&
+                !activeEntity.myAbilities[activeEntity.activeAbility].ignoreArmor) {
                 min -= targetEntity.currentArmor;
                 max -= targetEntity.currentArmor;
             }
@@ -3459,7 +3459,7 @@ public class BattleSystem : MonoBehaviour
     private bool IgnoreArmorWithTokens(BattleEntity attacker, BattleEntity attackTarget)
     {
         return attacker.activeTokens.Any(t => t.tokenName == "Pierce") ||
-               attackTarget.activeTokens.Any(t => t.tokenName == "Pierce");
+               attackTarget.activeTokens.Any(t => t.tokenName == "OffGuard");
     }
 
     private bool IgnoreRestoreWithTokens(BattleEntity healer, BattleEntity healTarget)
@@ -3759,7 +3759,7 @@ public class BattleSystem : MonoBehaviour
                 maxDamageRange = 0;
             }
             damage = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
-            if (!IgnoreArmorWithTokens(attacker, attackTarget) || attacker.myAbilities[attacker.activeAbility].ignoreArmor) {
+            if (!IgnoreArmorWithTokens(attacker, attackTarget) && !attacker.myAbilities[attacker.activeAbility].ignoreArmor) {
                 damage -= attackTarget.currentArmor;
             }
             if (damage < 1) {
@@ -3773,7 +3773,7 @@ public class BattleSystem : MonoBehaviour
                 maxDamageRange = 0;
             }
             damage = Random.Range(minDamageRange, maxDamageRange + 1);
-            if (!IgnoreArmorWithTokens(attacker, attackTarget) || attacker.myAbilities[attacker.activeAbility].ignoreArmor) {
+            if (!IgnoreArmorWithTokens(attacker, attackTarget) && !attacker.myAbilities[attacker.activeAbility].ignoreArmor) {
                 damage -= attackTarget.currentArmor;
             }
             if (damage < 0) {

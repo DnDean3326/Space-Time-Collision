@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Nihil
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Nihil
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
-  abilityType: 0
+  abilityType: 3
   abilityWeight: 1
   costResource: 1
   costAmount: 3
   cooldown: 1
   rangeMin: 1
-  rangeMax: 2
+  rangeMax: 4
   hasAccuracy: 1
   targetSelf: 0
   attackType: 2
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 0
   dmgMax: 0
   critChance: 0
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
