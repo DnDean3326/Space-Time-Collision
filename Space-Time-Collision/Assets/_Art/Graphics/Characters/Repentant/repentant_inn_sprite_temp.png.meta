@@ -1,0 +1,585 @@
+fileFormatVersion: 2
+guid: 75d84f5e519fd4996a09c2519694a7b7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6442265776061010281
+    second: repentant_inn_sprite_temp_0
+  - first:
+      213: 2464469893568069480
+    second: repentant_inn_sprite_temp_1
+  - first:
+      213: 1066510717613142782
+    second: repentant_inn_sprite_temp_2
+  - first:
+      213: 8039337551655234109
+    second: repentant_inn_sprite_temp_3
+  - first:
+      213: -9080617833112218569
+    second: repentant_inn_sprite_temp_4
+  - first:
+      213: 164261846717257315
+    second: repentant_inn_sprite_temp_5
+  - first:
+      213: -8453186425462332288
+    second: repentant_inn_sprite_temp_6
+  - first:
+      213: -8626278685300519737
+    second: repentant_inn_sprite_temp_7
+  - first:
+      213: -4801165854137942955
+    second: repentant_inn_sprite_temp_8
+  - first:
+      213: -6598809949989694937
+    second: repentant_inn_sprite_temp_9
+  - first:
+      213: -6164947644493811666
+    second: repentant_inn_sprite_temp_10
+  - first:
+      213: -7362388549899761930
+    second: repentant_inn_sprite_temp_11
+  - first:
+      213: 8773690804015572663
+    second: repentant_inn_sprite_temp_12
+  - first:
+      213: 9137409470728412595
+    second: repentant_inn_sprite_temp_13
+  - first:
+      213: -845234881582033813
+    second: repentant_inn_sprite_temp_14
+  - first:
+      213: 2700591684831461951
+    second: repentant_inn_sprite_temp_15
+  - first:
+      213: 7602225157795733680
+    second: repentant_inn_sprite_temp_16
+  - first:
+      213: 7665957741443606035
+    second: repentant_inn_sprite_temp_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 43
+        width: 1055
+        height: 1037
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79e2a35c8697896a0800000000000000
+      internalID: -6442265776061010281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 177
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86ff4c59f4e833220800000000000000
+      internalID: 2464469893568069480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_2
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 70
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef27a78d8d10dce00800000000000000
+      internalID: 1066510717613142782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_3
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 70
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3a6ed3b8e6719f60800000000000000
+      internalID: 8039337551655234109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_4
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 63
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 734d444213a2bf180800000000000000
+      internalID: -9080617833112218569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_5
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 70
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3665bbf7743974200800000000000000
+      internalID: 164261846717257315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_6
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 64
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 084e922abbf30ba80800000000000000
+      internalID: -8453186425462332288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_7
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 64
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cc832d5d3d494880800000000000000
+      internalID: -8626278685300519737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_8
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 64
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55c7f54e715de5db0800000000000000
+      internalID: -4801165854137942955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_9
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 63
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7221d8eff415c64a0800000000000000
+      internalID: -6598809949989694937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_10
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 63
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e20b017d7c4b17aa0800000000000000
+      internalID: -6164947644493811666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_11
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 63
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f642d81f9a83d990800000000000000
+      internalID: -7362388549899761930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_12
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 63
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b6a57e1d4962c970800000000000000
+      internalID: 8773690804015572663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_13
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 63
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bd9e0660899ece70800000000000000
+      internalID: 9137409470728412595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_14
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 63
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b64988b7a5f1544f0800000000000000
+      internalID: -845234881582033813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_15
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 64
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f32c0c934dd6a7520800000000000000
+      internalID: 2700591684831461951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_16
+      rect:
+        serializedVersion: 2
+        x: 793
+        y: 0
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b0e3f0b087808960800000000000000
+      internalID: 7602225157795733680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentant_inn_sprite_temp_17
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 0
+        width: 65
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 316e6e923f3f26a60800000000000000
+      internalID: 7665957741443606035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      repentant_inn_sprite_temp_0: -6442265776061010281
+      repentant_inn_sprite_temp_1: 2464469893568069480
+      repentant_inn_sprite_temp_10: -6164947644493811666
+      repentant_inn_sprite_temp_11: -7362388549899761930
+      repentant_inn_sprite_temp_12: 8773690804015572663
+      repentant_inn_sprite_temp_13: 9137409470728412595
+      repentant_inn_sprite_temp_14: -845234881582033813
+      repentant_inn_sprite_temp_15: 2700591684831461951
+      repentant_inn_sprite_temp_16: 7602225157795733680
+      repentant_inn_sprite_temp_17: 7665957741443606035
+      repentant_inn_sprite_temp_2: 1066510717613142782
+      repentant_inn_sprite_temp_3: 8039337551655234109
+      repentant_inn_sprite_temp_4: -9080617833112218569
+      repentant_inn_sprite_temp_5: 164261846717257315
+      repentant_inn_sprite_temp_6: -8453186425462332288
+      repentant_inn_sprite_temp_7: -8626278685300519737
+      repentant_inn_sprite_temp_8: -4801165854137942955
+      repentant_inn_sprite_temp_9: -6598809949989694937
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
