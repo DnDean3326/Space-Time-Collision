@@ -60,7 +60,7 @@ public class RicochetBattleLogic : MonoBehaviour
         List<BulletType> shuffledList = tempList.OrderBy(t => rng.Next()).ToList();
 
         if (isSetup) {
-            List<BattleEntities> partyMembers = battleSystem.GetPartyList();
+            List<BattleEntity> partyMembers = battleSystem.GetPartyList();
 
             if (partyMembers.Any(t => t.myName == "Tre")) {
                 int ricochetPosition = partyMembers.FindIndex(t => t.myName == "Tre");
@@ -91,7 +91,7 @@ public class RicochetBattleLogic : MonoBehaviour
             bulletList.RemoveAt(0);
         }
         
-        List<BattleEntities> partyMembers = battleSystem.GetPartyList();
+        List<BattleEntity> partyMembers = battleSystem.GetPartyList();
         
         if (partyMembers.Any(t => t.myName == "Tre")) {
             int ricochetPosition = partyMembers.FindIndex(t => t.myName == "Tre");
@@ -100,7 +100,7 @@ public class RicochetBattleLogic : MonoBehaviour
         }
     }
 
-    public void RicochetAttackLogic(BattleEntities ricochet, Ability activeAbility, ref int minDamage, ref int maxDamage, ref int critChance,
+    public void RicochetAttackLogic(BattleEntity ricochet, Ability activeAbility, ref int minDamage, ref int maxDamage, ref int critChance,
         ref int selfXTravel, ref int selfYTravel, ref List<BattleToken> selfTokens, ref List<int> selfTokensCount, 
         ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
     {
@@ -280,7 +280,7 @@ public class RicochetBattleLogic : MonoBehaviour
         }
     }
 
-    public void RicochetBuffLogic(BattleEntities ricochet, Ability activeAbility, ref List<BattleToken> selfTokens,
+    public void RicochetBuffLogic(BattleEntity ricochet, Ability activeAbility, ref List<BattleToken> selfTokens,
         ref List<int> selfTokensCount)
     {
         List<BulletType> bulletsUsed;

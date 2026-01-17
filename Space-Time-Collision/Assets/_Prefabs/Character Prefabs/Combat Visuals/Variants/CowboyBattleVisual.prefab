@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CowboyBattleVisual
       objectReference: {fileID: 0}
+    - target: {fileID: 3967796546373067122, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6564135639588113273, guid: dc7e02b286856814db1fd1db96957898, type: 3}
       propertyPath: m_Controller
       value: 

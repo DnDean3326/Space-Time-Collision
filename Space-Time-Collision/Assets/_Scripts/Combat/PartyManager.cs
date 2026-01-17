@@ -73,9 +73,9 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.allyBattleVisualPrefab = allMembers[i].allyBattleVisualPrefab;
                 newPartyMember.allyMenuVisualPrefab = allMembers[i].allyMenuVisualPrefab;
 
-                // TODO Remove this once ability selection is implements
+                // TODO Remove this once ability selection is implemented
                 newPartyMember.activeAbilities = new List<Ability> { allMembers[i].abilities[0],  allMembers[i].abilities[1], 
-                    allMembers[i].abilities[2],  allMembers[i].abilities[3], allMembers[i].stepAbility, allMembers[i].sprintAbility };
+                    allMembers[i].abilities[2],  allMembers[i].abilities[3], allMembers[i].abilities[4], allMembers[i].stepAbility, allMembers[i].sprintAbility };
                 
                 newPartyMember.lineBreakToken = allMembers[i].baseLineBreakToken;
                 newPartyMember.lineBreakTokenCount = allMembers[i].baseLineBreakTokenCount;

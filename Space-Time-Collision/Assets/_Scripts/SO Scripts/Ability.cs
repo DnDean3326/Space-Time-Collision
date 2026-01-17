@@ -126,6 +126,7 @@ public class Ability : ScriptableObject
     
     [Header("Ability Basics")]
     public string abilityName;
+    public int abilityLevel = 1;
     public Sprite abilityIcon;
     public AbilityType abilityType;
     public AbilityWeight abilityWeight;

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Token
   tokenName: Killseeker
   displayName: Killseeker
-  tokenIcon: {fileID: 21300000, guid: 55fa364ea7a055845946e20d82fa4338, type: 3}
+  tokenIcon: {fileID: 21300000, guid: 4f16f3eb98a9bad4eb67239993a740d5, type: 3}
   tokenType: 0
   tokenValue: 1
   tokenCap: 3

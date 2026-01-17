@@ -26,7 +26,7 @@ public class CombatGrid : MonoBehaviour
     private readonly Color movementColor = new Color32(255,255,255, 255);
     
     private BattleSystem battleSystem;
-    private List<BattleEntities> targetList = new List<BattleEntities>();
+    private List<BattleEntity> targetList = new List<BattleEntity>();
     private const int GRID_Y_MAX = 4;
     private const int GRID_X_MAX = 4;
     private const int GRID_COUNT = 16;
@@ -144,7 +144,7 @@ public class CombatGrid : MonoBehaviour
         }
     }
 
-    public void DisplayValidRowBreakTiles(BattleEntities user, int frontRow)
+    public void DisplayValidRowBreakTiles(BattleEntity user, int frontRow)
     {
         int moveMinRange = user.myAbilities[user.activeAbility].rangeMin;
         int moveMaxRange = user.myAbilities[user.activeAbility].rangeMax;
@@ -164,7 +164,7 @@ public class CombatGrid : MonoBehaviour
         }
     }
 
-    public void DisplayValidTiles(BattleEntities user, Ability.AbilityType abilityType,
+    public void DisplayValidTiles(BattleEntity user, Ability.AbilityType abilityType,
         bool targetingEnemy, bool canTargetSelf)
     {
         int abilityMinRange = user.myAbilities[user.activeAbility].rangeMin;
@@ -423,7 +423,7 @@ public class GridTile
 {
     public bool isDestroyed = false;
     public bool isOccupied;
-    public BattleEntities occupiedBy;
+    public BattleEntity occupiedBy;
     public GameObject gridVisual;
     public Transform gridTransform;
     public int xPos;

@@ -1541,7 +1541,7 @@ GameObject:
   - component: {fileID: 7996642026821305257}
   - component: {fileID: -935415495493409887}
   m_Layer: 0
-  m_Name: BuckwyrmEnemyBattleVisual
+  m_Name: EnemyBattleVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
