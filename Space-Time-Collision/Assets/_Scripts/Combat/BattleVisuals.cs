@@ -252,4 +252,6 @@ public class BattleVisuals : MonoBehaviour
         visualsSprite.sortingOrder = newOrder;
         auraSprite.sortingOrder = (newOrder - 1);
     }
+    
+    // OnHover Enter Methods
 }
