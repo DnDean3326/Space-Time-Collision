@@ -1,9 +1,9 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class TokenGlossaryButton : MonoBehaviour
+public class TokenGlossaryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private TokenGlossary tokenGlossary;
-    
     private BattleToken myToken;
     
     private void Awake()
@@ -18,14 +18,14 @@ public class TokenGlossaryButton : MonoBehaviour
     
     // OnHover Enter Methods
 
-    public void CallDisplayTokenEffect()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         tokenGlossary.DisplayTokenEffect(myToken);
     }
     
     // OnHover Exit Methods
-    
-    public void CallRemoveTokenEffect()
+
+    public void OnPointerExit(PointerEventData eventData)
     {
         tokenGlossary.RemoveTokenEffect(myToken);
     }

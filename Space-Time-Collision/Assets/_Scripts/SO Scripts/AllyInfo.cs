@@ -5,7 +5,8 @@ using UnityEngine.Serialization;
 public class AllyInfo : ScriptableObject
 {
     public string allyName;
-    [FormerlySerializedAs("allyPortrait")] public Sprite allyTurnPortrait;
+    public Sprite allyTurnPortrait;
+    public Sprite allyCombatSprite;
     public Sprite allySquarePortrait;
     public Sprite allyShadowPortrait;
     public Sprite allySignature;

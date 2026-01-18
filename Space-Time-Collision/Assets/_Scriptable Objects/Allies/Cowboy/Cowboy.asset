@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
   allyName: Bune
   allyTurnPortrait: {fileID: 21300000, guid: 87c8b018258d24805afb650e4191b966, type: 3}
+  allyCombatSprite: {fileID: -6169908399643279812, guid: 706097724e19a45b2972508852322470, type: 3}
   allySquarePortrait: {fileID: 21300000, guid: f73a56ec6cb2947398d2e24dd016a02d, type: 3}
   allyShadowPortrait: {fileID: 21300000, guid: 3be356eaf763547488d9f4c120038082, type: 3}
   allySignature: {fileID: 21300000, guid: 18d547cb5286e4246af70cbdcd1ae2a9, type: 3}
