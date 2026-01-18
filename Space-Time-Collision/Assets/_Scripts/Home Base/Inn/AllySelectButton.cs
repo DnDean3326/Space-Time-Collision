@@ -15,6 +15,13 @@ public class AllySelectButton : MonoBehaviour, IPointerEnterHandler
     {
         myAlly = ally;
     }
+    
+    // OnClick Methods
+
+    public void CallAddPartyMember()
+    {
+        innFunctionality.AddPartyMember(myAlly);
+    }
 
     // OnHover Enter Methods
 

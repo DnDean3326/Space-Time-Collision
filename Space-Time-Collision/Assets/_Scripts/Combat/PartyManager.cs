@@ -23,9 +23,7 @@ public class PartyManager : MonoBehaviour
             Destroy(gameObject);
         } else {
             _instance = gameObject;
-            AddMemberToPartyByName(defaultPartyMembers[1].allyName, BASE_LEVEL);
             AddMemberToPartyByName(defaultPartyMembers[0].allyName, BASE_LEVEL);
-            AddMemberToPartyByName(defaultPartyMembers[2].allyName, BASE_LEVEL);
         }
         
         DontDestroyOnLoad(gameObject);
@@ -36,7 +34,7 @@ public class PartyManager : MonoBehaviour
         ricochetLogic.InitializeRicochet(currentParty);
     }
 
-    private void AddMemberToPartyByName(string memberName, int level)
+    public void AddMemberToPartyByName(string memberName, int level)
     {
         for (int i = 0; i < allMembers.Length; i++) {
             if (allMembers[i].allyName == memberName) {
@@ -44,6 +42,7 @@ public class PartyManager : MonoBehaviour
                 
                 newPartyMember.memberName = allMembers[i].allyName;
                 newPartyMember.memberPortrait = allMembers[i].allyTurnPortrait;
+                newPartyMember.memberSquarePortrait = allMembers[i].allySquarePortrait;
                 newPartyMember.level = level;
 
                 // TODO let players set their party formation
@@ -130,6 +129,7 @@ public class PartyMember
 {
     public string memberName;
     public Sprite memberPortrait;
+    public Sprite memberSquarePortrait;
     public int level;
 
     public int xPos;
