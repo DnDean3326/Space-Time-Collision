@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: AP Round
+  m_Name: Armor Busting Round
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Armor-Penetrating Round
+  abilityName: Armor Busting Round
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 5
   dmgMax: 7
   critChance: 20
+  extraCasts: 0
   secondaryTarget: 3
   secondaryStat: 0
   secondaryStatModifier: 0

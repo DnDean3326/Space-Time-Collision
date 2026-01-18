@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -31,6 +32,7 @@ public class AllyInfo : ScriptableObject
     public GameObject allyMenuVisualPrefab; // what will be displayed on the map
 
     public Ability[] abilities;
+    public List<Ability> equippedAbilities;
     public Ability stepAbility;
     public Ability sprintAbility;
     

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class InnFunctionality : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class InnFunctionality : MonoBehaviour
 
     [Header("Ability Select UI")]
     [SerializeField] private GameObject abilitySelection;
+    [FormerlySerializedAs("activeAbilityDisplay")] [SerializeField] private GameObject activeEquippedDisplay;
+    [FormerlySerializedAs("activeAbilitySlots")] [SerializeField] private GameObject[] activeEquippedSlots;
     [SerializeField] private GameObject abilityPrefab;
     [SerializeField] private Sprite lightBorder;
     [SerializeField] private Sprite mediumBorder;
@@ -37,12 +40,17 @@ public class InnFunctionality : MonoBehaviour
     private const float ABILITY_ROW_MAX = 3;
     private const float ABILITY_Y_SPACE = 10;
     
+    private readonly Color32 levelOneColor = new Color32(206,137,70, 255);
+    
     private List<AllyInfo> allyList;
-    private PartyManager partyManager;
+    private List<AllyInfo> preppedMembers = new List<AllyInfo>();
+    private AllyInfo displayedMember;
     private RectTransform allySelectionRect;
     private float allyYSize;
     private RectTransform abilitySelectionRect;
     private float abilityYSize;
+    
+    private PartyManager partyManager;
 
     private void Awake()
     {
@@ -62,6 +70,7 @@ public class InnFunctionality : MonoBehaviour
         abilitySelectionRect = abilitySelection.GetComponent<RectTransform>();
         
         CreateAllyList();
+        SetPreppedMembers();
         UpdatePartyDisplay();
     }
 
@@ -94,17 +103,26 @@ public class InnFunctionality : MonoBehaviour
         allySelectionRect.sizeDelta = new Vector2(width, height);
     }
 
+    private void SetPreppedMembers()
+    {
+        preppedMembers.Clear();
+        List<PartyMember> activeParty = partyManager.GetCurrentParty();
+        foreach (PartyMember member in activeParty) {
+            AllyInfo ally = allyList.Find(t => t.allyName == member.memberName);
+            preppedMembers.Add(ally);
+        }
+    }
+
     private void UpdatePartyDisplay()
     {
-        List<PartyMember> activeParty = partyManager.GetCurrentParty();
-        for (var i = 0; i < partyDisplays.Length; i++) {
+        for (int i = 0; i < partyDisplays.Length; i++) {
             var display = partyDisplays[i];
             GameObject tempDisplay = display.transform.GetChild(1).gameObject;
-            if (i < activeParty.Count) {
-                AllyInfo tempAlly = allyList.Find(t => t.allyName == activeParty[i].memberName);
+            if (i < preppedMembers.Count) {
+                AllyInfo tempAlly = allyList.Find(t => t.allyName == preppedMembers[i].allyName);
                 display.GetComponent<AllySelectButton>().SetMyAlly(tempAlly);
                 tempDisplay.SetActive(true);
-                tempDisplay.GetComponent<Image>().sprite = activeParty[i].memberSquarePortrait;
+                tempDisplay.GetComponent<Image>().sprite = preppedMembers[i].allySquarePortrait;
             } else {
                 tempDisplay.SetActive(false);
             }
@@ -113,18 +131,33 @@ public class InnFunctionality : MonoBehaviour
 
     public void AddPartyMember(AllyInfo ally)
     {
-        List<PartyMember> activeParty = partyManager.GetCurrentParty();
-        if (activeParty.Any(t => t.memberName == ally.allyName)) {
-            int partyIndex = activeParty.FindIndex(t => t.memberName == ally.allyName);
-            activeParty.RemoveAt(partyIndex);
+        if (preppedMembers.Any(t => t == ally)) {
+            preppedMembers.Remove(ally);
         } else {
-            partyManager.AddMemberToPartyByName(ally.allyName, 1);
+            preppedMembers.Add(ally);
         }
         UpdatePartyDisplay();
     }
 
+    public void AddAbility(Ability ability)
+    {
+        if (displayedMember.equippedAbilities.Any(t => t == ability)) {
+            print("Remove ability");
+            displayedMember.equippedAbilities.Remove(ability);
+        } else if (displayedMember.equippedAbilities.Count >= 5) {
+            print("Too many abilities");
+            // Do nothing
+        } else {
+            print("Add ability");
+            displayedMember.equippedAbilities.Add(ability);
+        }
+        UpdateEquippedAbilities(displayedMember);
+    }
+
     public void DisplayAllyInfo(AllyInfo ally)
     {
+        displayedMember = ally;
+        
         if (!allyPreview.activeSelf) {
             allyPreview.SetActive(true);
         }
@@ -164,7 +197,11 @@ public class InnFunctionality : MonoBehaviour
         }
         foreach (Ability ability in ally.abilities) {
             GameObject tempAbility = Instantiate(abilityPrefab, abilitySelection.transform);
+            AbilitySelectButton tempButton = tempAbility.GetComponent<AbilitySelectButton>();
+            tempButton.SetMyAbility(ability);
+            
             //tempAbility.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = ability.abilityIcon;
+            tempAbility.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.white;
             
             Sprite tempSprite;
             switch (ability.abilityWeight) {
@@ -180,7 +217,10 @@ public class InnFunctionality : MonoBehaviour
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            tempAbility.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = tempSprite;
+
+            Image abilityBorder = tempAbility.transform.GetChild(1).gameObject.GetComponent<Image>();
+            abilityBorder.sprite = tempSprite;
+            abilityBorder.color = levelOneColor;
             
             tempAbility.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = ability.abilityName;
         }
@@ -191,6 +231,59 @@ public class InnFunctionality : MonoBehaviour
         float height = (abilityYSize * 2 + ABILITY_Y_SPACE) + ((abilityYSize + ABILITY_Y_SPACE) * (rowCount - 2)) + 5;
         
         abilitySelectionRect.sizeDelta = new Vector2(width, height);
+
+        UpdateEquippedAbilities(ally);
+    }
+
+    private void UpdateEquippedAbilities(AllyInfo ally)
+    {
+        if (!activeEquippedDisplay.activeSelf) {
+            activeEquippedDisplay.SetActive(true);
+        }
+        
+        for (int i = 0; i < activeEquippedSlots.Length; i++) {
+            GameObject abilitySlot = activeEquippedSlots[i];
+
+            if (i < ally.equippedAbilities.Count) {
+                Ability ability = ally.equippedAbilities[i];
+
+                AbilitySelectButton abilitySlotButton = abilitySlot.GetComponent<AbilitySelectButton>();
+                abilitySlotButton.SetMyAbility(ability);
+            
+                //abilitySlot.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = ability.abilityIcon;
+                abilitySlot.transform.GetChild(0).gameObject.GetComponent<Image>().color = Color.white;
+            
+                Sprite tempSprite;
+                switch (ability.abilityWeight) {
+                    case Ability.AbilityWeight.Heavy:
+                        tempSprite = heavyBorder;
+                        break;
+                    case Ability.AbilityWeight.Medium:
+                        tempSprite = mediumBorder;
+                        break;
+                    case Ability.AbilityWeight.Light:
+                        tempSprite = lightBorder;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                Image abilityBorder = abilitySlot.transform.GetChild(1).gameObject.GetComponent<Image>();
+                abilityBorder.sprite = tempSprite;
+                abilityBorder.color = levelOneColor;
+                
+                abilitySlot.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = ability.abilityName;
+            } else {
+                Image abilityIcon = activeEquippedSlots[i].transform.GetChild(0).GetComponent<Image>();
+                abilityIcon.sprite = null;
+                abilityIcon.color = Color.black;
+                
+                Image abilityBorder =  activeEquippedSlots[i].transform.GetChild(1).GetComponent<Image>();
+                abilityBorder.sprite = lightBorder;
+                abilityBorder.color = Color.gray3;
+                
+                abilitySlot.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = "";
+            }
+        }
     }
     
     // OnClick Methods
@@ -198,5 +291,8 @@ public class InnFunctionality : MonoBehaviour
     public void ConfirmParty()
     {
         SceneManager.LoadScene(BASE_SCENE);
+        foreach (AllyInfo ally in preppedMembers) {
+            partyManager.AddMemberToPartyByName(ally.allyName, 1); // TODO add in party positioning
+        }
     }
 }

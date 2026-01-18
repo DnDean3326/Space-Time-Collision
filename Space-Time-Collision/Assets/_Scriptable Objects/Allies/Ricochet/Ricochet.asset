@@ -55,6 +55,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7cb45c1adcc16504a970193f6feaec35, type: 2}
   - {fileID: 11400000, guid: 06bf1b282f6fe6647bd75a5e0ff24f4a, type: 2}
   - {fileID: 11400000, guid: c037c5042cb8cf945b8fd6e0f4d3369d, type: 2}
+  equippedAbilities:
+  - {fileID: 11400000, guid: 257dae12db8cbc14a8132c0f7d2138ad, type: 2}
+  - {fileID: 11400000, guid: c037c5042cb8cf945b8fd6e0f4d3369d, type: 2}
+  - {fileID: 11400000, guid: aa715397420e6964aba317e1e5c04a50, type: 2}
+  - {fileID: 11400000, guid: 1566e28c186fbb74db25d0d13f0ef0c5, type: 2}
+  - {fileID: 11400000, guid: f609df36696dfbd4fa01fd6c5189354a, type: 2}
   stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
   sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
   baseLineBreakToken: {fileID: 11400000, guid: 096701f00a8463647a9b41da08bcc634, type: 2}
