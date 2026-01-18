@@ -24,6 +24,8 @@ public class InnFunctionality : MonoBehaviour
     
     [Header("Ally Preview")]
     [SerializeField] private GameObject allyPreview;
+    [SerializeField] private GameObject statDisplay;
+    [SerializeField] private GameObject resistDisplay;
     [SerializeField] private Image allySprite;
     [SerializeField] private Image allyShadowPortrait;
     [SerializeField] private Image allyName;
@@ -58,10 +60,6 @@ public class InnFunctionality : MonoBehaviour
         
         allySelectionRect = allySelection.GetComponent<RectTransform>();
         abilitySelectionRect = abilitySelection.GetComponent<RectTransform>();
-
-        foreach (GameObject display in partyDisplays) {
-            
-        }
         
         CreateAllyList();
         UpdatePartyDisplay();
@@ -138,6 +136,28 @@ public class InnFunctionality : MonoBehaviour
         } else {
             allyName.gameObject.SetActive(false);
         }
+
+        if (!statDisplay.activeSelf) {
+            statDisplay.SetActive(true);
+        }
+        if (!resistDisplay.activeSelf) {
+            resistDisplay.SetActive(true);
+        }
+        
+        statDisplay.transform.Find("Health").GetComponent<TextMeshProUGUI>().text = "<u>Health</u>: " + ally.baseHealth;
+        statDisplay.transform.Find("Defense").GetComponent<TextMeshProUGUI>().text = "<u>Defense</u>: " + ally.baseDefense;
+        statDisplay.transform.Find("Armor").GetComponent<TextMeshProUGUI>().text = "<u>Armor</u>: " + ally.baseArmor;
+        statDisplay.transform.Find("Spirit").GetComponent<TextMeshProUGUI>().text = "<u>Spirit</u>: " + ally.baseSpirit;
+        statDisplay.transform.Find("Power").GetComponent<TextMeshProUGUI>().text = "<u>Power</u>: " + ally.basePower;
+        statDisplay.transform.Find("Skill").GetComponent<TextMeshProUGUI>().text = "<u>Skill</u>: " + ally.baseSkill;
+        statDisplay.transform.Find("Wit").GetComponent<TextMeshProUGUI>().text = "<u>Wit</u>: " + ally.baseWit;
+        statDisplay.transform.Find("Mind").GetComponent<TextMeshProUGUI>().text = "<u>Mind</u>: " + ally.baseMind;
+        statDisplay.transform.Find("Speed").GetComponent<TextMeshProUGUI>().text = "<u>Speed</u>: " + ally.baseSpeed;
+        statDisplay.transform.Find("Luck").GetComponent<TextMeshProUGUI>().text = "<u>Luck</u>: " + ally.baseLuck;
+
+        resistDisplay.transform.Find("Stun Resist").GetComponent<TextMeshProUGUI>().text = "<u>Stun</u>:\n" + ally.baseStunResist + "%";
+        resistDisplay.transform.Find("Debuff Resist").GetComponent<TextMeshProUGUI>().text = "<u>Debuff</u>:\n" + ally.baseDebuffResist + "%";
+        resistDisplay.transform.Find("Ailment Resist").GetComponent<TextMeshProUGUI>().text = "<u>Ailment</u>:\n" + ally.baseAilmentResist + "%";
 
         foreach (Transform child in abilitySelection.transform) {
             Destroy(child.gameObject);
