@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class AbilitySelectButton : MonoBehaviour, IPointerEnterHandler
+public class AbilitySelectButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private InnFunctionality innFunctionality;
     private Ability myAbility;
@@ -20,7 +20,6 @@ public class AbilitySelectButton : MonoBehaviour, IPointerEnterHandler
 
     public void CallAddAbility()
     {
-        print("I was clicked");
         innFunctionality.AddAbility(myAbility);
     }
 
@@ -28,6 +27,11 @@ public class AbilitySelectButton : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        print("OnPointerEnter");
+        innFunctionality.DisplayAbilityEffect(myAbility);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        innFunctionality.HideAbilityEffect();
     }
 }

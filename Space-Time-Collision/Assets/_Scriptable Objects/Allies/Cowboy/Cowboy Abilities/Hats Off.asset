@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Hats Off
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Hats Off
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 2
   abilityWeight: 1
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 0
   dmgMax: 0
   critChance: 20
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,12 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Buff | Crit: 20%'
+  description: 'Weight: Medium | Cost: 3 SP
+
+    CD: 1 | Range: 2-4
+
+    Apply Block
+    II.
+
+    On a crit apply Boost I.'

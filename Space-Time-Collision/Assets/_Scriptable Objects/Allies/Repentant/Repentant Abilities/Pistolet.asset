@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Pistolet
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Pistolet
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 1
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 2
   dmgMax: 6
   critChance: 25
+  extraCasts: 0
   secondaryTarget: 4
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,17 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 1
-  description: 
+  equipDescription: 'Type: Damage | Crit: 25%
+
+    DMG: 2-6 | DMG Modifier: Skill'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: N/A | Range: 2-6
+
+    Ignore
+    Armor.
+
+    Reduce the target''s action points by 10.
+
+    On a crit apply Vulernable
+    I.'

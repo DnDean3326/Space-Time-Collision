@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Ranging Thrust
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Ranging Thrust
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 1
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 3
   dmgMax: 6
   critChance: 20
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,15 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 20%
+
+    DMG: 3-7 | DMG Modifier: Power'
+  description: 'Weight: Heavy | Cost: N/A
+
+    CD: N/A | Range: 1-4
+
+    Gain Dodge
+    I on a critical hit.
+
+    Ascension I: This ablility''s critical chance is increased
+    by 50%.'

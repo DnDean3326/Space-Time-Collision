@@ -13,21 +13,22 @@ MonoBehaviour:
   m_Name: Risky Reload
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Risky Reload
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
   costResource: 1
   costAmount: 1
   cooldown: 2
-  rangeMin: 2
-  rangeMax: 6
+  rangeMin: 1
+  rangeMax: 5
   hasAccuracy: 1
   targetSelf: 0
   attackType: 1
   keyStat: 2
   statModifier: 1
   dmgMin: 3
-  dmgMax: 6
+  dmgMax: 9
   critChance: 25
   extraCasts: 0
   secondaryTarget: 0
@@ -60,4 +61,18 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 25%
+
+    DMG: 3-9 | DMG Modifier: Skill'
+  description: 'Weight: Heavy | Cost: 1 Bullet
+
+    CD: N/A | Range: 1-5
+
+    Reload
+    your clip with 2 critical bullets and 2 misfires, then deal damage using the
+    newly loaded bullets.
+
+    On a crit apply Stun I.
+
+    Misfire: Gain Off-Guard
+    I and Slow I.'

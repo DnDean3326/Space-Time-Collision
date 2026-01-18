@@ -21,5 +21,6 @@ public class Token : ScriptableObject
     public List<String> tokenInverses;
     public bool isUnique;
 
+    [TextArea(10,20)]
     public string tokenDescription;
 }

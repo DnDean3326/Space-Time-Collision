@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Wrangle
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Wrangle
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 2
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 0
   dmgMax: 0
   critChance: 30
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,13 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Buff | Crit: 30%'
+  description: 'Weight: Heavy | Cost: 2 SP
+
+    CD: 1 | Range: 1-3
+
+    Pull the
+    target 1 tile to the right. Apply Block I and Restrict I.
+
+    On a crit apply
+    Boost I.'

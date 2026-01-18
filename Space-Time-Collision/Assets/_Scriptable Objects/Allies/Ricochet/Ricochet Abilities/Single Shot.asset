@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Single Shot
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Single Shot
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -60,4 +61,14 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 15%
+
+    DMG: 4-8 | DMG Modifier: Skill'
+  description: 'Weight: Heavy | Cost: 1 Bullet
+
+    CD: N/A | Range: 3-8
+
+    On
+    a crit apply Stagger I.
+
+    Incendiary Bullet: Apply Burn III'

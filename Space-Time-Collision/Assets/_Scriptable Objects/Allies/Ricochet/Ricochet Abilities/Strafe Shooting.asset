@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Strafe Shooting
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Strafe Shooting
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -60,4 +61,22 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 15%
+
+    DMG: 3-6 | DMG Modifier: Skill'
+  description: 'Weight: Medium | Cost: 3 Bullets
+
+    CD: N/A | Range: 2-7
+
+    Move
+    1 tile towards the center.
+
+    Reveal the next X bullets in the clip where X
+    is the number of normal bullets used.
+
+    Crit Bullet: Move one extra tile.
+
+    Incendiary
+    Bullet: Apply Burn II.
+
+    Misfire: Instead reduce the damage dealt by 4.'

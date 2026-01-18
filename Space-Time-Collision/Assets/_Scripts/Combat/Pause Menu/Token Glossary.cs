@@ -158,7 +158,7 @@ public class TokenGlossary : MonoBehaviour
     
     // OnHover Exit Methods
 
-    public void RemoveTokenEffect(BattleToken token)
+    public void RemoveTokenEffect()
     {
         Tooltip.HideTooltip_Static();
     }

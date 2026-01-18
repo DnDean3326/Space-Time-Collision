@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Weighted End
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Weighted End
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 4
   dmgMax: 6
   critChance: 10
+  extraCasts: 0
   secondaryTarget: 3
   secondaryStat: 1
   secondaryStatModifier: 1
@@ -59,4 +61,10 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 10%
+
+    DMG: 4-6 | DMG Modifier: Power
+    * 2'
+  description: "Weight: Heavy | Cost: N/A\nCD: 1 | Range: 1-3\nGain Vulnerable I
+    and Off-Guard I.\nDeal Armor damage equal to your Power. \nPush the target back
+    2 tiles.\nAscension 1: Do not gain Vulnerable I."

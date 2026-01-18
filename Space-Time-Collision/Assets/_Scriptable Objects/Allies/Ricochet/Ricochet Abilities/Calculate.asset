@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Calculate
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Calculate
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 2
   abilityWeight: 1
@@ -60,4 +61,10 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Buff | Crit: 0%'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: 2 | Range: Self
+
+    Gain Precision
+    I, Ricochet I, and reveal the next bullet.'

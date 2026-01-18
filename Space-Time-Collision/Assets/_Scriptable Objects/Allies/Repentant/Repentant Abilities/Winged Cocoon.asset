@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Winged Cocoon
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Winged Cocoon
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 1
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 3
   dmgMax: 6
   critChance: 15
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,16 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Heal | Crit: 15%
+
+    Heal: 3-6 | Heal Modifier: Mind'
+  description: 'Weight: Heavy | Cost: 2 SP
+
+    CD: 1 | Range: Self
+
+    Requires
+    Ascension I+.
+
+    Gain Dodge I and Ward I.
+
+    On a crit gain Dodge+.'

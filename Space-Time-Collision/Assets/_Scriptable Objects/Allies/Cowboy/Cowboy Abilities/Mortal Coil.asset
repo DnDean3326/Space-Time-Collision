@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Mortal Coil
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Mortal Coil
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 3
   abilityWeight: 2
   costResource: 1
   costAmount: 4
   cooldown: 3
-  rangeMin: 2
+  rangeMin: 1
   rangeMax: 5
   hasAccuracy: 1
   targetSelf: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 0
   dmgMax: 0
   critChance: 0
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,10 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Debuff | Crit: 0%'
+  description: 'Weight: Light | Cost: 4 SP
+
+    CD: 3 | Range: 1-5
+
+    Apply Vulnerable
+    II and Crit I to the target.'

@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Computerized Fire
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Computerized Fire
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
   costResource: 1
-  costAmount: 4
+  costAmount: 5
   cooldown: 2
   rangeMin: 3
   rangeMax: 7
@@ -60,4 +61,19 @@ MonoBehaviour:
   ignoreDodge: 1
   ignoreWard: 0
   ignoreArmor: 1
-  description: 
+  equipDescription: 'Type: Damage | Crit: 5%
+
+    DMG: 5-10 | DMG Modifier: Skill'
+  description: 'Weight: Heavy | Cost: 5 Bullets
+
+    CD: 2 | Range: 2-7
+
+    Ignore
+    Dodge, Ignore Armor.
+
+    Crit Bullet: Deal +2 damage instead of guaranteeing
+    a crit.
+
+    Incendiary Bullet: Apply Burn I.
+
+    Misfire: No effect.'

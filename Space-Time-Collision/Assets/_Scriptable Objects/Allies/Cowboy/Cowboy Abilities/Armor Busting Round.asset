@@ -61,4 +61,14 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 20%
+
+    DMG: 5-7 | DMG Modifier: Skill'
+  description: 'Weight: Heavy | Cost: N/A
+
+    CD: 1 | Range: 3-8
+
+    Deal 2 armor
+    damage.
+
+    On a crit apply Vulnerable I.'

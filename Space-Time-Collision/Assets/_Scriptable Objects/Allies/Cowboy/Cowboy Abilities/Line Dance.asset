@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Line Dance
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Line Dance
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 2
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 0
   dmgMax: 0
   critChance: 10
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,12 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Buff | Crit: 10%'
+  description: 'Weight: Heavy | Cost: N/A
+
+    CD: 2 | Range: Self
+
+    Move right
+    1 tile and gain Block I and Taunt II.
+
+    On a crit gain Boost I.'

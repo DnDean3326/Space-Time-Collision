@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Ravages of Time
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Ravages of Time
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 3
   abilityWeight: 1
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 0
   dmgMax: 0
   critChance: 20
+  extraCasts: 0
   secondaryTarget: 4
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,15 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 20%
+
+    DMG: 1-4 | DMG Modifier: Wit'
+  description: 'Weight: Medium | Cost: 5 SP
+
+    CD: 2 | Range: 1-4
+
+    Apply Slow
+    I and Off-Guard I. On a crit apply Stagger I.
+
+    Reduce the target''s action
+    points by 30.'

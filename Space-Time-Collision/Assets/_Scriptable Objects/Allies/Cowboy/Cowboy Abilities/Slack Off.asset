@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Slack Off
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Slack Off
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 1
   abilityWeight: 0
@@ -60,4 +61,15 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Heal | Crit: 10%
+
+    Heal: 8-16 | Heal Modifier: Power'
+  description: 'Weight: Heavy | Cost: N/A
+
+    CD: 2 | Range: Self
+
+    Gain Vice
+    I, Restrict II and reduce your action points by 50.
+
+    On a crit gain Block
+    II.'

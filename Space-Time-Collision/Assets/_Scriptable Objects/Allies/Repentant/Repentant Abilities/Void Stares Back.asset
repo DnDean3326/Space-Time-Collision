@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Void Stares Back
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Void Stares Back
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 3
   abilityWeight: 1
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 0
   dmgMax: 0
   critChance: 10
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,15 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Debuff | Crit: 10%'
+  description: 'Weight: Medium | Cost: 2 SP
+
+    CD: 1 | Range: 1-6
+
+    Requires
+    Ascension I+.
+
+    Apply Blind II and Vulnerable I.
+
+    On a crit apply Slow
+    I.'

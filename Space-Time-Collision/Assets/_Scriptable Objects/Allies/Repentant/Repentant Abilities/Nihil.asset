@@ -61,4 +61,15 @@ MonoBehaviour:
   ignoreDodge: 1
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Debuff | Crit: 0%'
+  description: 'Weight: Medium | Cost: 3 SP
+
+    CD: 1 | Range: 1-4
+
+    Ignore
+    Dodge.
+
+    Remove all Block and Dodge from the target.
+
+    If the target has
+    Ascension steal one Ascension token.'

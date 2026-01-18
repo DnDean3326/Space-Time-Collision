@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Burning Buckshot
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Burning Buckshot
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 1
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 2
   dmgMax: 6
   critChance: 15
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,14 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 15%
+
+    DMG: 2-6 | DMG Modifier: Skill'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: N/A | Range: 1-3
+
+    Apply Burn
+    equal to your Vice.
+
+    On a critical hit apply extra Burn equal to your Vice.'

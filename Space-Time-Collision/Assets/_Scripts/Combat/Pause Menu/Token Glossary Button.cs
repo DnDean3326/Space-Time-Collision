@@ -27,6 +27,6 @@ public class TokenGlossaryButton : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        tokenGlossary.RemoveTokenEffect(myToken);
+        tokenGlossary.RemoveTokenEffect();
     }
 }

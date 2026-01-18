@@ -188,5 +188,8 @@ public class Ability : ScriptableObject
     public bool ignoreArmor;
     
     [Header("Description")]
+    [TextArea(5,20)]
+    public string equipDescription;
+    [TextArea(10,20)]
     public string description;
 }

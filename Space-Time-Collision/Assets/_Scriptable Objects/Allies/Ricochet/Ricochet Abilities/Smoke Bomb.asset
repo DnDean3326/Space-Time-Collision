@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Smoke Bomb
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Smoke Bomb
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 3
   abilityWeight: 1
@@ -60,4 +61,10 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Debuff | Crit: 10%'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: 2 | Range: 2-5
+
+    Apply Blind
+    I and gain Stealth II. On a crit apply Blind I.'

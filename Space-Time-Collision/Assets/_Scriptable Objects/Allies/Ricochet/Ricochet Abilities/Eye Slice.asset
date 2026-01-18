@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Eye Slice
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Eye Slice
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -60,4 +61,12 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 10%
+
+    DMG: 3-6 | DMG Modifier: Power'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: 1 | Range: 1-2
+
+    Apply Blind
+    I and Bleed II.'

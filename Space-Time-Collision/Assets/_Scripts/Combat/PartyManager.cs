@@ -122,6 +122,11 @@ public class PartyManager : MonoBehaviour
     {
         currentParty[partyMember].currentSpirit = spirit;
     }
+
+    public void ClearCurrentParty()
+    {
+        currentParty.Clear();
+    }
     
 }
 

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Sinful Shell
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Sinful Shell
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 4
   dmgMax: 8
   critChance: 25
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,13 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 5%
+
+    DMG: 4-8 | DMG Modifier: Target
+    Debuffs * 2'
+  description: 'Weight: Heavy | Cost: 2 SP
+
+    CD: N/A | Range: 3-7
+
+    On a crit
+    apply Off-Guard II.'

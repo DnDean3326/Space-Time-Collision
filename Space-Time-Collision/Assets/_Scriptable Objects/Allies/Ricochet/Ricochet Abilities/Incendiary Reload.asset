@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Incendiary Reload
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Incendiary Reload
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 2
   abilityWeight: 2
@@ -60,4 +61,10 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Buff | Crit: 0%'
+  description: 'Weight: Light | Cost: N/A
+
+    CD: 2 | Range: Self
+
+    Reload
+    your clip with 3 incendiary and 1 mifire.'

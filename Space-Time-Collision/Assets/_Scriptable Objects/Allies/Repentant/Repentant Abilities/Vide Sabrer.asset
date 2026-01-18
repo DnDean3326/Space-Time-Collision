@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Vide Sabrer
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Vide Sabrer
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 1
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 2
   dmgMax: 5
   critChance: 5
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,17 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 5%
+
+    DMG: 2-5 | DMG Modifier: Power'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: N/A | Range: 1-2
+
+    Gain
+    60 action points.
+
+    If the target has Ascension steal one token.
+
+    Ascension
+    II: Increase the action point gain by 40.'

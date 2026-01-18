@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Shield Battery
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Shield Battery
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 1
   abilityWeight: 1
@@ -60,4 +61,12 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Heal | Crit: 5%
+
+    Heal: 3-7 | Heal Modifier: Wit'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: 2 | Range: 0-2
+
+    Apply Block
+    I.'

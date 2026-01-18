@@ -142,13 +142,10 @@ public class InnFunctionality : MonoBehaviour
     public void AddAbility(Ability ability)
     {
         if (displayedMember.equippedAbilities.Any(t => t == ability)) {
-            print("Remove ability");
             displayedMember.equippedAbilities.Remove(ability);
         } else if (displayedMember.equippedAbilities.Count >= 5) {
-            print("Too many abilities");
             // Do nothing
         } else {
-            print("Add ability");
             displayedMember.equippedAbilities.Add(ability);
         }
         UpdateEquippedAbilities(displayedMember);
@@ -285,12 +282,25 @@ public class InnFunctionality : MonoBehaviour
             }
         }
     }
+
+    public void DisplayAbilityEffect(Ability ability)
+    {
+        string abilityDescription = ability.equipDescription + "\n" + ability.description;
+
+        Tooltip.ShowTooltip_Static("", abilityDescription);
+    }
+
+    public void HideAbilityEffect()
+    {
+        Tooltip.HideTooltip_Static();
+    }
     
     // OnClick Methods
     
     public void ConfirmParty()
     {
         SceneManager.LoadScene(BASE_SCENE);
+        partyManager.ClearCurrentParty();
         foreach (AllyInfo ally in preppedMembers) {
             partyManager.AddMemberToPartyByName(ally.allyName, 1); // TODO add in party positioning
         }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Forgotten By Time
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Forgotten By Time
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 2
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 0
   dmgMax: 0
   critChance: 0
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,12 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Buff | Crit: 0%'
+  description: 'Weight: Heavy | Cost: 3 SP
+
+    CD: 2 | Range: Self
+
+    Gain Stealth
+    II and Rush I.
+
+    Descenion I: Gain Critical I.'

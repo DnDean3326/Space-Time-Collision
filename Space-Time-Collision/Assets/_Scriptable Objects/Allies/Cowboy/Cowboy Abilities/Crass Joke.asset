@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Crass Joke
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Crass Joke
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 3
   abilityWeight: 1
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 0
   dmgMax: 0
   critChance: 15
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,12 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Debuff | Crit: 15%'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: 2 | Range: 1-3
+
+    Apply Break
+    II and gain Taunt I.
+
+    On a crit gain Boost I.'

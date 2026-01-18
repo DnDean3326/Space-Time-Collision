@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Temporal Rend
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Temporal Rend
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 3
   dmgMax: 6
   critChance: 15
+  extraCasts: 0
   secondaryTarget: 4
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,15 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 15%
+
+    DMG: 3-6 | DMG Modifier: Wit'
+  description: 'Weight: Medium | Cost: 3 SP
+
+    CD: 1 | Range: 1-5
+
+    Reduce
+    the target''s action points by 50. Reduce the target''s Ascension tokens by 1.
+
+    Descension
+    I: Increase the action point reduction by 50 and deal +Wit extra damage.'

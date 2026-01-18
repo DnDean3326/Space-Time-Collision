@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Slide Fire
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Slide Fire
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 1
@@ -60,4 +61,20 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 20%
+
+    DMG: 4-7 | DMG Modifier: Skill'
+  description: 'Weight: Medium | Cost: 3 Bullets
+
+    CD: N/A | Range: 3-7
+
+    Move
+    1 tile to the right. Gain Dodge I for each tile moved.
+
+    Crit Bullet: Move
+    one extra tile.
+
+    Incendiary Bullet: Apply Burn II.
+
+    Misfire: Instead
+    reduce the damage dealt by 4.'

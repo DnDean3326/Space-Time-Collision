@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Get Ovah Here
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Get Ovah Here
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 1
   dmgMax: 3
   critChance: 0
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,14 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 10%
+
+    DMG: 1-3 | DMG Modifier: Power'
+  description: 'Weight: Heavy | Cost: N/A
+
+    CD: 1 | Range: 2-4
+
+    Pull the target
+    2 tiles to the left and apply Vulnerable I.
+
+    On a crit apply Restrict I.'

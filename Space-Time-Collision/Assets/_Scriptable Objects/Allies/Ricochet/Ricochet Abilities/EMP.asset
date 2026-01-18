@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EMP
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: EMP
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 3
   abilityWeight: 1
@@ -60,4 +61,10 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Debuff | Crit: 10%'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: 2 | Range: 2-5
+
+    Apply Break
+    I and Off-Guard II.'

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Killseeker
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Killseeker
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 2
   abilityWeight: 1
@@ -60,4 +61,10 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Buff | Crit: 0%'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: 3 | Range: Self
+
+    Gain Killseeker
+    III.'

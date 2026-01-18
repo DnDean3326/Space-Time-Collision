@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Dagger Throw
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Dagger Throw
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -60,4 +61,12 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 10%
+
+    DMG: 2-5 | DMG Modifier: Skill'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: N/A | Range: 2-5
+
+    Apply
+    Bleed III.'

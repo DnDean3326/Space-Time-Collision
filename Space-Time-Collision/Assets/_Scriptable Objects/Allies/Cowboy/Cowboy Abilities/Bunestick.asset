@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bunestick
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Bunestick
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 1
@@ -60,4 +61,14 @@ MonoBehaviour:
   ignoreDodge: 1
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Damage | Crit: 15%
+
+    DMG: 2-8 | DMG Modifier: Skill'
+  description: 'Weight: Medium | Cost: N/A
+
+    CD: N/A | Range: 1-3
+
+    Ignore
+    Dodge.
+
+    Gain Vice on a critical hit.'

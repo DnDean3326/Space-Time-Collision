@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Rampage
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Rampage
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 3
   dmgMax: 5
   critChance: 5
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -59,4 +61,18 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 1
-  description: 
+  equipDescription: 'Type: Damage | Crit: 5%
+
+    DMG: 3-5 | DMG Modifier: Power
+    * 3'
+  description: 'Weight: Heavy | Cost: 8 Self-DMG
+
+    CD: N/A | Range: 3-7
+
+    Requires
+    2+ Vice.
+
+    Ignore Block, Ignore Armor.
+
+    Deal armor damage equal to your
+    power.'

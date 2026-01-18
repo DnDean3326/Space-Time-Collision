@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Eject
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Eject
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 2
   abilityWeight: 2
@@ -60,4 +61,20 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: 
+  equipDescription: 'Type: Buff | Crit: 0%'
+  description: 'Weight: Light | Cost: 1 Bullet
+
+    CD: 1 | Range: Self
+
+    Gain
+    tokens based on the bullet consumed.
+
+    Crit: Gain Blind I.
+
+    Incendiary:
+    Gain Burn II.
+
+    Normal: Gain Pierce I.
+
+    Misfire: Gain Boost II and Ricochet
+    I'
