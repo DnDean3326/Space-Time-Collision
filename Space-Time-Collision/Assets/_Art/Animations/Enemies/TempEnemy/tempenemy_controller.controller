@@ -32,7 +32,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: tempricochet_active
+  m_Name: tempenemy_active
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -48,7 +48,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7bb63b3e656b27540ab279cfae704c8b, type: 2}
+  m_Motion: {fileID: 7400000, guid: dbc1c4995a1f11f4bbbc9bcf63168cc0, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -76,7 +76,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 32e48f95eb58f6b46bb1e268dc04732e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 06bc179df99eceb489d7417058318707, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -229,7 +229,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 70ee653133612184983fce7afc970ece, type: 2}
+  m_Motion: {fileID: 7400000, guid: 0970e28232072704ea3a3d988c8059c9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -317,7 +317,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: temppart_idle_sharedrow
+  m_Name: tempenemy_idle_sharedrow
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -335,7 +335,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 0adbadd6069358142bf5bbe50cb01167, type: 2}
+  m_Motion: {fileID: 7400000, guid: 7b1a048af1c8ef1488238499d9a5be47, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -372,7 +372,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: tempparty_controller
+  m_Name: tempenemy_controller
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: IsMyTurn
@@ -534,7 +534,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: tempparty_attack
+  m_Name: tempenemy_attack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -548,7 +548,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e2bf48b83b4082c4aaea50660f57efd5, type: 2}
+  m_Motion: {fileID: 7400000, guid: 85cff1bd9703c6c40b7e55255b22484a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -561,7 +561,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: tempparty_idle
+  m_Name: tempenemy_idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -579,7 +579,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 721a4c7aa159f1b4783241f7f12c95c4, type: 2}
+  m_Motion: {fileID: 7400000, guid: 530c3051b57e4d04ebdc1f9c8d53a53c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -701,7 +701,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f8eeae62e0f931644848517fcad3ce26, type: 2}
+  m_Motion: {fileID: 7400000, guid: bcf7ce6c2b2566d4291c0138c5779e56, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

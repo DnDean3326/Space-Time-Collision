@@ -1630,7 +1630,7 @@ public class BattleSystem : MonoBehaviour
             // TODO add transparency to enemies with enemies above them
             foreach (GridTile tile in enemyBattleGrid) {
                 if (tile.xPos == entity.xPos && tile.yPos > entity.yPos && tile.isOccupied) {
-                    //entity.battleVisuals.SetSharedRowAnimation(true);
+                    entity.battleVisuals.SetSharedRowAnimation(true);
                     return;
                 }
             }
