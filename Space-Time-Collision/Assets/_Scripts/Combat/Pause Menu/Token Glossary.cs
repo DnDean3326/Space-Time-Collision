@@ -14,8 +14,8 @@ public class TokenGlossary : MonoBehaviour
     private const float ROW_MAX = 10f;
     private const float GLOSSARY_SPACE = 10f;
     
-    private BattleSystem battleSystem;
-    private List<BattleToken> allTokens;
+    private TokenManager tokenManager;
+    private List<Token> allTokens;
     private RectTransform buffRect;
     private RectTransform debuffRect;
     private RectTransform ailmentRect;
@@ -27,12 +27,12 @@ public class TokenGlossary : MonoBehaviour
 
     private void Awake()
     {
-        battleSystem = FindFirstObjectByType<BattleSystem>();
+        tokenManager = FindFirstObjectByType<TokenManager>();
     }
 
     private void Start()
     {
-        allTokens = battleSystem.GetAllTokens();
+        allTokens = tokenManager.GetTokenInfo();
         
         buffRect  = buffGlossary.GetComponent<RectTransform>();
         debuffRect = debuffGlossary.GetComponent<RectTransform>();
@@ -44,13 +44,12 @@ public class TokenGlossary : MonoBehaviour
         SetBuffTokens();
         SetDebuffTokens();
         SetAilmentTokens();
-        //SetGlossaryPosition();
     }
 
     private void SetBuffTokens()
     {
         int buffsAdded = 0;
-        foreach (BattleToken token in allTokens) {
+        foreach (Token token in allTokens) {
             if (token.tokenType == Token.TokenType.Buff) {
                 GameObject newGlossary = Instantiate(glossaryPrefab, buffGlossary.transform);
                 newGlossary.GetComponentInChildren<Image>().sprite = token.tokenIcon;
@@ -83,7 +82,7 @@ public class TokenGlossary : MonoBehaviour
     private void SetDebuffTokens()
     {
         int debuffsAdded = 0;
-        foreach (BattleToken token in allTokens) {
+        foreach (Token token in allTokens) {
             if (token.tokenType == Token.TokenType.Debuff) {
                 GameObject newGlossary = Instantiate(glossaryPrefab, debuffGlossary.transform);
                 newGlossary.GetComponentInChildren<Image>().sprite = token.tokenIcon;
@@ -116,7 +115,7 @@ public class TokenGlossary : MonoBehaviour
     private void SetAilmentTokens()
     {
         int ailmentsAdded = 0;
-        foreach (BattleToken token in allTokens) {
+        foreach (Token token in allTokens) {
             if (token.tokenType == Token.TokenType.Ailments) {
                 GameObject newGlossary = Instantiate(glossaryPrefab, ailmentGlossary.transform);
                 newGlossary.GetComponentInChildren<Image>().sprite = token.tokenIcon;
@@ -148,7 +147,7 @@ public class TokenGlossary : MonoBehaviour
     
     // OnHover Enter Methods
 
-    public void DisplayTokenEffect(BattleToken token)
+    public void DisplayTokenEffect(Token token)
     {
         string tokenName = token.displayName;
         string tokenDescription = token.tokenDescription;

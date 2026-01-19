@@ -229,11 +229,6 @@ public class BattleSystem : MonoBehaviour
     {
         return allCombatants[currentPlayer];
     }
-
-    public List<BattleToken> GetAllTokens()
-    {
-        return allTokens;
-    }
     
     // Battle state routines
 

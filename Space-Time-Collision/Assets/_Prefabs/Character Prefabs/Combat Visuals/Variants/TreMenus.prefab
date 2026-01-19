@@ -134,6 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8334e8e98e1ba44ab35a77ef4c981d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletPreview
+  myBulletDisplay:
+    bulletColor:
+      serializedVersion: 2
+      rgba: 0
+    isRevealed: 0
+    hoverText: 
 --- !u!1 &2448685589088393208
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,6 +411,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8334e8e98e1ba44ab35a77ef4c981d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletPreview
+  myBulletDisplay:
+    bulletColor:
+      serializedVersion: 2
+      rgba: 0
+    isRevealed: 0
+    hoverText: 
 --- !u!1 &4154989871795384599
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,6 +666,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8334e8e98e1ba44ab35a77ef4c981d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  myBulletDisplay:
+    bulletColor:
+      serializedVersion: 2
+      rgba: 0
+    isRevealed: 0
+    hoverText: 
 --- !u!1001 &3382181333607308634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -686,6 +704,10 @@ PrefabInstance:
       propertyPath: 'bulletDisplays.Array.data[2]'
       value: 
       objectReference: {fileID: 2620531808156987062}
+    - target: {fileID: 2289809303862198301, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2567915009148292929, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
       propertyPath: m_IsActive
       value: 1

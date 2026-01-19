@@ -196,7 +196,6 @@ public class RicochetBattleLogic : MonoBehaviour
 
         if (bulletsRevealed.Count < BULLET_PREVIEW_MAX) {
             for (int i = bulletsRevealed.Count; i < BULLET_PREVIEW_MAX; i++) {
-                print(i);
                 BulletDisplay tempBullet = CreateUnknownBullet();
                 bulletDisplays.Add(tempBullet);
             }

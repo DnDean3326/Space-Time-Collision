@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 1a1cc9badfe4e414b97b13f250fa3c0d
+guid: cd97b6cc4457540039f3788da5518779
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7242944468717932097
-    second: tavern_button 1_0
-  - first:
-      213: 1771925005185061875
-    second: tavern_button 1_1
-  - first:
-      213: 5205075849469589800
-    second: tavern_button 1_2
+      213: -6120901587236039309
+    second: temp_inn_first_floor_background_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 108
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -102,55 +96,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tavern_button 1_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1080
-        width: 1920
-        height: 1080
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fb1ff266164eb7b90800000000000000
-      internalID: -7242944468717932097
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tavern_button 1_1
-      rect:
-        serializedVersion: 2
-        x: 1920
-        y: 1080
-        width: 1920
-        height: 1080
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3f310b67764279810800000000000000
-      internalID: 1771925005185061875
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tavern_button 1_2
+      name: temp_inn_first_floor_background_0
       rect:
         serializedVersion: 2
         x: 0
@@ -158,15 +121,15 @@ TextureImporter:
         width: 1920
         height: 1080
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 829799c48e42c3840800000000000000
-      internalID: 5205075849469589800
+      spriteID: 375dba3bf603e0ba0800000000000000
+      internalID: -6120901587236039309
       vertices: []
       indices: 
       edges: []
@@ -175,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3f5f7d11b67bd4ff2b0eff85d691f2af
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -183,13 +146,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":2.0},"gridSpriteSize":{"x":1920.0,"y":1080.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      tavern_button 1_0: -7242944468717932097
-      tavern_button 1_1: 1771925005185061875
-      tavern_button 1_2: 5205075849469589800
+      temp_inn_first_floor_background_0: -6120901587236039309
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

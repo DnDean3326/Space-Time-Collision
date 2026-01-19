@@ -4,14 +4,14 @@ using UnityEngine.EventSystems;
 public class TokenGlossaryButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private TokenGlossary tokenGlossary;
-    private BattleToken myToken;
+    private Token myToken;
     
     private void Awake()
     {
         tokenGlossary = FindFirstObjectByType<TokenGlossary>();
     }
 
-    public void SetMyToken(BattleToken token)
+    public void SetMyToken(Token token)
     {
         myToken = token;
     }
