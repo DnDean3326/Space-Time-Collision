@@ -62,3 +62,32 @@ MonoBehaviour:
   sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
   baseLineBreakToken: {fileID: 11400000, guid: ecf5cb58eac38024995ede0188254e77, type: 2}
   baseLineBreakTokenCount: 1
+  characterDescription: 'Bune is a tough son of a bitch who grows stronger as he
+
+    indulges
+    in excess.
+
+
+    Bune gains Vice, a special token that increases his crit
+
+    chance
+    for each copy, whenever he deals damage to an
+
+    enemy that has <u>Anti-Heal</u>,
+    <u>Isolation</u>,
+
+    <u>Off-Guard</u>, <u>Stagger</u>, <u>Stun</u>,
+
+    or
+    <u>Vulnerable</u>. Bune loses a Vice token at the
+
+    start of his turn if he
+    didn''t take damage since his last turn
+
+    or gain Vice. If Bune starts his
+    turn with no Vice, there''s
+
+    a chance he gets bored and takes a random action
+
+    instead
+    of taking orders! '

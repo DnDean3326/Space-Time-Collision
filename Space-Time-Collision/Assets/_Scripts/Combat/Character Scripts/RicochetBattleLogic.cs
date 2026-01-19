@@ -77,6 +77,11 @@ public class RicochetBattleLogic : MonoBehaviour
         UpdateRevealedBullets(tempList);
     }
 
+    public int CheckBulletCount()
+    {
+        return bulletList.Count;
+    }
+
     private BulletDisplay CreateUnknownBullet()
     {
         BulletDisplay tempBullet = new BulletDisplay {
@@ -113,6 +118,7 @@ public class RicochetBattleLogic : MonoBehaviour
 
             if (partyMembers.Any(t => t.myName == "Tre")) {
                 int ricochetPosition = partyMembers.FindIndex(t => t.myName == "Tre");
+                print(bulletList.Count);
                 partyMembers[ricochetPosition].currentSpirit = bulletList.Count;
             }
         }

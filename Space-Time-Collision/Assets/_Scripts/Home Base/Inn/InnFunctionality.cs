@@ -282,6 +282,8 @@ public class InnFunctionality : MonoBehaviour
             }
         }
     }
+    
+    // IPointerEnter Methods
 
     public void DisplayAbilityEffect(Ability ability)
     {
@@ -290,7 +292,19 @@ public class InnFunctionality : MonoBehaviour
         Tooltip.ShowTooltip_Static("", abilityDescription);
     }
 
+    public void DisplayAllyDescription(AllyInfo ally)
+    {
+        Tooltip.ShowTooltip_Static("", ally.characterDescription);
+    }
+    
+    // IPointerExit Methods
+
     public void HideAbilityEffect()
+    {
+        Tooltip.HideTooltip_Static();
+    }
+
+    public void HideAllyDescription()
     {
         Tooltip.HideTooltip_Static();
     }

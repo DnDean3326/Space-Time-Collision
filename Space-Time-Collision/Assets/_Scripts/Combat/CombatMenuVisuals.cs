@@ -202,6 +202,7 @@ public class CombatMenuVisuals : MonoBehaviour
     public void ChangeSpirit(int newSpirit)
     {
         currentSpirit = newSpirit;
+        
         UpdateSpiritBar();
     }
 

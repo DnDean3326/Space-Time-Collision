@@ -110,8 +110,8 @@ public class BattleVisuals : MonoBehaviour
 
     private void UpdateDefenseBar()
     {
-        float currentDP = (float)currentDefense;
-        float maxDP = (float)maxDefense;
+        float currentDP = currentDefense;
+        float maxDP = maxDefense;
         float defensePercent = (currentDP / maxDP);
         
         defenseTMP.text = currentDP + " / " + maxDP;

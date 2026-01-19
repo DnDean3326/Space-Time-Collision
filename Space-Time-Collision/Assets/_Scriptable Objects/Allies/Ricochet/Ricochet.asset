@@ -65,3 +65,11 @@ MonoBehaviour:
   sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
   baseLineBreakToken: {fileID: 11400000, guid: 096701f00a8463647a9b41da08bcc634, type: 2}
   baseLineBreakTokenCount: 1
+  characterDescription: "Ricochet is a long ranged fighter who mixes powerful\nattacks
+    with a slew of gadgets to overwhelm enemies.\n\nInstead of SP, Ricochet has bullets,
+    which are consumed by\nusing attacks with his gun. Ricochet has different types
+    of\nbullets with different effects, but starts each campaign with\ntwo critical
+    bullets, six regular, and one misfire. His bullet\norder is always random, but
+    can be revealed by select \nabilities.\n\nCritical: The ability always scores
+    a critical hit.\nIncendiary: The ability applies a specified amount of Burn.\nNormal:
+    No effect.\nMisfire: The abilities deals no damage."

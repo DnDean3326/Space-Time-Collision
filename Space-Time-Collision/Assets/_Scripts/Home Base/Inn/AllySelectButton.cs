@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class AllySelectButton : MonoBehaviour, IPointerEnterHandler
+public class AllySelectButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private InnFunctionality innFunctionality;
     private AllyInfo myAlly;
@@ -23,11 +23,20 @@ public class AllySelectButton : MonoBehaviour, IPointerEnterHandler
         innFunctionality.AddPartyMember(myAlly);
     }
 
-    // OnHover Enter Methods
+    // OnPointerEnter Methods
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (myAlly == null) { return; }
         innFunctionality.DisplayAllyInfo(myAlly);
+        innFunctionality.DisplayAllyDescription(myAlly);
     }
+    
+    // OnPointerExit Methods
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        innFunctionality.HideAllyDescription();
+    }
+    
 }

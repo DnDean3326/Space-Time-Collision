@@ -1634,7 +1634,7 @@ public class BattleSystem : MonoBehaviour
                     return;
                 }
             }
-            //entity.battleVisuals.SetSharedRowAnimation(false);
+            entity.battleVisuals.SetSharedRowAnimation(false);
             return;
         }
     }
@@ -1816,7 +1816,11 @@ public class BattleSystem : MonoBehaviour
             case "Null":
                 break;
             case "Spirit":
-                currentPlayerEntity.combatMenuVisuals.ChangeSpirit(currentPlayerEntity.currentSpirit);
+                if (currentPlayerEntity.myName == "Tre") {
+                    currentPlayerEntity.combatMenuVisuals.ChangeSpirit(ricochetLogic.CheckBulletCount());
+                } else {
+                    currentPlayerEntity.combatMenuVisuals.ChangeSpirit(currentPlayerEntity.currentSpirit);
+                }
                 break;
             case "Health":
                 currentPlayerEntity.battleVisuals.ChangeHealth(currentPlayerEntity.currentHealth);

@@ -38,4 +38,7 @@ public class AllyInfo : ScriptableObject
     
     public Token baseLineBreakToken;
     public int baseLineBreakTokenCount;
+
+    [TextArea(15,20)]
+    public string characterDescription;
 }
