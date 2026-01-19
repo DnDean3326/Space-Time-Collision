@@ -17,7 +17,7 @@ MonoBehaviour:
   allyCombatSprite: {fileID: 21300000, guid: 9e619f768c52847ee92feb5e692ed3ff, type: 3}
   allySquarePortrait: {fileID: 21300000, guid: c5f48ac201e2449e2be1dfc70e58cbd2, type: 3}
   allyShadowPortrait: {fileID: 21300000, guid: dd483117f2ccc46f4827533a5ae0a0ad, type: 3}
-  allySignature: {fileID: 21300000, guid: 5374315d921b540899e6fb24918be9b8, type: 3}
+  allySignature: {fileID: 21300000, guid: 67734fca9326242c9b48947e0d477924, type: 3}
   baseHealth: 25
   baseDefense: 20
   baseArmor: 3
@@ -70,6 +70,6 @@ MonoBehaviour:
     which are consumed by\nusing attacks with his gun. Ricochet has different types
     of\nbullets with different effects, but starts each campaign with\ntwo critical
     bullets, six regular, and one misfire. His bullet\norder is always random, but
-    can be revealed by select \nabilities.\n\nCritical: The ability always scores
-    a critical hit.\nIncendiary: The ability applies a specified amount of Burn.\nNormal:
-    No effect.\nMisfire: The abilities deals no damage."
+    can be revealed by select \nabilities.\n\n<u>Critical</u>: The ability always
+    scores a critical hit.\n<u>Incendiary</u>: The ability applies a specified amount
+    of Burn.\n<u>Normal</u>: No effect.\n<u>Misfire</u>: The abilities deals no damage."

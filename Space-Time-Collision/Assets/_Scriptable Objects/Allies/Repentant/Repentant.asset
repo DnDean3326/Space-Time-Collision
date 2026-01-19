@@ -62,7 +62,7 @@ MonoBehaviour:
   baseLineBreakToken: {fileID: 11400000, guid: 150ec9065214cb143b7090fa3821c806, type: 2}
   baseLineBreakTokenCount: 1
   characterDescription: "Ren\xE9e is a fast generalist who excels at controlling
-    the\ntempo of battle.\n\nAs a former Seraph, she can gain Ascension tokens,\nwhich
+    the\ntempo of battle.\n\nAs a former Seraph, she can gain <u>Ascension</u> tokens,\nwhich
     empower her abilities in unique ways. She\nstruggles to generate Ascension on
     her own preferring\nto steal it from enemies, making her excellent against\nLady
     Oblivion's most fearsome minions."

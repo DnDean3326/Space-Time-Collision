@@ -68,26 +68,22 @@ MonoBehaviour:
     in excess.
 
 
-    Bune gains Vice, a special token that increases his crit
+    Bune gains <u>Vice</u>, a special token that increases his
 
-    chance
-    for each copy, whenever he deals damage to an
+    crit
+    chance for each copy, whenever he deals damage to an
 
     enemy that has <u>Anti-Heal</u>,
-    <u>Isolation</u>,
+    <u>Isolation</u>, <u>Off-Guard</u>, <u>Stagger</u>, <u>Stun</u>,
 
-    <u>Off-Guard</u>, <u>Stagger</u>, <u>Stun</u>,
+    or <u>Vulnerable</u>.
+    Bune loses a Vice token at the start of his turn if
 
-    or
-    <u>Vulnerable</u>. Bune loses a Vice token at the
+    he didn''t take damage
+    since his last turn or gain Vice. If Bune
 
-    start of his turn if he
-    didn''t take damage since his last turn
+    starts his turn with no Vice,
+    there''s a chance he gets bored
 
-    or gain Vice. If Bune starts his
-    turn with no Vice, there''s
-
-    a chance he gets bored and takes a random action
-
-    instead
-    of taking orders! '
+    and takes a random action instead of taking
+    orders! '
