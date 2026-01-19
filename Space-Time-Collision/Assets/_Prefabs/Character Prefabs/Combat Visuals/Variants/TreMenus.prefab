@@ -265,6 +265,10 @@ PrefabInstance:
       propertyPath: spiritBar
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2567915009148292929, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4016972724149583921, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
       propertyPath: m_Name
       value: TreMenus
@@ -279,6 +283,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5127172979184687660, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6157353944473550198, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6560190519715844559, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
