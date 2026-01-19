@@ -19,6 +19,7 @@ public class RicochetBattleLogic : MonoBehaviour
     [SerializeField] private List<BulletType> bulletList;
 
     private const int CLIP_SIZE = 8;
+    private const int BULLET_PREVIEW_MAX = 3;
 
     private readonly Color32 unknownColor = new Color32(190, 147, 81, 255);
     private readonly Color32 critColor = new Color32(42, 186, 219, 255);
@@ -30,10 +31,11 @@ public class RicochetBattleLogic : MonoBehaviour
     private BattleSystem battleSystem;
     private PartyManager partyManager;
     private bool isSetup = false;
+    private int strafeNormalCount = 0;
 
     private List<GameObject> bulletObjects;
     private List<BulletPreview> bulletPreviews = new List<BulletPreview>();
-    private List<BulletDisplay> bulletDisplays = new List<BulletDisplay>();
+    [SerializeField] private List<BulletDisplay> bulletDisplays = new List<BulletDisplay>();
 
     private BulletDisplay baseBullet;
 
@@ -69,12 +71,6 @@ public class RicochetBattleLogic : MonoBehaviour
         
         foreach (GameObject incomingBullet in bulletObjects) {
             bulletPreviews.Add(incomingBullet.GetComponent<BulletPreview>());
-            BulletDisplay tempBullet = new BulletDisplay {
-                bulletColor = normalColor,
-                isRevealed = false,
-                hoverText = "UNKNOWN"
-            };
-            bulletDisplays.Add(tempBullet);
         }
 
         List<BulletType> tempList = new List<BulletType>();
@@ -198,8 +194,8 @@ public class RicochetBattleLogic : MonoBehaviour
             bulletDisplays.Add(tempBullet);
         }
 
-        if (bulletsRevealed.Count < bulletDisplays.Count) {
-            for (int i = bulletsRevealed.Count; i < bulletDisplays.Count; i++) {
+        if (bulletsRevealed.Count < BULLET_PREVIEW_MAX) {
+            for (int i = bulletsRevealed.Count; i < BULLET_PREVIEW_MAX; i++) {
                 print(i);
                 BulletDisplay tempBullet = CreateUnknownBullet();
                 bulletDisplays.Add(tempBullet);
@@ -322,12 +318,8 @@ public class RicochetBattleLogic : MonoBehaviour
                 }
 
                 if (bulletsUsed.Any(t => t == BulletType.Normal)) {
-                    int normalCount = bulletsUsed.Count(t => t == BulletType.Normal);
-                    bulletsUsed = CheckCurrentBullets(normalCount);
-                    UpdateRevealedBullets(bulletsUsed); // TODO Reveal the next (bulletsUsed) bullets in the clip
-                    foreach (var bullet in bulletsUsed) {
-                        print(bullet.ToString());
-                    }
+                    strafeNormalCount = bulletsUsed.Count(t => t == BulletType.Normal);
+                    
                 }
                 break;
             case "Slide Fire":
@@ -434,6 +426,19 @@ public class RicochetBattleLogic : MonoBehaviour
                     print(bullet.ToString());
                 }
                 break;
+        }
+    }
+
+    public void RicochetTurnEndLogic(BattleEntity ricochet, Ability activeAbility)
+    {
+        if (activeAbility.abilityName == "Strafe Shooting") {
+            List<BulletType> bulletsUsed = CheckCurrentBullets(strafeNormalCount);
+            UpdateRevealedBullets(bulletsUsed); // TODO Reveal the next (bulletsUsed) bullets in the clip
+            foreach (var bullet in bulletsUsed) {
+                print(bullet.ToString());
+            }
+
+            strafeNormalCount = 0;
         }
     }
 }

@@ -3961,6 +3961,7 @@ public class BattleSystem : MonoBehaviour
                 if (activeAbility.costResource == Ability.CostResource.Spirit) {
                     ricochetLogic.ReduceBulletCount(activeAbility);
                 }
+                ricochetLogic.RicochetTurnEndLogic(attacker, activeAbility);
             }
         }
     }

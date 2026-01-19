@@ -3,13 +3,11 @@ using UnityEngine.UI;
 
 public class BulletPreview : MonoBehaviour
 {
-    private RicochetBattleLogic ricochetLogic;
-    private BulletDisplay myBulletDisplay;
+    [SerializeField] private BulletDisplay myBulletDisplay;
     private Image myImage;
     
     private void Awake()
     {
-        ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
         myImage = GetComponent<Image>();
     }
 
@@ -19,13 +17,13 @@ public class BulletPreview : MonoBehaviour
         myImage.color = bulletDisplay.bulletColor;
     }
     
-    public void CallDisplayBulletInfo()
+    public void DisplayBulletInfo()
     {
         string displayString = myBulletDisplay.hoverText;
         Tooltip.ShowTooltip_Static("", displayString);
     }
     
-    public void CallHideDisplayBulletInfo()
+    public void HideDisplayBulletInfo()
     {
         Tooltip.HideTooltip_Static();
     }
