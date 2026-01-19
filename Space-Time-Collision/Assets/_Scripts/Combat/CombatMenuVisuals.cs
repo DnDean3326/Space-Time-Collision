@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class CombatMenuVisuals : MonoBehaviour
 {
     [Header("Resource Displays")]
     [SerializeField] private Slider spiritBar;
     [SerializeField] private TextMeshProUGUI spText;
-
+    [SerializeField] private List<GameObject> bulletDisplays;
+    
     [Header("UI Menus")]
     [SerializeField] private GameObject abilitySelectUI;
     [SerializeField] private GameObject targetSelectUI;
@@ -42,12 +44,16 @@ public class CombatMenuVisuals : MonoBehaviour
     private BattleSystem battleSystem;
     private List<Image> abilityImages = new List<Image>();
     private List<Button> myAbilityButtons = new List<Button>();
+    private List<EventTrigger> myAbilityTriggers = new List<EventTrigger>();
     private List<TextMeshProUGUI> abilityTexts = new List<TextMeshProUGUI>();
     private List<Image> targetImages = new List<Image>();
     private List<Button> myTargetButtons = new List<Button>();
     private List<TextMeshProUGUI> targetTexts = new List<TextMeshProUGUI>();
+    private List<bool> abilityActive = new List<bool>();
     private int maxSpirit;
     private int currentSpirit;
+
+    private RicochetBattleLogic ricochetLogic;
     
     private void Awake()
     {
@@ -62,6 +68,8 @@ public class CombatMenuVisuals : MonoBehaviour
             abilityImages.Add(tempImage);
             Button tempButton = abilityButton.GetComponent<Button>();
             myAbilityButtons.Add(tempButton);
+            EventTrigger tempTrigger = abilityButton.GetComponent<EventTrigger>();
+            myAbilityTriggers.Add(tempTrigger);
             TextMeshProUGUI tempText = abilityButton.GetComponentInChildren<TextMeshProUGUI>();
             abilityTexts.Add(tempText);
         }
@@ -85,6 +93,10 @@ public class CombatMenuVisuals : MonoBehaviour
     public void SetMyEntity(BattleEntity myself)
     {
         me = myself;
+        if (me.myName == "Tre") {
+            ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
+            ricochetLogic.SetupBulletDisplays(bulletDisplays);
+        }
     }
 
     public void SetMyAbilityBar()
@@ -130,6 +142,11 @@ public class CombatMenuVisuals : MonoBehaviour
         }
     }
 
+    public void UpdateAbilityStatus(List<bool> abilityStatuses)
+    {
+        abilityActive = abilityStatuses;
+    }
+
     public List<Image> GetAbilityImages()
     {
         return abilityImages;
@@ -138,6 +155,11 @@ public class CombatMenuVisuals : MonoBehaviour
     public List<Button> GetAbilityButtons()
     {
         return myAbilityButtons;
+    }
+
+    public List<EventTrigger> GetAbilityTriggers()
+    {
+        return myAbilityTriggers;
     }
 
     public GameObject[] GetTargetButtons()
@@ -266,18 +288,24 @@ public class CombatMenuVisuals : MonoBehaviour
     public void AbilityEffect(int selectedAbility)
     {
         abilityEffectText.text = battleSystem.SetAbilityDescription(selectedAbility);
-        battleSystem.PreviewResourceValue(selectedAbility);
-    }
-
-    public void AbilityEffectRemove(int selectedAbility)
-    {
-        abilityEffectText.text = "";
-        battleSystem.EndResourcePreview(selectedAbility);
+        if (abilityActive[selectedAbility]) {
+            battleSystem.PreviewResourceValue(selectedAbility);
+        }
     }
 
     public void TargetIndicate(int hoveredTarget)
     {
         battleSystem.IndicateTarget(hoveredTarget);
+    }
+    
+    // Button OnExit methods
+    
+    public void AbilityEffectRemove(int selectedAbility)
+    {
+        abilityEffectText.text = "";
+        if (abilityActive[selectedAbility]) {
+            battleSystem.EndResourcePreview(selectedAbility);
+        }
     }
     
     public void TargetIndicateRemove(int hoveredTarget)

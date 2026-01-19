@@ -1382,8 +1382,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 20fa378dba5af754d904596e26a7344a, type: 2}
   currentParty: []
   defaultPartyMembers:
-  - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
-  - {fileID: 11400000, guid: 25d862b567b05f347b8e0159d6033c4a, type: 2}
   - {fileID: 11400000, guid: 20fa378dba5af754d904596e26a7344a, type: 2}
 --- !u!114 &1468329663
 MonoBehaviour:

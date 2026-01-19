@@ -2757,6 +2757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatMenuVisuals
   spiritBar: {fileID: 756856590560942488}
   spText: {fileID: 4857271106093083523}
+  bulletDisplays: []
   abilitySelectUI: {fileID: 2567915009148292929}
   targetSelectUI: {fileID: 6157353944473550198}
   abilityButtons:
@@ -7197,7 +7198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2278253277039721346
 RectTransform:
   m_ObjectHideFlags: 0

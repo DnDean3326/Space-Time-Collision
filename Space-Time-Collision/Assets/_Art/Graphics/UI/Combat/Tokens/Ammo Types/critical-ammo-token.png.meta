@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 6ad9fa53f49314a4ebc5b02489812c89
+guid: c3c937a864ea25f4a9d97c7f6b2b5560
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7195566619230649167
-    second: misfire-token_0
-  - first:
-      213: -7514896074492343284
-    second: misfire-token_1
-  - first:
-      213: -8499798482323918745
-    second: misfire-token_2
-  - first:
-      213: -5625520135838606678
-    second: misfire-token_3
+      213: -4520237777177470566
+    second: critical-ammo-token_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -55,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -118,17 +109,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: misfire-token_0
+      name: critical-ammo-token_0
       rect:
         serializedVersion: 2
-        x: 67
+        x: 48
         y: 18
-        width: 375
-        height: 546
+        width: 550
+        height: 579
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,74 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1b449179846342c90800000000000000
-      internalID: -7195566619230649167
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: misfire-token_1
-      rect:
-        serializedVersion: 2
-        x: 273
-        y: 513
-        width: 69
-        height: 73
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c0c08ebf5d9b5b790800000000000000
-      internalID: -7514896074492343284
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: misfire-token_2
-      rect:
-        serializedVersion: 2
-        x: 367
-        y: 357
-        width: 217
-        height: 238
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 760bdae6056aa0a80800000000000000
-      internalID: -8499798482323918745
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: misfire-token_3
-      rect:
-        serializedVersion: 2
-        x: 435
-        y: 283
-        width: 58
-        height: 59
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: aaa5882ed332ee1b0800000000000000
-      internalID: -5625520135838606678
+      spriteID: a99190fd0b3e441c0800000000000000
+      internalID: -4520237777177470566
       vertices: []
       indices: 
       edges: []
@@ -213,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -223,10 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      misfire-token_0: -7195566619230649167
-      misfire-token_1: -7514896074492343284
-      misfire-token_2: -8499798482323918745
-      misfire-token_3: -5625520135838606678
+      critical-ammo-token_0: -4520237777177470566
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

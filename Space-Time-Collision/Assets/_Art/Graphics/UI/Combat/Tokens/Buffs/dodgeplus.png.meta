@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 156dabb63a423ab488e70b1ea028d705
+guid: d369b636af1468549bffff0664722ee6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7540221718603455359
-    second: boostplus_0
+      213: -2939716198211963280
+    second: dodgeplus_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,17 +109,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: boostplus_0
+      name: dodgeplus_0
       rect:
         serializedVersion: 2
-        x: 27
-        y: 13
-        width: 529
-        height: 571
+        x: 2
+        y: 31
+        width: 590
+        height: 541
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 184a4f6fb40cb5790800000000000000
-      internalID: -7540221718603455359
+      spriteID: 0763d1961b70437d0800000000000000
+      internalID: -2939716198211963280
       vertices: []
       indices: 
       edges: []
@@ -148,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      boostplus_0: -7540221718603455359
+      dodgeplus_0: -2939716198211963280
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

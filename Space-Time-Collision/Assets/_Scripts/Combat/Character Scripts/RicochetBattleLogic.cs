@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine.UI;
 using Random = System.Random;
 
 public class RicochetBattleLogic : MonoBehaviour
@@ -13,21 +15,43 @@ public class RicochetBattleLogic : MonoBehaviour
         Incendiary,
         Blank
     }
-
-    private const int CLIP_SIZE = 8;
-    private bool isSetup = false;
     
     [SerializeField] private List<BulletType> bulletList;
-    Random rng = new Random();
+
+    private const int CLIP_SIZE = 8;
+
+    private readonly Color32 unknownColor = new Color32(190, 147, 81, 255);
+    private readonly Color32 critColor = new Color32(42, 186, 219, 255);
+    private readonly Color32 burnColor = new Color32(203, 92, 41, 255);
+    private readonly Color32 normalColor = new Color32(196, 196, 196, 255);
+    private readonly Color32 misfireColor = new Color32(60, 60, 60, 255);
+    
+    private Random rng = new Random();
     private BattleSystem battleSystem;
     private PartyManager partyManager;
+    private bool isSetup = false;
+
+    private List<GameObject> bulletObjects;
+    private List<BulletPreview> bulletPreviews = new List<BulletPreview>();
+    private List<BulletDisplay> bulletDisplays = new List<BulletDisplay>();
+
+    private BulletDisplay baseBullet;
+
+    private void Start()
+    {
+        baseBullet = new BulletDisplay {
+            bulletColor = unknownColor,
+            isRevealed = false,
+            hoverText = "UNKNOWN"
+        };
+    }
     
     public void RicochetBattleSystemLink(BattleSystem battleSystem)
     {
         this.battleSystem = battleSystem;
     }
     
-    public void InitializeRicochet (List<PartyMember> partyMembers)
+    public void InitializeRicochet(List<PartyMember> partyMembers)
     {
         if (partyMembers.Any(t => t.memberName == "Tre")) {
             bulletList = GenerateBulletClip(BulletType.Critical, 2, 1);
@@ -37,6 +61,35 @@ public class RicochetBattleLogic : MonoBehaviour
         }
         
         isSetup = true;
+    }
+
+    public void SetupBulletDisplays(List<GameObject> incomingDisplays)
+    {
+        bulletObjects = incomingDisplays;
+        
+        foreach (GameObject incomingBullet in bulletObjects) {
+            bulletPreviews.Add(incomingBullet.GetComponent<BulletPreview>());
+            BulletDisplay tempBullet = new BulletDisplay {
+                bulletColor = normalColor,
+                isRevealed = false,
+                hoverText = "UNKNOWN"
+            };
+            bulletDisplays.Add(tempBullet);
+        }
+
+        List<BulletType> tempList = new List<BulletType>();
+        UpdateRevealedBullets(tempList);
+    }
+
+    private BulletDisplay CreateUnknownBullet()
+    {
+        BulletDisplay tempBullet = new BulletDisplay {
+            bulletColor = baseBullet.bulletColor,
+            isRevealed = baseBullet.isRevealed,
+            hoverText = baseBullet.hoverText
+        };
+
+        return tempBullet;
     }
     
     private List<BulletType> GenerateBulletClip(BulletType specialBulletType, int specialBulletCount, int blanksCount)
@@ -86,9 +139,14 @@ public class RicochetBattleLogic : MonoBehaviour
         if (activeAbility.extraCasts == 0) {
             for (int i = 0; i < activeAbility.costAmount; i++) {
                 bulletList.RemoveAt(0);
+                bulletDisplays.RemoveAt(0);
+                BulletDisplay tempBullet = CreateUnknownBullet();
+                bulletDisplays.Add(tempBullet);
             }
         } else {
             bulletList.RemoveAt(0);
+            BulletDisplay tempBullet = CreateUnknownBullet();
+            bulletDisplays.Add(tempBullet);
         }
         
         List<BattleEntity> partyMembers = battleSystem.GetPartyList();
@@ -97,6 +155,64 @@ public class RicochetBattleLogic : MonoBehaviour
             int ricochetPosition = partyMembers.FindIndex(t => t.myName == "Tre");
             partyMembers[ricochetPosition].currentSpirit = bulletList.Count;
             partyMembers[ricochetPosition].UpdatePlayerUI();
+        }
+
+        UpdateBulletPreviews();
+    }
+
+    private void UpdateRevealedBullets(List<BulletType> bulletsRevealed)
+    {
+        bulletDisplays.Clear();
+        
+        for (int i = 0; i < bulletsRevealed.Count; i++) {
+            var bullet = bulletsRevealed[i];
+            Color32 tempColor;
+            string tempString;
+            switch (bullet) {
+                case BulletType.Normal:
+                    tempColor = normalColor;
+                    tempString = "Normal Ammo";
+                    break;
+                case BulletType.Critical:
+                    tempColor = critColor;
+                    tempString = "Critical Ammo!";
+                    break;
+                case BulletType.Incendiary:
+                    tempColor = burnColor;
+                    tempString = "Incendiary Ammo!";
+                    break;
+                case BulletType.Blank:
+                    tempColor = misfireColor;
+                    tempString = "Misfire!";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            BulletDisplay tempBullet = new BulletDisplay() {
+                bulletColor = tempColor,
+                isRevealed = true,
+                hoverText = tempString,
+            };
+            
+            bulletDisplays.Add(tempBullet);
+        }
+
+        if (bulletsRevealed.Count < bulletDisplays.Count) {
+            for (int i = bulletsRevealed.Count; i < bulletDisplays.Count; i++) {
+                print(i);
+                BulletDisplay tempBullet = CreateUnknownBullet();
+                bulletDisplays.Add(tempBullet);
+            }
+        }
+
+        UpdateBulletPreviews();
+    }
+
+    private void UpdateBulletPreviews()
+    {
+        for (var i = 0; i < bulletDisplays.Count; i++) {
+            bulletPreviews[i].SetMyBulletDisplay(bulletDisplays[i]);
         }
     }
 
@@ -208,7 +324,7 @@ public class RicochetBattleLogic : MonoBehaviour
                 if (bulletsUsed.Any(t => t == BulletType.Normal)) {
                     int normalCount = bulletsUsed.Count(t => t == BulletType.Normal);
                     bulletsUsed = CheckCurrentBullets(normalCount);
-                    // TODO Reveal the next (bulletsUsed) bullets in the clip
+                    UpdateRevealedBullets(bulletsUsed); // TODO Reveal the next (bulletsUsed) bullets in the clip
                     foreach (var bullet in bulletsUsed) {
                         print(bullet.ToString());
                     }
@@ -313,11 +429,19 @@ public class RicochetBattleLogic : MonoBehaviour
                 break;
             case "Calculate":
                 bulletsUsed = CheckCurrentBullets(1);
-                // TODO Reveal the next (bulletsUsed) bullets in the clip
+                UpdateRevealedBullets(bulletsUsed); // TODO Reveal the next (bulletsUsed) bullets in the clip
                 foreach (var bullet in bulletsUsed) {
                     print(bullet.ToString());
                 }
                 break;
         }
     }
+}
+
+[Serializable]
+public class BulletDisplay
+{
+    public Color32 bulletColor;
+    public bool isRevealed;
+    public String hoverText;
 }

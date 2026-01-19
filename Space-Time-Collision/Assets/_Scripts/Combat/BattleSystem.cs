@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -1672,6 +1673,7 @@ public class BattleSystem : MonoBehaviour
         BattleEntity player = partyCombatants[characterIndex];
         List<Image> abilityImages = player.combatMenuVisuals.GetAbilityImages();
         List<Button> abilityButtons = player.combatMenuVisuals.GetAbilityButtons();
+        List<bool> abilityAvailable =  new List<bool>();
         
         for (int i = 0; i < player.myAbilities.Count; i++) {
             // Character ability blocking logic
@@ -1679,12 +1681,14 @@ public class BattleSystem : MonoBehaviour
                 if (repentantLogic.RepentantUseLogic(player, player.myAbilities[i])) {
                     abilityImages[i].color = new Color(40,40,40);
                     abilityButtons[i].interactable = false;
+                    abilityAvailable.Add(false);
                     continue;
                 }
             } else if (player.myName == "Bune") {
                 if (cowboyLogic.CowboyUseLogic(player, player.myAbilities[i])) {
                     abilityImages[i].color = new Color(40,40,40);
                     abilityButtons[i].interactable = false;
+                    abilityAvailable.Add(false);
                     continue;
                 }
             }
@@ -1693,6 +1697,7 @@ public class BattleSystem : MonoBehaviour
                 
                 abilityImages[i].color = new Color(40,40,40);
                 abilityButtons[i].interactable = false;
+                abilityAvailable.Add(false);
             } else {
                 int brokenPlayerColumns = 0;
                 bool[] lineBrokenStatus = combatGrid.GetLineBreakInfo();
@@ -1705,10 +1710,12 @@ public class BattleSystem : MonoBehaviour
                     player.myAbilities[i].bannedColumns.Any(t => (t - brokenPlayerColumns) == player.xPos)) {
                     abilityImages[i].color = new Color(40,40,40);
                     abilityButtons[i].interactable = false;
+                    abilityAvailable.Add(false);
                     continue;
                 }
                 abilityImages[i].color = new Color(255,255,255);
                 abilityButtons[i].interactable = true;
+                abilityAvailable.Add(true);
             }
 
             switch (player.myAbilities[i].costResource.ToString()) {
@@ -1718,18 +1725,21 @@ public class BattleSystem : MonoBehaviour
                     if (player.currentSpirit < player.myAbilities[i].costAmount) {
                         abilityImages[i].color = new Color(40,40,40);
                         abilityButtons[i].interactable = false;
+                        abilityAvailable.Add(false);
                     }
                     break;
                 case "Health":
                     if (player.currentHealth < player.myAbilities[i].costAmount) {
                         abilityImages[i].color = new Color(40,40,40);
                         abilityButtons[i].interactable = false;
+                        abilityAvailable.Add(false);
                     }
                     break;
                 case "Defense":
                     if (player.currentDefense < player.myAbilities[i].costAmount) {
                         abilityImages[i].color = new Color(40,40,40);
                         abilityButtons[i].interactable = false;
+                        abilityAvailable.Add(false);
                     }
                     break;
                 case "SelfDmg":
@@ -1738,6 +1748,7 @@ public class BattleSystem : MonoBehaviour
                     if (player.currentArmor < player.myAbilities[i].costAmount) {
                         abilityImages[i].color = new Color(40,40,40);
                         abilityButtons[i].interactable = false;
+                        abilityAvailable.Add(false);
                     }
                     break;
                 case "Special":
@@ -1753,8 +1764,11 @@ public class BattleSystem : MonoBehaviour
             {
                 abilityImages[i].color = new Color(40,40,40);
                 abilityButtons[i].interactable = false;
+                abilityAvailable.Add(false);
             }
         }
+
+        player.combatMenuVisuals.UpdateAbilityStatus(abilityAvailable);
     }
 
     public string SetAbilityDescription(int abilityIndex)

@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 55fa364ea7a055845946e20d82fa4338
+guid: d8a37fb4c53cdcf42ab7415e53f3394f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6240724426285054604
-    second: normalammo_0
+      213: -5005990984189769374
+    second: poison_0
+  - first:
+      213: -887327768880906463
+    second: poison_1
+  - first:
+      213: 3296144372841241373
+    second: poison_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 600
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -97,7 +103,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WindowsStoreApps
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -113,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: normalammo_0
+      name: poison_0
       rect:
         serializedVersion: 2
-        x: 48
-        y: 18
-        width: 528
-        height: 529
+        x: 51
+        y: 273
+        width: 314
+        height: 295
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +134,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c8af2d90dc18b9650800000000000000
-      internalID: 6240724426285054604
+      spriteID: 2698f8609b5278ab0800000000000000
+      internalID: -5005990984189769374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: poison_1
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 141
+        width: 211
+        height: 197
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12f738078149fa3f0800000000000000
+      internalID: -887327768880906463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: poison_2
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 6
+        width: 235
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1bda97e7d14ebd20800000000000000
+      internalID: 3296144372841241373
       vertices: []
       indices: 
       edges: []
@@ -148,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      normalammo_0: 6240724426285054604
+      poison_0: -5005990984189769374
+      poison_1: -887327768880906463
+      poison_2: 3296144372841241373
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
