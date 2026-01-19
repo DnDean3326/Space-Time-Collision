@@ -1,16 +1,25 @@
 fileFormatVersion: 2
-guid: 4eca1b8f25f194d6189b68d4343bb349
+guid: 26958e58364524ba2861bf0799400ef8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4335399810929793810
-    second: tavern_button_0
+      213: 8855897571582964467
+    second: blacksmith_button_0
   - first:
-      213: 5063322541917828124
-    second: tavern_button_1
+      213: -8845583133054355720
+    second: blacksmith_button_1
   - first:
-      213: 3846554871867024194
-    second: tavern_button_2
+      213: 1064086528080432602
+    second: blacksmith_button_2
+  - first:
+      213: -2280948534868627336
+    second: blacksmith_button_3
+  - first:
+      213: 4614356848484991023
+    second: blacksmith_button_4
+  - first:
+      213: 6323429232885521308
+    second: blacksmith_button_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -78,7 +87,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -119,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tavern_button_0
+      name: blacksmith_button_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 580
-        width: 520
-        height: 580
+        y: 1080
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ee4eb3687d095d3c0800000000000000
-      internalID: -4335399810929793810
+      spriteID: 3f27279bbe776ea70800000000000000
+      internalID: 8855897571582964467
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tavern_button_1
+      name: blacksmith_button_1
       rect:
         serializedVersion: 2
-        x: 520
-        y: 580
-        width: 520
-        height: 580
+        x: 1920
+        y: 1080
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +165,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c147d367609844640800000000000000
-      internalID: 5063322541917828124
+      spriteID: 8f6bb13a10d2e3580800000000000000
+      internalID: -8845583133054355720
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tavern_button_2
+      name: blacksmith_button_2
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 520
-        height: 580
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,8 +187,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 243aeaaa645b16530800000000000000
-      internalID: 3846554871867024194
+      spriteID: add438c3f0564ce00800000000000000
+      internalID: 1064086528080432602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blacksmith_button_3
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 0
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 870353c74617850e0800000000000000
+      internalID: -2280948534868627336
       vertices: []
       indices: 
       edges: []
@@ -188,7 +219,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: eb2a256a2916042e3ae772c0d2e2ef50
+    spriteID: 897672224925141278fa3717d4deec80
     internalID: 0
     vertices: []
     indices: 
@@ -198,11 +229,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":2.0},"gridSpriteSize":{"x":520.0,"y":580.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":2.0},"gridSpriteSize":{"x":1920.0,"y":1080.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      tavern_button_0: -4335399810929793810
-      tavern_button_1: 5063322541917828124
-      tavern_button_2: 3846554871867024194
+      blacksmith_button_0: 8855897571582964467
+      blacksmith_button_1: -8845583133054355720
+      blacksmith_button_2: 1064086528080432602
+      blacksmith_button_3: -2280948534868627336
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

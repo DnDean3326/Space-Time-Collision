@@ -927,8 +927,8 @@ MonoBehaviour:
   - {fileID: 2051671308}
   abilityPrefab: {fileID: 1095838542656561907, guid: 9cef7974f51b7484c8fc4ac9c74a57ad, type: 3}
   lightBorder: {fileID: 21300000, guid: 13d648a7939fe11488c37ec19d508063, type: 3}
-  mediumBorder: {fileID: 21300000, guid: 1b38363723761f147a9fbc0b6e5f87f3, type: 3}
-  heavyBorder: {fileID: 21300000, guid: af121a0e914da4b499f2cc519f34721a, type: 3}
+  mediumBorder: {fileID: 21300000, guid: 012db9bb7cedde5468d2867e237e1f13, type: 3}
+  heavyBorder: {fileID: 21300000, guid: 0fe06c1203ab7bd4ebbff058ca3e85f5, type: 3}
   allyPreview: {fileID: 1623476952}
   statDisplay: {fileID: 1486370756}
   resistDisplay: {fileID: 1509735364}
@@ -3252,7 +3252,7 @@ GameObject:
   - component: {fileID: 1297950101}
   - component: {fileID: 1297950100}
   m_Layer: 5
-  m_Name: Token Glossary Tooltip
+  m_Name: Party Select Tooltip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

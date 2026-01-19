@@ -68,6 +68,7 @@ MonoBehaviour:
 
     CD: N/A | Range: 1-5
 
+
     Reload
     your clip with 2 critical bullets and 2 misfires, then deal damage using the
     newly loaded bullets.

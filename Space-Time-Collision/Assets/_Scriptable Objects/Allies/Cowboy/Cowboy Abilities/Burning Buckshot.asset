@@ -68,7 +68,9 @@ MonoBehaviour:
 
     CD: N/A | Range: 1-3
 
-    Apply Burn
-    equal to your Vice.
 
-    On a critical hit apply extra Burn equal to your Vice.'
+    Apply
+    Burn equal to your Vice.
+
+    On a critical hit apply extra Burn equal to your
+    Vice.'

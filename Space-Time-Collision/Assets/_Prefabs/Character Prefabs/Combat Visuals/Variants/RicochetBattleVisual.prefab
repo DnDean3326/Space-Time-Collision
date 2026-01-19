@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1024795366398194524, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
+      objectReference: {fileID: 0}
     - target: {fileID: 1757096287032548235, guid: dc7e02b286856814db1fd1db96957898, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -71,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 8549982676091356961, guid: dc7e02b286856814db1fd1db96957898, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9e619f768c52847ee92feb5e692ed3ff, type: 3}
+      objectReference: {fileID: 1152225183569718560, guid: 296e3f97f2ba94cfc84a7b26a68d395d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

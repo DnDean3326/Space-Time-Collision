@@ -32,7 +32,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: tempricochet_active
+  m_Name: ricochet_active
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -48,7 +48,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7bb63b3e656b27540ab279cfae704c8b, type: 2}
+  m_Motion: {fileID: 7400000, guid: a4dac66670011824194994a8698aef93, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -317,7 +317,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: temppart_idle_sharedrow
+  m_Name: ricochet_idle_sharedrow
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -335,7 +335,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7b1a048af1c8ef1488238499d9a5be47, type: 2}
+  m_Motion: {fileID: 7400000, guid: 1751ed78ebe0a1b49ae1fd83d319e003, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -561,7 +561,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: tempparty_idle
+  m_Name: ricochet_idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -579,7 +579,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 721a4c7aa159f1b4783241f7f12c95c4, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3174031eab5dc1f489e14c96ed2bfa33, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

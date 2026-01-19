@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Sprint
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Sprint
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 4
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 0
   dmgMax: 0
   critChance: 0
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -38,10 +40,13 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 
@@ -56,4 +61,10 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  description: Move up to 2 tiles
+  equipDescription: 
+  description: 'Weight: Heavy | Cost: N/A
+
+    CD: N/A | Range: Self
+
+    Move
+    up to 2 tiles.'

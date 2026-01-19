@@ -29,11 +29,6 @@ public class PartyManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        ricochetLogic.InitializeRicochet(currentParty);
-    }
-
     public void AddMemberToPartyByName(string memberName, int level)
     {
         for (int i = 0; i < allMembers.Length; i++) {
@@ -81,6 +76,10 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.lineBreakTokenCount = allMembers[i].baseLineBreakTokenCount;
                 
                 currentParty.Add(newPartyMember);
+
+                if (newPartyMember.memberName == "Tre") {
+                    ricochetLogic.InitializeRicochet(currentParty);
+                }
             }
         }
     }

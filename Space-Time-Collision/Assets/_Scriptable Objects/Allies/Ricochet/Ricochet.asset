@@ -17,7 +17,7 @@ MonoBehaviour:
   allyCombatSprite: {fileID: 21300000, guid: 9e619f768c52847ee92feb5e692ed3ff, type: 3}
   allySquarePortrait: {fileID: 21300000, guid: c5f48ac201e2449e2be1dfc70e58cbd2, type: 3}
   allyShadowPortrait: {fileID: 21300000, guid: dd483117f2ccc46f4827533a5ae0a0ad, type: 3}
-  allySignature: {fileID: 0}
+  allySignature: {fileID: 21300000, guid: 5374315d921b540899e6fb24918be9b8, type: 3}
   baseHealth: 25
   baseDefense: 20
   baseArmor: 3
