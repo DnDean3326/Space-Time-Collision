@@ -39,10 +39,9 @@ public class PartyManager : MonoBehaviour
                 newPartyMember.memberPortrait = allMembers[i].allyTurnPortrait;
                 newPartyMember.memberSquarePortrait = allMembers[i].allySquarePortrait;
                 newPartyMember.level = level;
-
-                // TODO let players set their party formation
-                newPartyMember.xPos = 4 - currentParty.Count;
-                newPartyMember.yPos = 4 - currentParty.Count;
+                
+                newPartyMember.xPos = 0;
+                newPartyMember.yPos = 0;
                 
                 newPartyMember.maxHealth = allMembers[i].baseHealth;
                 newPartyMember.currentHealth = newPartyMember.maxHealth;

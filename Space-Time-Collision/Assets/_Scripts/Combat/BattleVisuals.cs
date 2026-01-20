@@ -42,11 +42,13 @@ public class BattleVisuals : MonoBehaviour
     private TextMeshProUGUI healthTMP;
     private TextMeshProUGUI defenseTMP;
 
-    private List<Image> ailmentImages;
-    private List<TextMeshProUGUI> ailmentCountText;
+    private List<Image> ailmentImages = new List<Image>();
+    private List<TextMeshProUGUI> ailmentCountText = new List<TextMeshProUGUI>();
+    private List<BattleToken> myAilments = new List<BattleToken>();
     
-    private List<Image> tokenImages;
-    private List<TextMeshProUGUI> tokenCountText;
+    private List<Image> tokenImages = new List<Image>();
+    private List<TextMeshProUGUI> tokenCountText = new List<TextMeshProUGUI>();
+    private List<BattleToken> myTokens = new List<BattleToken>();
         
     private const string IS_ATTACK_PARAM = "AttackTrigger";
     private const string IS_HIT_PARAM = "HitTrigger";
@@ -73,11 +75,34 @@ public class BattleVisuals : MonoBehaviour
         // Components for HP/Defense text display
         healthTMP = healthText.GetComponent<TextMeshProUGUI>();
         defenseTMP = defenseText.GetComponent<TextMeshProUGUI>();
+        
+        // Components for Ailments
+        for (var i = 0; i < ailmentSlots.Length; i++) {
+            var ailmentSlot = ailmentSlots[i];
+            var ailmentTextSlot = ailmentTextSlots[i];
+            ailmentImages.Add(ailmentSlot.GetComponent<Image>());
+            ailmentCountText.Add(ailmentTextSlot.GetComponentInChildren<TextMeshProUGUI>());
+            myAilments.Add(null);
+        }
+
+        // Components for Tokens
+        for (var i = 0; i < tokenSlots.Length; i++) {
+            var tokenSlot = tokenSlots[i];
+            var tokenTextSlot = tokenTextSlots[i];
+            tokenImages.Add(tokenSlot.GetComponent<Image>());
+            tokenCountText.Add(tokenTextSlot.GetComponentInChildren<TextMeshProUGUI>());
+            myTokens.Add(null);
+        }
     }
 
     private void Start()
     {
         HideHealth();
+    }
+
+    public void DisableUIBar()
+    {
+        myUI.SetActive(false);
     }
 
     public void SetStartingValues(int maxHealth, int currentHealth, int maxDefense,  int armor)
@@ -157,11 +182,12 @@ public class BattleVisuals : MonoBehaviour
                 if (activeTokens[i].tokenCount >= 1) {
                     ailmentSlotShadows[ailmentSlotIndex].SetActive(true);
                     ailmentSlots[ailmentSlotIndex].SetActive(true);
-                    ailmentSlots[tokenSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+                    ailmentImages[ailmentSlotIndex].sprite = activeTokens[i].tokenIcon;
+                    myAilments[ailmentSlotIndex] = activeTokens[i];
                     
                     if (activeTokens[i].tokenCount > 1) {
                         ailmentTextSlots[ailmentSlotIndex].SetActive(true);
-                        ailmentTextSlots[tokenSlotIndex].GetComponentInChildren<TextMeshProUGUI>().text = "x" + activeTokens[i].tokenCount;
+                        ailmentCountText[ailmentSlotIndex].text = "x" + activeTokens[i].tokenCount;
                     } else {
                         ailmentTextSlots[ailmentSlotIndex].SetActive(false);
                     }
@@ -175,13 +201,14 @@ public class BattleVisuals : MonoBehaviour
                 if (activeTokens[i].tokenCount >= 1) {
                     tokenSlotShadows[tokenSlotIndex].SetActive(true);
                     tokenSlots[tokenSlotIndex].SetActive(true);
-                    tokenSlots[tokenSlotIndex].GetComponent<Image>().sprite = activeTokens[i].tokenIcon;
+                    tokenImages[tokenSlotIndex].sprite = activeTokens[i].tokenIcon;
+                    myTokens[tokenSlotIndex] = activeTokens[i];
 
                     if (activeTokens[i].tokenCount > 1) {
                         tokenTextSlots[tokenSlotIndex].SetActive(true);
-                        tokenTextSlots[tokenSlotIndex].GetComponentInChildren<TextMeshProUGUI>().text = "x" + activeTokens[i].tokenCount;
+                        tokenCountText[tokenSlotIndex].text = "x" + activeTokens[i].tokenCount;
                     } else {
-                        ailmentTextSlots[ailmentSlotIndex].SetActive(false);
+                        tokenTextSlots[tokenSlotIndex].SetActive(false);
                     }
                 } else {
                     tokenTextSlots[tokenSlotIndex].SetActive(false);
@@ -192,11 +219,15 @@ public class BattleVisuals : MonoBehaviour
             }
         }
         for (int j = tokenSlotIndex; j < tokenSlots.Length; j++) {
+            tokenSlotShadows[j].SetActive(false);
             tokenSlots[j].SetActive(false);
+            myTokens[j] = null;
         }
         for (int j = ailmentSlotIndex; j < ailmentSlots.Length; j++)
         {
+            ailmentSlotShadows[j].SetActive(false);
             ailmentSlots[j].SetActive(false);
+            myAilments[j] = null;
         }
     }
 
@@ -276,7 +307,7 @@ public class BattleVisuals : MonoBehaviour
         auraSprite.sortingOrder = (newOrder - 1);
     }
     
-    // OnHover Enter Methods
+    // OnPointerEnter Methods
 
     public void DisplayHealth()
     {
@@ -287,8 +318,26 @@ public class BattleVisuals : MonoBehaviour
             myAnimator.SetBool(SHARED_ROW_BOOL, false);
         }
     }
+
+    public void DisplayTokenInfo(int slot)
+    {
+        if (myTokens[slot] == null) { return; }
+        string tokenName = myTokens[slot].displayName;
+        string tokenDescription = myTokens[slot].tokenDescription;
+        
+        Tooltip.ShowTooltip_Static(tokenName + ":" ," " + tokenDescription);
+    }
+
+    public void DisplayAilmentInfo(int slot)
+    {
+        if (myAilments[slot] == null) { return; }
+        string ailmentName = myAilments[slot].displayName;
+        string ailmentDescription = myAilments[slot].tokenDescription;
+        
+        Tooltip.ShowTooltip_Static(ailmentName + ":" ," " + ailmentDescription);
+    }
     
-    // OnHover Exit Methods
+    // OnPointerExit Methods
 
     public void HideHealth()
     {
@@ -297,5 +346,15 @@ public class BattleVisuals : MonoBehaviour
         if (wasSharingRow) {
             myAnimator.SetBool(SHARED_ROW_BOOL, true);
         }
+    }
+    
+    public void HideTokenInfo()
+    {
+        Tooltip.HideTooltip_Static();
+    }
+    
+    public void HideAilmentInfo()
+    {
+        Tooltip.HideTooltip_Static();
     }
 }

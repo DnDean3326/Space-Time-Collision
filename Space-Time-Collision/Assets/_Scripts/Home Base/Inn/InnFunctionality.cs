@@ -33,7 +33,7 @@ public class InnFunctionality : MonoBehaviour
     [SerializeField] private Image allyShadowPortrait;
     [SerializeField] private Image allyName;
     
-    private const string BASE_SCENE = "BaseScene";
+    private const string POSITION_SCENE = "InnPositionScene";
     private const float FULL_ROSTER = 6;
     private const float ALLY_ROW_MAX = 1;
     private const float ALLY_Y_SPACE = 0;
@@ -313,10 +313,10 @@ public class InnFunctionality : MonoBehaviour
     
     public void ConfirmParty()
     {
-        SceneManager.LoadScene(BASE_SCENE);
         partyManager.ClearCurrentParty();
         foreach (AllyInfo ally in preppedMembers) {
             partyManager.AddMemberToPartyByName(ally.allyName, 1); // TODO add in party positioning
         }
+        SceneManager.LoadScene(POSITION_SCENE);
     }
 }

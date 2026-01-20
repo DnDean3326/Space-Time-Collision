@@ -989,7 +989,7 @@ public class BattleSystem : MonoBehaviour
                 partyBattleGrid[gridSpawn].gridTransform.position, Quaternion.identity);
             partyBattleGrid[gridSpawn].isOccupied = true;
             partyBattleGrid[gridSpawn].occupiedBy = tempEntity;
-            BattleVisuals tempBattleVisuals =  tempVisualGameObject.GetComponent<BattleVisuals>();
+            BattleVisuals tempBattleVisuals = tempVisualGameObject.GetComponent<BattleVisuals>();
             CombatMenuVisuals tempCombatMenuVisuals = Instantiate(currentParty[i].allyMenuVisualPrefab, Vector2.zero,
                 Quaternion.identity).GetComponent<CombatMenuVisuals>();
             
