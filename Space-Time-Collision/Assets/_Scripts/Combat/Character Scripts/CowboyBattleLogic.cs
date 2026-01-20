@@ -6,12 +6,12 @@ using UnityEngine.Analytics;
 
 public class CowboyBattleLogic : MonoBehaviour
 {
-    private const float COWBOY_BASE_ACTOUT = 10f;
-    private const float COWBOY_MAX_ACTOUT = 70f;
-    private const float COWBOY_ACTOUT_INCREASE = 30f;
+    private const float COWBOY_BASE_ACTOUT = 10f; // 10f base
+    private const float COWBOY_MAX_ACTOUT = 70f; // 70f base
+    private const float COWBOY_ACTOUT_INCREASE = 30f; // 30f base
     
     private bool gainedVice;
-    private float currentActoutChance;
+    [SerializeField] private float currentActoutChance;
     
     private BattleSystem battleSystem;
 
@@ -61,6 +61,7 @@ public class CowboyBattleLogic : MonoBehaviour
                             
             float viceRoll = Random.Range(1, 101);
             if (viceRoll < currentActoutChance) {
+                battleSystem.YieldBreakEarly();
                 yield return StartCoroutine(battleSystem.CowboyViceActOut(cowboy));
                                 
                 currentActoutChance += COWBOY_ACTOUT_INCREASE;

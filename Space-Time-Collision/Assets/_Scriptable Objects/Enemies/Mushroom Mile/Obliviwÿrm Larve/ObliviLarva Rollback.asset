@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Larva Line Break
+  m_Name: ObliviLarva Rollback
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Line Break
+  abilityName: Rollback
   abilityLevel: 1
   abilityIcon: {fileID: 0}
-  abilityType: 5
-  abilityWeight: 0
+  abilityType: 2
+  abilityWeight: 1
   costResource: 0
   costAmount: 0
-  cooldown: 0
+  cooldown: 2
   rangeMin: 0
   rangeMax: 0
   hasAccuracy: 0
-  targetSelf: 0
+  targetSelf: 1
   attackType: 4
   keyStat: 0
   statModifier: 0
@@ -41,14 +41,14 @@ MonoBehaviour:
   selfMin: 0
   selfMax: 0
   bannedColumns: 
-  selfXChange: 0
+  selfXChange: 2
   selfYChange: 0
   selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
   targetYChangeToCenter: 0
-  selfTokensApplied: 02000000
-  selfTokenCountApplied: 01000000
+  selfTokensApplied: 0100000022000000
+  selfTokenCountApplied: 0200000001000000
   targetTokensApplied: 
   targetTokenCountApplied: 
   selfCritTokensApplied: 

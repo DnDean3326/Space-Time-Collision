@@ -57,6 +57,7 @@ public class BattleVisuals : MonoBehaviour
     private const string IS_DEAD_PARAM = "DeadTrigger";
     private const string MY_TURN_BOOL = "IsMyTurn";
     private const string SHARED_ROW_BOOL = "IsSharingRow";
+    private const string ACT_OUT = "ActOut";
 
     private const string TARGET_ENEMY_ACTIVE = "TargetingEnemy";
     private const string TARGET_ALLY_ACTIVE = "TargetingAlly";
@@ -279,6 +280,11 @@ public class BattleVisuals : MonoBehaviour
         if (myTurn) {
             SetMyOrder(10);
         }
+    }
+
+    public void PlayActOutAnimation()
+    {
+        myAnimator.SetTrigger(ACT_OUT);
     }
 
     public void SetSharedRowAnimation(bool sharedRow)

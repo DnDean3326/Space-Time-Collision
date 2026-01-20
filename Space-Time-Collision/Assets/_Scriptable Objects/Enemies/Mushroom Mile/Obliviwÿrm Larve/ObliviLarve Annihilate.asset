@@ -10,31 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Larva Line Break
+  m_Name: ObliviLarve Annihilate
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Line Break
+  abilityName: Wyrm Annihilation
   abilityLevel: 1
   abilityIcon: {fileID: 0}
-  abilityType: 5
+  abilityType: 0
   abilityWeight: 0
   costResource: 0
   costAmount: 0
-  cooldown: 0
-  rangeMin: 0
-  rangeMax: 0
-  hasAccuracy: 0
+  cooldown: 1
+  rangeMin: 2
+  rangeMax: 5
+  hasAccuracy: 1
   targetSelf: 0
-  attackType: 4
+  attackType: 2
   keyStat: 0
   statModifier: 0
-  dmgMin: 0
-  dmgMax: 0
+  dmgMin: 5
+  dmgMax: 15
   critChance: 0
   extraCasts: 0
-  secondaryTarget: 0
+  secondaryTarget: 4
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 0
+  secondaryValue: 80
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
@@ -47,18 +47,18 @@ MonoBehaviour:
   targetXChange: 0
   targetYChange: 0
   targetYChangeToCenter: 0
-  selfTokensApplied: 02000000
-  selfTokenCountApplied: 01000000
-  targetTokensApplied: 
-  targetTokenCountApplied: 
+  selfTokensApplied: 27000000
+  selfTokenCountApplied: 03000000
+  targetTokensApplied: 20000000
+  targetTokenCountApplied: 01000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
   selfTokensCleared: 
   targetTokensCleared: 
-  ignoreBlock: 0
-  ignoreDodge: 0
+  ignoreBlock: 1
+  ignoreDodge: 1
   ignoreWard: 0
   ignoreArmor: 0
   equipDescription: 

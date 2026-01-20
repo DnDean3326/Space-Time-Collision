@@ -48,6 +48,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private List<BattleEntity> preparedCombatants = new List<BattleEntity>();
     [SerializeField] private List<BattleEntity> turnOrder = new  List<BattleEntity>();
     [SerializeField] private List<BattleEntity> targetList = new List<BattleEntity>();
+    [SerializeField] private List<BossLogicListing> bossLogicList = new List<BossLogicListing>();
     
     [Header("Tokens")]
     [SerializeField] private List<BattleToken> allTokens = new List<BattleToken>();
@@ -131,6 +132,7 @@ public class BattleSystem : MonoBehaviour
     private bool abilityDuplicated = false;
     private bool targetBeingIndicated = false;
     private bool targetIndicatedGrid = false;
+    private bool breakEarly = false;
     
     private DuplicationType duplicationType = DuplicationType.None;
     
@@ -356,6 +358,11 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    public void YieldBreakEarly()
+    {
+        breakEarly = true;
+    }
+
     private IEnumerator PlayerTurnRoutine(int characterIndex)
     {
         if (state == BattleState.PlayerTurn) {
@@ -370,7 +377,11 @@ public class BattleSystem : MonoBehaviour
                 // Run character specific Methods
                 switch (allCombatants[currentPlayer].myName) {
                     case "Bune":
-                        yield return StartCoroutine(cowboyLogic.CowboyTurnStartLogic(allCombatants[currentPlayer]));
+                        yield return StartCoroutine(cowboyLogic.CowboyTurnStartLogic(allCombatants[characterIndex]));
+                        if (breakEarly) {
+                            breakEarly = false;
+                            yield break;
+                        }
                         break;
                     default:
                         break;
@@ -597,6 +608,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EnemyTurnRoutine(int characterIndex)
     {
+        print( allCombatants[characterIndex].myName + " turn begins");
         if (state == BattleState.EnemyTurn) {
             BattleEntity activeEnemy = allCombatants[characterIndex];
             EnemyBrain myBrain = activeEnemy.enemyBrain;
@@ -612,7 +624,7 @@ public class BattleSystem : MonoBehaviour
             
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
 
-            // Check is abilities have valid targets
+            // Check if abilities have valid targets
             for (int i = 0; i < myBrain.enemyAbilities.Count; i++) {
                 if (activeEnemy.abilityCooldowns[i] <= 0) {
                     if (usedLightAction &&
@@ -661,6 +673,11 @@ public class BattleSystem : MonoBehaviour
                     }
                 }
                 
+            }
+            
+            if (activeEnemy.myName == "Obliviwÿrm Larve") {
+                int bossIndex = bossLogicList.FindIndex(t => t.boss == activeEnemy);
+                bossLogicList[bossIndex].scriptHolder.GetComponent<ObliviwyrmLogic>().ObliviwyrmAbilityBlock(validAbilities);
             }
             
             // See if any moves have valid targets. If not, align with an opponent and move closer
@@ -875,8 +892,20 @@ public class BattleSystem : MonoBehaviour
                                 abilityTarget = targetList[0];
                                 break;
                             case EnemyBrain.TargetQualifier.Proximity:
-                                print("Qualifier of Proximity not currently functional");
-                                abilityTarget = targetList[Random.Range(0, targetList.Count)];
+                                
+                                List<ProximityListing> proximityList = new List<ProximityListing>();
+                                foreach (BattleEntity entity in targetList) {
+                                    int distance = CalculateTargetDistance(entity, activeEnemy);
+                                    ProximityListing tempListing = new ProximityListing(distance, entity);
+                                    proximityList.Add(tempListing);
+                                }
+                                if (targetLowest) {
+                                    proximityList.Sort((bi1, bi2) => bi1.proximity.CompareTo(bi2.proximity));
+                                } else {
+                                    proximityList.Sort((bi1, bi2) => -bi1.proximity.CompareTo(bi2.proximity));
+                                }
+
+                                abilityTarget = proximityList[0].identity;
                                 break;
                             default:
                                 print("Qualifier of " + abilityUsed.targetQualifier +
@@ -920,6 +949,8 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntity activeEntity)
     {
+        print("End Routine called");
+        
         // Call character turn end logic
         if (activeEntity.myName == "Renée") {
             repentantLogic.AscensionMax(activeEntity);
@@ -960,6 +991,11 @@ public class BattleSystem : MonoBehaviour
 
         if (activeEntity.myFirstTurn) {
             activeEntity.myFirstTurn = false;
+        }
+
+        if (activeEntity.myName == "Obliviwÿrm Larve") {
+            int bossIndex = bossLogicList.FindIndex(t => t.boss == activeEntity);
+            bossLogicList[bossIndex].scriptHolder.GetComponent<ObliviwyrmLogic>().ObliviwyrmTurnEnd();
         }
             
         state = BattleState.Battle;
@@ -1061,6 +1097,12 @@ public class BattleSystem : MonoBehaviour
             }
             
             FindMyGridPosition(tempEntity);
+            
+            // Check for Mini-boss/boss logic
+            if (tempEntity.myName == "Obliviwÿrm Larve") {
+                GameObject tempObject = tempEntity.myVisuals.transform.Find("Obliviwyrm Script").gameObject;
+                bossLogicList.Add(new BossLogicListing(tempObject, tempEntity));
+            }
             
             // Add the allied combatant to the all combatants and party combatant lists
             allCombatants.Add(tempEntity);
@@ -3532,28 +3574,29 @@ public class BattleSystem : MonoBehaviour
 
         if (activeAbility.targetYChangeToCenter) {
             if (targetEntity.yPos <= (BASE_Y_MAX / 2)) {
-                targetYTravel = activeAbility.selfYChange;
+                targetYTravel = activeAbility.targetYChange;
             } else {
-                targetYTravel = (activeAbility.selfYChange * -1);
+                targetYTravel = (activeAbility.targetYChange * -1);
             }
         } else {
-            targetYTravel = activeAbility.selfYChange;
+            targetYTravel = activeAbility.targetYChange;
         }
     }
     
     // Character specific methods
     public IEnumerator CowboyViceActOut(BattleEntity cowboy) // TODO make this reflect ability ranges
     {
+        int cowboyIndex = allCombatants.IndexOf(cowboy);
+        StopCoroutine(PlayerTurnRoutine(cowboyIndex));
+        cowboy.battleVisuals.PlayActOutAnimation();
+        print("Bune acts out due to boredom!");
+        yield return new WaitForSeconds(TURN_ACTION_DELAY);
+        
         BattleEntity abilityTarget = null;
         int actOutAbility;
         targetList.Clear();
-
-        int characterIndex = allCombatants.IndexOf(cowboy);
-
-        StopCoroutine(PlayerTurnRoutine(characterIndex));
             
         // Bune uses a random action with a random target
-        print("Bune acts out due to boredom!");
         yield return new WaitForSeconds(TURN_ACTION_DELAY);
             
         actOutAbility = Random.Range(1, PLAYER_NONMOVE_ABILITIES + 1);
@@ -4888,14 +4931,16 @@ public class BattleToken
     public int tokenCap;
     public int tokenCount;
 
-    [FormerlySerializedAs("inverseTokens")] public List<String> tokenInverses = new List<String>();
+    [FormerlySerializedAs("inverseTokens")]
+    public List<String> tokenInverses = new List<String>();
 
     public string tokenDescription;
 
-    public void SetTokenValues(string storedName, string storedDisplayName, Sprite storedIcon, Token.TokenType storedType,
+    public void SetTokenValues(string storedName, string storedDisplayName, Sprite storedIcon,
+        Token.TokenType storedType,
         float storedValue, int storedCap, List<String> storedInverses, string storedDescription)
     {
-        tokenName  = storedName;
+        tokenName = storedName;
         displayName = storedDisplayName;
         tokenIcon = storedIcon;
         tokenType = storedType;
@@ -4903,7 +4948,32 @@ public class BattleToken
         tokenCap = storedCap;
         tokenCount = 0;
         tokenInverses = storedInverses;
-        
+
         tokenDescription = storedDescription;
+    }
+
+}
+
+public class ProximityListing
+{
+    public int proximity;
+    public BattleEntity identity;
+
+    public ProximityListing(int distance, BattleEntity entity)
+    {
+        proximity = distance;
+        identity = entity;
+    }
+}
+
+public class BossLogicListing
+{
+    public GameObject scriptHolder;
+    public BattleEntity boss;
+
+    public BossLogicListing(GameObject gObject, BattleEntity entity)
+    {
+        scriptHolder = gObject;
+        boss = entity;
     }
 }

@@ -10,31 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
-  m_Name: Larva Line Break
+  m_Name: ObliviLarv Void Breath
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: Line Break
+  abilityName: Void Breath
   abilityLevel: 1
   abilityIcon: {fileID: 0}
-  abilityType: 5
+  abilityType: 0
   abilityWeight: 0
   costResource: 0
   costAmount: 0
   cooldown: 0
-  rangeMin: 0
-  rangeMax: 0
-  hasAccuracy: 0
+  rangeMin: 1
+  rangeMax: 5
+  hasAccuracy: 1
   targetSelf: 0
-  attackType: 4
-  keyStat: 0
-  statModifier: 0
-  dmgMin: 0
-  dmgMax: 0
-  critChance: 0
+  attackType: 2
+  keyStat: 3
+  statModifier: 1
+  dmgMin: 3
+  dmgMax: 7
+  critChance: 15
   extraCasts: 0
-  secondaryTarget: 0
+  secondaryTarget: 4
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 0
+  secondaryValue: 40
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
@@ -47,14 +47,14 @@ MonoBehaviour:
   targetXChange: 0
   targetYChange: 0
   targetYChangeToCenter: 0
-  selfTokensApplied: 02000000
-  selfTokenCountApplied: 01000000
-  targetTokensApplied: 
-  targetTokenCountApplied: 
+  selfTokensApplied: 
+  selfTokenCountApplied: 
+  targetTokensApplied: 1600000027000000
+  targetTokenCountApplied: 0100000002000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 
-  targetCritTokenCountApplied: 
+  targetCritTokensApplied: 27000000
+  targetCritTokenCountApplied: 02000000
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0

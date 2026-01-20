@@ -34,7 +34,7 @@ MonoBehaviour:
     targetQualifier: 5
     randomChance: 12
   - ability: {fileID: 11400000, guid: b03521fa417c6c24f9eee6a5c5a1ab7d, type: 2}
-    abilityPriority: 10
+    abilityPriority: 20
     targetMethod: 0
     targetQualifier: 0
     randomChance: 0

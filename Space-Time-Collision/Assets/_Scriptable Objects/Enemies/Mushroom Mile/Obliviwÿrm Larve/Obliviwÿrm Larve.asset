@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   enemyName: "Obliviw\xFFrm Larve"
   enemyPortrait: {fileID: 21300000, guid: 08877f7252563f3488ccff87a4856cff, type: 3}
-  baseHealth: 30
-  baseDefense: 5
-  baseArmor: 4
+  baseHealth: 46
+  baseDefense: 24
+  baseArmor: 6
   baseSpirit: 16
-  basePower: 3
-  baseSkill: 1
-  baseWit: 2
-  baseMind: 0
+  basePower: 5
+  baseSkill: 2
+  baseWit: 3
+  baseMind: 1
   baseSpeed: 2
   baseLuck: 3
-  baseStunResist: 0
+  baseStunResist: 20
   baseDebuffResist: 0
-  baseAilmentResist: 0
-  enemyBattleVisualPrefab: {fileID: 3665415145152625354, guid: 3c834068e4fceb146a47c0d1f283c933, type: 3}
-  baseEnemyBrain: {fileID: 11400000, guid: afc2c6ea295c3c045b90fa3854544674, type: 2}
+  baseAilmentResist: 10
+  enemyBattleVisualPrefab: {fileID: 5517501371679542808, guid: 085adfdfeea97114b93457b83f7f4437, type: 3}
+  baseEnemyBrain: {fileID: 11400000, guid: 29b213118ecd2644db1cff99a7fb6a4e, type: 2}
