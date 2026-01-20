@@ -17,6 +17,7 @@ public class PartyPositionFunction : MonoBehaviour
     
     private PartyManager partyManager;
     private List<Image> partyPortraits = new List<Image>();
+    private List<Image> partyBorders = new List<Image>();
     private List<GameObject> confirmationIcon = new List<GameObject>();
     private List<PartyMember> activeParty;
     private List<bool> isOccupied = new List<bool>();
@@ -29,6 +30,7 @@ public class PartyPositionFunction : MonoBehaviour
 
         foreach (var partyDisplay in partyDisplays) {
             partyPortraits.Add(partyDisplay.transform.GetChild(0).GetComponent<Image>());
+            partyBorders.Add(partyDisplay.transform.GetChild(1).GetComponent<Image>());
             confirmationIcon.Add(partyDisplay.transform.GetChild(2).gameObject);
         }
 
@@ -95,8 +97,10 @@ public class PartyPositionFunction : MonoBehaviour
     {
         if (selectedMember != activeParty[index]) {
             selectedMember = activeParty[index];
+            partyBorders[index].color = Color.gray3;
         } else if (selectedMember == activeParty[index]) {
             selectedMember = null;
+            partyBorders[index].color = Color.white;
         }
 
         ButtonStatus();
@@ -107,7 +111,6 @@ public class PartyPositionFunction : MonoBehaviour
         if (selectedMember != null) {
             selectedMember.xPos = (index % 4) + 1;
             selectedMember.yPos = (Mathf.FloorToInt((float)index / 4) + 1);
-            print(selectedMember.xPos + ", " + selectedMember.xPos);
             
             if (selectedMember != null) {
                 foreach (Transform child in gridTransforms[index])
@@ -123,7 +126,8 @@ public class PartyPositionFunction : MonoBehaviour
                 tempBattleVisuals.DisableUIBar();
                 isOccupied[index] = true;
             }
-            
+
+            partyBorders[activeParty.IndexOf(selectedMember)].color = Color.white;
             selectedMember = null;
         } else if (isOccupied[index]) {
             foreach (Transform child in gridTransforms[index])

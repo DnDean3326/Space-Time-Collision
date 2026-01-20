@@ -55,7 +55,12 @@ public class RicochetBattleLogic : MonoBehaviour
     
     public void InitializeRicochet(List<PartyMember> partyMembers)
     {
+        isSetup = false;
+        
         if (partyMembers.Any(t => t.memberName == "Tre")) {
+            if (bulletList.Count != 0) {
+                bulletList.Clear();
+            }
             bulletList = GenerateBulletClip(BulletType.Critical, 2, 1);
             int ricochetPosition = partyMembers.FindIndex(t => t.memberName == "Tre");
             partyMembers[ricochetPosition].maxSpirit = bulletList.Count;
@@ -118,7 +123,6 @@ public class RicochetBattleLogic : MonoBehaviour
 
             if (partyMembers.Any(t => t.myName == "Tre")) {
                 int ricochetPosition = partyMembers.FindIndex(t => t.myName == "Tre");
-                print(bulletList.Count);
                 partyMembers[ricochetPosition].currentSpirit = bulletList.Count;
             }
         }
