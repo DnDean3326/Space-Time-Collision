@@ -5789,6 +5789,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2456994929127492047, guid: 3c4754d9150729046912ff1bb9292eab, type: 3}
   m_PrefabInstance: {fileID: 1210066471}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1210066473 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 623495448428105145, guid: 3c4754d9150729046912ff1bb9292eab, type: 3}
+  m_PrefabInstance: {fileID: 1210066471}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1234382921
 GameObject:
   m_ObjectHideFlags: 0
@@ -7001,7 +7006,7 @@ PrefabInstance:
     - target: {fileID: 2589976966823341210, guid: 3196f1292ffb18340b2ad84734fee2ad, type: 3}
       propertyPath: pauseUI
       value: 
-      objectReference: {fileID: 634233006}
+      objectReference: {fileID: 1210066473}
     - target: {fileID: 7739905980058966433, guid: 3196f1292ffb18340b2ad84734fee2ad, type: 3}
       propertyPath: m_Name
       value: Input Controller
