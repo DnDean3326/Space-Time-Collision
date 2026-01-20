@@ -3925,12 +3925,12 @@ public class BattleSystem : MonoBehaviour
 
             int deadPosition;
             if (attackTarget.isPlayer) {
-                deadPosition = partyBattleGrid.FindIndex(t => t.occupiedBy.myName == attackTarget.myName);
+                deadPosition = partyBattleGrid.FindIndex(t => t.occupiedBy == attackTarget);
                 partyBattleGrid[deadPosition].isOccupied = false;
                 partyBattleGrid[deadPosition].occupiedBy = null;
                 partyCombatants.Remove(attackTarget);
             } else if (!attackTarget.isPlayer) {
-                deadPosition = enemyBattleGrid.FindIndex(t => t.occupiedBy.myName == attackTarget.myName);
+                deadPosition = enemyBattleGrid.FindIndex(t => t.occupiedBy == attackTarget);
                 enemyBattleGrid[deadPosition].isOccupied = false;
                 enemyBattleGrid[deadPosition].occupiedBy = null;
                 enemyCombatants.Remove(attackTarget);
