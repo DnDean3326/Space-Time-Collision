@@ -12,4 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5782dc23fa4eeec42a4c49f3a6e34bdb, type: 3}
   m_Name: Viral Seeker Brain
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
-  enemyAbilities: []
+  enemyAbilities:
+  - ability: {fileID: 11400000, guid: b81de7e13e7395245bc52daa90a1ef7c, type: 2}
+    abilityPriority: 8
+    targetMethod: 0
+    targetQualifier: 0
+    randomChance: 0
+  - ability: {fileID: 11400000, guid: cb0dabe3611ac5f48ba7ab949aeaf8e5, type: 2}
+    abilityPriority: 6
+    targetMethod: 1
+    targetQualifier: 10
+    randomChance: 8
+  - ability: {fileID: 11400000, guid: 37c86110c24b9514a8b7b0035c183d08, type: 2}
+    abilityPriority: 5
+    targetMethod: 1
+    targetQualifier: 2
+    randomChance: 2
+  - ability: {fileID: 11400000, guid: 1fb0a259354641b45bac2738353763a4, type: 2}
+    abilityPriority: 4
+    targetMethod: 1
+    targetQualifier: 1
+    randomChance: 6
+  - ability: {fileID: 11400000, guid: 412efd9ccdd690e4fbdd725419cd7016, type: 2}
+    abilityPriority: 3
+    targetMethod: 0
+    targetQualifier: 0
+    randomChance: 0

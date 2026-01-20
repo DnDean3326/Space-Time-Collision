@@ -1916,13 +1916,13 @@ public class BattleSystem : MonoBehaviour
             case Ability.SecondaryTarget.Spirit:
                 if (targetEntity.isPlayer) {
                     tempInt = targetEntity.currentSpirit - activeAbility.costAmount;
-                    if (tempInt > 0) { tempInt = 0;}
+                    if (tempInt < 0) { tempInt = 0;}
                     targetEntity.combatMenuVisuals.ChangeSpirit(tempInt);
                 }
                 break;
             case Ability.SecondaryTarget.Armor:
                 tempInt = targetEntity.currentArmor - activeAbility.secondaryValue;
-                if (tempInt > 0) { tempInt = 0;}
+                if (tempInt < 0) { tempInt = 0;}
                 targetEntity.battleVisuals.ChangeArmor(tempInt);
                 break;
             case Ability.SecondaryTarget.ActionPoints:
@@ -2042,6 +2042,7 @@ public class BattleSystem : MonoBehaviour
             usedAbility = false;
             StopAllCoroutines();
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
+            allCombatants[currentPlayer].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangePassButtonVisibility(false);
             StartCoroutine(EndRoutine(allCombatants[currentPlayer]));
         }
@@ -2851,7 +2852,7 @@ public class BattleSystem : MonoBehaviour
                 // If the damage dealt is greater than the target's defense, deal the rest to their HP
                 if (ailmentDamage > activeEntity.currentDefense) {
                     int overflowDamage = ailmentDamage - activeEntity.currentDefense;
-                    activeEntity.currentDefense = 0;
+                    activeEntity.currentDefense -= (ailmentDamage - overflowDamage);
                     activeEntity.currentHealth -= overflowDamage;
                 } else {
                     activeEntity.currentDefense -= ailmentDamage;
@@ -3865,7 +3866,7 @@ public class BattleSystem : MonoBehaviour
             // If the damage dealt is greater than the target's defense, deal the rest to their HP
             if (damage > attackTarget.currentDefense) {
                 int overflowDamage = damage - attackTarget.currentDefense;
-                attackTarget.currentDefense = 0;
+                attackTarget.currentDefense -= (damage - overflowDamage);
                 attackTarget.currentHealth -= overflowDamage;
             } else {
                 attackTarget.currentDefense -= damage;
@@ -3921,10 +3922,17 @@ public class BattleSystem : MonoBehaviour
             if (preparedCombatants.Any(t => t.myName == attackTarget.myName)) {
                 preparedCombatants.Remove(attackTarget);
             }
+
+            int deadPosition;
             if (attackTarget.isPlayer) {
+                deadPosition = partyBattleGrid.FindIndex(t => t.occupiedBy.myName == attackTarget.myName);
+                partyBattleGrid[deadPosition].isOccupied = false;
+                partyBattleGrid[deadPosition].occupiedBy = null;
                 partyCombatants.Remove(attackTarget);
-                
             } else if (!attackTarget.isPlayer) {
+                deadPosition = enemyBattleGrid.FindIndex(t => t.occupiedBy.myName == attackTarget.myName);
+                enemyBattleGrid[deadPosition].isOccupied = false;
+                enemyBattleGrid[deadPosition].occupiedBy = null;
                 enemyCombatants.Remove(attackTarget);
             }
         }
@@ -4616,7 +4624,7 @@ public class BattleSystem : MonoBehaviour
                 if (allCombatants[currentPlayer].currentDefense > 0) {
                     if (resourceCost > allCombatants[currentPlayer].currentDefense) {
                         int overflowDamage = resourceCost - allCombatants[currentPlayer].currentDefense;
-                        allCombatants[currentPlayer].currentDefense = 0;
+                        allCombatants[currentPlayer].currentDefense -= (resourceCost - overflowDamage);
                         allCombatants[currentPlayer].currentHealth -= overflowDamage;
                     } else {
                         allCombatants[currentPlayer].currentDefense -= resourceCost;

@@ -30,6 +30,8 @@ public class PauseMenu : MonoBehaviour
             pauseUI.SetActive(false);
             Time.timeScale = 1;
         }
+        
+        Tooltip.HideTooltip_Static();
     }
 
     public void Resume()

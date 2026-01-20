@@ -62,11 +62,21 @@ public class PartyPositionFunction : MonoBehaviour
     private void ButtonStatus()
     {
         if (selectedMember == null) {
-            foreach (var button in gridButtons) {
+            for (int i = 0; i < gridButtons.Count; i++) {
+                var button = gridButtons[i];
+                if (isOccupied[i]) {
+                    button.interactable = true;
+                    continue;
+                }
                 button.interactable = false;
             }
         } else {
-            foreach (var button in gridButtons) {
+            for (int i = 0; i < gridButtons.Count; i++) {
+                var button = gridButtons[i];
+                if (isOccupied[i]) {
+                    button.interactable = false;
+                    continue;
+                }
                 button.interactable = true;
             }
         }
@@ -133,10 +143,11 @@ public class PartyPositionFunction : MonoBehaviour
             foreach (Transform child in gridTransforms[index])
             {
                 Destroy(child.gameObject);
-                int memberIndex = activeParty.FindIndex(t => t.xPos == (index % 4) + 1 && t.yPos == (Mathf.FloorToInt((float)index / 4) + 1));
-                activeParty[memberIndex].xPos = 0;
-                activeParty[memberIndex].yPos = 0;
             }
+            int memberIndex = activeParty.FindIndex(t => t.xPos == (index % 4) + 1 && t.yPos == (Mathf.FloorToInt((float)index / 4) + 1));
+            activeParty[memberIndex].xPos = 0;
+            activeParty[memberIndex].yPos = 0;
+            isOccupied[index] = false;
         }
         
         ButtonStatus();

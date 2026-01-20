@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EncounterSystem
   availableEncounters:
-  - {fileID: 11400000, guid: 7ea9302733ef8ee478f6781b38110ea8, type: 2}
+  - {fileID: 11400000, guid: 2ad28d8f392727a40b94d3dbfb4a17f9, type: 2}
 --- !u!1 &358808218
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,6 +1317,7 @@ MonoBehaviour:
   allEnemies:
   - {fileID: 11400000, guid: 26f7472d970e39241a4be687dcc0e5b1, type: 2}
   - {fileID: 11400000, guid: 88ec8a9771cccf44a8730ddc30d19e91, type: 2}
+  - {fileID: 11400000, guid: f87a5a695ef55474ea3f7429f6c59775, type: 2}
   currentEnemies: []
 --- !u!1 &1344787554
 GameObject:

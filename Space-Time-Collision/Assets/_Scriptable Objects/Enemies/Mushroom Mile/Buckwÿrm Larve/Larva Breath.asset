@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Larva Breath
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Wyrm Breath
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
   dmgMin: 3
   dmgMax: 5
   critChance: 10
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -38,22 +40,26 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: 0
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 16000000
   targetTokenCountApplied: 01000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 0d000000
-  targetCritTokenCountApplied: 01000000
+  targetCritTokensApplied: 26000000
+  targetCritTokenCountApplied: 02000000
   selfTokensCleared: 
   targetTokensCleared: 
   ignoreBlock: 0
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
+  equipDescription: 
   description: 

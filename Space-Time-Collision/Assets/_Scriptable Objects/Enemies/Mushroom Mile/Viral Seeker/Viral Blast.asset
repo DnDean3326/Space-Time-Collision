@@ -13,19 +13,24 @@ MonoBehaviour:
   m_Name: Viral Blast
   m_EditorClassIdentifier: Assembly-CSharp::Ability
   abilityName: Viral Blast
+  abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 0
   abilityWeight: 0
   costResource: 0
   costAmount: 0
   cooldown: 1
-  range: 0
+  rangeMin: 3
+  rangeMax: 7
+  hasAccuracy: 1
   targetSelf: 0
+  attackType: 1
   keyStat: 2
   statModifier: 0
   dmgMin: 4
   dmgMax: 7
   critChance: 25
+  extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
   secondaryStatModifier: 0
@@ -35,10 +40,13 @@ MonoBehaviour:
   selfStatModifier: 0
   selfMin: 0
   selfMax: 0
+  bannedColumns: 
   selfXChange: 0
   selfYChange: 0
+  selfYChangeToCenter: 0
   targetXChange: -1
   targetYChange: 0
+  targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 
@@ -53,4 +61,5 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
+  equipDescription: 
   description: 

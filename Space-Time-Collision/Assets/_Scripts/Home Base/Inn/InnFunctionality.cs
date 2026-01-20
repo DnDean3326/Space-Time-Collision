@@ -18,8 +18,8 @@ public class InnFunctionality : MonoBehaviour
 
     [Header("Ability Select UI")]
     [SerializeField] private GameObject abilitySelection;
-    [FormerlySerializedAs("activeAbilityDisplay")] [SerializeField] private GameObject activeEquippedDisplay;
-    [FormerlySerializedAs("activeAbilitySlots")] [SerializeField] private GameObject[] activeEquippedSlots;
+    [SerializeField] private GameObject activeEquippedDisplay;
+    [SerializeField] private GameObject[] activeEquippedSlots;
     [SerializeField] private GameObject abilityPrefab;
     [SerializeField] private Sprite lightBorder;
     [SerializeField] private Sprite mediumBorder;
@@ -50,6 +50,9 @@ public class InnFunctionality : MonoBehaviour
     private RectTransform abilitySelectionRect;
     private float abilityYSize;
     
+    private List<GameObject> partyCheckmarks = new List<GameObject>();
+    private List<GameObject> abilityCheckmarks = new List<GameObject>();
+    
     private PartyManager partyManager;
 
     private void Awake()
@@ -78,11 +81,14 @@ public class InnFunctionality : MonoBehaviour
     {
         int unlockedAllyCount = 0;
         
+        partyCheckmarks.Clear();
         foreach (AllyInfo allyInfo in allyList) {
             GameObject newAlly = Instantiate(allyPrefab, allySelection.transform);
             newAlly.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = allyInfo.allySquarePortrait;
             AllySelectButton tempButton = newAlly.GetComponent<AllySelectButton>();
             tempButton.SetMyAlly(allyInfo);
+            GameObject allyCheckmark = newAlly.transform.GetChild(2).gameObject;
+            partyCheckmarks.Add(allyCheckmark);
             
             unlockedAllyCount++;
         }
@@ -125,6 +131,14 @@ public class InnFunctionality : MonoBehaviour
                 tempDisplay.GetComponent<Image>().sprite = preppedMembers[i].allySquarePortrait;
             } else {
                 tempDisplay.SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < allyList.Count; i++) {
+            if (preppedMembers.Any(t => t == allyList[i])) {
+                partyCheckmarks[i].SetActive(true);
+            } else {
+                partyCheckmarks[i].SetActive(false);
             }
         }
     }
@@ -192,9 +206,12 @@ public class InnFunctionality : MonoBehaviour
         foreach (Transform child in abilitySelection.transform) {
             Destroy(child.gameObject);
         }
+        abilityCheckmarks.Clear();
         foreach (Ability ability in ally.abilities) {
             GameObject tempAbility = Instantiate(abilityPrefab, abilitySelection.transform);
             AbilitySelectButton tempButton = tempAbility.GetComponent<AbilitySelectButton>();
+            GameObject abilityCheckmark = tempAbility.transform.GetChild(3).gameObject;
+            abilityCheckmarks.Add(abilityCheckmark);
             tempButton.SetMyAbility(ability);
             
             //tempAbility.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = ability.abilityIcon;
@@ -279,6 +296,14 @@ public class InnFunctionality : MonoBehaviour
                 abilityBorder.color = Color.gray3;
                 
                 abilitySlot.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = "";
+            }
+        }
+        
+        for (int i = 0; i < ally.abilities.Length; i++) {
+            if (ally.equippedAbilities.Any(t => t == ally.abilities[i])) {
+                abilityCheckmarks[i].SetActive(true);
+            } else {
+                abilityCheckmarks[i].SetActive(false);
             }
         }
     }

@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   enemyName: "Buckw\xFFrm Larve"
   enemyPortrait: {fileID: 21300000, guid: b1bf7817e8495b84e89399937705a2d9, type: 3}
-  baseHealth: 30
-  baseDefense: 5
+  baseHealth: 32
+  baseDefense: 10
   baseArmor: 4
   baseSpirit: 16
-  basePower: 3
+  basePower: 4
   baseSkill: 1
   baseWit: 2
-  baseMind: 0
+  baseMind: 3
   baseSpeed: 2
-  baseLuck: 3
+  baseLuck: 5
   baseStunResist: 20
   baseDebuffResist: 0
   baseAilmentResist: 5
