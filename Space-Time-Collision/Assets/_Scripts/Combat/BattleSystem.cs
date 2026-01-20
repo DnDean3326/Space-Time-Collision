@@ -1776,31 +1776,31 @@ public class BattleSystem : MonoBehaviour
     {
         BattleEntity currentPlayerEntity = allCombatants[currentPlayer];
         int tempInt;
-        switch (currentPlayerEntity.myAbilities[abilityIndex].costResource.ToString()) {
-            case "Null":
+        switch (currentPlayerEntity.myAbilities[abilityIndex].costResource) {
+            case Ability.CostResource.Null:
                 break;
-            case "Spirit":
+            case Ability.CostResource.Spirit:
                 tempInt = currentPlayerEntity.currentSpirit - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
                 currentPlayerEntity.combatMenuVisuals.ChangeSpirit(tempInt);
                 break;
-            case "Health":
+            case Ability.CostResource.Health:
                 tempInt = currentPlayerEntity.currentHealth - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
                 if (tempInt > 0) { tempInt = 0;}
                 currentPlayerEntity.battleVisuals.ChangeHealth(tempInt);
                 break;
-            case "Defense":
+            case Ability.CostResource.Defense:
                 tempInt = currentPlayerEntity.currentDefense - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
                 if (tempInt > 0) { tempInt = 0;}
                 currentPlayerEntity.battleVisuals.ChangeDefense(tempInt);
                 break;
-            case "SelfDmg":
+            case Ability.CostResource.SelfDmg:
                 break;
-            case "Armor":
+            case Ability.CostResource.Armor:
                 tempInt = currentPlayerEntity.currentArmor - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
                 if (tempInt > 0) { tempInt = 0;}
                 currentPlayerEntity.battleVisuals.ChangeArmor(tempInt);
                 break;
-            case "Special":
+            case Ability.CostResource.Special:
                 print("Special resource type was called but isn't programmed in yet.");
                 break;
             default: 
@@ -1812,30 +1812,30 @@ public class BattleSystem : MonoBehaviour
     public void EndResourcePreview(int abilityIndex)
     {
         BattleEntity currentPlayerEntity = allCombatants[currentPlayer];
-        switch (currentPlayerEntity.myAbilities[abilityIndex].costResource.ToString()) {
-            case "Null":
+        switch (currentPlayerEntity.myAbilities[abilityIndex].costResource) {
+            case Ability.CostResource.Null:
                 break;
-            case "Spirit":
+            case Ability.CostResource.Spirit:
                 if (currentPlayerEntity.myName == "Tre") {
                     currentPlayerEntity.combatMenuVisuals.ChangeSpirit(ricochetLogic.CheckBulletCount());
                 } else {
                     currentPlayerEntity.combatMenuVisuals.ChangeSpirit(currentPlayerEntity.currentSpirit);
                 }
                 break;
-            case "Health":
+            case Ability.CostResource.Health:
                 currentPlayerEntity.battleVisuals.ChangeHealth(currentPlayerEntity.currentHealth);
                 break;
-            case "Defense":
+            case Ability.CostResource.Defense:
                 currentPlayerEntity.battleVisuals.ChangeDefense(currentPlayerEntity.currentDefense);
                 break;
-            case "SelfDmg":
+            case Ability.CostResource.SelfDmg:
                 currentPlayerEntity.battleVisuals.ChangeHealth(currentPlayerEntity.currentHealth);
                 currentPlayerEntity.battleVisuals.ChangeDefense(currentPlayerEntity.currentDefense);
                 break;
-            case "Armor":
+            case Ability.CostResource.Armor:
                 currentPlayerEntity.battleVisuals.ChangeArmor(currentPlayerEntity.currentArmor);
                 break;
-            case "Special":
+            case Ability.CostResource.Special:
                 print("Special resource type was called but isn't programmed in yet.");
                 break;
             default: 

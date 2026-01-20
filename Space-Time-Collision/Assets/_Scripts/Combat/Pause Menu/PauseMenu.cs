@@ -14,7 +14,6 @@ public class PauseMenu : MonoBehaviour
         pauseActive = false;
         
         pauseUI.SetActive(false);
-        Time.timeScale = 1;
     }
     
     private void OnPause(InputValue value)

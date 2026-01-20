@@ -221,6 +221,54 @@ public class RicochetBattleLogic : MonoBehaviour
         }
     }
 
+    private void SetBulletText(BattleEntity ricochet, List<BulletType> bulletsUsed)
+    {
+        string bulletText = null;
+        if (bulletsUsed.Count == 1) {
+            switch (bulletsUsed[0]) {
+                case BulletType.Critical:
+                    bulletText = "<color=#2abadbff>CRITICAL</color>";
+                    break;
+                case BulletType.Incendiary:
+                    bulletText = "<color=#cb5c29ff>INCENDIARY</color>";
+                    break;
+                case BulletType.Normal:
+                    bulletText = "<color=#c4c4c4ff>Normal</color>";
+                    break;
+                case BulletType.Blank:
+                    bulletText = "<color=#3c3c3cff>MISFIRE!</color>";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        } else {
+            for (var i = 0; i < bulletsUsed.Count; i++) {
+                var bulletType = bulletsUsed[i];
+                if (i > 0) {
+                    bulletText += "\n";
+                }
+                switch (bulletType) {
+                    case BulletType.Critical:
+                        bulletText += "<color=#2abadbff>CRITICAL</color>";
+                        break;
+                    case BulletType.Incendiary:
+                        bulletText += "<color=#cb5c29ff>INCENDIARY</color>";
+                        break;
+                    case BulletType.Normal:
+                        bulletText += "<color=#c4c4c4ff>Normal</color>";
+                        break;
+                    case BulletType.Blank:
+                        bulletText += "<color=#3c3c3cff>MISFIRE!</color>";
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+        
+        ricochet.battleVisuals.SetExtraTextContent(bulletText);
+    }
+
     public void RicochetAttackLogic(BattleEntity ricochet, Ability activeAbility, ref int minDamage, ref int maxDamage, ref int critChance,
         ref int selfXTravel, ref int selfYTravel, ref List<BattleToken> selfTokens, ref List<int> selfTokensCount, 
         ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
@@ -395,6 +443,8 @@ public class RicochetBattleLogic : MonoBehaviour
                 }
                 break;
         }
+
+        SetBulletText(ricochet, bulletsUsed);
     }
 
     public void RicochetBuffLogic(BattleEntity ricochet, Ability activeAbility, ref List<BattleToken> selfTokens,
@@ -427,6 +477,7 @@ public class RicochetBattleLogic : MonoBehaviour
                     selfTokens.Add(battleSystem.GetTokenIdentity("Ricochet"));
                     selfTokensCount.Add(1);
                 }
+                SetBulletText(ricochet, bulletsUsed);
                 break;
             case "Calculate":
                 bulletsUsed = CheckCurrentBullets(1);

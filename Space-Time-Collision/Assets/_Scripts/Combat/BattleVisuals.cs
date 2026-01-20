@@ -17,6 +17,7 @@ public class BattleVisuals : MonoBehaviour
     [SerializeField] private GameObject defenseText;
     [SerializeField] private TextMeshProUGUI armorText;
     [SerializeField] private TextMeshProUGUI damageText;
+    [SerializeField] private TextMeshProUGUI extraText;
     [SerializeField] private GameObject targetIndicator;
     
     [SerializeField] private GameObject[] tokenSlots;
@@ -45,7 +46,6 @@ public class BattleVisuals : MonoBehaviour
     private List<Image> ailmentImages = new List<Image>();
     private List<TextMeshProUGUI> ailmentCountText = new List<TextMeshProUGUI>();
     private List<BattleToken> myAilments = new List<BattleToken>();
-    
     private List<Image> tokenImages = new List<Image>();
     private List<TextMeshProUGUI> tokenCountText = new List<TextMeshProUGUI>();
     private List<BattleToken> myTokens = new List<BattleToken>();
@@ -229,6 +229,11 @@ public class BattleVisuals : MonoBehaviour
             ailmentSlots[j].SetActive(false);
             myAilments[j] = null;
         }
+    }
+
+    public void SetExtraTextContent(string text)
+    {
+        extraText.text = text;
     }
 
     public void PlayAttackAnimation()
