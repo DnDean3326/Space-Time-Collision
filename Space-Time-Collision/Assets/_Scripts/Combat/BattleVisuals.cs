@@ -384,7 +384,11 @@ public class BattleVisuals : MonoBehaviour
 
     public void SetMyOrder(int newOrder)
     {
-        uiCanvas.sortingOrder = newOrder;
+        if (uiCanvas is not null) {
+            uiCanvas.sortingOrder = newOrder;
+        } else {
+            return;
+        }
         visualsSprite.sortingOrder = newOrder;
         auraSprite.sortingOrder = (newOrder - 1);
     }
