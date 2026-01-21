@@ -277,6 +277,10 @@ public class BattleSystem : MonoBehaviour
             if (playerPrefs.GetRunStatus() > 2) {
                 playerPrefs.SetRunStatus(0);
             }
+
+            foreach (var player in partyCombatants) {
+                player.activeTokens.Clear();
+            }
             SceneManager.LoadScene(MAP_SCENE);
         }
         // Remove any dead combatants from the combat

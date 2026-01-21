@@ -22,9 +22,9 @@ MonoBehaviour:
   baseDefense: 18
   baseArmor: 2
   baseSpirit: 32
-  basePower: 400
+  basePower: 4
   baseSkill: 3
-  baseWit: 400
+  baseWit: 4
   baseMind: 4
   baseSpeed: 6
   baseLuck: 2

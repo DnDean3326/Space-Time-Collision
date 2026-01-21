@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class BulletPreview : MonoBehaviour
 {
     [SerializeField] private BulletDisplay myBulletDisplay;
-    private Image myImage;
+    [SerializeField] private Image myImage;
     
     private void Awake()
     {

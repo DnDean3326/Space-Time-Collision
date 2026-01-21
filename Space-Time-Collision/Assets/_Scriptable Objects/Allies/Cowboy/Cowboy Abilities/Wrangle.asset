@@ -44,7 +44,7 @@ MonoBehaviour:
   selfXChange: 0
   selfYChange: 0
   selfYChangeToCenter: 0
-  targetXChange: 0
+  targetXChange: 1
   targetYChange: 0
   targetYChangeToCenter: 0
   selfTokensApplied: 

@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &40728826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2866,14 +2866,13 @@ GameObject:
   - component: {fileID: 1619228198}
   - component: {fileID: 1619228201}
   - component: {fileID: 1619228200}
-  - component: {fileID: 1619228199}
   m_Layer: 5
   m_Name: Victory Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1619228198
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2896,20 +2895,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1619228199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1619228197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ba0b59f221fe2e4f860af49f79084eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TutorialText
-  tutorialBox: {fileID: 1619228197}
-  victoryBox: {fileID: 0}
 --- !u!114 &1619228200
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -133,10 +133,10 @@ public class RicochetBattleLogic : MonoBehaviour
     public List<BulletType> CheckCurrentBullets(int bulletsToCheck)
     {
         List<BulletType> tempList = new List<BulletType>();
+        if (bulletsToCheck > bulletList.Count) { bulletsToCheck = bulletList.Count; }
         for (int i = 0; i < bulletsToCheck; i++) {
             tempList.Add(bulletList[i]);
         }
-
         return tempList;
     }
     

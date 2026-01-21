@@ -140,6 +140,7 @@ MonoBehaviour:
       rgba: 0
     isRevealed: 0
     hoverText: 
+  myImage: {fileID: 8634441974536153535}
 --- !u!1 &2448685589088393208
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,6 +418,7 @@ MonoBehaviour:
       rgba: 0
     isRevealed: 0
     hoverText: 
+  myImage: {fileID: 4614709594248205644}
 --- !u!1 &4154989871795384599
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,6 +674,7 @@ MonoBehaviour:
       rgba: 0
     isRevealed: 0
     hoverText: 
+  myImage: {fileID: 3871724313826846142}
 --- !u!1001 &3382181333607308634
 PrefabInstance:
   m_ObjectHideFlags: 0

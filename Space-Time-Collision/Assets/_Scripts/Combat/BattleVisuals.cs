@@ -19,14 +19,14 @@ public class BattleVisuals : MonoBehaviour
     [SerializeField] private TextMeshProUGUI damageText;
     [SerializeField] private TextMeshProUGUI extraText;
     [SerializeField] private GameObject targetIndicator;
-    
-    [SerializeField] private GameObject[] tokenSlots;
-    [SerializeField] private GameObject[] tokenSlotShadows;
-    [SerializeField] private GameObject[] tokenTextSlots;
-    
-    [SerializeField] private GameObject[] ailmentSlots;
-    [SerializeField] private GameObject[] ailmentSlotShadows;
-    [SerializeField] private GameObject[] ailmentTextSlots;
+
+    [SerializeField] private GameObject tokenGrid;
+    [SerializeField] private GameObject ailmentGrid;
+    [SerializeField] private GameObject tokenPrefab;
+    [SerializeField] private GameObject ailmentPrefab;
+
+    private RectTransform tokenDisplayRect;
+    private RectTransform ailmentDisplayRect;
 
     private int maxHealth;
     private int currentHealth;
@@ -62,6 +62,10 @@ public class BattleVisuals : MonoBehaviour
     private const string TARGET_ENEMY_ACTIVE = "TargetingEnemy";
     private const string TARGET_ALLY_ACTIVE = "TargetingAlly";
 
+    private const float ROW_MAX = 7f;
+    private const float TOKEN_HEIGHT = 34f;
+    private const float TOKEN_WIDTH = 24f;
+
     private void Awake()
     {
         // Components for animation
@@ -77,23 +81,10 @@ public class BattleVisuals : MonoBehaviour
         healthTMP = healthText.GetComponent<TextMeshProUGUI>();
         defenseTMP = defenseText.GetComponent<TextMeshProUGUI>();
         
-        // Components for Ailments
-        for (var i = 0; i < ailmentSlots.Length; i++) {
-            var ailmentSlot = ailmentSlots[i];
-            var ailmentTextSlot = ailmentTextSlots[i];
-            ailmentImages.Add(ailmentSlot.GetComponent<Image>());
-            ailmentCountText.Add(ailmentTextSlot.GetComponentInChildren<TextMeshProUGUI>());
-            myAilments.Add(null);
-        }
-
         // Components for Tokens
-        for (var i = 0; i < tokenSlots.Length; i++) {
-            var tokenSlot = tokenSlots[i];
-            var tokenTextSlot = tokenTextSlots[i];
-            tokenImages.Add(tokenSlot.GetComponent<Image>());
-            tokenCountText.Add(tokenTextSlot.GetComponentInChildren<TextMeshProUGUI>());
-            myTokens.Add(null);
-        }
+        tokenDisplayRect = tokenGrid.GetComponent<RectTransform>();
+        ailmentDisplayRect = ailmentGrid.GetComponent<RectTransform>();
+        
     }
 
     private void Start()
@@ -175,7 +166,7 @@ public class BattleVisuals : MonoBehaviour
 
     public void UpdateTokens(List<BattleToken> activeTokens)
     {
-        int tokenSlotIndex = 0;
+        /*int tokenSlotIndex = 0;
         int ailmentSlotIndex = 0;
         
         for (int i = 0; i < activeTokens.Count; i++) {
@@ -229,7 +220,87 @@ public class BattleVisuals : MonoBehaviour
             ailmentSlotShadows[j].SetActive(false);
             ailmentSlots[j].SetActive(false);
             myAilments[j] = null;
+        }*/
+        
+        int tokenSlotCount = 0;
+        int ailmentSlotCount = 0;
+        
+        foreach (Transform child in tokenGrid.transform) {
+            Destroy(child.gameObject);
         }
+        foreach (Transform child in ailmentGrid.transform) {
+            Destroy(child.gameObject);
+        }
+        
+        foreach (var token in activeTokens) {
+            if (token.tokenType != Token.TokenType.Ailments) {
+                GameObject tempObject = Instantiate(tokenPrefab, tokenGrid.transform);
+                TokenDisplay tempDisplay = tempObject.GetComponent<TokenDisplay>();
+                tempDisplay.SetMyToken(token);
+                tempDisplay.DisplayToken();
+                tokenSlotCount++;
+            } else if (token.tokenType == Token.TokenType.Ailments) {
+                GameObject tempObject = Instantiate(ailmentPrefab, ailmentGrid.transform);
+                TokenDisplay tempDisplay = tempObject.GetComponent<TokenDisplay>();
+                tempDisplay.SetMyToken(token);
+                tempDisplay.DisplayToken();
+                ailmentSlotCount++;
+            }
+        }
+
+        float tempWidth = 0;
+        switch (tokenSlotCount) {
+            case 0:
+                break;
+            case 1:
+                tempWidth = TOKEN_WIDTH * 1;
+                break;
+            case 2:
+                tempWidth = TOKEN_WIDTH * 2;
+                break;
+            case 3:
+                tempWidth = TOKEN_WIDTH * 3;
+                break;
+            case 4:
+                tempWidth = TOKEN_WIDTH * 4;
+                break;
+            default:
+                tempWidth = TOKEN_WIDTH * 5;
+                break;
+        }
+        
+        float width = tempWidth;
+        float rowCount = Mathf.Ceil(tokenSlotCount / ROW_MAX);
+        float height = rowCount * TOKEN_HEIGHT;
+        
+        tokenDisplayRect.sizeDelta = new Vector2(width, height);
+
+        tempWidth = 0;
+        switch (ailmentSlotCount) {
+            case 0:
+                break;
+            case 1:
+                tempWidth = TOKEN_WIDTH * 1;
+                break;
+            case 2:
+                tempWidth = TOKEN_WIDTH * 2;
+                break;
+            case 3:
+                tempWidth = TOKEN_WIDTH * 3;
+                break;
+            case 4:
+                tempWidth = TOKEN_WIDTH * 4;
+                break;
+            default:
+                tempWidth = TOKEN_WIDTH * 5;
+                break;
+        }
+
+        width = tempWidth;
+        rowCount = Mathf.Ceil(tokenSlotCount / ROW_MAX);
+        height = rowCount * TOKEN_HEIGHT;
+        
+        ailmentDisplayRect.sizeDelta = new Vector2(width, height);
     }
 
     public void SetExtraTextContent(string text)
@@ -329,24 +400,6 @@ public class BattleVisuals : MonoBehaviour
             myAnimator.SetBool(SHARED_ROW_BOOL, false);
         }
     }
-
-    public void DisplayTokenInfo(int slot)
-    {
-        if (myTokens[slot] == null) { return; }
-        string tokenName = myTokens[slot].displayName;
-        string tokenDescription = myTokens[slot].tokenDescription;
-        
-        Tooltip.ShowTooltip_Static(tokenName + ":" ," " + tokenDescription);
-    }
-
-    public void DisplayAilmentInfo(int slot)
-    {
-        if (myAilments[slot] == null) { return; }
-        string ailmentName = myAilments[slot].displayName;
-        string ailmentDescription = myAilments[slot].tokenDescription;
-        
-        Tooltip.ShowTooltip_Static(ailmentName + ":" ," " + ailmentDescription);
-    }
     
     // OnPointerExit Methods
 
@@ -357,15 +410,5 @@ public class BattleVisuals : MonoBehaviour
         if (wasSharingRow) {
             myAnimator.SetBool(SHARED_ROW_BOOL, true);
         }
-    }
-    
-    public void HideTokenInfo()
-    {
-        Tooltip.HideTooltip_Static();
-    }
-    
-    public void HideAilmentInfo()
-    {
-        Tooltip.HideTooltip_Static();
     }
 }
