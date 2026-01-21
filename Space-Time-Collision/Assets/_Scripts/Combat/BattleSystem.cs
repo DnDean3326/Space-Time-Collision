@@ -4256,6 +4256,9 @@ public class BattleSystem : MonoBehaviour
         
         // Heal the target
         healTarget.currentDefense += restore; // restore HP
+        if (healTarget.currentDefense > healTarget.maxDefense) {
+            healTarget.currentDefense = healTarget.maxDefense;
+        }
         
         if (!abilityDuplicated) {
             yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
