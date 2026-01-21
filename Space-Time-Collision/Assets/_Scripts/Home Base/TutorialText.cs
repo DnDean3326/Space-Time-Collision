@@ -14,7 +14,7 @@ public class TutorialText : MonoBehaviour
 
     private void Start()
     {
-        if (!playerPrefs.DidTutorial()) {
+        if (!playerPrefs.GetDidTutorial()) {
             tutorialBox.SetActive(true);
             Time.timeScale = 0;
         } else {

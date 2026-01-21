@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class PlayerPrefs : MonoBehaviour
 {
-    public bool didTutorial = false;
+    private bool didTutorial = false;
+    private int runStatus = 0;
     
     private static GameObject _instance;
     
@@ -17,13 +18,28 @@ public class PlayerPrefs : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public bool DidTutorial()
+    public bool GetDidTutorial()
     {
         return didTutorial;
+    }
+
+    public int GetRunStatus()
+    {
+        return runStatus;
     }
 
     public void SetTutorialStatus(bool status)
     {
         didTutorial = status;
+    }
+
+    public void SetRunStatus(int status)
+    {
+        runStatus = status;
+    }
+
+    public void IncreaseRunStatus()
+    {
+        runStatus++;
     }
 }

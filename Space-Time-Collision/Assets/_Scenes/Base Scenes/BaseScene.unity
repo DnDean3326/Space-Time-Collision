@@ -412,6 +412,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db90c2c905fcaf14d8109d8fbedc6851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseNavigation
+  voidButton: {fileID: 607395382}
+  innButton: {fileID: 1530114405}
 --- !u!1 &309857499
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +459,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EncounterSystem
   availableEncounters:
+  - {fileID: 11400000, guid: 7ea9302733ef8ee478f6781b38110ea8, type: 2}
+  - {fileID: 11400000, guid: 2ad28d8f392727a40b94d3dbfb4a17f9, type: 2}
   - {fileID: 11400000, guid: 38b27e57d98b49a4788941d0456041b0, type: 2}
 --- !u!1 &358808218
 GameObject:
@@ -823,7 +827,7 @@ GameObject:
   - component: {fileID: 607395386}
   - component: {fileID: 607395387}
   m_Layer: 5
-  m_Name: Start Run Button
+  m_Name: Void Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -894,7 +898,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 295525972}
         m_TargetAssemblyTypeName: BaseNavigation, Assembly-CSharp
-        m_MethodName: VoidButton
+        m_MethodName: VoidClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1105,7 +1109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6253969716d5ad54bbeb2fd5b10dbd27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  didTutorial: 0
 --- !u!4 &777989885
 Transform:
   m_ObjectHideFlags: 0
@@ -1455,6 +1458,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 26f7472d970e39241a4be687dcc0e5b1, type: 2}
   - {fileID: 11400000, guid: 88ec8a9771cccf44a8730ddc30d19e91, type: 2}
   - {fileID: 11400000, guid: f87a5a695ef55474ea3f7429f6c59775, type: 2}
+  - {fileID: 11400000, guid: 60c625a2910cec4428dc399b440699e2, type: 2}
   currentEnemies: []
 --- !u!1 &1252416176
 GameObject:
@@ -2118,7 +2122,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 295525972}
         m_TargetAssemblyTypeName: BaseNavigation, Assembly-CSharp
-        m_MethodName: InnButton
+        m_MethodName: InnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

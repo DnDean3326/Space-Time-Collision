@@ -1,19 +1,38 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BaseNavigation : MonoBehaviour
 {
+    [SerializeField] private Button voidButton;
+    [SerializeField] private Button innButton;
+    
     private const string TEST_BATTLE = "BattleScene";
     private const string INN_SCENE = "InnScene";
+
+    private PlayerPrefs playerPrefs;
+
+    private void Awake()
+    {
+        playerPrefs = FindFirstObjectByType<PlayerPrefs>();
+    }
+    
+    private void Start()
+    {
+        if (playerPrefs.GetRunStatus() > 0) {
+            innButton.interactable = false;
+        }
+    }
     
     // OnClick Methods
 
-    public void VoidButton()
+    public void VoidClick()
     {
+        playerPrefs.IncreaseRunStatus();
         SceneManager.LoadScene(TEST_BATTLE);
     }
     
-    public void InnButton()
+    public void InnClick()
     {
         SceneManager.LoadScene(INN_SCENE);
     }

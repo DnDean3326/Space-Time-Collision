@@ -114,6 +114,8 @@ public class BattleSystem : MonoBehaviour
     private TokenManager tokenManager;
     private TurnOrderDisplay turnOrderDisplay;
     private CombatGrid combatGrid;
+    private AbilityNameDisplay abilityNameDisplay;
+    private PlayerPrefs playerPrefs;
     
     // Character Specific Logic
     private RepentantBattleLogic repentantLogic;
@@ -186,6 +188,8 @@ public class BattleSystem : MonoBehaviour
         tokenManager = FindFirstObjectByType<TokenManager>();
         turnOrderDisplay = FindFirstObjectByType<TurnOrderDisplay>();
         combatGrid = FindFirstObjectByType<CombatGrid>();
+        abilityNameDisplay = FindFirstObjectByType<AbilityNameDisplay>();
+        playerPrefs =  FindFirstObjectByType<PlayerPrefs>();
         
         combatGrid.GetGridInfo(ref partyBattleGrid, ref enemyBattleGrid);
         LinkCharacterLogics();
@@ -238,6 +242,7 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.Start) {
             SetAbilityBar();
+            abilityNameDisplay.HideAbilityInfo();
             
             for (int i = 0; i < allCombatants.Count; i++) {
                 allCombatants[i].actionPoints = Random.Range(1, MAX_ACTION_START + 1);
@@ -261,6 +266,7 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.Lost;
             yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
             print("GAME OVER! \n Go to game over screen.");
+            playerPrefs.SetRunStatus(0);
             SceneManager.LoadScene(BASE_SCENE);
         }
         // if no enemies remain -> battle is won
@@ -268,6 +274,9 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.Won;
             yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
             print("Your party prevailed!");
+            if (playerPrefs.GetRunStatus() > 2) {
+                playerPrefs.SetRunStatus(0);
+            }
             SceneManager.LoadScene(MAP_SCENE);
         }
         // Remove any dead combatants from the combat
@@ -279,6 +288,8 @@ public class BattleSystem : MonoBehaviour
         foreach (BattleEntity entity in allCombatants) {
             FindMyGridPosition(entity);
         }
+        
+        abilityNameDisplay.HideAbilityInfo();
         
         if (state == BattleState.Battle) {
             while (preparedCombatants.Count <= 0) {
@@ -421,6 +432,8 @@ public class BattleSystem : MonoBehaviour
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
                     
+                    abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
+                    
                     activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -448,6 +461,8 @@ public class BattleSystem : MonoBehaviour
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
+                    
+                    abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
                     activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
@@ -477,6 +492,8 @@ public class BattleSystem : MonoBehaviour
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
                     
+                    abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
+                    
                     activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -504,6 +521,8 @@ public class BattleSystem : MonoBehaviour
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
+                    
+                    abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
                     activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
@@ -919,6 +938,7 @@ public class BattleSystem : MonoBehaviour
                 }
             
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
+                abilityNameDisplay.DisplayAbilityInfo(activeEnemy, abilityTarget, abilityUsed.ability);
                 switch (abilityUsed.ability.abilityType) {
                     case Ability.AbilityType.Damage:
                         yield return StartCoroutine(DamageAction(activeEnemy, abilityTarget, myBrain.enemyAbilities.IndexOf(abilityUsed)));
@@ -1101,6 +1121,7 @@ public class BattleSystem : MonoBehaviour
             // Check for Mini-boss/boss logic
             if (tempEntity.myName == "Obliviwÿrm Larve") {
                 GameObject tempObject = tempEntity.myVisuals.transform.Find("Obliviwyrm Script").gameObject;
+                tempObject.GetComponent<ObliviwyrmLogic>().SetMe(tempEntity);
                 bossLogicList.Add(new BossLogicListing(tempObject, tempEntity));
             }
             
