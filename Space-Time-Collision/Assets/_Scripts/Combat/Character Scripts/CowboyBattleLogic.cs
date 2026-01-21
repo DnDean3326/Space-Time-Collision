@@ -86,14 +86,19 @@ public class CowboyBattleLogic : MonoBehaviour
                 if (cowboy.activeTokens.All(t => t.tokenName != "Vice")) {
                     blockAbility = true;
                 }
+
                 break;
             case "Rampage":
                 if (cowboy.activeTokens.All(t => t.tokenName != "Vice")) {
+                    blockAbility = true;
+
+                } else if (cowboy.activeTokens.Any(t => t.tokenName == "Vice")) {
                     int viceIndex = cowboy.activeTokens.FindIndex(t => t.tokenName == "Vice");
                     if (cowboy.activeTokens[viceIndex].tokenCount < 2) {
                         blockAbility = true;
                     }
                 }
+
                 break;
         }
 
