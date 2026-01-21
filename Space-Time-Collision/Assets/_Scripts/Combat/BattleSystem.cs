@@ -3916,7 +3916,7 @@ public class BattleSystem : MonoBehaviour
             // If the damage dealt is greater than the target's defense, deal the rest to their HP
             if (damage > attackTarget.currentDefense) {
                 int overflowDamage = damage - attackTarget.currentDefense;
-                attackTarget.currentDefense -= (damage - overflowDamage);
+                attackTarget.currentDefense = 0;
                 attackTarget.currentHealth -= overflowDamage;
             } else {
                 attackTarget.currentDefense -= damage;
@@ -4091,6 +4091,8 @@ public class BattleSystem : MonoBehaviour
             repentantLogic.RepentantAbilityLogic(healer, healTarget, activeAbility, ref minDamageRange,
                 ref maxDamageRange, ref secondaryRestore, ref critChance, ref selfTokens, ref selfTokensCount,
                 ref targetTokens, ref targetTokensCount);
+        } else if (healer.myName == "Tre") {
+            ricochetLogic.RicochetHealLogic(healer, activeAbility, ref selfTokens, ref selfTokensCount);
         }
         
         // Clear tokens from self

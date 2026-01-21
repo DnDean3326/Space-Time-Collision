@@ -454,6 +454,19 @@ public class RicochetBattleLogic : MonoBehaviour
         SetBulletText(ricochet, bulletsUsed);
     }
 
+    public void RicochetHealLogic(BattleEntity ricochet, Ability activeAbility, ref List<BattleToken> selfTokens,
+        ref List<int> selfTokensCount)
+    {
+        List<BulletType> bulletsUsed;
+        switch (activeAbility.abilityName) {
+            case "Shield Battery":
+                bulletsUsed = CheckCurrentBullets(1);
+                UpdateRevealedBullets(bulletsUsed); // TODO Reveal the next (bulletsUsed) bullets in the clip
+                break;
+        }
+            
+    }
+
     public void RicochetBuffLogic(BattleEntity ricochet, Ability activeAbility, ref List<BattleToken> selfTokens,
         ref List<int> selfTokensCount)
     {
@@ -489,10 +502,6 @@ public class RicochetBattleLogic : MonoBehaviour
                 SetBulletText(ricochet, bulletsUsed);
                 break;
             case "Calculate":
-                bulletsUsed = CheckCurrentBullets(1);
-                UpdateRevealedBullets(bulletsUsed); // TODO Reveal the next (bulletsUsed) bullets in the clip
-                break;
-            case "Shield Battery":
                 bulletsUsed = CheckCurrentBullets(1);
                 UpdateRevealedBullets(bulletsUsed); // TODO Reveal the next (bulletsUsed) bullets in the clip
                 break;
