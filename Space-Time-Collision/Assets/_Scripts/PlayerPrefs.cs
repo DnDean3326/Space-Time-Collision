@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerPrefs : MonoBehaviour
 {
     private bool didTutorial = false;
+    public bool didVoidTutorial = false;
     private int runStatus = 0;
     
     private static GameObject _instance;
@@ -23,6 +24,11 @@ public class PlayerPrefs : MonoBehaviour
         return didTutorial;
     }
 
+    public bool GetDidVoidTutorial()
+    {
+        return didVoidTutorial;
+    }
+
     public int GetRunStatus()
     {
         return runStatus;
@@ -31,6 +37,11 @@ public class PlayerPrefs : MonoBehaviour
     public void SetTutorialStatus(bool status)
     {
         didTutorial = status;
+    }
+
+    public void SetVoidTutorialStatus(bool status)
+    {
+        didVoidTutorial = status;
     }
 
     public void SetRunStatus(int status)

@@ -1,20 +1,31 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class TutorialText : MonoBehaviour
 {
     [SerializeField] private GameObject tutorialBox;
     [SerializeField] private GameObject victoryBox;
+    [TextArea(15,20)]
+    [SerializeField] private string voidTutorialContents;
+    
+    
     private PlayerPrefs playerPrefs;
+    private TextMeshProUGUI tutorialText;
 
     private void Awake()
     {
         playerPrefs = FindFirstObjectByType<PlayerPrefs>();
+        tutorialText = tutorialBox.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Start()
     {
         if (!playerPrefs.GetDidTutorial()) {
+            tutorialBox.SetActive(true);
+            Time.timeScale = 0;
+        } else if (!playerPrefs.GetDidVoidTutorial()) {
+            tutorialText.text = voidTutorialContents;
             tutorialBox.SetActive(true);
             Time.timeScale = 0;
         } else {
@@ -31,9 +42,15 @@ public class TutorialText : MonoBehaviour
     
     public void CloseTutorialBox()
     {
-        playerPrefs.SetTutorialStatus(true);
-        Destroy(tutorialBox);
-        Time.timeScale = 1;
+        if (!playerPrefs.GetDidTutorial()) {
+            playerPrefs.SetTutorialStatus(true);
+            Destroy(tutorialBox);
+            Time.timeScale = 1;
+        } else if (!playerPrefs.GetDidVoidTutorial()) {
+            playerPrefs.SetVoidTutorialStatus(true);
+            Destroy(tutorialBox);
+            Time.timeScale = 1;
+        }
     }
 
     public void CloseVictoryBox()

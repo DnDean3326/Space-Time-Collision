@@ -700,6 +700,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialText
   tutorialBox: {fileID: 40728825}
   victoryBox: {fileID: 1619228197}
+  voidTutorialContents: Now that you've assembled a party, you're ready to begin.
+    Select the green void in the sky to begin your mission. After surviving a fight
+    you'll need to select the portal again to continue.
 --- !u!1 &309857499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,6 +1531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6253969716d5ad54bbeb2fd5b10dbd27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  didVoidTutorial: 0
 --- !u!4 &777989885
 Transform:
   m_ObjectHideFlags: 0
