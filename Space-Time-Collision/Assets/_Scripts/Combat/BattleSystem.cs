@@ -1071,6 +1071,11 @@ public class BattleSystem : MonoBehaviour
                 tempEntity.abilityCooldowns.Add(0);
             }
             
+            // Assign characters to their logic scripts
+            if (tempEntity.myName == "Tre") {
+                ricochetLogic.GetRicochetBattleEntity(tempEntity);
+            }
+            
             // Assign Line Break token
             tempEntity.lineBreakToken = currentParty[i].lineBreakToken;
             tempEntity.lineBreakTokenCount = currentParty[i].lineBreakTokenCount;

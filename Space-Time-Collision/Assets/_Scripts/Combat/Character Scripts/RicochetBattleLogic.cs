@@ -30,6 +30,7 @@ public class RicochetBattleLogic : MonoBehaviour
     private Random rng = new Random();
     private BattleSystem battleSystem;
     private PartyManager partyManager;
+    private BattleEntity meRicochet;
     private bool isSetup = false;
     private int strafeNormalCount = 0;
 
@@ -68,6 +69,11 @@ public class RicochetBattleLogic : MonoBehaviour
         }
         
         isSetup = true;
+    }
+
+    public void GetRicochetBattleEntity(BattleEntity entity)
+    {
+        meRicochet = entity;
     }
 
     public void SetupBulletDisplays(List<GameObject> incomingDisplays)
@@ -428,6 +434,7 @@ public class RicochetBattleLogic : MonoBehaviour
             case "Risky Reload":
                 bulletList = GenerateBulletClip(BulletType.Critical, 2, 2);
                 bulletsUsed = CheckCurrentBullets(bulletCountUsed);
+                meRicochet.currentSpirit = bulletList.Count;
                 
                 if (bulletsUsed.Any(t => t == BulletType.Critical)) {
                     // Force the attack to crit
@@ -454,9 +461,11 @@ public class RicochetBattleLogic : MonoBehaviour
         switch (activeAbility.abilityName) {
             case "Lethal Reload":
                 bulletList = GenerateBulletClip(BulletType.Critical, 2, 1);
+                meRicochet.currentSpirit = bulletList.Count;
                 break;
             case "Incendiary Reload":
                 bulletList = GenerateBulletClip(BulletType.Incendiary, 3, 1);
+                meRicochet.currentSpirit = bulletList.Count;
                 break;
             case "Eject":
                 int bulletCountUsed = activeAbility.costAmount;
