@@ -14,6 +14,9 @@ public class BulletPreview : MonoBehaviour
     public void SetMyBulletDisplay(BulletDisplay bulletDisplay)
     {
         myBulletDisplay = bulletDisplay;
+        if (myImage is null) {
+            myImage = GetComponent<Image>();
+        }
         myImage.color = bulletDisplay.bulletColor;
     }
     
