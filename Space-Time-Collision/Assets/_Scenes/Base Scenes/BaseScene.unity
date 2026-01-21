@@ -2767,8 +2767,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Welcome to the [GAME TITLE] demo!\n\nYour ultimate goal is to slay the
-    Lady Oblivion, a primordial being set on bringing everything in the multiverse
+  m_text: "Welcome to the Echoes of Oblivion demo!\n\nYour ultimate goal is to slay
+    the Lady Oblivion, a primordial being set on bringing everything in the multiverse
     to an end... <i>but she's not in the game yet</i>. Instead you'll need to defeat
     the Obliw\xFFrm Larve, a creature infected by the Lady Oblivion's nihlism who
     threatens to destroy the world it resides in.\n\nTo reach it you'll need to fight
