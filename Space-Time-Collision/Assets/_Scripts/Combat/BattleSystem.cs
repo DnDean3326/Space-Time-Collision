@@ -2898,7 +2898,7 @@ public class BattleSystem : MonoBehaviour
                 // If the damage dealt is greater than the target's defense, deal the rest to their HP
                 if (ailmentDamage > activeEntity.currentDefense) {
                     int overflowDamage = ailmentDamage - activeEntity.currentDefense;
-                    activeEntity.currentDefense -= (ailmentDamage - overflowDamage);
+                    activeEntity.currentDefense = 0;
                     activeEntity.currentHealth -= overflowDamage;
                 } else {
                     activeEntity.currentDefense -= ailmentDamage;
@@ -4679,7 +4679,7 @@ public class BattleSystem : MonoBehaviour
                 if (allCombatants[currentPlayer].currentDefense > 0) {
                     if (resourceCost > allCombatants[currentPlayer].currentDefense) {
                         int overflowDamage = resourceCost - allCombatants[currentPlayer].currentDefense;
-                        allCombatants[currentPlayer].currentDefense -= (resourceCost - overflowDamage);
+                        allCombatants[currentPlayer].currentDefense = 0;
                         allCombatants[currentPlayer].currentHealth -= overflowDamage;
                     } else {
                         allCombatants[currentPlayer].currentDefense -= resourceCost;
