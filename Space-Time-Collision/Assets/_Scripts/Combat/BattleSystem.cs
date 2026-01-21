@@ -3763,6 +3763,9 @@ public class BattleSystem : MonoBehaviour
                     ref targetTokens, ref targetTokensCount);
                 break;
             case "Bune":
+                cowboyLogic.CowboyAbilityLogic(attacker, attackTarget, activeAbility, ref minDamageRange,
+                    ref maxDamageRange, ref secondaryDamage, ref critChance, ref selfTokens, ref selfTokensCount,
+                    ref targetTokens, ref targetTokensCount);
                 cowboyLogic.CowboyGainVice(allCombatants[currentPlayer], attackTarget);
                 break;
             case "Tre":
