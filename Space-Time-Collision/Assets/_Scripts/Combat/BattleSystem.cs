@@ -381,6 +381,7 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator PlayerTurnRoutine(int characterIndex)
     {
         if (state == BattleState.PlayerTurn) {
+            allCombatants[characterIndex].combatMenuVisuals.ChangeSpirit(allCombatants[characterIndex].currentSpirit);
             currentPlayer = characterIndex;
             if (!wentBack && !usedLightAction) {
 
