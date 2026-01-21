@@ -432,14 +432,14 @@ public class BattleSystem : MonoBehaviour
                     targetIsEnemy = true;
                     
                     combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy, abilityInUse.targetSelf);
-                    ShowTargetMenu(currentPlayer);
+                    ShowAbilityPreviewMenu(currentPlayer);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
-                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     combatGrid.HideTiles(targetIsEnemy);
@@ -462,14 +462,14 @@ public class BattleSystem : MonoBehaviour
                     targetIsEnemy = false;
                     
                     combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy, abilityInUse.targetSelf);
-                    ShowTargetMenu(currentPlayer);
+                    ShowAbilityPreviewMenu(currentPlayer);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
-                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     combatGrid.HideTiles(targetIsEnemy);
@@ -492,14 +492,14 @@ public class BattleSystem : MonoBehaviour
                     targetIsEnemy = false;
                     
                     combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy, abilityInUse.targetSelf);
-                    ShowTargetMenu(currentPlayer);
+                    ShowAbilityPreviewMenu(currentPlayer);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
-                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     combatGrid.HideTiles(targetIsEnemy);
@@ -522,14 +522,14 @@ public class BattleSystem : MonoBehaviour
                     targetIsEnemy = true;
                     
                     combatGrid.DisplayValidTiles(activeCharacter, abilityInUse.abilityType, targetIsEnemy, abilityInUse.targetSelf);
-                    ShowTargetMenu(currentPlayer);
+                    ShowAbilityPreviewMenu(currentPlayer);
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
-                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     combatGrid.HideTiles(targetIsEnemy);
@@ -580,16 +580,16 @@ public class BattleSystem : MonoBehaviour
                         combatGrid.DisplayValidRowBreakTiles(activeCharacter, frontMostRow);
                     }
                     
-                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangePassButtonVisibility(false);
-                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(true);
+                    activeCharacter.combatMenuVisuals.ChangeResourcePreviewUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(true);
                     SetNoTargetButtons(currentPlayer);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(true);
                     
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
                 
-                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     combatGrid.HideTiles(targetIsEnemy);
@@ -602,7 +602,7 @@ public class BattleSystem : MonoBehaviour
                     break;
                 default:
                     print("Unsupported ability type of " + allCombatants[currentPlayer].activeAbilityType + " supplied.");
-                    activeCharacter.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+                    activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
                     break;
@@ -975,6 +975,10 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator EndRoutine(BattleEntity activeEntity)
     {
         print("End Routine called");
+
+        if (activeEntity.isPlayer) {
+            activeEntity.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
+        }
         
         // Call character turn end logic
         if (activeEntity.myName == "Renée") {
@@ -1062,7 +1066,6 @@ public class BattleSystem : MonoBehaviour
             tempEntity.myVisuals = tempVisualGameObject;
             tempEntity.battleVisuals = tempBattleVisuals;
             tempEntity.combatMenuVisuals = tempCombatMenuVisuals;
-            tempEntity.targetButtons = tempEntity.combatMenuVisuals.GetTargetButtons();
             
             // Assign abilities to character TODO Make this also update visuals
             tempEntity.myAbilities = partyManager.GetActiveAbilities(i);
@@ -1720,12 +1723,12 @@ public class BattleSystem : MonoBehaviour
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(true);
     }
     
-    public void ShowTargetMenu(int characterIndex)
+    public void ShowAbilityPreviewMenu(int characterIndex)
     {
-        allCombatants[characterIndex].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
+        allCombatants[characterIndex].combatMenuVisuals.ChangeResourcePreviewUIVisibility(false);
         allCombatants[characterIndex].combatMenuVisuals.ChangePassButtonVisibility(false);
-        SetTargetButtons(characterIndex);
-        allCombatants[characterIndex].combatMenuVisuals.ChangeTargetSelectUIVisibility(true);
+        SetTargets(characterIndex);
+        allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityPreviewUIVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangeBackButtonVisibility(true);
     }
     
@@ -2114,8 +2117,7 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.PlayerTurn) {
             usedAbility = false;
             StopAllCoroutines();
-            allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
-            allCombatants[currentPlayer].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+            allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangePassButtonVisibility(false);
             StartCoroutine(EndRoutine(allCombatants[currentPlayer]));
         }
@@ -2127,8 +2129,9 @@ public class BattleSystem : MonoBehaviour
             EndResourcePreview(allCombatants[currentPlayer].activeAbility);
             abilitySelected = false;
             wentBack = true;
-            
-            allCombatants[currentPlayer].combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+
+            allCombatants[currentPlayer].combatMenuVisuals.ChangeResourcePreviewUIVisibility(true);
+            allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeBackButtonVisibility(false);
             combatGrid.HideTiles(targetIsEnemy);
@@ -2145,24 +2148,16 @@ public class BattleSystem : MonoBehaviour
         }
     }
     
-    private void SetTargetButtons(int characterIndex)
+    private void SetTargets(int characterIndex)
     {
         BattleEntity activeEntity = allCombatants[characterIndex];
         Ability activeAbility = activeEntity.myAbilities[activeEntity.activeAbility];
         targetList.Clear();
         
-        // Disable all buttons
-        for (int i = 0; i < activeEntity.targetButtons.Length; i++) {
-            activeEntity.targetButtons[i].SetActive(false); 
-        }
-
-        List<Image> entityTargetImages = activeEntity.combatMenuVisuals.GetTargetImages();
-        List<Image> entityTargetBorders = activeEntity.combatMenuVisuals.GetTargetBorders();
-        
         if (targetIsEnemy) {
             List<int> stealthedTargets = new List<int>();
             
-            // Enable buttons for each present enemy
+            // Add valid targets to target list
             foreach (BattleEntity entity in enemyCombatants) {
                 int distance = CalculateTargetDistance(entity, activeEntity);
                 if (entity.activeTokens.Any(t => t.tokenName == "Stealth")) {
@@ -2177,25 +2172,13 @@ public class BattleSystem : MonoBehaviour
                     targetList.Add(enemyCombatants[index]);
                 }
             }
-            for (int i = 0; i < targetList.Count; i++) {
-                activeEntity.targetButtons[i].SetActive(true);
-                entityTargetImages[i].sprite = targetList[i].myPortrait;
-                entityTargetBorders[i].color = new Color32(255, 0, 0, 255);
-            }
         } else {
-            // Enable buttons for each present ally
+            // Add valid targets to target list
             foreach (BattleEntity entity in partyCombatants) {
                 int distance = CalculateTargetDistance(entity, activeEntity);
-
                 if (distance <= activeAbility.rangeMax && distance >= activeAbility.rangeMin) {
                     targetList.Add(entity);
                 }
-            }
-
-            for (int i = 0; i < targetList.Count; i++) {
-                activeEntity.targetButtons[i].SetActive(true);
-                entityTargetImages[i].sprite = targetList[i].myPortrait;
-                entityTargetBorders[i].color= new Color32(147, 229, 242, 255);
             }
         }
         
@@ -2225,12 +2208,12 @@ public class BattleSystem : MonoBehaviour
 
     private void SetTargetValuesForDisplay(int hoveredTarget)
     {
+        print(hoveredTarget);
         BattleEntity activeEntity = allCombatants[currentPlayer];
         BattleEntity targetEntity;
         
         // Check if target is ally or enemy
-        int target;
-        target = allCombatants.IndexOf(targetList[hoveredTarget]);
+        int target = allCombatants.IndexOf(targetList[hoveredTarget]);
         targetEntity = allCombatants[target];
         
         int abilityModifier = 0;
@@ -2411,6 +2394,7 @@ public class BattleSystem : MonoBehaviour
 
     public void IndicateGridTarget(int positionIndex)
     {
+        print(positionIndex);
         targetIndicatedGrid = true;
         int targetIndex;
         if (targetIsEnemy) {
@@ -3681,7 +3665,7 @@ public class BattleSystem : MonoBehaviour
                 yield break;
         }
 
-        cowboy.combatMenuVisuals.ChangeTargetSelectUIVisibility(false);
+        cowboy.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
         cowboy.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
         cowboy.combatMenuVisuals.ChangeBackButtonVisibility(false);
 

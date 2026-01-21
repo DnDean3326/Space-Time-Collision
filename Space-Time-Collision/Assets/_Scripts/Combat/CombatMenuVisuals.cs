@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class CombatMenuVisuals : MonoBehaviour
 {
@@ -14,11 +15,11 @@ public class CombatMenuVisuals : MonoBehaviour
     
     [Header("UI Menus")]
     [SerializeField] private GameObject abilitySelectUI;
-    [SerializeField] private GameObject targetSelectUI;
+    [SerializeField] private GameObject resourcePreviewUI;
+    [SerializeField] private GameObject abilityPreviewUI;
     
     [Header("UI Buttons")]
     [SerializeField] private GameObject[] abilityButtons;
-    [SerializeField] private GameObject[] targetButtons;
     [SerializeField] private GameObject passButton;
     [SerializeField] private GameObject backButton;
     
@@ -30,7 +31,6 @@ public class CombatMenuVisuals : MonoBehaviour
 
     [Header("Ability Borders")]
     [SerializeField] private List<Image> abilityBorders = new List<Image>();
-    [SerializeField] private List<Image> targetBorders = new List<Image>();
     [SerializeField] private Sprite lightBorder;
     [SerializeField] private Sprite mediumBorder;
     [SerializeField] private Sprite heavyBorder;
@@ -46,9 +46,6 @@ public class CombatMenuVisuals : MonoBehaviour
     private List<Button> myAbilityButtons = new List<Button>();
     private List<EventTrigger> myAbilityTriggers = new List<EventTrigger>();
     private List<TextMeshProUGUI> abilityTexts = new List<TextMeshProUGUI>();
-    private List<Image> targetImages = new List<Image>();
-    private List<Button> myTargetButtons = new List<Button>();
-    private List<TextMeshProUGUI> targetTexts = new List<TextMeshProUGUI>();
     private List<bool> abilityActive = new List<bool>();
     private int maxSpirit;
     private int currentSpirit;
@@ -59,10 +56,6 @@ public class CombatMenuVisuals : MonoBehaviour
     {
         battleSystem = FindFirstObjectByType<BattleSystem>();
         
-        foreach (GameObject targetButton in targetButtons) {
-            targetButton.SetActive(false);
-        }
-
         foreach (GameObject abilityButton in abilityButtons) {
             Image tempImage = abilityButton.GetComponent<Image>();
             abilityImages.Add(tempImage);
@@ -73,21 +66,12 @@ public class CombatMenuVisuals : MonoBehaviour
             TextMeshProUGUI tempText = abilityButton.GetComponentInChildren<TextMeshProUGUI>();
             abilityTexts.Add(tempText);
         }
-
-        foreach (GameObject targetButton in targetButtons) {
-            Image tempImage = targetButton.GetComponent<Image>();
-            targetImages.Add(tempImage);
-            Button tempButton = targetButton.GetComponent<Button>();
-            myTargetButtons.Add(tempButton);
-            TextMeshProUGUI tempText = targetButton.GetComponentInChildren<TextMeshProUGUI>();
-            targetTexts.Add(tempText);
-        }
     }
 
     private void Start()
     {
         abilitySelectUI.SetActive(false);
-        targetSelectUI.SetActive(false);
+        abilityPreviewUI.SetActive(false);
     }
 
     public void SetMyEntity(BattleEntity myself)
@@ -161,21 +145,6 @@ public class CombatMenuVisuals : MonoBehaviour
     {
         return myAbilityTriggers;
     }
-
-    public GameObject[] GetTargetButtons()
-    {
-        return targetButtons;
-    }
-    
-    public List<Image> GetTargetImages()
-    {
-        return targetImages;
-    }
-    
-    public List<Image> GetTargetBorders()
-    {
-        return targetBorders;
-    }
     
     public void SetMenuStartingValues(int maxSpirit, int currentSpirit)
     {
@@ -211,9 +180,14 @@ public class CombatMenuVisuals : MonoBehaviour
         abilitySelectUI.SetActive(visible);
     }
 
-    public void ChangeTargetSelectUIVisibility(bool visible)
+    public void ChangeResourcePreviewUIVisibility(bool visible)
     {
-        targetSelectUI.SetActive(visible);
+        resourcePreviewUI.SetActive(visible);
+    }
+
+    public void ChangeAbilityPreviewUIVisibility(bool visible)
+    {
+        abilityPreviewUI.SetActive(visible);
     }
     
     public void ChangeAbilityEffectTextVisibility(bool visible)
@@ -266,6 +240,7 @@ public class CombatMenuVisuals : MonoBehaviour
     
     public void ChooseAbilityButton(int selectedAbility)
     {
+        battleSystem.BackToAbilities();
         battleSystem.SetCurrentAbilityType(selectedAbility);
     }
     
