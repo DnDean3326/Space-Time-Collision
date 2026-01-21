@@ -3,19 +3,19 @@ using UnityEngine.UI;
 
 public class BulletPreview : MonoBehaviour
 {
-    [SerializeField] private BulletDisplay myBulletDisplay;
-    [SerializeField] private Image myImage;
-    
-    private void Awake()
+    private BulletDisplay myBulletDisplay;
+    private Image myImage;
+
+    private void Start()
     {
-        myImage = GetComponent<Image>();
+        myImage = gameObject.GetComponent<Image>();
     }
 
     public void SetMyBulletDisplay(BulletDisplay bulletDisplay)
     {
         myBulletDisplay = bulletDisplay;
-        if (myImage is null) {
-            myImage = GetComponent<Image>();
+        if (myImage == null) {
+            myImage = gameObject.GetComponent<Image>();;
         }
         myImage.color = bulletDisplay.bulletColor;
     }
