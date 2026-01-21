@@ -82,8 +82,8 @@ public class RepentantBattleLogic : MonoBehaviour
                 case "Temporal Rend":
                     if (selfAscension.tokenCount >= 1) {
                         selfAscension.tokenCount -= 1;
-                        minDamage += repentant.wit;
-                        maxDamage += repentant.wit;
+                        minDamage += 3 + repentant.wit;
+                        maxDamage += 3 + repentant.wit;
                         secondaryValue += 50;
                     }
                     break;
@@ -110,8 +110,8 @@ public class RepentantBattleLogic : MonoBehaviour
                     if (selfAscension.tokenCount >= 1) {
                         selfAscension.tokenCount -= 1;
                         secondaryValue += 40;
-                        minDamage += 1 + repentant.mind;
-                        maxDamage += 1 + repentant.mind;
+                        minDamage += 5 + repentant.mind;
+                        maxDamage += 5 + repentant.mind;
                     }
                     break;
                 case "Forgotten By Time":

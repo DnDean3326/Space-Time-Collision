@@ -28,6 +28,9 @@ public class CombatMenuVisuals : MonoBehaviour
     [SerializeField] private TextMeshProUGUI hitChanceText;
     [SerializeField] private TextMeshProUGUI dmgRangeText;
     [SerializeField] private TextMeshProUGUI critChanceText;
+    [SerializeField] private TextMeshProUGUI stunResText;
+    [SerializeField] private TextMeshProUGUI debuffResText;
+    [SerializeField] private TextMeshProUGUI ailmentResText;
 
     [Header("Ability Borders")]
     [SerializeField] private List<Image> abilityBorders = new List<Image>();
@@ -236,17 +239,19 @@ public class CombatMenuVisuals : MonoBehaviour
         }
     }
 
+    public void SetTargetResists(BattleEntity targetEntity)
+    {
+        stunResText.text = targetEntity.stunResist + "%";
+        debuffResText.text = targetEntity.debuffResist + "%";
+        ailmentResText.text = targetEntity.ailmentResist + "%";
+    }
+
     // Button OnClick methods
     
     public void ChooseAbilityButton(int selectedAbility)
     {
         battleSystem.BackToAbilities();
         battleSystem.SetCurrentAbilityType(selectedAbility);
-    }
-    
-    public void ChooseTargetButton(int currentTarget)
-    {
-        battleSystem.SelectTargetWithButtons(currentTarget);
     }
 
     public void PassButton()

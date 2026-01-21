@@ -19,7 +19,7 @@ MonoBehaviour:
   abilityWeight: 1
   costResource: 0
   costAmount: 0
-  cooldown: 2
+  cooldown: 3
   rangeMin: 0
   rangeMax: 2
   hasAccuracy: 1
@@ -27,8 +27,8 @@ MonoBehaviour:
   attackType: 1
   keyStat: 3
   statModifier: 1
-  dmgMin: 3
-  dmgMax: 7
+  dmgMin: 5
+  dmgMax: 10
   critChance: 5
   extraCasts: 0
   secondaryTarget: 0
@@ -63,11 +63,11 @@ MonoBehaviour:
   ignoreArmor: 0
   equipDescription: 'Type: Heal | Crit: 5%
 
-    Heal: 3-7 | Heal Modifier: Wit'
+    Heal: 5-12 | Heal Modifier: Wit'
   description: 'Weight: Medium | Cost: N/A
 
     CD: 2 | Range: 0-2
 
 
     Apply Block
-    I.'
+    I. Reveal your next bullet.'

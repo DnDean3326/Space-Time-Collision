@@ -27,8 +27,8 @@ MonoBehaviour:
   attackType: 4
   keyStat: 1
   statModifier: 1
-  dmgMin: 8
-  dmgMax: 16
+  dmgMin: 10
+  dmgMax: 20
   critChance: 10
   extraCasts: 0
   secondaryTarget: 4

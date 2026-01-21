@@ -73,4 +73,4 @@ MonoBehaviour:
     the target''s action points by 50. Reduce the target''s Ascension tokens by 1.
 
     Descension
-    I: Increase the action point reduction by 50 and deal +Wit extra damage.'
+    I: Increase the action point reduction by 50 and deal 3 + Wit extra damage.'

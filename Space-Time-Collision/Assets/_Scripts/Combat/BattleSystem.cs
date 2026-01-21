@@ -2283,6 +2283,7 @@ public class BattleSystem : MonoBehaviour
         }
         
         activeEntity.combatMenuVisuals.SetAbilityValues(acc, min, max, crit, isDamage, singleValue);
+        activeEntity.combatMenuVisuals.SetTargetResists(targetEntity);
         
         // Methods for displaying the updated resources and turn order
         if (!abilityDuplicated) { PreviewSelfGain(activeEntity); }
@@ -2394,7 +2395,6 @@ public class BattleSystem : MonoBehaviour
 
     public void IndicateGridTarget(int positionIndex)
     {
-        print(positionIndex);
         targetIndicatedGrid = true;
         int targetIndex;
         if (targetIsEnemy) {

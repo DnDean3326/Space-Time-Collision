@@ -18,7 +18,7 @@ MonoBehaviour:
   abilityType: 1
   abilityWeight: 0
   costResource: 1
-  costAmount: 3
+  costAmount: 4
   cooldown: 2
   rangeMin: 0
   rangeMax: 2
@@ -27,8 +27,8 @@ MonoBehaviour:
   attackType: 2
   keyStat: 4
   statModifier: 1
-  dmgMin: 4
-  dmgMax: 8
+  dmgMin: 7
+  dmgMax: 15
   critChance: 5
   extraCasts: 0
   secondaryTarget: 4
@@ -73,4 +73,4 @@ MonoBehaviour:
     target 40 action points.
 
     Descension I: Increase the action points given
-    by 40 and increase the healing by 1 + Mind.'
+    by 40 and increase the healing by 5 + Mind.'
