@@ -426,7 +426,7 @@ public class RicochetBattleLogic : MonoBehaviour
                 }
                 break;
             case "Risky Reload":
-                GenerateBulletClip(BulletType.Critical, 2, 2);
+                bulletList = GenerateBulletClip(BulletType.Critical, 2, 2);
                 bulletsUsed = CheckCurrentBullets(bulletCountUsed);
                 
                 if (bulletsUsed.Any(t => t == BulletType.Critical)) {
@@ -453,10 +453,10 @@ public class RicochetBattleLogic : MonoBehaviour
         List<BulletType> bulletsUsed;
         switch (activeAbility.abilityName) {
             case "Lethal Reload":
-                GenerateBulletClip(BulletType.Critical, 2, 1);
+                bulletList = GenerateBulletClip(BulletType.Critical, 2, 1);
                 break;
             case "Incendiary Reload":
-                GenerateBulletClip(BulletType.Incendiary, 3, 1);
+                bulletList = GenerateBulletClip(BulletType.Incendiary, 3, 1);
                 break;
             case "Eject":
                 int bulletCountUsed = activeAbility.costAmount;
