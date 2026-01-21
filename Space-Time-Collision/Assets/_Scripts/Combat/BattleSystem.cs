@@ -583,7 +583,6 @@ public class BattleSystem : MonoBehaviour
                     activeCharacter.combatMenuVisuals.ChangePassButtonVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeResourcePreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(true);
-                    SetNoTargetButtons(currentPlayer);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(true);
                     
                     targetSelected = false;
@@ -2182,16 +2181,6 @@ public class BattleSystem : MonoBehaviour
             }
         }
         
-    }
-
-    private void SetNoTargetButtons(int characterIndex)
-    {
-        BattleEntity activeEntity = allCombatants[characterIndex];
-        
-        // Disable all buttons
-        for (int i = 0; i < activeEntity.targetButtons.Length; i++) {
-            activeEntity.targetButtons[i].SetActive(false); 
-        }
     }
 
     private void CheckTurnTarget(BattleEntity targetEntity)
@@ -4851,7 +4840,6 @@ public class BattleEntity
     public GameObject myVisuals;
 
     public GameObject[] abilityButtons;
-    public GameObject[] targetButtons;
     public GameObject[] targetPortraits;
     public GameObject[] targetBorders;
     public List<Ability> myAbilities;

@@ -130,6 +130,7 @@ public class InnFunctionality : MonoBehaviour
                 tempDisplay.SetActive(true);
                 tempDisplay.GetComponent<Image>().sprite = preppedMembers[i].allySquarePortrait;
             } else {
+                display.GetComponent<AllySelectButton>().SetMyAlly(null);
                 tempDisplay.SetActive(false);
             }
         }
@@ -146,6 +147,7 @@ public class InnFunctionality : MonoBehaviour
     public void AddPartyMember(AllyInfo ally)
     {
         if (preppedMembers.Any(t => t == ally)) {
+            
             preppedMembers.Remove(ally);
         } else {
             preppedMembers.Add(ally);
