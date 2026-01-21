@@ -10,10 +10,12 @@ public class BaseNavigation : MonoBehaviour
     private const string TEST_BATTLE = "BattleScene";
     private const string INN_SCENE = "InnScene";
 
+    private PartyManager partyManager;
     private PlayerPrefs playerPrefs;
 
     private void Awake()
     {
+        partyManager = FindFirstObjectByType<PartyManager>();
         playerPrefs = FindFirstObjectByType<PlayerPrefs>();
     }
     
@@ -21,6 +23,10 @@ public class BaseNavigation : MonoBehaviour
     {
         if (playerPrefs.GetRunStatus() > 0) {
             innButton.interactable = false;
+        }
+
+        if (partyManager.GetCurrentParty().Count == 0) {
+            voidButton.interactable = false;
         }
     }
     

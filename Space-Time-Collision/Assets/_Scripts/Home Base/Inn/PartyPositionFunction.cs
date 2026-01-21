@@ -105,9 +105,54 @@ public class PartyPositionFunction : MonoBehaviour
     
     public void PartyButton(int index)
     {
-        if (selectedMember != activeParty[index]) {
+        if (selectedMember != activeParty[index] && (activeParty[index].xPos == 0 && activeParty[index].yPos == 0)) {
             selectedMember = activeParty[index];
             partyBorders[index].color = Color.gray3;
+        } else if (activeParty[index].xPos != 0 && activeParty[index].yPos != 0) {
+            int gridIndex = 16;
+            if (activeParty[index].xPos == 1 && activeParty[index].yPos == 1) {
+                gridIndex = 0;
+            } else if (activeParty[index].xPos == 2 && activeParty[index].yPos == 1) {
+                gridIndex = 1;
+            } else if (activeParty[index].xPos == 3 && activeParty[index].yPos == 1) {
+                gridIndex = 2;
+            } else if (activeParty[index].xPos == 4 && activeParty[index].yPos == 1) {
+                gridIndex = 3;
+            } else if (activeParty[index].xPos == 1 && activeParty[index].yPos == 2) {
+                gridIndex = 4;
+            } else if (activeParty[index].xPos == 2 && activeParty[index].yPos == 2) {
+                gridIndex = 5;
+            } else if (activeParty[index].xPos == 3 && activeParty[index].yPos == 2) {
+                gridIndex = 6;
+            } else if (activeParty[index].xPos == 4 && activeParty[index].yPos == 2) {
+                gridIndex = 7;
+            } else if (activeParty[index].xPos == 1 && activeParty[index].yPos == 3) {
+                gridIndex = 8;
+            } else if (activeParty[index].xPos == 2 && activeParty[index].yPos == 3) {
+                gridIndex = 9;
+            } else if (activeParty[index].xPos == 3 && activeParty[index].yPos == 3) {
+                gridIndex = 10;
+            } else if (activeParty[index].xPos == 4 && activeParty[index].yPos == 3) {
+                gridIndex = 11;
+            } else if (activeParty[index].xPos == 1 && activeParty[index].yPos == 4) {
+                gridIndex = 12;
+            } else if (activeParty[index].xPos == 2 && activeParty[index].yPos == 4) {
+                gridIndex = 13;
+            } else if (activeParty[index].xPos == 3 && activeParty[index].yPos == 4) {
+                gridIndex = 14;
+            } else if (activeParty[index].xPos == 4 && activeParty[index].yPos == 4) {
+                gridIndex = 15;
+            }
+            if (gridIndex == 16) {
+                return;
+            }
+            foreach (Transform child in gridTransforms[gridIndex])
+            {
+                Destroy(child.gameObject);
+            }
+            activeParty[index].xPos = 0;
+            activeParty[index].yPos = 0;
+            isOccupied[gridIndex] = false;
         } else if (selectedMember == activeParty[index]) {
             selectedMember = null;
             partyBorders[index].color = Color.white;
