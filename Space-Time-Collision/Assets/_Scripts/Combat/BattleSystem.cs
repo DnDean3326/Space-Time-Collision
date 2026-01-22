@@ -286,7 +286,7 @@ public class BattleSystem : MonoBehaviour
         // Remove any dead combatants from the combat
         yield return StartCoroutine(FixResources());
         
-        RemoveDeadCombatants();
+        yield return StartCoroutine(RemoveDeadCombatants());
         
         // Make sure display settings are correct TODO update this to only run for characters that could feasibly have new values here
         foreach (BattleEntity entity in allCombatants) {
@@ -1263,11 +1263,34 @@ public class BattleSystem : MonoBehaviour
         turnOrderDisplay.SetTurnDisplay(turnOrder);
     }
     
-    private void RemoveDeadCombatants()
+    private IEnumerator RemoveDeadCombatants()
     {
         for (int i = 0; allCombatants.Count > i; i++) {
+            BattleEntity deadCombatant = null;
             if (allCombatants[i].currentHealth <= 0) {
+                deadCombatant = allCombatants[i];
+                print(deadCombatant.myName + deadCombatant.currentHealth);
                 allCombatants.RemoveAt(i);
+            }
+            if (deadCombatant != null) {
+                yield return new WaitForSeconds(DEATH_DELAY); // Add some kind of delay here
+            
+                if (preparedCombatants.Any(t => t.myName == deadCombatant.myName)) {
+                    preparedCombatants.Remove(deadCombatant);
+                }
+
+                int deadPosition;
+                if (deadCombatant.isPlayer) {
+                    deadPosition = partyBattleGrid.FindIndex(t => t.occupiedBy == deadCombatant);
+                    partyBattleGrid[deadPosition].isOccupied = false;
+                    partyBattleGrid[deadPosition].occupiedBy = null;
+                    partyCombatants.Remove(deadCombatant);
+                } else if (!deadCombatant.isPlayer) {
+                    deadPosition = enemyBattleGrid.FindIndex(t => t.occupiedBy == deadCombatant);
+                    enemyBattleGrid[deadPosition].isOccupied = false;
+                    enemyBattleGrid[deadPosition].occupiedBy = null;
+                    enemyCombatants.Remove(deadCombatant);
+                }
             }
         }
     }
@@ -1699,7 +1722,6 @@ public class BattleSystem : MonoBehaviour
                 }
             }
             entity.battleVisuals.SetSharedRowAnimation(false);
-            return;
         } else {
             // TODO add transparency to enemies with enemies above them
             foreach (GridTile tile in enemyBattleGrid) {
@@ -1709,23 +1731,22 @@ public class BattleSystem : MonoBehaviour
                 }
             }
             entity.battleVisuals.SetSharedRowAnimation(false);
-            return;
         }
     }
     
     public void ShowAbilitySelectMenu(int characterIndex)
     {
-        // Set whose turn it is
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilitySelectUIVisibility(true);
+        allCombatants[characterIndex].combatMenuVisuals.ChangeResourcePreviewUIVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangePassButtonVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(true);
     }
     
     public void ShowAbilityPreviewMenu(int characterIndex)
     {
+        SetTargets(characterIndex);
         allCombatants[characterIndex].combatMenuVisuals.ChangeResourcePreviewUIVisibility(false);
         allCombatants[characterIndex].combatMenuVisuals.ChangePassButtonVisibility(false);
-        SetTargets(characterIndex);
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityPreviewUIVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangeBackButtonVisibility(true);
     }
@@ -3956,27 +3977,6 @@ public class BattleSystem : MonoBehaviour
             attackTarget.UpdateEnemyUI();
             attacker.UpdatePlayerUI();
         }
-        if (attackTarget.currentHealth <= 0) {
-            print(attackTarget.myName + " was killed!");
-            yield return new WaitForSeconds(DEATH_DELAY);
-            
-            if (preparedCombatants.Any(t => t.myName == attackTarget.myName)) {
-                preparedCombatants.Remove(attackTarget);
-            }
-
-            int deadPosition;
-            if (attackTarget.isPlayer) {
-                deadPosition = partyBattleGrid.FindIndex(t => t.occupiedBy == attackTarget);
-                partyBattleGrid[deadPosition].isOccupied = false;
-                partyBattleGrid[deadPosition].occupiedBy = null;
-                partyCombatants.Remove(attackTarget);
-            } else if (!attackTarget.isPlayer) {
-                deadPosition = enemyBattleGrid.FindIndex(t => t.occupiedBy == attackTarget);
-                enemyBattleGrid[deadPosition].isOccupied = false;
-                enemyBattleGrid[deadPosition].occupiedBy = null;
-                enemyCombatants.Remove(attackTarget);
-            }
-        }
         
         if (activeAbility.attackType == Ability.AttackType.Ranged &&
             attacker.activeTokens.Any(t => t.tokenName == "Ricochet") &&
@@ -4432,6 +4432,14 @@ public class BattleSystem : MonoBehaviour
         if (extraCastCount < activeAbility.extraCasts) {
             extraCastCount++;
             yield return StartCoroutine(DamageAction(buffer, buffTarget, activeAbilityIndex));
+        }
+        
+        if (!abilityDuplicated) {
+            if (buffer.myName == "Tre") {
+                if (activeAbility.costResource == Ability.CostResource.Spirit) {
+                    ricochetLogic.ReduceBulletCount(activeAbility);
+                }
+            }
         }
     }
     

@@ -20,8 +20,8 @@ MonoBehaviour:
   costResource: 0
   costAmount: 0
   cooldown: 1
-  rangeMin: 0
-  rangeMax: 0
+  rangeMin: 1
+  rangeMax: 3
   hasAccuracy: 1
   targetSelf: 0
   attackType: 1
@@ -49,11 +49,11 @@ MonoBehaviour:
   targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 1600000025000000
+  targetTokensApplied: 1600000026000000
   targetTokenCountApplied: 0100000003000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 25000000
+  targetCritTokensApplied: 26000000
   targetCritTokenCountApplied: 02000000
   selfTokensCleared: 
   targetTokensCleared: 

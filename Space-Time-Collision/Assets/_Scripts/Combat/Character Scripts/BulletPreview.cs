@@ -6,17 +6,15 @@ public class BulletPreview : MonoBehaviour
     private BulletDisplay myBulletDisplay;
     private Image myImage;
 
-    private void Start()
+    private void Awake()
     {
+        print("Bullet Display start called");
         myImage = gameObject.GetComponent<Image>();
     }
 
     public void SetMyBulletDisplay(BulletDisplay bulletDisplay)
     {
         myBulletDisplay = bulletDisplay;
-        if (myImage == null) {
-            myImage = gameObject.GetComponent<Image>();;
-        }
         myImage.color = bulletDisplay.bulletColor;
     }
     

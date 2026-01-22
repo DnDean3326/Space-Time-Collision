@@ -51,7 +51,7 @@ MonoBehaviour:
   selfTokenCountApplied: 
   targetTokensApplied: 
   targetTokenCountApplied: 
-  selfCritTokensApplied: 05000000
+  selfCritTokensApplied: 07000000
   selfCritTokenCountApplied: 01000000
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
