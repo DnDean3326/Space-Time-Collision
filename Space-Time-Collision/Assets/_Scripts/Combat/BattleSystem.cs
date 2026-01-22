@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using TMPro;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -48,7 +46,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private List<BattleEntity> preparedCombatants = new List<BattleEntity>();
     [SerializeField] private List<BattleEntity> turnOrder = new  List<BattleEntity>();
     [SerializeField] private List<BattleEntity> targetList = new List<BattleEntity>();
-    [SerializeField] private List<BossLogicListing> bossLogicList = new List<BossLogicListing>();
+    private List<BossLogicListing> bossLogicList = new List<BossLogicListing>();
     
     [Header("Tokens")]
     [SerializeField] private List<BattleToken> allTokens = new List<BattleToken>();
@@ -167,7 +165,7 @@ public class BattleSystem : MonoBehaviour
     private const int MAX_INDIVIDUAL_DISPLAY = 5;
     private const int PREVIEW_RESIST_PIERCE = 500;
     private const int PLAYER_NONMOVE_ABILITIES = 4;
-    private const float MOVE_SPEED = 1f;
+    private const float MOVE_SPEED = 1f; // For eventual use with moving unit in real time from one tile to another
     private const string MAP_SCENE = "BaseScene";
     private const string BASE_SCENE = "BaseScene";
     
