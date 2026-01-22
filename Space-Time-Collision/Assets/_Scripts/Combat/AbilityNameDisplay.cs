@@ -14,9 +14,27 @@ public class AbilityNameDisplay : MonoBehaviour
     public void DisplayAbilityInfo(BattleEntity user, BattleEntity target, Ability ability)
     {
         if (user != target) {
-            abilityText.text = user.myName + " used " + ability.abilityName + " against " + target.myName;
+            string userName;
+            string targetName;
+            if (user.myName == "Tre") {
+                userName = "Ricochet";
+            } else {
+                userName = user.myName;
+            }
+            if (target.myName == "Tre") {
+                targetName = "Ricochet";
+            } else {
+                targetName = user.myName;
+            }
+            abilityText.text = userName + " used " + ability.abilityName + " against " + targetName;
         } else {
-            abilityText.text = user.myName + " used " + ability.abilityName;
+            string userName;
+            if (user.myName == "Tre") {
+                userName = "Ricochet";
+            } else {
+                userName = user.myName;
+            }
+            abilityText.text = userName + " used " + ability.abilityName;
         }
     }
     

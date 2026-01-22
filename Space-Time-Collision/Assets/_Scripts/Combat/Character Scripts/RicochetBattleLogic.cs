@@ -226,7 +226,7 @@ public class RicochetBattleLogic : MonoBehaviour
 
     private void UpdateBulletPreviews()
     {
-        for (var i = 0; i < bulletDisplays.Count; i++) {
+        for (var i = 0; i < bulletPreviews.Count; i++) {
             bulletPreviews[i].SetMyBulletDisplay(bulletDisplays[i]);
         }
     }
