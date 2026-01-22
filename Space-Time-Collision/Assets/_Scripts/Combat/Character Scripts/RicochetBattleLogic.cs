@@ -79,7 +79,8 @@ public class RicochetBattleLogic : MonoBehaviour
     public void SetupBulletDisplays(List<GameObject> incomingDisplays)
     {
         bulletObjects = incomingDisplays;
-        
+
+        bulletPreviews.Clear();
         foreach (GameObject incomingBullet in bulletObjects) {
             bulletPreviews.Add(incomingBullet.GetComponent<BulletPreview>());
         }
@@ -226,7 +227,10 @@ public class RicochetBattleLogic : MonoBehaviour
 
     private void UpdateBulletPreviews()
     {
+        print("bulletDisplay.Count: " + bulletDisplays.Count);
+        print("bulletPreview.Count: " + bulletPreviews.Count);
         for (var i = 0; i < bulletPreviews.Count; i++) {
+            print("i is: " + i);
             bulletPreviews[i].SetMyBulletDisplay(bulletDisplays[i]);
         }
     }
@@ -283,7 +287,13 @@ public class RicochetBattleLogic : MonoBehaviour
         ref int selfXTravel, ref int selfYTravel, ref List<BattleToken> selfTokens, ref List<int> selfTokensCount, 
         ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
     {
-        int bulletCountUsed = activeAbility.costAmount;
+        int bulletCountUsed;
+        if (activeAbility.extraCasts > 0) {
+            bulletCountUsed = 1;
+        } else {
+            bulletCountUsed = activeAbility.costAmount;
+        }
+        
         List<BulletType> bulletsUsed = CheckCurrentBullets(bulletCountUsed);
 
         switch (activeAbility.abilityName) {
