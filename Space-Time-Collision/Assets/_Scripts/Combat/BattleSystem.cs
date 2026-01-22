@@ -439,6 +439,7 @@ public class BattleSystem : MonoBehaviour
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -469,6 +470,7 @@ public class BattleSystem : MonoBehaviour
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -499,6 +501,7 @@ public class BattleSystem : MonoBehaviour
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -529,6 +532,7 @@ public class BattleSystem : MonoBehaviour
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -587,7 +591,8 @@ public class BattleSystem : MonoBehaviour
                     
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
-                
+                    
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -972,10 +977,6 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntity activeEntity)
     {
-        if (activeEntity.isPlayer) {
-            activeEntity.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
-        }
-        
         // Call character turn end logic
         if (activeEntity.myName == "Renée") {
             repentantLogic.AscensionMax(activeEntity);
@@ -2422,20 +2423,6 @@ public class BattleSystem : MonoBehaviour
         if (!abilityDuplicated) { EndSelfGainPreview(allCombatants[currentPlayer]); }
         RevertTurnSpeed(allCombatants[targetIndex]);
         allCombatants[targetIndex].battleVisuals.TargetInactive();
-    }
-    
-    public void SelectTargetWithButtons(int currentTarget)
-    {
-        // Set the current member's target
-        BattleEntity currentPlayerEntity = allCombatants[currentPlayer];
-        
-        if (targetIsEnemy) {
-            currentPlayerEntity.SetTarget(allCombatants.IndexOf(enemyCombatants[currentTarget]));
-        } else {
-            currentPlayerEntity.SetTarget(allCombatants.IndexOf(partyCombatants[currentTarget]));
-        }
-        
-        targetSelected = true;
     }
     
     private void SelectTargetWithGrid(int positionIndex, bool isTargetingEnemies)
