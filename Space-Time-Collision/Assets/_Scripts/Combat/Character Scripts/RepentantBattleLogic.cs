@@ -41,8 +41,8 @@ public class RepentantBattleLogic : MonoBehaviour
         ref List<BattleToken> targetTokens, ref List<int> targetTokensCount)
     {
         BattleToken selfAscension;
-        if (selfTokens.Any(t => t.tokenName == "Ascension")) {
-            selfAscension = selfTokens.First(t => t.tokenName == "Ascension");
+        if (repentant.activeTokens.Any(t => t.tokenName == "Ascension")) {
+            selfAscension = repentant.activeTokens.Find(t => t.tokenName == "Ascension");
             switch (activeAbility.abilityName) {
                 case "Vide Sabrer":
                     if (selfAscension.tokenCount >= 2) {
@@ -160,7 +160,7 @@ public class RepentantBattleLogic : MonoBehaviour
     {
         switch (activeAbility.abilityName) {
             case "Trou Noir":
-                if (selfTokens.Any(t => t.tokenName == "Ascension")) {
+                if (repentant.activeTokens.Any(t => t.tokenName == "Ascension")) {
                     int ascendIndex = selfTokens.FindIndex(t => t.tokenName == "Ascension");
                     selfTokensCount[ascendIndex] += 1;
                 } else {

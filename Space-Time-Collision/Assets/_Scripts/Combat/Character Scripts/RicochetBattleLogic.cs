@@ -503,7 +503,7 @@ public class RicochetBattleLogic : MonoBehaviour
                 break;
             case "Calculate":
                 bulletsUsed = CheckCurrentBullets(1);
-                UpdateRevealedBullets(bulletsUsed); // TODO Reveal the next (bulletsUsed) bullets in the clip
+                UpdateRevealedBullets(bulletsUsed);
                 break;
         }
     }
@@ -512,7 +512,7 @@ public class RicochetBattleLogic : MonoBehaviour
     {
         if (activeAbility.abilityName == "Strafe Shooting") {
             List<BulletType> bulletsUsed = CheckCurrentBullets(strafeNormalCount);
-            UpdateRevealedBullets(bulletsUsed); // TODO Reveal the next (bulletsUsed) bullets in the clip
+            UpdateRevealedBullets(bulletsUsed);
             strafeNormalCount = 0;
         }
     }

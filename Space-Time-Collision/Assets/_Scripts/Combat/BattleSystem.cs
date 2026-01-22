@@ -288,7 +288,6 @@ public class BattleSystem : MonoBehaviour
         
         yield return StartCoroutine(RemoveDeadCombatants());
         
-        // Make sure display settings are correct TODO update this to only run for characters that could feasibly have new values here
         foreach (BattleEntity entity in allCombatants) {
             FindMyGridPosition(entity);
         }
@@ -973,8 +972,6 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntity activeEntity)
     {
-        print("End Routine called");
-
         if (activeEntity.isPlayer) {
             activeEntity.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
         }
@@ -1723,7 +1720,6 @@ public class BattleSystem : MonoBehaviour
             }
             entity.battleVisuals.SetSharedRowAnimation(false);
         } else {
-            // TODO add transparency to enemies with enemies above them
             foreach (GridTile tile in enemyBattleGrid) {
                 if (tile.xPos == entity.xPos && tile.yPos > entity.yPos && tile.isOccupied) {
                     entity.battleVisuals.SetSharedRowAnimation(true);
@@ -1876,7 +1872,7 @@ public class BattleSystem : MonoBehaviour
             case Ability.CostResource.Null:
                 break;
             case Ability.CostResource.Spirit:
-                currentPlayerEntity.combatMenuVisuals.PreviewSpirit(tempInt); //TODO Update
+                currentPlayerEntity.combatMenuVisuals.PreviewSpirit(tempInt);
                 break;
             case Ability.CostResource.Health:
                 currentPlayerEntity.battleVisuals.PreviewHealth(tempInt);
@@ -2153,8 +2149,6 @@ public class BattleSystem : MonoBehaviour
             
             state = BattleState.PlayerTurn;
             StartCoroutine(PlayerTurnRoutine(currentPlayer));
-        } else {
-            print("Back button selected, but the user is in the " + state + " state.");
         }
     }
     
@@ -2208,7 +2202,7 @@ public class BattleSystem : MonoBehaviour
 
     private void SetTargetValuesForDisplay(int hoveredTarget)
     {
-        print(hoveredTarget);
+        print(hoveredTarget); //TODO Remove
         BattleEntity activeEntity = allCombatants[currentPlayer];
         BattleEntity targetEntity;
         

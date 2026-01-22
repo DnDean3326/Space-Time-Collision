@@ -8,7 +8,6 @@ public class BulletPreview : MonoBehaviour
 
     private void Awake()
     {
-        print("Bullet Display start called");
         myImage = gameObject.GetComponent<Image>();
     }
 
