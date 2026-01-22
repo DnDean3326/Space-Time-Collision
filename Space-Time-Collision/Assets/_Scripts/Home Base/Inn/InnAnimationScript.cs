@@ -5,19 +5,30 @@ public class InnAnimationScript : MonoBehaviour, IPointerEnterHandler, IPointerE
 {
     private static readonly int IsHovered = Animator.StringToHash("IsHovered");
     private Animator animator;
+    private bool isInactive = false;
 
     private void Awake()
     {
         animator = GetComponentInParent<Animator>();
     }
 
+    public void setInactive(bool status)
+    {
+        isInactive = status;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        animator.SetBool(IsHovered, true);
+        if (isInactive = false) {
+            animator.SetBool(IsHovered, true);
+        }
+        
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        animator.SetBool(IsHovered, false);
+        if (isInactive = false) {
+            animator.SetBool(IsHovered, false);
+        }
     }
 }

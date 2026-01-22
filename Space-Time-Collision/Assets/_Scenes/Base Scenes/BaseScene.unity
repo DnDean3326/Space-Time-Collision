@@ -684,8 +684,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db90c2c905fcaf14d8109d8fbedc6851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseNavigation
-  voidButton: {fileID: 607395382}
-  innButton: {fileID: 1530114405}
+  voidObject: {fileID: 607395380}
+  innObject: {fileID: 1530114403}
 --- !u!114 &295525973
 MonoBehaviour:
   m_ObjectHideFlags: 0
