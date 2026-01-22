@@ -3832,6 +3832,8 @@ public class BattleSystem : MonoBehaviour
             if (damage < 1) {
                 damage = 1;
             }
+            cowboyLogic.CowboyCritLogic(attacker, attackTarget, activeAbility, ref selfTokens, ref selfTokensCount,
+                ref targetTokens, ref targetTokensCount);
         } else {
             if (minDamageRange < 0) {
                 minDamageRange = 0;
