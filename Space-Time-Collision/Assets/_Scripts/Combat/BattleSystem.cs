@@ -3967,6 +3967,7 @@ public class BattleSystem : MonoBehaviour
             attacker.UpdatePlayerUI();
         }
         if (attackTarget.currentHealth <= 0) {
+            print(attackTarget.myName + " was killed!");
             yield return new WaitForSeconds(DEATH_DELAY);
             
             if (preparedCombatants.Any(t => t.myName == attackTarget.myName)) {
