@@ -154,7 +154,7 @@ public class CombatMenuVisuals : MonoBehaviour
     public void UpdateSpiritBar()
     {
         if (me.myName == "Tre") {
-            spText.text = me.currentSpirit + " / " + me.maxSpirit;
+            spText.text = ricochetLogic.CheckBulletCount() + " / " + me.maxSpirit;
             return;
         }
         

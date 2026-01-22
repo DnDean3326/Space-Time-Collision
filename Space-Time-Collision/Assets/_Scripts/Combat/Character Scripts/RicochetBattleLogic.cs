@@ -150,6 +150,10 @@ public class RicochetBattleLogic : MonoBehaviour
     {
         if (activeAbility.extraCasts == 0) {
             for (int i = 0; i < activeAbility.costAmount; i++) {
+                if (bulletList.Count == 0) {
+                    print("Hey, my ammo is bugged. If this appears in the console please pass along the info to programming staff.");
+                    return;
+                }
                 bulletList.RemoveAt(0);
                 bulletDisplays.RemoveAt(0);
                 BulletDisplay tempBullet = CreateUnknownBullet();

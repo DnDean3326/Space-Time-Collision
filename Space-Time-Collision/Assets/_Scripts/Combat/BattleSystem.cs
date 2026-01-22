@@ -631,7 +631,6 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EnemyTurnRoutine(int characterIndex)
     {
-        print( allCombatants[characterIndex].myName + " turn begins");
         if (state == BattleState.EnemyTurn) {
             BattleEntity activeEnemy = allCombatants[characterIndex];
             EnemyBrain myBrain = activeEnemy.enemyBrain;
@@ -1267,7 +1266,6 @@ public class BattleSystem : MonoBehaviour
             BattleEntity deadCombatant = null;
             if (allCombatants[i].currentHealth <= 0) {
                 deadCombatant = allCombatants[i];
-                print(deadCombatant.myName + deadCombatant.currentHealth);
                 allCombatants.RemoveAt(i);
             }
             if (deadCombatant != null) {
