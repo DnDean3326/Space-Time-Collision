@@ -2972,11 +2972,12 @@ public class BattleSystem : MonoBehaviour
                     if (recipientEntity.activeTokens[i].tokenName == inverseOne ||
                         recipientEntity.activeTokens[i].tokenName == inverseTwo) {
                         if (tokenCount > recipientEntity.activeTokens[i].tokenCount) {
+                            int oldTokenCount = recipientEntity.activeTokens[i].tokenCount;
                             recipientEntity.activeTokens.Remove(recipientEntity.activeTokens[i]);
                             BattleToken tempToken = CreateBattleToken(tokenAdded);
                             recipientEntity.activeTokens.Add(tempToken);
                             tIndex = recipientEntity.activeTokens.IndexOf(tempToken);
-                            recipientEntity.activeTokens[tIndex].tokenCount = tokenCount - recipientEntity.activeTokens[i].tokenCount;
+                            recipientEntity.activeTokens[tIndex].tokenCount = tokenCount - oldTokenCount;
                         } else {
                             recipientEntity.activeTokens[i].tokenCount -= tokenCount;
                             if (recipientEntity.activeTokens[i].tokenCount <= 0) {
