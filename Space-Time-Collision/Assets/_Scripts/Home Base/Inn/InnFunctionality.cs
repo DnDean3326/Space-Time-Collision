@@ -259,8 +259,9 @@ public class InnFunctionality : MonoBehaviour
         
         for (int i = 0; i < activeEquippedSlots.Length; i++) {
             GameObject abilitySlot = activeEquippedSlots[i];
-
             if (i < ally.equippedAbilities.Count) {
+                abilitySlot.GetComponent<Button>().interactable = true;
+                
                 Ability ability = ally.equippedAbilities[i];
 
                 AbilitySelectButton abilitySlotButton = abilitySlot.GetComponent<AbilitySelectButton>();
@@ -289,6 +290,11 @@ public class InnFunctionality : MonoBehaviour
                 
                 abilitySlot.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = ability.abilityName;
             } else {
+                abilitySlot.GetComponent<Button>().interactable = false;
+                
+                AbilitySelectButton abilitySlotButton = abilitySlot.GetComponent<AbilitySelectButton>();
+                abilitySlotButton.SetMyAbility(null);
+                
                 Image abilityIcon = activeEquippedSlots[i].transform.GetChild(0).GetComponent<Image>();
                 abilityIcon.sprite = null;
                 abilityIcon.color = Color.black;
@@ -314,6 +320,8 @@ public class InnFunctionality : MonoBehaviour
 
     public void DisplayAbilityEffect(Ability ability)
     {
+        if (ability == null) { return; }
+        
         string abilityDescription = ability.equipDescription + "\n" + ability.description;
 
         Tooltip.ShowTooltip_Static("", abilityDescription);
@@ -321,6 +329,8 @@ public class InnFunctionality : MonoBehaviour
 
     public void DisplayAllyDescription(AllyInfo ally)
     {
+        if (ally == null) { return; }
+        
         Tooltip.ShowTooltip_Static("", ally.characterDescription);
     }
     
