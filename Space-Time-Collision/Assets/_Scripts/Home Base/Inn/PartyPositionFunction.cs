@@ -176,7 +176,6 @@ public class PartyPositionFunction : MonoBehaviour
             if (selectedMember != null) {
                 GameObject tempVisualObject = Instantiate(selectedMember.allyBattleVisualPrefab, gridTransforms[index]);
                 BattleVisuals tempBattleVisuals = tempVisualObject.GetComponent<BattleVisuals>();
-                tempBattleVisuals.SetStartingValues(selectedMember.maxHealth, selectedMember.currentHealth, selectedMember.maxDefense, selectedMember.maxArmor);
                 tempBattleVisuals.SetMyOrder(4 - Mathf.FloorToInt((float)index / 4) + 1);
                 tempBattleVisuals.DisableUIBar();
                 isOccupied[index] = true;
@@ -214,7 +213,6 @@ public class PartyPositionFunction : MonoBehaviour
         if (selectedMember != null && !isOccupied[index]) {
             GameObject tempVisualObject = Instantiate(selectedMember.allyBattleVisualPrefab, gridTransforms[index]);
             BattleVisuals tempBattleVisuals = tempVisualObject.GetComponent<BattleVisuals>();
-            tempBattleVisuals.SetStartingValues(selectedMember.maxHealth, selectedMember.currentHealth, selectedMember.maxDefense, selectedMember.maxArmor);
             tempBattleVisuals.SetMyOrder(4 - Mathf.FloorToInt((float)index / 4) + 1);
             tempBattleVisuals.DisableUIBar();
             tempBattleVisuals.SetSharedRowAnimation(true);

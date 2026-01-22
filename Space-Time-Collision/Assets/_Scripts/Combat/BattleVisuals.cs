@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 public class BattleVisuals : MonoBehaviour
 {
@@ -28,11 +29,12 @@ public class BattleVisuals : MonoBehaviour
     private RectTransform tokenDisplayRect;
     private RectTransform ailmentDisplayRect;
 
-    private int maxHealth;
-    private int currentHealth;
-    private int maxDefense;
-    private int currentDefense;
-    private int armor;
+    private BattleEntity me;
+    //private int maxHealth;
+    //private int currentHealth;
+    //private int maxDefense;
+    //private int currentDefense;
+    //private int armor;
     private bool wasSharingRow;
     
     private Animator myAnimator;
@@ -97,131 +99,79 @@ public class BattleVisuals : MonoBehaviour
         myUI.SetActive(false);
     }
 
-    public void SetStartingValues(int maxHealth, int currentHealth, int maxDefense,  int armor)
+    public void SetStartingValues(BattleEntity entity)
     {
-        this.maxHealth = maxHealth;
-        this.currentHealth = currentHealth;
-        this.maxDefense = maxDefense;
-        this.currentDefense = this.maxDefense;
-        this.armor = armor;
+        me = entity;
 
-        healthTMP.text = this.currentHealth + " / " + this.maxHealth;
-        defenseTMP.text = currentDefense + " / " + this.maxDefense;
+        healthTMP.text = me.currentHealth + " / " + me.maxHealth;
+        defenseTMP.text = me.currentDefense + " / " + me.maxDefense;
         
-        armorText.text = armor.ToString();
+        armorText.text = me.currentArmor.ToString();
         UpdateHealthBar();
         UpdateDefenseBar();
         UpdateArmor();
     }
 
-    private void UpdateHealthBar()
+    public void UpdateHealthBar()
     {
-        float currentHP = currentHealth;
-        float maxHP = maxHealth;
-        float hpPercent = (currentHP / maxHP);
+        float hpPercent = ((float)me.currentHealth / me.maxHealth);
         
-        healthTMP.text = currentHP + " / " + maxHP;
+        healthTMP.text = me.currentHealth + " / " + me.maxHealth;
         
         healthBar.fillAmount = hpPercent;
-    }
-
-    private void UpdateDefenseBar()
-    {
-        float currentDP = currentDefense;
-        float maxDP = maxDefense;
-        float defensePercent = (currentDP / maxDP);
         
-        defenseTMP.text = currentDP + " / " + maxDP;
-        
-        defenseBar.fillAmount = defensePercent;
-    }
-
-    private void UpdateArmor()
-    {
-        armorText.text = armor.ToString();
-    }
-
-    public void ChangeHealth(int newHealth)
-    {
-        currentHealth = newHealth;
-        UpdateHealthBar();
-        // if health is 0 -> play death animation -> destroy the battle visual
-        if (currentHealth <= 0) {
+        if (me.currentHealth <= 0) {
             PlayDeathAnimation();
             Destroy(gameObject, 1f);
         }
     }
 
-    public void ChangeDefense(int newDefense)
+    public void UpdateDefenseBar()
     {
-        currentDefense = newDefense;
-        UpdateDefenseBar();
+        float defensePercent = ((float)me.currentDefense / me.maxDefense);
+        
+        defenseTMP.text = me.currentDefense + " / " + me.maxDefense;
+        
+        defenseBar.fillAmount = defensePercent;
     }
 
-    public void ChangeArmor(int newArmor)
+    public void UpdateArmor()
     {
-        armor = newArmor;
-        UpdateArmor();
+        armorText.text = me.currentArmor.ToString();
+    }
+
+    public void PreviewHealth(int reduction)
+    {
+        float previewValue = me.currentHealth - reduction;
+        UpdateDefenseBar();
+        
+        float healthPercent = (previewValue / me.maxHealth);
+        
+        healthTMP.text = previewValue + " / " + me.maxHealth;
+        
+        healthBar.fillAmount = healthPercent;
+    }
+
+    public void PreviewDefense(int reduction)
+    {
+        float previewValue = me.currentDefense - reduction;
+        UpdateDefenseBar();
+        
+        float defensePercent = (previewValue / me.maxDefense);
+        
+        defenseTMP.text = previewValue + " / " + me.maxDefense;
+        
+        defenseBar.fillAmount = defensePercent;
+    }
+
+    public void PreviewArmor(int reduction)
+    {
+        float previewValue = me.currentArmor - reduction;
+        armorText.text = previewValue.ToString();
     }
 
     public void UpdateTokens(List<BattleToken> activeTokens)
     {
-        /*int tokenSlotIndex = 0;
-        int ailmentSlotIndex = 0;
-        
-        for (int i = 0; i < activeTokens.Count; i++) {
-            if (activeTokens[i].tokenType == Token.TokenType.Ailments) {
-                if (activeTokens[i].tokenCount >= 1) {
-                    ailmentSlotShadows[ailmentSlotIndex].SetActive(true);
-                    ailmentSlots[ailmentSlotIndex].SetActive(true);
-                    ailmentImages[ailmentSlotIndex].sprite = activeTokens[i].tokenIcon;
-                    myAilments[ailmentSlotIndex] = activeTokens[i];
-                    
-                    if (activeTokens[i].tokenCount > 1) {
-                        ailmentTextSlots[ailmentSlotIndex].SetActive(true);
-                        ailmentCountText[ailmentSlotIndex].text = "x" + activeTokens[i].tokenCount;
-                    } else {
-                        ailmentTextSlots[ailmentSlotIndex].SetActive(false);
-                    }
-                } else {
-                    ailmentTextSlots[ailmentSlotIndex].SetActive(false);
-                    ailmentSlots[ailmentSlotIndex].SetActive(false);
-                    ailmentSlotShadows[ailmentSlotIndex].SetActive(false);
-                }
-                ailmentSlotIndex++;
-            } else {
-                if (activeTokens[i].tokenCount >= 1) {
-                    tokenSlotShadows[tokenSlotIndex].SetActive(true);
-                    tokenSlots[tokenSlotIndex].SetActive(true);
-                    tokenImages[tokenSlotIndex].sprite = activeTokens[i].tokenIcon;
-                    myTokens[tokenSlotIndex] = activeTokens[i];
-
-                    if (activeTokens[i].tokenCount > 1) {
-                        tokenTextSlots[tokenSlotIndex].SetActive(true);
-                        tokenCountText[tokenSlotIndex].text = "x" + activeTokens[i].tokenCount;
-                    } else {
-                        tokenTextSlots[tokenSlotIndex].SetActive(false);
-                    }
-                } else {
-                    tokenTextSlots[tokenSlotIndex].SetActive(false);
-                    tokenSlots[tokenSlotIndex].SetActive(false);
-                    tokenSlotShadows[tokenSlotIndex].SetActive(false);
-                }
-                tokenSlotIndex++;
-            }
-        }
-        for (int j = tokenSlotIndex; j < tokenSlots.Length; j++) {
-            tokenSlotShadows[j].SetActive(false);
-            tokenSlots[j].SetActive(false);
-            myTokens[j] = null;
-        }
-        for (int j = ailmentSlotIndex; j < ailmentSlots.Length; j++)
-        {
-            ailmentSlotShadows[j].SetActive(false);
-            ailmentSlots[j].SetActive(false);
-            myAilments[j] = null;
-        }*/
-        
         int tokenSlotCount = 0;
         int ailmentSlotCount = 0;
         

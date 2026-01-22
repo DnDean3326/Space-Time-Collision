@@ -50,8 +50,6 @@ public class CombatMenuVisuals : MonoBehaviour
     private List<EventTrigger> myAbilityTriggers = new List<EventTrigger>();
     private List<TextMeshProUGUI> abilityTexts = new List<TextMeshProUGUI>();
     private List<bool> abilityActive = new List<bool>();
-    private int maxSpirit;
-    private int currentSpirit;
 
     private RicochetBattleLogic ricochetLogic;
     
@@ -75,15 +73,6 @@ public class CombatMenuVisuals : MonoBehaviour
     {
         abilitySelectUI.SetActive(false);
         abilityPreviewUI.SetActive(false);
-    }
-
-    public void SetMyEntity(BattleEntity myself)
-    {
-        me = myself;
-        if (me.myName == "Tre") {
-            ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
-            ricochetLogic.SetupBulletDisplays(bulletDisplays);
-        }
     }
 
     public void SetMyAbilityBar()
@@ -149,33 +138,45 @@ public class CombatMenuVisuals : MonoBehaviour
         return myAbilityTriggers;
     }
     
-    public void SetMenuStartingValues(int maxSpirit, int currentSpirit)
+    public void SetMenuStartingValues(BattleEntity entity)
     {
+        me = entity;
+        if (me.myName == "Tre") {
+            ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
+            ricochetLogic.SetupBulletDisplays(bulletDisplays);
+        }
+
         abilityEffectText.text = "";
-        this.maxSpirit = maxSpirit;
-        this.currentSpirit = currentSpirit;
         
         UpdateSpiritBar();
     }
-    
-    private void UpdateSpiritBar()
+
+    public void UpdateSpiritBar()
     {
         if (me.myName == "Tre") {
-            spText.text = currentSpirit + " / " + maxSpirit;
+            spText.text = me.currentSpirit + " / " + me.maxSpirit;
             return;
         }
         
-        spiritBar.maxValue = maxSpirit;
-        spiritBar.value = currentSpirit;
+        spiritBar.maxValue = me.maxSpirit;
+        spiritBar.value = me.currentSpirit;
         
-        spText.text = "SP: " + currentSpirit + " / " + maxSpirit;
+        spText.text = "SP: " + me.currentSpirit + " / " + me.maxSpirit;
     }
     
-    public void ChangeSpirit(int newSpirit)
+    public void PreviewSpirit(int reduction)
     {
-        currentSpirit = newSpirit;
+        float preview = me.currentSpirit - reduction;
         
-        UpdateSpiritBar();
+        if (me.myName == "Tre") {
+            spText.text = preview + " / " + me.maxSpirit;
+            return;
+        }
+        
+        spiritBar.maxValue = me.maxSpirit;
+        spiritBar.value = preview;
+        
+        spText.text = "SP: " + preview + " / " + me.maxSpirit;
     }
 
     public void ChangeAbilitySelectUIVisibility(bool visible)

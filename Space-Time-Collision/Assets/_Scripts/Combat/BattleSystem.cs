@@ -381,7 +381,7 @@ public class BattleSystem : MonoBehaviour
     private IEnumerator PlayerTurnRoutine(int characterIndex)
     {
         if (state == BattleState.PlayerTurn) {
-            allCombatants[characterIndex].combatMenuVisuals.ChangeSpirit(allCombatants[characterIndex].currentSpirit);
+            allCombatants[characterIndex].combatMenuVisuals.UpdateSpiritBar();
             currentPlayer = characterIndex;
             if (!wentBack && !usedLightAction) {
 
@@ -1058,9 +1058,8 @@ public class BattleSystem : MonoBehaviour
                 Quaternion.identity).GetComponent<CombatMenuVisuals>();
             
             // Set the visuals' starting values
-            tempBattleVisuals.SetStartingValues(currentParty[i].maxHealth, currentParty[i].currentHealth, currentParty[i].maxDefense, currentParty[i].maxArmor);
-            tempCombatMenuVisuals.SetMyEntity(tempEntity);
-            tempCombatMenuVisuals.SetMenuStartingValues(currentParty[i].maxSpirit, currentParty[i].currentSpirit);
+            tempBattleVisuals.SetStartingValues(tempEntity);
+            tempCombatMenuVisuals.SetMenuStartingValues(tempEntity);
             // Assign said visuals to the battle entity
             tempEntity.myVisuals = tempVisualGameObject;
             tempEntity.battleVisuals = tempBattleVisuals;
@@ -1117,7 +1116,7 @@ public class BattleSystem : MonoBehaviour
             BattleVisuals tempBattleVisuals =  tempVisualGameObject.GetComponent<BattleVisuals>();
             
             // Set the visuals' starting values
-            tempBattleVisuals.SetStartingValues(currentEnemies[i].maxHealth, currentEnemies[i].currentHealth, currentEnemies[i].maxDefense, currentEnemies[i].maxArmor);
+            tempBattleVisuals.SetStartingValues(tempEntity);
             // Assign said visuals to the battle entity
             tempEntity.myVisuals = tempVisualGameObject;
             tempEntity.battleVisuals = tempBattleVisuals;
@@ -1851,29 +1850,23 @@ public class BattleSystem : MonoBehaviour
     {
         BattleEntity currentPlayerEntity = allCombatants[currentPlayer];
         int tempInt;
+        tempInt = currentPlayerEntity.myAbilities[abilityIndex].costAmount;
         switch (currentPlayerEntity.myAbilities[abilityIndex].costResource) {
             case Ability.CostResource.Null:
                 break;
             case Ability.CostResource.Spirit:
-                tempInt = currentPlayerEntity.currentSpirit - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
-                currentPlayerEntity.combatMenuVisuals.ChangeSpirit(tempInt);
+                currentPlayerEntity.combatMenuVisuals.PreviewSpirit(tempInt); //TODO Update
                 break;
             case Ability.CostResource.Health:
-                tempInt = currentPlayerEntity.currentHealth - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
-                if (tempInt > 0) { tempInt = 0;}
-                currentPlayerEntity.battleVisuals.ChangeHealth(tempInt);
+                currentPlayerEntity.battleVisuals.PreviewHealth(tempInt);
                 break;
             case Ability.CostResource.Defense:
-                tempInt = currentPlayerEntity.currentDefense - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
-                if (tempInt > 0) { tempInt = 0;}
-                currentPlayerEntity.battleVisuals.ChangeDefense(tempInt);
+                currentPlayerEntity.battleVisuals.PreviewDefense(tempInt);
                 break;
             case Ability.CostResource.SelfDmg:
                 break;
             case Ability.CostResource.Armor:
-                tempInt = currentPlayerEntity.currentArmor - currentPlayerEntity.myAbilities[abilityIndex].costAmount;
-                if (tempInt > 0) { tempInt = 0;}
-                currentPlayerEntity.battleVisuals.ChangeArmor(tempInt);
+                currentPlayerEntity.battleVisuals.PreviewArmor(tempInt);
                 break;
             case Ability.CostResource.Special:
                 print("Special resource type was called but isn't programmed in yet.");
@@ -1892,23 +1885,23 @@ public class BattleSystem : MonoBehaviour
                 break;
             case Ability.CostResource.Spirit:
                 if (currentPlayerEntity.myName == "Tre") {
-                    currentPlayerEntity.combatMenuVisuals.ChangeSpirit(ricochetLogic.CheckBulletCount());
+                    currentPlayerEntity.combatMenuVisuals.UpdateSpiritBar();
                 } else {
-                    currentPlayerEntity.combatMenuVisuals.ChangeSpirit(currentPlayerEntity.currentSpirit);
+                    currentPlayerEntity.combatMenuVisuals.UpdateSpiritBar();
                 }
                 break;
             case Ability.CostResource.Health:
-                currentPlayerEntity.battleVisuals.ChangeHealth(currentPlayerEntity.currentHealth);
+                currentPlayerEntity.battleVisuals.UpdateHealthBar();
                 break;
             case Ability.CostResource.Defense:
-                currentPlayerEntity.battleVisuals.ChangeDefense(currentPlayerEntity.currentDefense);
+                currentPlayerEntity.battleVisuals.UpdateDefenseBar();
                 break;
             case Ability.CostResource.SelfDmg:
-                currentPlayerEntity.battleVisuals.ChangeHealth(currentPlayerEntity.currentHealth);
-                currentPlayerEntity.battleVisuals.ChangeDefense(currentPlayerEntity.currentDefense);
+                currentPlayerEntity.battleVisuals.UpdateHealthBar();
+                currentPlayerEntity.battleVisuals.UpdateDefenseBar();
                 break;
             case Ability.CostResource.Armor:
-                currentPlayerEntity.battleVisuals.ChangeArmor(currentPlayerEntity.currentArmor);
+                currentPlayerEntity.battleVisuals.UpdateArmor();
                 break;
             case Ability.CostResource.Special:
                 print("Special resource type was called but isn't programmed in yet.");
@@ -1928,14 +1921,12 @@ public class BattleSystem : MonoBehaviour
         int tempInt;
         switch (activeAbility.selfTarget) {
             case Ability.SelfTarget.Spirit:
-                tempInt = playerEntity.currentSpirit + activeAbility.costAmount;
-                playerEntity.combatMenuVisuals.ChangeSpirit(tempInt);
+                tempInt = activeAbility.selfMax;
+                playerEntity.combatMenuVisuals.PreviewSpirit(tempInt);
                 break;
             case Ability.SelfTarget.Armor:
-                tempInt = playerEntity.currentArmor + activeAbility.selfMax;
-                if (tempInt > playerEntity.maxArmor) {
-                    playerEntity.battleVisuals.ChangeArmor(tempInt);
-                }
+                tempInt = activeAbility.selfMax;
+                playerEntity.battleVisuals.PreviewArmor(tempInt);
                 break;
             case Ability.SelfTarget.ActionPoints:
                 List<BattleEntity> tempList = new List<BattleEntity>();
@@ -1961,10 +1952,10 @@ public class BattleSystem : MonoBehaviour
         
         switch (activeAbility.selfTarget) {
             case Ability.SelfTarget.Spirit:
-                activeEntity.combatMenuVisuals.ChangeSpirit(activeEntity.currentSpirit);
+                activeEntity.combatMenuVisuals.UpdateSpiritBar();
                 break;
             case Ability.SelfTarget.Armor:
-                activeEntity.battleVisuals.ChangeArmor(activeEntity.currentArmor);
+                activeEntity.battleVisuals.UpdateArmor();
                 break;
             case Ability.SelfTarget.ActionPoints:
                 List<BattleEntity> tempList = new List<BattleEntity>();
@@ -1990,15 +1981,14 @@ public class BattleSystem : MonoBehaviour
         switch (activeAbility.secondaryTarget) {
             case Ability.SecondaryTarget.Spirit:
                 if (targetEntity.isPlayer) {
-                    tempInt = targetEntity.currentSpirit - activeAbility.costAmount;
-                    if (tempInt < 0) { tempInt = 0;}
-                    targetEntity.combatMenuVisuals.ChangeSpirit(tempInt);
+                    tempInt = activeAbility.costAmount;
+                    targetEntity.combatMenuVisuals.PreviewSpirit(tempInt);
                 }
                 break;
             case Ability.SecondaryTarget.Armor:
                 tempInt = targetEntity.currentArmor - activeAbility.secondaryValue;
                 if (tempInt < 0) { tempInt = 0;}
-                targetEntity.battleVisuals.ChangeArmor(tempInt);
+                targetEntity.battleVisuals.PreviewArmor(tempInt);
                 break;
             case Ability.SecondaryTarget.ActionPoints:
                 List<BattleEntity> tempList = new List<BattleEntity>();
@@ -2032,11 +2022,11 @@ public class BattleSystem : MonoBehaviour
         switch (activeAbility.secondaryTarget) {
             case Ability.SecondaryTarget.Spirit:
                 if (targetEntity.isPlayer) {
-                    targetEntity.combatMenuVisuals.ChangeSpirit(targetEntity.currentSpirit);
+                    targetEntity.combatMenuVisuals.UpdateSpiritBar();
                 }
                 break;
             case Ability.SecondaryTarget.Armor:
-                targetEntity.battleVisuals.ChangeArmor(targetEntity.currentArmor);
+                targetEntity.battleVisuals.UpdateArmor();
                 break;
             case Ability.SecondaryTarget.ActionPoints:
                 List<BattleEntity> tempList = new List<BattleEntity>();
@@ -4917,17 +4907,17 @@ public class BattleEntity
 
     public void UpdatePlayerUI()
     {
-        battleVisuals.ChangeHealth(currentHealth);
-        battleVisuals.ChangeDefense(currentDefense);
-        battleVisuals.ChangeArmor(currentArmor);
-        combatMenuVisuals.ChangeSpirit(currentSpirit);
+        battleVisuals.UpdateHealthBar();
+        battleVisuals.UpdateDefenseBar();
+        battleVisuals.UpdateArmor();
+        combatMenuVisuals.UpdateSpiritBar();
     }
 
     public void UpdateEnemyUI()
     {
-        battleVisuals.ChangeHealth(currentHealth);
-        battleVisuals.ChangeDefense(currentDefense);
-        battleVisuals.ChangeArmor(currentArmor);
+        battleVisuals.UpdateHealthBar();
+        battleVisuals.UpdateDefenseBar();
+        battleVisuals.UpdateArmor();
     }
     
 }
