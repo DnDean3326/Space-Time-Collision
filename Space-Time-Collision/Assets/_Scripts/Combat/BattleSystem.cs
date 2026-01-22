@@ -261,6 +261,11 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator BattleRoutine()
     {
+        // Remove any dead combatants from the combat
+        yield return StartCoroutine(FixResources());
+        
+        yield return StartCoroutine(RemoveDeadCombatants());
+        
         // if no party members remain -> battle is lost
         if (partyCombatants.Count <= 0) {
             state = BattleState.Lost;
@@ -283,10 +288,6 @@ public class BattleSystem : MonoBehaviour
             }
             SceneManager.LoadScene(MAP_SCENE);
         }
-        // Remove any dead combatants from the combat
-        yield return StartCoroutine(FixResources());
-        
-        yield return StartCoroutine(RemoveDeadCombatants());
         
         foreach (BattleEntity entity in allCombatants) {
             FindMyGridPosition(entity);
@@ -2202,7 +2203,6 @@ public class BattleSystem : MonoBehaviour
 
     private void SetTargetValuesForDisplay(int hoveredTarget)
     {
-        print(hoveredTarget); //TODO Remove
         BattleEntity activeEntity = allCombatants[currentPlayer];
         BattleEntity targetEntity;
         
