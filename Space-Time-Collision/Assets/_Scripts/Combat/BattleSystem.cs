@@ -406,7 +406,7 @@ public class BattleSystem : MonoBehaviour
             
             allCombatants[currentPlayer].battleVisuals.SetMyTurnAnimation(true);
             abilitySelected = false;
-            UpdateAbilityBar(currentPlayer);
+            UpdateAbilityBar(allCombatants[currentPlayer]);
             ShowAbilitySelectMenu(currentPlayer);
             yield return new WaitUntil(() => abilitySelected);
             state = BattleState.Targeting;
@@ -1753,9 +1753,8 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    private void UpdateAbilityBar(int characterIndex)
+    private void UpdateAbilityBar(BattleEntity player)
     {
-        BattleEntity player = partyCombatants[characterIndex];
         List<Image> abilityImages = player.combatMenuVisuals.GetAbilityImages();
         List<Button> abilityButtons = player.combatMenuVisuals.GetAbilityButtons();
         List<bool> abilityAvailable =  new List<bool>();

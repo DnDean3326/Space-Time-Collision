@@ -12,14 +12,14 @@ public class InnAnimationScript : MonoBehaviour, IPointerEnterHandler, IPointerE
         animator = GetComponentInParent<Animator>();
     }
 
-    public void setInactive(bool status)
+    public void SetInactive(bool status)
     {
         isInactive = status;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isInactive = false) {
+        if (isInactive == false) {
             animator.SetBool(IsHovered, true);
         }
         
@@ -27,7 +27,7 @@ public class InnAnimationScript : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isInactive = false) {
+        if (isInactive == false) {
             animator.SetBool(IsHovered, false);
         }
     }

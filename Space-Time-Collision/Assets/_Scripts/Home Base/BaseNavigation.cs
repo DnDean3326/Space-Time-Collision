@@ -30,13 +30,13 @@ public class BaseNavigation : MonoBehaviour
     {
         if (playerPrefs.GetRunStatus() > 0) {
             innButton.interactable = false;
-            innAnimationScript.setInactive(true);
+            innAnimationScript.SetInactive(true);
 
         }
 
         if (partyManager.GetCurrentParty().Count == 0) {
             voidButton.interactable = false;
-            innAnimationScript.setInactive(true);
+            innAnimationScript.SetInactive(true);
         }
     }
     
