@@ -260,6 +260,7 @@ public class BattleVisuals : MonoBehaviour
 
     public void PlayAttackAnimation()
     {
+        print("Attack animation called!");
         myAnimator.SetTrigger(IS_ATTACK_PARAM);
     }
 

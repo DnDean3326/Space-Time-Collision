@@ -24,7 +24,7 @@ public class AbilityNameDisplay : MonoBehaviour
             if (target.myName == "Tre") {
                 targetName = "Ricochet";
             } else {
-                targetName = user.myName;
+                targetName = target.myName;
             }
             abilityText.text = userName + " used " + ability.abilityName + " against " + targetName;
         } else {

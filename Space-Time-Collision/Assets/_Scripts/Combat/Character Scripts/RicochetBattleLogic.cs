@@ -227,10 +227,7 @@ public class RicochetBattleLogic : MonoBehaviour
 
     private void UpdateBulletPreviews()
     {
-        print("bulletDisplay.Count: " + bulletDisplays.Count);
-        print("bulletPreview.Count: " + bulletPreviews.Count);
         for (var i = 0; i < bulletPreviews.Count; i++) {
-            print("i is: " + i);
             bulletPreviews[i].SetMyBulletDisplay(bulletDisplays[i]);
         }
     }

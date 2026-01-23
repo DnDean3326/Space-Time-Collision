@@ -12,7 +12,9 @@ public class TurnOrderDisplay : MonoBehaviour
     [SerializeField] private Image[] darkApMeters;
     [SerializeField] private Image[] mediumApMeters;
     [SerializeField] private Image[] lightApMeters;
-    
+
+    private List<Image> turnPortraitImages = new List<Image>();
+    private List<Image> turnBorderImages = new List<Image>();
     private BattleSystem battleSystem;
     
     private const float TURN_START_THRESHOLD = 200f;
@@ -22,6 +24,15 @@ public class TurnOrderDisplay : MonoBehaviour
     public void Awake()
     {
         battleSystem = FindFirstObjectByType<BattleSystem>();
+        Image tempImage;
+        foreach (var turnPortrait in turnPortraits) {
+            tempImage = turnPortrait.GetComponent<Image>();
+            turnPortraitImages.Add(tempImage);
+        }
+        foreach (var turnBorder in turnBorders) {
+            tempImage = turnBorder.GetComponent<Image>();
+            turnBorderImages.Add(tempImage);
+        }
     }
 
     public void Start()
@@ -34,28 +45,25 @@ public class TurnOrderDisplay : MonoBehaviour
     public void SetTurnDisplay(List<BattleEntity> turnOrder)
     {
         for (int i = 0; i < turnPortraits.Length; i++) {
-            turnPortraits[i].GetComponent<Image>().sprite = turnOrder[i].myPortrait;
+            turnPortraitImages[i].sprite = turnOrder[i].myPortrait;
             if (turnOrder[i].isPlayer) {
-                turnBorders[i].GetComponent<Image>().color = new Color32(147, 229, 242, 255);
+                turnBorderImages[i].color = new Color32(147, 229, 242, 255);
             } else {
-                turnBorders[i].GetComponent<Image>().color = new Color32(255, 0, 0, 255);
+                turnBorderImages[i].color = new Color32(255, 0, 0, 255);
             }
 
             if (turnOrder[i].actionPoints < (-1 * TURN_START_THRESHOLD)) {
-                darkApMeters[i].GetComponent<Image>().fillAmount =
-                    (turnOrder[i].actionPoints + (TURN_START_THRESHOLD * 2)) / TURN_START_THRESHOLD;
-                mediumApMeters[i].GetComponent<Image>().fillAmount = 0;
-                lightApMeters[i].GetComponent<Image>().fillAmount = 0;
+                darkApMeters[i].fillAmount = (turnOrder[i].actionPoints + (TURN_START_THRESHOLD * 2)) / TURN_START_THRESHOLD;
+                mediumApMeters[i].fillAmount = 0;
+                lightApMeters[i].fillAmount = 0;
             } else if (turnOrder[i].actionPoints < 0) {
-                darkApMeters[i].GetComponent<Image>().fillAmount = 1;
-                mediumApMeters[i].GetComponent<Image>().fillAmount =
-                    (turnOrder[i].actionPoints + TURN_START_THRESHOLD) / TURN_START_THRESHOLD;
-                lightApMeters[i].GetComponent<Image>().fillAmount = 0;
+                darkApMeters[i].fillAmount = 1;
+                mediumApMeters[i].fillAmount = (turnOrder[i].actionPoints + TURN_START_THRESHOLD) / TURN_START_THRESHOLD;
+                lightApMeters[i].fillAmount = 0;
             } else {
-                darkApMeters[i].GetComponent<Image>().fillAmount = 1;
-                mediumApMeters[i].GetComponent<Image>().fillAmount = 1;
-                lightApMeters[i].GetComponent<Image>().fillAmount =
-                    turnOrder[i].actionPoints / TURN_START_THRESHOLD;
+                darkApMeters[i].fillAmount = 1;
+                mediumApMeters[i].fillAmount = 1;
+                lightApMeters[i].fillAmount = turnOrder[i].actionPoints / TURN_START_THRESHOLD;
             }
         }
     }

@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using TMPro;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -37,6 +35,18 @@ public class BattleSystem : MonoBehaviour
     [Header("Battle System")]
     [SerializeField] private BattleState state;
 
+    [Header("Camera Information")]
+    [SerializeField] private GameObject visualsObject;
+    [SerializeField] private GameObject menusObject;
+    [SerializeField] private Transform pvePlayerPos;
+    [SerializeField] private Transform pveEnemyPos;
+    [SerializeField] private Transform ptpMainPos;
+    [SerializeField] private Transform ptpTargetPos;
+    [SerializeField] private Transform ptpSoloPos;
+    [SerializeField] private Transform eteMainPos;
+    [SerializeField] private Transform eteTargetPos;
+    [SerializeField] private Transform eteSoloPos;
+
     [Header("Grid Locations")]
     [SerializeField] private List<GridTile> partyBattleGrid = new List<GridTile>();
     [SerializeField] private List<GridTile> enemyBattleGrid = new List<GridTile>();
@@ -48,7 +58,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private List<BattleEntity> preparedCombatants = new List<BattleEntity>();
     [SerializeField] private List<BattleEntity> turnOrder = new  List<BattleEntity>();
     [SerializeField] private List<BattleEntity> targetList = new List<BattleEntity>();
-    [SerializeField] private List<BossLogicListing> bossLogicList = new List<BossLogicListing>();
+    private List<BossLogicListing> bossLogicList = new List<BossLogicListing>();
     
     [Header("Tokens")]
     [SerializeField] private List<BattleToken> allTokens = new List<BattleToken>();
@@ -116,6 +126,7 @@ public class BattleSystem : MonoBehaviour
     private CombatGrid combatGrid;
     private AbilityNameDisplay abilityNameDisplay;
     private PlayerPrefs playerPrefs;
+    private BattleCameraController cameraController;
     
     // Character Specific Logic
     private RepentantBattleLogic repentantLogic;
@@ -157,7 +168,9 @@ public class BattleSystem : MonoBehaviour
     private int yChange = 0;
     
     private const float COMBAT_BEGIN_DELAY = 1.75f;
+    private const float CAMERA_MOVE_DELAY = 0.25f;
     private const float TURN_ACTION_DELAY = 1.5f;
+    private const float ABILITY_ANIMATION_DELAY = 0f;
     private const float AILMENT_DAMAGE_DELAY = 0.5f;
     private const float DEATH_DELAY = 3f;
     private const float CRIT_DAMAGE_MODIFIER = 1.5f;
@@ -167,7 +180,7 @@ public class BattleSystem : MonoBehaviour
     private const int MAX_INDIVIDUAL_DISPLAY = 5;
     private const int PREVIEW_RESIST_PIERCE = 500;
     private const int PLAYER_NONMOVE_ABILITIES = 4;
-    private const float MOVE_SPEED = 1f;
+    private const float MOVE_SPEED = 1f; // For eventual use with moving unit in real time from one tile to another
     private const string MAP_SCENE = "BaseScene";
     private const string BASE_SCENE = "BaseScene";
     
@@ -190,6 +203,7 @@ public class BattleSystem : MonoBehaviour
         combatGrid = FindFirstObjectByType<CombatGrid>();
         abilityNameDisplay = FindFirstObjectByType<AbilityNameDisplay>();
         playerPrefs =  FindFirstObjectByType<PlayerPrefs>();
+        cameraController = FindFirstObjectByType<BattleCameraController>();
         
         combatGrid.GetGridInfo(ref partyBattleGrid, ref enemyBattleGrid);
         LinkCharacterLogics();
@@ -439,6 +453,7 @@ public class BattleSystem : MonoBehaviour
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -456,6 +471,7 @@ public class BattleSystem : MonoBehaviour
                         }
                     }
                     
+                    yield return StartCoroutine(ChangeToActionCameras(activeCharacter, targetCharacter));
                     yield return StartCoroutine(DamageAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
                 case Ability.AbilityType.Heal:
@@ -469,6 +485,7 @@ public class BattleSystem : MonoBehaviour
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -486,6 +503,7 @@ public class BattleSystem : MonoBehaviour
                         }
                     }
                     
+                    yield return StartCoroutine(ChangeToActionCameras(activeCharacter, targetCharacter));
                     yield return StartCoroutine(HealAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
                 case Ability.AbilityType.Buff:
@@ -499,6 +517,7 @@ public class BattleSystem : MonoBehaviour
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -516,6 +535,7 @@ public class BattleSystem : MonoBehaviour
                         }
                     }
                     
+                    yield return StartCoroutine(ChangeToActionCameras(activeCharacter, targetCharacter));
                     yield return StartCoroutine(BuffAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
                 case Ability.AbilityType.Debuff:
@@ -529,6 +549,7 @@ public class BattleSystem : MonoBehaviour
                     
                     abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -546,6 +567,7 @@ public class BattleSystem : MonoBehaviour
                         }
                     }
                     
+                    yield return StartCoroutine(ChangeToActionCameras(activeCharacter, targetCharacter));
                     yield return StartCoroutine(DebuffAction(activeCharacter, targetCharacter, activeCharacter.activeAbility));
                     break;
                 case Ability.AbilityType.Movement:
@@ -587,7 +609,8 @@ public class BattleSystem : MonoBehaviour
                     
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
-                
+                    
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -597,7 +620,7 @@ public class BattleSystem : MonoBehaviour
                         brokeRow = false;
                     }
                     
-                    yield return StartCoroutine(SetGridPosition(allCombatants[currentPlayer], xChange, yChange));
+                    yield return StartCoroutine(ChangeGridPosition(allCombatants[currentPlayer], xChange, yChange));
                     break;
                 default:
                     print("Unsupported ability type of " + allCombatants[currentPlayer].activeAbilityType + " supplied.");
@@ -715,11 +738,11 @@ public class BattleSystem : MonoBehaviour
                     }
                 }
                 if (closestOpponent.yPos == activeEnemy.yPos) {
-                    StartCoroutine(SetGridPosition(activeEnemy, -1, 0));
+                    StartCoroutine(ChangeGridPosition(activeEnemy, -1, 0));
                 } else if (closestOpponent.yPos > activeEnemy.yPos) {
-                    StartCoroutine(SetGridPosition(activeEnemy, 0, 1));
+                    StartCoroutine(ChangeGridPosition(activeEnemy, 0, 1));
                 } else if (closestOpponent.yPos < activeEnemy.yPos) {
-                    StartCoroutine(SetGridPosition(activeEnemy, 0, -1));
+                    StartCoroutine(ChangeGridPosition(activeEnemy, 0, -1));
                 }
                 usedAbility = false;
             } else {
@@ -932,27 +955,29 @@ public class BattleSystem : MonoBehaviour
                             default:
                                 print("Qualifier of " + abilityUsed.targetQualifier +
                                       " supplied");
-                                abilityTarget = targetList[Random.Range(0, targetList.Count)];
-                                // The below is sort lowest to highest
-                                turnOrder.Sort((bi1, bi2) => bi1.ticksToTurn.CompareTo(bi2.ticksToTurn));
-                                throw new ArgumentOutOfRangeException();
+                                break;
                         }
                     }
                 }
             
+                activeEnemy.target = allCombatants.IndexOf(abilityTarget);
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
                 abilityNameDisplay.DisplayAbilityInfo(activeEnemy, abilityTarget, abilityUsed.ability);
                 switch (abilityUsed.ability.abilityType) {
                     case Ability.AbilityType.Damage:
+                        yield return StartCoroutine(ChangeToActionCameras(activeEnemy, abilityTarget));
                         yield return StartCoroutine(DamageAction(activeEnemy, abilityTarget, myBrain.enemyAbilities.IndexOf(abilityUsed)));
                         break;
                     case Ability.AbilityType.Debuff:
+                        yield return StartCoroutine(ChangeToActionCameras(activeEnemy, abilityTarget));
                         yield return StartCoroutine(DebuffAction(activeEnemy, abilityTarget, myBrain.enemyAbilities.IndexOf(abilityUsed)));
                         break;
                     case Ability.AbilityType.Heal:
+                        yield return StartCoroutine(ChangeToActionCameras(activeEnemy, abilityTarget));
                         yield return StartCoroutine(HealAction(activeEnemy, abilityTarget, myBrain.enemyAbilities.IndexOf(abilityUsed)));
                         break;
                     case Ability.AbilityType.Buff:
+                        yield return StartCoroutine(ChangeToActionCameras(activeEnemy, abilityTarget));
                         yield return StartCoroutine(BuffAction(activeEnemy, abilityTarget, myBrain.enemyAbilities.IndexOf(abilityUsed)));
                         break;
                     default:
@@ -972,9 +997,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntity activeEntity)
     {
-        if (activeEntity.isPlayer) {
-            activeEntity.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
-        }
+        ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]);
         
         // Call character turn end logic
         if (activeEntity.myName == "Renée") {
@@ -1027,6 +1050,70 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(BattleRoutine());
         yield break;
     }
+
+    private IEnumerator ChangeToActionCameras(BattleEntity mainEntity, BattleEntity targetEntity)
+    {
+        foreach (Transform child in visualsObject.transform) {
+            child.gameObject.SetActive(false);
+        }
+        if (mainEntity.isPlayer && targetEntity.isPlayer) {
+            if (mainEntity == targetEntity) {
+                mainEntity.myVisuals.transform.position = ptpSoloPos.position;
+            } else {
+                mainEntity.myVisuals.transform.position = ptpMainPos.position;
+                targetEntity.myVisuals.transform.position = ptpTargetPos.position;
+            }
+            cameraController.SetPlayerToPlayerCamera();
+        } else if (!mainEntity.isPlayer && !targetEntity.isPlayer) {
+            if (mainEntity == targetEntity) {
+                mainEntity.myVisuals.transform.position = eteSoloPos.position;
+            } else {
+                mainEntity.myVisuals.transform.position = eteMainPos.position;
+                targetEntity.myVisuals.transform.position = eteTargetPos.position;
+            }
+            cameraController.SetEnemyToEnemyCamera();
+        } else {
+            if (mainEntity.isPlayer) {
+                mainEntity.myVisuals.transform.position = pvePlayerPos.position;
+            } else {
+                mainEntity.myVisuals.transform.position = pveEnemyPos.position;
+            }
+            if (targetEntity.isPlayer) {
+                targetEntity.myVisuals.transform.position = pvePlayerPos.position;
+            } else {
+                targetEntity.myVisuals.transform.position = pveEnemyPos.position;
+            }
+            cameraController.SetPlayerVsEnemyCamera();
+        }
+        mainEntity.myVisuals.SetActive(true);
+        targetEntity.myVisuals.SetActive(true);
+        yield return new WaitForSeconds(CAMERA_MOVE_DELAY);
+    }
+
+    private void ChangeToMainCamera(BattleEntity mainEntity, BattleEntity targetEntity)
+    {
+        Vector3 mainPos;
+        Vector3 targetPos;
+        
+        if (mainEntity.isPlayer) {
+            mainPos = partyBattleGrid.Find(t => t.occupiedBy == mainEntity).gridTransform.position;
+        } else {
+            mainPos = enemyBattleGrid.Find(t => t.occupiedBy == mainEntity).gridTransform.position;
+        }
+        if (targetEntity.isPlayer) {
+            targetPos = partyBattleGrid.Find(t => t.occupiedBy == targetEntity).gridTransform.position;
+        } else {
+            targetPos = enemyBattleGrid.Find(t => t.occupiedBy == targetEntity).gridTransform.position;
+        }
+        
+        SetGridPosition(mainEntity, mainPos);
+        SetGridPosition(targetEntity, targetPos);
+        
+        foreach (Transform child in visualsObject.transform) {
+            child.gameObject.SetActive(true);
+        }
+        cameraController.SetMainCamera();
+    }
     
     private void CreatePartyEntities()
     {
@@ -1047,12 +1134,12 @@ public class BattleSystem : MonoBehaviour
             int gridSpawn = GetGridPosition(tempEntity);
 
             GameObject tempVisualGameObject = Instantiate(currentParty[i].allyBattleVisualPrefab,
-                partyBattleGrid[gridSpawn].gridTransform.position, Quaternion.identity);
+                partyBattleGrid[gridSpawn].gridTransform.position, Quaternion.identity, visualsObject.transform);
             partyBattleGrid[gridSpawn].isOccupied = true;
             partyBattleGrid[gridSpawn].occupiedBy = tempEntity;
             BattleVisuals tempBattleVisuals = tempVisualGameObject.GetComponent<BattleVisuals>();
             CombatMenuVisuals tempCombatMenuVisuals = Instantiate(currentParty[i].allyMenuVisualPrefab, Vector2.zero,
-                Quaternion.identity).GetComponent<CombatMenuVisuals>();
+                Quaternion.identity, menusObject.transform).GetComponent<CombatMenuVisuals>();
             
             // Set the visuals' starting values
             tempBattleVisuals.SetStartingValues(tempEntity);
@@ -1107,7 +1194,7 @@ public class BattleSystem : MonoBehaviour
             
             // Spawn the visuals
             GameObject tempVisualGameObject = Instantiate(currentEnemies[i].enemyVisualPrefab,
-                enemyBattleGrid[gridSpawn].gridTransform.position, Quaternion.identity);
+                enemyBattleGrid[gridSpawn].gridTransform.position, Quaternion.identity, visualsObject.transform);
             enemyBattleGrid[gridSpawn].isOccupied = true;
             enemyBattleGrid[gridSpawn].occupiedBy = tempEntity;
             BattleVisuals tempBattleVisuals =  tempVisualGameObject.GetComponent<BattleVisuals>();
@@ -1537,7 +1624,7 @@ public class BattleSystem : MonoBehaviour
         
     }
 
-    private IEnumerator SetGridPosition(BattleEntity entity, int xMove, int yMove)
+    private IEnumerator ChangeGridPosition(BattleEntity entity, int xMove, int yMove)
     {
         int oldGridPos = GetGridPosition(entity);
         int newGridPos;
@@ -1673,7 +1760,7 @@ public class BattleSystem : MonoBehaviour
                 enemyBattleGrid[newGridPos].occupiedBy = entity;
             }
         }
-        StartCoroutine(MoveToPosition(entity, oldPos, newPos));
+        //StartCoroutine(MoveToPosition(entity, oldPos, newPos)); //TODO Reenable this if it does not work
         yield break;
     }
 
@@ -1691,6 +1778,11 @@ public class BattleSystem : MonoBehaviour
         }*/
 
         yield break;
+    }
+
+    private void SetGridPosition(BattleEntity entity, Vector3 endPos)
+    {
+        entity.myVisuals.transform.position = endPos;
     }
 
     public void FindMyGridPosition(BattleEntity entity)
@@ -2121,6 +2213,7 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.PlayerTurn) {
             usedAbility = false;
             StopAllCoroutines();
+            allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangePassButtonVisibility(false);
             StartCoroutine(EndRoutine(allCombatants[currentPlayer]));
@@ -2422,20 +2515,6 @@ public class BattleSystem : MonoBehaviour
         if (!abilityDuplicated) { EndSelfGainPreview(allCombatants[currentPlayer]); }
         RevertTurnSpeed(allCombatants[targetIndex]);
         allCombatants[targetIndex].battleVisuals.TargetInactive();
-    }
-    
-    public void SelectTargetWithButtons(int currentTarget)
-    {
-        // Set the current member's target
-        BattleEntity currentPlayerEntity = allCombatants[currentPlayer];
-        
-        if (targetIsEnemy) {
-            currentPlayerEntity.SetTarget(allCombatants.IndexOf(enemyCombatants[currentTarget]));
-        } else {
-            currentPlayerEntity.SetTarget(allCombatants.IndexOf(partyCombatants[currentTarget]));
-        }
-        
-        targetSelected = true;
     }
     
     private void SelectTargetWithGrid(int positionIndex, bool isTargetingEnemies)
@@ -3773,7 +3852,7 @@ public class BattleSystem : MonoBehaviour
         // Change self position
         if ((selfXTravel != 0 || selfYTravel != 0) && !abilityDuplicated) {
             if (attacker.activeTokens.All(t => t.tokenName != "Restrict")) {
-                StartCoroutine(SetGridPosition(attacker, selfXTravel, selfYTravel));
+                StartCoroutine(ChangeGridPosition(attacker, selfXTravel, selfYTravel));
             }
         }
         
@@ -3862,7 +3941,7 @@ public class BattleSystem : MonoBehaviour
         
         // Change target position
         if (targetXTravel != 0 || targetYTravel != 0) {
-            StartCoroutine(SetGridPosition(attackTarget, targetXTravel, targetYTravel));
+            StartCoroutine(ChangeGridPosition(attackTarget, targetXTravel, targetYTravel));
         }
         
         // Restore self values
@@ -4092,7 +4171,7 @@ public class BattleSystem : MonoBehaviour
         // Change self position
         if ((selfXTravel != 0 || selfYTravel != 0) && !abilityDuplicated) {
             if (healer.activeTokens.All(t => t.tokenName != "Restrict")) {
-                StartCoroutine(SetGridPosition(healer, selfXTravel, selfYTravel));
+                StartCoroutine(ChangeGridPosition(healer, selfXTravel, selfYTravel));
             }
         }
         
@@ -4147,7 +4226,7 @@ public class BattleSystem : MonoBehaviour
         
         // Change target position
         if (targetXTravel != 0 || targetYTravel != 0) {
-            StartCoroutine(SetGridPosition(healTarget, targetXTravel, targetYTravel));
+            StartCoroutine(ChangeGridPosition(healTarget, targetXTravel, targetYTravel));
         }
         
         if (!abilityDuplicated) {
@@ -4313,7 +4392,7 @@ public class BattleSystem : MonoBehaviour
         // Change self position
         if ((selfXTravel != 0 || selfYTravel != 0) && !abilityDuplicated) {
             if (buffer.activeTokens.All(t => t.tokenName != "Restrict")) {
-                StartCoroutine(SetGridPosition(buffer, selfXTravel, selfYTravel));
+                StartCoroutine(ChangeGridPosition(buffer, selfXTravel, selfYTravel));
             }
         }
         
@@ -4366,7 +4445,7 @@ public class BattleSystem : MonoBehaviour
         
         // Change target position
         if (targetXTravel != 0 || targetYTravel != 0) {
-            StartCoroutine(SetGridPosition(buffTarget, targetXTravel, targetYTravel));
+            StartCoroutine(ChangeGridPosition(buffTarget, targetXTravel, targetYTravel));
         }
         
         RemoveSelfBuffTokens(buffer);
@@ -4504,7 +4583,7 @@ public class BattleSystem : MonoBehaviour
         // Change self position
         if ((selfXTravel != 0 || selfYTravel != 0) && !abilityDuplicated) {
             if (debuffer.activeTokens.All(t => t.tokenName != "Restrict")) {
-                StartCoroutine(SetGridPosition(debuffer, selfXTravel, selfYTravel));
+                StartCoroutine(ChangeGridPosition(debuffer, selfXTravel, selfYTravel));
             }
         }
         
@@ -4561,7 +4640,7 @@ public class BattleSystem : MonoBehaviour
         
         // Change target position
         if (targetXTravel != 0 || targetYTravel != 0) {
-            StartCoroutine(SetGridPosition(debuffTarget, targetXTravel, targetYTravel));
+            StartCoroutine(ChangeGridPosition(debuffTarget, targetXTravel, targetYTravel));
         }
         
         RemoveSelfDebuffTokens(debuffTarget);
