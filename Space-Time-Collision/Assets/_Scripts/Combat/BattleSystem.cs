@@ -768,6 +768,7 @@ public class BattleSystem : MonoBehaviour
 
                 bool targetingFoes = true;
                 targetList.Clear();
+                print(abilityUsed.ability.abilityType);
                 switch (abilityUsed.ability.abilityType) {
                     case Ability.AbilityType.Damage:
                     case Ability.AbilityType.Debuff:
@@ -775,6 +776,7 @@ public class BattleSystem : MonoBehaviour
                             int distance = CalculateTargetDistance(entity, activeEnemy);
                             if (distance <= abilityUsed.ability.rangeMax && distance >= abilityUsed.ability.rangeMin &&
                                 entity.activeTokens.All(t => t.tokenName != "Stealth")) {
+                                print("Add target to list");
                                 targetList.Add(entity);
                             }
                         }
@@ -785,6 +787,7 @@ public class BattleSystem : MonoBehaviour
                         foreach (BattleEntity t in enemyCombatants) {
                             int distance = CalculateTargetDistance(t, activeEnemy);
                             if (distance <= abilityUsed.ability.rangeMax && distance >= abilityUsed.ability.rangeMin) {
+                                print("Add target to list");
                                 targetList.Add(t);
                             }
                         }
@@ -1953,72 +1956,6 @@ public class BattleSystem : MonoBehaviour
         return currentPlayerEntity.myAbilities[abilityIndex].description;
     }
 
-    public void PreviewResourceValue(int abilityIndex)
-    {
-        BattleEntity currentPlayerEntity = allCombatants[currentPlayer];
-        int tempInt;
-        tempInt = currentPlayerEntity.myAbilities[abilityIndex].costAmount;
-        switch (currentPlayerEntity.myAbilities[abilityIndex].costResource) {
-            case Ability.CostResource.Null:
-                break;
-            case Ability.CostResource.Spirit:
-                currentPlayerEntity.combatMenuVisuals.PreviewSpirit(tempInt);
-                break;
-            case Ability.CostResource.Health:
-                currentPlayerEntity.battleVisuals.PreviewHealth(tempInt);
-                break;
-            case Ability.CostResource.Defense:
-                currentPlayerEntity.battleVisuals.PreviewDefense(tempInt);
-                break;
-            case Ability.CostResource.SelfDmg:
-                break;
-            case Ability.CostResource.Armor:
-                currentPlayerEntity.battleVisuals.PreviewArmor(tempInt);
-                break;
-            case Ability.CostResource.Special:
-                print("Special resource type was called but isn't programmed in yet.");
-                break;
-            default: 
-                print("Invalid resource of " +  currentPlayerEntity.myAbilities[abilityIndex].costResource + " supplied");
-                break;
-        }
-    }
-
-    public void EndResourcePreview(int abilityIndex)
-    {
-        BattleEntity currentPlayerEntity = allCombatants[currentPlayer];
-        switch (currentPlayerEntity.myAbilities[abilityIndex].costResource) {
-            case Ability.CostResource.Null:
-                break;
-            case Ability.CostResource.Spirit:
-                if (currentPlayerEntity.myName == "Tre") {
-                    currentPlayerEntity.combatMenuVisuals.UpdateSpiritBar();
-                } else {
-                    currentPlayerEntity.combatMenuVisuals.UpdateSpiritBar();
-                }
-                break;
-            case Ability.CostResource.Health:
-                currentPlayerEntity.battleVisuals.UpdateHealthBar();
-                break;
-            case Ability.CostResource.Defense:
-                currentPlayerEntity.battleVisuals.UpdateDefenseBar();
-                break;
-            case Ability.CostResource.SelfDmg:
-                currentPlayerEntity.battleVisuals.UpdateHealthBar();
-                currentPlayerEntity.battleVisuals.UpdateDefenseBar();
-                break;
-            case Ability.CostResource.Armor:
-                currentPlayerEntity.battleVisuals.UpdateArmor();
-                break;
-            case Ability.CostResource.Special:
-                print("Special resource type was called but isn't programmed in yet.");
-                break;
-            default: 
-                print("Invalid resource of " +  currentPlayerEntity.myAbilities[abilityIndex].costResource + " supplied");
-                break;
-        }
-    }
-
     public void PreviewSelfGain(BattleEntity playerEntity)
     {
         Ability activeAbility = playerEntity.myAbilities[playerEntity.activeAbility];
@@ -2223,7 +2160,6 @@ public class BattleSystem : MonoBehaviour
     public void BackToAbilities()
     {
         if (state == BattleState.Targeting) {
-            EndResourcePreview(allCombatants[currentPlayer].activeAbility);
             abilitySelected = false;
             wentBack = true;
 
@@ -3693,13 +3629,17 @@ public class BattleSystem : MonoBehaviour
             case Ability.AbilityType.Damage:
             case Ability.AbilityType.Debuff:
                 print("Act-out is targeting enemies");
-                targetList = enemyCombatants;
+                foreach (var enemy in enemyCombatants) {
+                    targetList.Add(enemy);
+                }
                 targetingFoes = true;
                 break;
             case  Ability.AbilityType.Heal:
             case  Ability.AbilityType.Buff:
                 print("Act-out is targeting allies");
-                targetList = partyCombatants;
+                foreach (var party in partyCombatants) {
+                    targetList.Add(party);
+                }
                 targetingFoes = false;
                 break;
         }

@@ -270,9 +270,6 @@ public class CombatMenuVisuals : MonoBehaviour
     public void AbilityEffect(int selectedAbility)
     {
         abilityEffectText.text = battleSystem.SetAbilityDescription(selectedAbility);
-        if (abilityActive[selectedAbility]) {
-            battleSystem.PreviewResourceValue(selectedAbility);
-        }
     }
 
     public void TargetIndicate(int hoveredTarget)
@@ -285,9 +282,6 @@ public class CombatMenuVisuals : MonoBehaviour
     public void AbilityEffectRemove(int selectedAbility)
     {
         abilityEffectText.text = "";
-        if (abilityActive[selectedAbility]) {
-            battleSystem.EndResourcePreview(selectedAbility);
-        }
     }
     
     public void TargetIndicateRemove(int hoveredTarget)

@@ -6,8 +6,8 @@ using UnityEngine.Analytics;
 
 public class CowboyBattleLogic : MonoBehaviour
 {
-    private const float COWBOY_BASE_ACTOUT = 10f; // 10f base
-    private const float COWBOY_MAX_ACTOUT = 70f; // 70f base
+    private const float COWBOY_BASE_ACTOUT = 100f; // 10f base
+    private const float COWBOY_MAX_ACTOUT = 100f; // 70f base
     private const float COWBOY_ACTOUT_INCREASE = 30f; // 30f base
     
     private bool gainedVice;
