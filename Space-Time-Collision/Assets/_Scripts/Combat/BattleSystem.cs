@@ -3658,6 +3658,11 @@ public class BattleSystem : MonoBehaviour
         bool hasTaunt = false;
         if (targetingFoes) {
             foreach (BattleEntity entity in targetList.Where(entity => entity.activeTokens.Any(t => t.tokenName == "Taunt"))) {
+                if (targetList.Count == 0) {
+                    PassTurn();
+                    cowboyLogic.ResetCowboyActout();
+                    yield break;
+                }
                 abilityTarget = entity;
                 hasTaunt = true;
                 break;
@@ -3665,14 +3670,12 @@ public class BattleSystem : MonoBehaviour
         }
         if (!hasTaunt) {
             int abilityTargetIndex = Random.Range(0, targetList.Count);
-            print(abilityTargetIndex);
+            if (targetList.Count == 0) {
+                PassTurn();
+                cowboyLogic.ResetCowboyActout();
+                yield break;
+            }
             abilityTarget = targetList[abilityTargetIndex];
-        }
-
-        if (targetList.Count == 0) {
-            PassTurn();
-            cowboyLogic.ResetCowboyActout();
-            yield break;
         }
             
         switch (cowboy.myAbilities[actOutAbility].abilityType) {
