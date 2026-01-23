@@ -3630,15 +3630,21 @@ public class BattleSystem : MonoBehaviour
             case Ability.AbilityType.Debuff:
                 print("Act-out is targeting enemies");
                 foreach (var enemy in enemyCombatants) {
-                    targetList.Add(enemy);
+                    int distance = CalculateTargetDistance(cowboy, enemy);
+                    if (distance <= cowboy.myAbilities[actOutAbility].rangeMax && distance >= cowboy.myAbilities[actOutAbility].rangeMax) {
+                        targetList.Add(enemy);
+                    }
                 }
                 targetingFoes = true;
                 break;
             case  Ability.AbilityType.Heal:
             case  Ability.AbilityType.Buff:
                 print("Act-out is targeting allies");
-                foreach (var party in partyCombatants) {
-                    targetList.Add(party);
+                foreach (var ally in partyCombatants) {
+                    int distance = CalculateTargetDistance(cowboy, ally);
+                    if (distance <= cowboy.myAbilities[actOutAbility].rangeMax && distance >= cowboy.myAbilities[actOutAbility].rangeMax) {
+                        targetList.Add(ally);
+                    }
                 }
                 targetingFoes = false;
                 break;
@@ -3656,6 +3662,12 @@ public class BattleSystem : MonoBehaviour
             int abilityTargetIndex = Random.Range(0, targetList.Count);
             print(abilityTargetIndex);
             abilityTarget = targetList[abilityTargetIndex];
+        }
+
+        if (targetList.Count == 0) {
+            PassTurn();
+            cowboyLogic.ResetCowboyActout();
+            yield break;
         }
             
         switch (cowboy.myAbilities[actOutAbility].abilityType) {
