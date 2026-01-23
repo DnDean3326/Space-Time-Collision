@@ -12,6 +12,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: RepentantBattleVisual
       objectReference: {fileID: 0}
+    - target: {fileID: 3762030497189952441, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3762030497189952441, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_SortingOrder
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3762030497189952441, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1231956013
+      objectReference: {fileID: 0}
     - target: {fileID: 6564135639588113273, guid: dc7e02b286856814db1fd1db96957898, type: 3}
       propertyPath: m_Controller
       value: 
@@ -54,6 +66,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6940219764758562436, guid: dc7e02b286856814db1fd1db96957898, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8093227288201675182, guid: dc7e02b286856814db1fd1db96957898, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8549982676091356961, guid: dc7e02b286856814db1fd1db96957898, type: 3}
