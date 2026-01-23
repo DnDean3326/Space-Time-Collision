@@ -599,7 +599,7 @@ public class BattleSystem : MonoBehaviour
                     // if front-most row is empty enable movement to enter enemy line to "break" it
                     if (frontRowEmpty) {
                         // allow played to select tiles in the front-most row in order to line break the row
-                        combatGrid.DisplayValidRowBreakTiles(activeCharacter, frontMostRow);
+                        combatGrid.DisplayValidLineBreakTiles(activeCharacter, frontMostRow);
                     }
                     
                     activeCharacter.combatMenuVisuals.ChangePassButtonVisibility(false);
@@ -1763,7 +1763,10 @@ public class BattleSystem : MonoBehaviour
                 enemyBattleGrid[newGridPos].occupiedBy = entity;
             }
         }
-        //StartCoroutine(MoveToPosition(entity, oldPos, newPos)); //TODO Reenable this if it does not work
+
+        if (entity.myAbilities[entity.activeAbility].abilityType == Ability.AbilityType.Movement) {
+            StartCoroutine(MoveToPosition(entity, oldPos, newPos)); //TODO Reenable this if it does not work
+        }
         yield break;
     }
 
@@ -2169,7 +2172,9 @@ public class BattleSystem : MonoBehaviour
             allCombatants[currentPlayer].combatMenuVisuals.ChangeBackButtonVisibility(false);
             combatGrid.HideTiles(targetIsEnemy);
             if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement) {
+                combatGrid.HideTiles(!targetIsEnemy);
                 combatGrid.DisableGridButtons(targetIsEnemy);
+                combatGrid.DisableGridButtons(!targetIsEnemy);
             }
             
             StopAllCoroutines();

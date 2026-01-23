@@ -144,7 +144,7 @@ public class CombatGrid : MonoBehaviour
         }
     }
 
-    public void DisplayValidRowBreakTiles(BattleEntity user, int frontRow)
+    public void DisplayValidLineBreakTiles(BattleEntity user, int frontRow)
     {
         int moveMinRange = user.myAbilities[user.activeAbility].rangeMin;
         int moveMaxRange = user.myAbilities[user.activeAbility].rangeMax;
