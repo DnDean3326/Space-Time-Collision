@@ -36,7 +36,6 @@ public class BaseNavigation : MonoBehaviour
 
         if (partyManager.GetCurrentParty().Count == 0) {
             voidButton.interactable = false;
-            innAnimationScript.SetInactive(true);
         }
     }
     
