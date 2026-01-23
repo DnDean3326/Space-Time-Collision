@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &40728826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2664,9 +2664,7 @@ MonoBehaviour:
     the Obliw\xFFrm Larve, a creature infected by the Lady Oblivion's nihlism who
     threatens to destroy the world it resides in.\n\nTo reach it you'll need to fight
     your way through two waves of monsters as well as the Obliw\xFFrm itself and
-    its allies.\n\nYou can set out on your mission by selecting the multiversal rift
-    in the sky, but before you do that you should assemble a party by going to the
-    Inn."
+    its allies.\n\nTo begin, you'll need to assemble a party at the inn."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ef1ded2ea7a0ca5439368ba3ac8d9a10, type: 2}
   m_sharedMaterial: {fileID: 8640452615087068443, guid: ef1ded2ea7a0ca5439368ba3ac8d9a10, type: 2}

@@ -52,6 +52,8 @@ public class CombatMenuVisuals : MonoBehaviour
     private List<bool> abilityActive = new List<bool>();
 
     private RicochetBattleLogic ricochetLogic;
+    private bool isTargeting = false;
+    private int abilitySelected = 10;
     
     private void Awake()
     {
@@ -181,6 +183,8 @@ public class CombatMenuVisuals : MonoBehaviour
 
     public void ChangeAbilitySelectUIVisibility(bool visible)
     {
+        isTargeting = false;
+        abilitySelected = 10;
         abilitySelectUI.SetActive(visible);
     }
 
@@ -251,17 +255,24 @@ public class CombatMenuVisuals : MonoBehaviour
     
     public void ChooseAbilityButton(int selectedAbility)
     {
-        battleSystem.BackToAbilities();
+        if (isTargeting) {
+            battleSystem.BackToAbilities();
+            abilitySelected = 10;
+        }
+        isTargeting = true;
+        abilitySelected = selectedAbility;
         battleSystem.SetCurrentAbilityType(selectedAbility);
     }
 
     public void PassButton()
     {
+        isTargeting = false;
         battleSystem.PassTurn();
     }
     
     public void BackButton()
     {
+        isTargeting = false;
         battleSystem.BackToAbilities();
     }
     
@@ -271,21 +282,15 @@ public class CombatMenuVisuals : MonoBehaviour
     {
         abilityEffectText.text = battleSystem.SetAbilityDescription(selectedAbility);
     }
-
-    public void TargetIndicate(int hoveredTarget)
-    {
-        battleSystem.IndicateTarget(hoveredTarget);
-    }
     
     // Button OnExit methods
     
     public void AbilityEffectRemove(int selectedAbility)
     {
-        abilityEffectText.text = "";
-    }
-    
-    public void TargetIndicateRemove(int hoveredTarget)
-    {
-        battleSystem.StopIndicatingTarget(hoveredTarget);
+        if (!isTargeting) {
+            abilityEffectText.text = "";
+        } else {
+            abilityEffectText.text = battleSystem.SetAbilityDescription(abilitySelected);
+        }
     }
 }
