@@ -1000,7 +1000,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntity activeEntity)
     {
-        ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]);
+        ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]); //TODO update this for cases where there is no target for active ability
         
         // Call character turn end logic
         if (activeEntity.myName == "Renée") {
@@ -3659,6 +3659,7 @@ public class BattleSystem : MonoBehaviour
         if (targetingFoes) {
             foreach (BattleEntity entity in targetList.Where(entity => entity.activeTokens.Any(t => t.tokenName == "Taunt"))) {
                 if (targetList.Count == 0) {
+                    cowboy.target = allCombatants.IndexOf(cowboy);
                     PassTurn();
                     cowboyLogic.ResetCowboyActout();
                     yield break;
@@ -3671,6 +3672,7 @@ public class BattleSystem : MonoBehaviour
         if (!hasTaunt) {
             int abilityTargetIndex = Random.Range(0, targetList.Count);
             if (targetList.Count == 0) {
+                cowboy.target = allCombatants.IndexOf(cowboy);
                 PassTurn();
                 cowboyLogic.ResetCowboyActout();
                 yield break;
