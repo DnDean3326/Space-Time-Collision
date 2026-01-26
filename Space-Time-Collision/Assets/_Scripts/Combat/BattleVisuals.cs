@@ -310,7 +310,7 @@ public class BattleVisuals : MonoBehaviour
 
     public void SetSharedRowAnimation(bool sharedRow)
     {
-        myAnimator.SetBool(SHARED_ROW_BOOL, sharedRow);
+        //myAnimator.SetBool(SHARED_ROW_BOOL, sharedRow);
     }
 
     public void TargetEnemyActive()

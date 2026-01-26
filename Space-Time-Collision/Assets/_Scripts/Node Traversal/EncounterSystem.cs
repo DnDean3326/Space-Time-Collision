@@ -28,7 +28,7 @@ public class EncounterSystem : MonoBehaviour
             if (previousEncounter != null && normalEncounters.Any(t => t == previousEncounter)) {
                 normalEncounters.Remove(previousEncounter);
             }
-            encounterToUse = Random.Range(0, normalEncounters.Count + 1);
+            encounterToUse = Random.Range(0, normalEncounters.Count);
             runInfo.SetPreviousEncounter(normalEncounters[encounterToUse]);
             enemyManager.GenerateEnemiesByEncounter(normalEncounters[encounterToUse]);
         } else {
@@ -36,7 +36,7 @@ public class EncounterSystem : MonoBehaviour
             if (previousEncounter != null && easyEncounters.Any(t => t == previousEncounter)) {
                 easyEncounters.Remove(previousEncounter);
             }
-            encounterToUse = Random.Range(0, easyEncounters.Count + 1);
+            encounterToUse = Random.Range(0, easyEncounters.Count);
             runInfo.SetPreviousEncounter(easyEncounters[encounterToUse]);
             enemyManager.GenerateEnemiesByEncounter(easyEncounters[encounterToUse]);
         }
@@ -49,7 +49,7 @@ public class EncounterSystem : MonoBehaviour
         if (previousEncounter != null && minibossEncounters.Any(t => t == previousEncounter)) {
             minibossEncounters.Remove(previousEncounter);
         }
-        int encounterToUse = Random.Range(0, minibossEncounters.Count + 1);
+        int encounterToUse = Random.Range(0, minibossEncounters.Count);
         runInfo.SetPreviousEncounter(minibossEncounters[encounterToUse]);
         enemyManager.GenerateEnemiesByEncounter(minibossEncounters[encounterToUse]);
     }
