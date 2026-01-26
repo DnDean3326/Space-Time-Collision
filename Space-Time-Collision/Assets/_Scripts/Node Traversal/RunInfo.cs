@@ -4,6 +4,7 @@ using UnityEngine;
 public class RunInfo : MonoBehaviour
 {
     private int encounterCount;
+    private Encounter previousEncounter;
     private int eventCount;
     private int funds;
     private int currentNode;
@@ -34,6 +35,20 @@ public class RunInfo : MonoBehaviour
         return currentNode;
     }
 
+    public void SetPreviousEncounter(Encounter currentEncounter)
+    {
+        previousEncounter = currentEncounter;
+    }
+    
+    public Encounter GetPreviousEncounter()
+    {
+        if (previousEncounter != null) {
+            return previousEncounter;
+        }
+
+        return null;
+    }
+    
     public int GetEncounterCount()
     {
         return encounterCount;
