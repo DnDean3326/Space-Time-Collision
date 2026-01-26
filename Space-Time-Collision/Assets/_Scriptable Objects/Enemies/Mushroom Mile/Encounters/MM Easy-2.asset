@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15caa2b69a75e2a439851dba9dd262d6, type: 3}
-  m_Name: MM Two-Larve
+  m_Name: MM Easy-2
   m_EditorClassIdentifier: Assembly-CSharp::Encounter
   encounterEnemies:
   - enemy: {fileID: 11400000, guid: 88ec8a9771cccf44a8730ddc30d19e91, type: 2}
     xPos: 5
     yPos: 2
   - enemy: {fileID: 11400000, guid: 88ec8a9771cccf44a8730ddc30d19e91, type: 2}
-    xPos: 5
+    xPos: 6
     yPos: 3
+  - enemy: {fileID: 11400000, guid: f87a5a695ef55474ea3f7429f6c59775, type: 2}
+    xPos: 8
+    yPos: 4
