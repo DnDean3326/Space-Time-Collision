@@ -7,7 +7,7 @@ public class RunInfo : MonoBehaviour
     private Encounter previousEncounter;
     private int eventCount;
     private int funds;
-    private int currentNode;
+    [SerializeField] private int currentNode;
     
     private NodeManager nodeManager;
     

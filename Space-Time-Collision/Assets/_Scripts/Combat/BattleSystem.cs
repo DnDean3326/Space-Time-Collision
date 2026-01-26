@@ -181,7 +181,7 @@ public class BattleSystem : MonoBehaviour
     private const int PREVIEW_RESIST_PIERCE = 500;
     private const int PLAYER_NONMOVE_ABILITIES = 4;
     private const float MOVE_SPEED = 1f; // For eventual use with moving unit in real time from one tile to another
-    private const string MAP_SCENE = "BaseScene";
+    private const string NODE_SCENE = "NodeScene";
     private const string BASE_SCENE = "BaseScene";
     
     // Stat modifiers
@@ -300,7 +300,7 @@ public class BattleSystem : MonoBehaviour
             foreach (var player in partyCombatants) {
                 player.activeTokens.Clear();
             }
-            SceneManager.LoadScene(MAP_SCENE);
+            SceneManager.LoadScene(NODE_SCENE);
         }
         
         foreach (BattleEntity entity in allCombatants) {

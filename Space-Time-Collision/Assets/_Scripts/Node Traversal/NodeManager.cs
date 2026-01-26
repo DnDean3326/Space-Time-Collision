@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class NodeManager : MonoBehaviour
 {
-    [SerializeField] private Button[] nodeButtons;
-    
+    private List<Button> nodeButtons;
     private List<NodeInfo> nodeInfos = new List<NodeInfo>();
     private int nodeCount = 0;
     private RunInfo runInfo;
     private EncounterSystem encounterSystem;
+    private NodeButtonContainer buttonContainer;
     
     private static GameObject _instance;
     private const string NODE_SCENE = "NodeScene";
@@ -27,24 +27,25 @@ public class NodeManager : MonoBehaviour
             _instance = gameObject;
         }
         DontDestroyOnLoad(gameObject);
-        
+    }
+
+    private void OnEnable()
+    {
         runInfo = FindFirstObjectByType<RunInfo>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
         runInfo.SetCurrentNode(0);
         
         GenerateSetNodes();
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name != NODE_SCENE) { return; }
-        print("Scene loaded: "  + scene.name);
-        
+
+        buttonContainer = FindFirstObjectByType<NodeButtonContainer>();
         encounterSystem = FindFirstObjectByType<EncounterSystem>();
+        
+        nodeButtons = buttonContainer.GetNodeButtons();
         UpdateNodeButtons();
     }
     
@@ -52,7 +53,10 @@ public class NodeManager : MonoBehaviour
     {
         int currentNode = runInfo.GetCurrentNode();
         List<int> connectedNodes = nodeInfos[currentNode]._connectedNodes;
-        for (int i = 0; i < nodeButtons.Length; i++) {
+        foreach (int connectedNode in connectedNodes) {
+            print("Connected connectedNodes: " + connectedNode);
+        }
+        for (int i = 0; i < nodeButtons.Count; i++) {
             var button = nodeButtons[i];
             if (connectedNodes.Contains(i)) {
                 button.interactable = true;
