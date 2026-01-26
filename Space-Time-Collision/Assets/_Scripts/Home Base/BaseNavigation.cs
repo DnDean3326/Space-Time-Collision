@@ -8,6 +8,7 @@ public class BaseNavigation : MonoBehaviour
     [SerializeField] private GameObject voidObject;
     [SerializeField] private GameObject innObject;
     
+    private const string RUN_SCENE = "NodeScene";
     private const string TEST_BATTLE = "BattleScene";
     private const string INN_SCENE = "InnScene";
 
@@ -31,11 +32,12 @@ public class BaseNavigation : MonoBehaviour
         if (playerPrefs.GetRunStatus() > 0) {
             innButton.interactable = false;
             innAnimationScript.SetInactive(true);
-
         }
 
         if (partyManager.GetCurrentParty().Count == 0) {
             voidButton.interactable = false;
+        } else  {
+            voidButton.interactable = true;
         }
     }
     
@@ -44,7 +46,7 @@ public class BaseNavigation : MonoBehaviour
     public void VoidClick()
     {
         playerPrefs.IncreaseRunStatus();
-        SceneManager.LoadScene(TEST_BATTLE);
+        SceneManager.LoadScene(RUN_SCENE);
     }
     
     public void InnClick()

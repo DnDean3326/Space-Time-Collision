@@ -422,6 +422,97 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 162462957}
   m_CullTransparentMesh: 1
+--- !u!1 &221141741
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 221141742}
+  - component: {fileID: 221141743}
+  - component: {fileID: 221141746}
+  - component: {fileID: 221141745}
+  - component: {fileID: 221141744}
+  m_Layer: 0
+  m_Name: PartyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &221141742
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221141741}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &221141743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221141741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c76ca3126626f8e408399b1858ee33ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PartyManager
+  allMembers:
+  - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
+  - {fileID: 11400000, guid: 25d862b567b05f347b8e0159d6033c4a, type: 2}
+  - {fileID: 11400000, guid: 20fa378dba5af754d904596e26a7344a, type: 2}
+  currentParty: []
+--- !u!114 &221141744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221141741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff3eb153f1a3ea846b77b9563a9a5470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RicochetBattleLogic
+  bulletList: 
+  bulletDisplays: []
+--- !u!114 &221141745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221141741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66b6d15754a4672478f949537ad5f437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CowboyBattleLogic
+  currentActoutChance: 0
+--- !u!114 &221141746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221141741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349b3c3fdb97c26449df4b5af59569d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RepentantBattleLogic
 --- !u!1 &222600934
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,7 +811,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &309857500
 Transform:
   m_ObjectHideFlags: 0
@@ -748,10 +839,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61db72094cda9154695d74c8c153c233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EncounterSystem
-  availableEncounters:
+  easyEncounters:
   - {fileID: 11400000, guid: 7ea9302733ef8ee478f6781b38110ea8, type: 2}
   - {fileID: 11400000, guid: 2ad28d8f392727a40b94d3dbfb4a17f9, type: 2}
   - {fileID: 11400000, guid: 38b27e57d98b49a4788941d0456041b0, type: 2}
+  normalEncounters: []
+  minibossEncounters: []
 --- !u!1 &333003755
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,7 +1407,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 607395383}
   m_OnClick:
     m_PersistentCalls:
@@ -3390,3 +3483,4 @@ SceneRoots:
   - {fileID: 309857500}
   - {fileID: 137316296}
   - {fileID: 777989885}
+  - {fileID: 221141742}

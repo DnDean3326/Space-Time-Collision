@@ -6,8 +6,8 @@ public class RunInfo : MonoBehaviour
     private int encounterCount;
     private int eventCount;
     private int funds;
-
-    private List<NodeInfo> regionNodes;
+    private int currentNode;
+    
     private NodeManager nodeManager;
     
     private static GameObject _instance;
@@ -24,17 +24,13 @@ public class RunInfo : MonoBehaviour
         nodeManager = FindFirstObjectByType<NodeManager>();
     }
 
-    private void Start()
+    public void SetCurrentNode(int noteIndex)
     {
-        if (regionNodes == null) {
-            regionNodes = new List<NodeInfo>();
-            nodeManager.GetNewNodeList();
-        }
+        currentNode = noteIndex;
     }
 
-
-    public List<NodeInfo> ProvideRegionNodes()
+    public int GetCurrentNode()
     {
-        return regionNodes;
+        return currentNode;
     }
 }

@@ -1,26 +1,61 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class NodeManager : MonoBehaviour
 {
+    [SerializeField] private Button[] nodeButtons;
+    
     private List<NodeInfo> nodeInfos = new List<NodeInfo>();
     private int nodeCount = 0;
     private RunInfo runInfo;
-    private Button[] nodeButtons;
+    
+    private static GameObject _instance;
+    private const string NODE_SCENE = "NodeScene";
+    private const string BATTLE_SCENE = "BattleScene";
+    private const string EVENT_SCENE = "EventScene";
+    private const string SHOP_SCENE = "ShopScene";
 
     private void Awake()
     {
+        if (_instance != null) {
+            Destroy(gameObject);
+        } else {
+            _instance = gameObject;
+        }
+        DontDestroyOnLoad(gameObject);
+        
         runInfo = FindFirstObjectByType<RunInfo>();
+        runInfo.SetCurrentNode(0);
+        
+        GenerateSetNodes();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        nodeInfos = runInfo.ProvideRegionNodes();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != NODE_SCENE) { return; }
+        print("Scene loaded: "  + scene.name);
+
+        UpdateNodeButtons();
+    }
+    
+    private void UpdateNodeButtons()
+    {
+        int currentNode = runInfo.GetCurrentNode();
+        List<int> connectedNodes = nodeInfos[currentNode]._connectedNodes;
         for (int i = 0; i < nodeButtons.Length; i++) {
-            if (nodeInfos[i]._connectedNodes.All(t => t != i)) {
-                nodeButtons[i].interactable = false;
+            var button = nodeButtons[i];
+            if (connectedNodes.Contains(i)) {
+                button.interactable = true;
+            } else {
+                button.interactable = false;
             }
         }
     }
@@ -60,11 +95,23 @@ public class NodeManager : MonoBehaviour
         nodeInfos.Add(tempNode);
         nodeCount++;
     }
-    
-    public List<NodeInfo> GetNewNodeList()
+
+    public void NodeClick(int nodeIndex)
     {
-        GenerateSetNodes();
-        return nodeInfos;
+        runInfo.SetCurrentNode(nodeIndex);
+        switch (nodeInfos[nodeIndex]._nodeType) {
+            case NodeInfo.NodeType.Combat:
+            case NodeInfo.NodeType.MiniBoss:
+            case NodeInfo.NodeType.Boss:
+                SceneManager.LoadScene(BATTLE_SCENE);
+                break;
+            case NodeInfo.NodeType.Event:
+                SceneManager.LoadScene(EVENT_SCENE);
+                break;
+            case NodeInfo.NodeType.Shop:
+                SceneManager.LoadScene(SHOP_SCENE);
+                break;
+        }
     }
 }
 
