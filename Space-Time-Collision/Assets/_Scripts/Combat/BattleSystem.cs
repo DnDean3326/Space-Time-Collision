@@ -127,6 +127,7 @@ public class BattleSystem : MonoBehaviour
     private AbilityNameDisplay abilityNameDisplay;
     private PlayerPrefs playerPrefs;
     private BattleCameraController cameraController;
+    private RunInfo runInfo;
     
     // Character Specific Logic
     private RepentantBattleLogic repentantLogic;
@@ -174,9 +175,9 @@ public class BattleSystem : MonoBehaviour
     private const float AILMENT_DAMAGE_DELAY = 0.5f;
     private const float DEATH_DELAY = 3f;
     private const float CRIT_DAMAGE_MODIFIER = 1.5f;
-    private const int TURN_START_THRESHOLD = 200;
-    private const int BASE_ACTION_GAIN = 20;
-    private const int MAX_ACTION_START = 100;
+    private const float TURN_START_THRESHOLD = 200f;
+    private const float BASE_ACTION_GAIN = 20f;
+    private const float MAX_ACTION_START = 100f;
     private const int MAX_INDIVIDUAL_DISPLAY = 5;
     private const int PREVIEW_RESIST_PIERCE = 500;
     private const int PLAYER_NONMOVE_ABILITIES = 4;
@@ -204,6 +205,7 @@ public class BattleSystem : MonoBehaviour
         abilityNameDisplay = FindFirstObjectByType<AbilityNameDisplay>();
         playerPrefs =  FindFirstObjectByType<PlayerPrefs>();
         cameraController = FindFirstObjectByType<BattleCameraController>();
+        runInfo = FindFirstObjectByType<RunInfo>();
         
         combatGrid.GetGridInfo(ref partyBattleGrid, ref enemyBattleGrid);
         LinkCharacterLogics();
@@ -260,6 +262,7 @@ public class BattleSystem : MonoBehaviour
             
             for (int i = 0; i < allCombatants.Count; i++) {
                 allCombatants[i].actionPoints = Random.Range(1, MAX_ACTION_START + 1);
+                allCombatants[i].actionPoints += allCombatants[i].speed * .01f;
             }
             GetTurnOrder();
             
@@ -293,14 +296,14 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.Won;
             yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
             print("Your party prevailed!");
-            if (playerPrefs.GetRunStatus() > 2) {
-                playerPrefs.SetRunStatus(0);
+            if (playerPrefs.CheckDemoStatus()) {
+                if (runInfo.GetCurrentNode() > 2) {
+                    runInfo.SetCurrentNode(0);
+                }
+                SceneManager.LoadScene(BASE_SCENE);
+            } else {
+                SceneManager.LoadScene(NODE_SCENE);
             }
-
-            foreach (var player in partyCombatants) {
-                player.activeTokens.Clear();
-            }
-            SceneManager.LoadScene(NODE_SCENE);
         }
         
         foreach (BattleEntity entity in allCombatants) {
@@ -690,10 +693,6 @@ public class BattleSystem : MonoBehaviour
                                             brokenPlayerColumns++;
                                         }
                                     }
-                                    print(i);
-                                    print(myBrain.enemyAbilities[i].ability.bannedColumns.Count);
-                                    print(myBrain.enemyAbilities[i].ability.bannedColumns.Count > 0);
-                                    print(myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => (t + brokenPlayerColumns) == entity.xPos));
                                     if (myBrain.enemyAbilities[i].ability.bannedColumns.Count > 0 &&
                                         myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => (t + brokenPlayerColumns) == entity.xPos)) {
                                         continue;
@@ -772,7 +771,6 @@ public class BattleSystem : MonoBehaviour
 
                 bool targetingFoes = true;
                 targetList.Clear();
-                print(abilityUsed.ability.abilityType);
                 switch (abilityUsed.ability.abilityType) {
                     case Ability.AbilityType.Damage:
                     case Ability.AbilityType.Debuff:
@@ -780,7 +778,6 @@ public class BattleSystem : MonoBehaviour
                             int distance = CalculateTargetDistance(entity, activeEnemy);
                             if (distance <= abilityUsed.ability.rangeMax && distance >= abilityUsed.ability.rangeMin &&
                                 entity.activeTokens.All(t => t.tokenName != "Stealth")) {
-                                print("Add target to list");
                                 targetList.Add(entity);
                             }
                         }
@@ -791,7 +788,6 @@ public class BattleSystem : MonoBehaviour
                         foreach (BattleEntity t in enemyCombatants) {
                             int distance = CalculateTargetDistance(t, activeEnemy);
                             if (distance <= abilityUsed.ability.rangeMax && distance >= abilityUsed.ability.rangeMin) {
-                                print("Add target to list");
                                 targetList.Add(t);
                             }
                         }
@@ -2159,7 +2155,8 @@ public class BattleSystem : MonoBehaviour
             StopAllCoroutines();
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
-            allCombatants[currentPlayer].combatMenuVisuals.ChangePassButtonVisibility(false);
+            allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
+            allCombatants[currentPlayer].combatMenuVisuals.ChangeBackButtonVisibility(false);
             StartCoroutine(EndRoutine(allCombatants[currentPlayer]));
         }
     }
@@ -4841,7 +4838,7 @@ public class BattleEntity
     public int xPos;
     public int yPos;
     
-    public int actionPoints;
+    public float actionPoints;
     public float ticksToTurn;
 
     public int maxHealth;
@@ -4932,7 +4929,7 @@ public class BattleEntity
     }
 
     public void SetEntityTurnDisplayValues(string entityName, Sprite entityPortrait, bool entityIsPlayer, int entitySpeed,
-        int entityActionPoints, List<BattleToken> entityTokens)
+        float entityActionPoints, List<BattleToken> entityTokens)
     {
         myName = entityName;
         isPlayer = entityIsPlayer;

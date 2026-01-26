@@ -1,10 +1,12 @@
 using System;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class PlayerPrefs : MonoBehaviour
 {
+    [SerializeField] bool publicDemo = false;
     private bool didTutorial = false;
-    public bool didVoidTutorial = false;
+    private bool didVoidTutorial = false;
     private int runStatus = 0;
     
     private static GameObject _instance;
@@ -17,6 +19,11 @@ public class PlayerPrefs : MonoBehaviour
             _instance = gameObject;
         }
         DontDestroyOnLoad(gameObject);
+    }
+
+    public bool CheckDemoStatus()
+    {
+        return publicDemo;
     }
 
     public bool GetDidTutorial()

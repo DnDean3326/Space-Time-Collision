@@ -17,6 +17,7 @@ public class BaseNavigation : MonoBehaviour
     private InnAnimationScript innAnimationScript;
     private PartyManager partyManager;
     private PlayerPrefs playerPrefs;
+    private EncounterSystem encounterSystem;
 
     private void Awake()
     {
@@ -25,6 +26,10 @@ public class BaseNavigation : MonoBehaviour
         voidButton = voidObject.GetComponent<Button>();
         innButton = innObject.GetComponent<Button>();
         innAnimationScript = innObject.GetComponentInChildren<InnAnimationScript>();
+        
+        if (playerPrefs.CheckDemoStatus()) {
+            encounterSystem = FindFirstObjectByType<EncounterSystem>();
+        }
     }
     
     private void Start()
@@ -45,8 +50,14 @@ public class BaseNavigation : MonoBehaviour
 
     public void VoidClick()
     {
-        playerPrefs.IncreaseRunStatus();
-        SceneManager.LoadScene(RUN_SCENE);
+        if (playerPrefs.CheckDemoStatus()) {
+            encounterSystem.GenerateDemoEncounter();
+            
+            SceneManager.LoadScene(TEST_BATTLE);
+        } else {
+            playerPrefs.IncreaseRunStatus();
+            SceneManager.LoadScene(RUN_SCENE);
+        }
     }
     
     public void InnClick()

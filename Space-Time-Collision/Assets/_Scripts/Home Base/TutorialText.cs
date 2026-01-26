@@ -9,13 +9,14 @@ public class TutorialText : MonoBehaviour
     [TextArea(15,20)]
     [SerializeField] private string voidTutorialContents;
     
-    
     private PlayerPrefs playerPrefs;
+    private RunInfo runInfo;
     private TextMeshProUGUI tutorialText;
 
     private void Awake()
     {
         playerPrefs = FindFirstObjectByType<PlayerPrefs>();
+        runInfo = FindFirstObjectByType<RunInfo>();
         tutorialText = tutorialBox.GetComponentInChildren<TextMeshProUGUI>();
     }
 
@@ -32,7 +33,7 @@ public class TutorialText : MonoBehaviour
             tutorialBox.SetActive(false);
         }
 
-        if (playerPrefs.GetRunStatus() > 2) {
+        if (playerPrefs.CheckDemoStatus() && runInfo.GetEncounterCount() > 2) {
             victoryBox.SetActive(true);
             Time.timeScale = 0;
         } else {

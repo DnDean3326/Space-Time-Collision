@@ -9,6 +9,7 @@ public class EncounterSystem : MonoBehaviour
     [SerializeField] private List<Encounter> easyEncounters;
     [SerializeField] private List<Encounter> normalEncounters;
     [SerializeField] private List<Encounter> minibossEncounters;
+    [SerializeField] private List<Encounter> demoEncounters;
     
     private EnemyManager enemyManager;
     private RunInfo runInfo;
@@ -17,6 +18,13 @@ public class EncounterSystem : MonoBehaviour
     {
         enemyManager = FindFirstObjectByType<EnemyManager>();
         runInfo = FindFirstObjectByType<RunInfo>();
+    }
+
+    public void GenerateDemoEncounter()
+    {
+        int encounterToUse = runInfo.GetEncounterCount();
+        enemyManager.GenerateEnemiesByEncounter(demoEncounters[encounterToUse]);
+        runInfo.IncreaseEncounterCount();
     }
 
     public void GenerateStandardEncounter()

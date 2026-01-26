@@ -25,9 +25,9 @@ public class RunInfo : MonoBehaviour
         nodeManager = FindFirstObjectByType<NodeManager>();
     }
 
-    public void SetCurrentNode(int noteIndex)
+    public void SetCurrentNode(int nodeIndex)
     {
-        currentNode = noteIndex;
+        currentNode = nodeIndex;
     }
 
     public int GetCurrentNode()
