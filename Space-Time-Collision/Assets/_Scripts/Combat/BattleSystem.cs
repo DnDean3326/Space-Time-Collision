@@ -4999,7 +4999,7 @@ public class BattleToken
 
 }
 
-public class ProximityListing
+public struct ProximityListing
 {
     public int proximity;
     public BattleEntity identity;

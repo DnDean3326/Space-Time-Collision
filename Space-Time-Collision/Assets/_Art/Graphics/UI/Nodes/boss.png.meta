@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: bed473a5a4e4c4e28b4aef81c6211d03
+guid: aeae2fa9190e147ecb64696a17b22c93
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6840857970483876212
-    second: shop_0
-  - first:
-      213: 7773751018523570969
-    second: shop_1
-  - first:
-      213: 7998681864261443213
-    second: shop_2
-  - first:
-      213: 8407483303641412865
-    second: shop_3
-  - first:
-      213: -4006215097637729
-    second: shop_4
+      213: -2424553518018739129
+    second: boss_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 600
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -108,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: shop_0
+      name: boss_0
       rect:
         serializedVersion: 2
-        x: 193
-        y: 268
-        width: 218
-        height: 254
+        x: 178
+        y: 252
+        width: 244
+        height: 318
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,96 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4715799641c9fee50800000000000000
-      internalID: 6840857970483876212
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shop_1
-      rect:
-        serializedVersion: 2
-        x: 407
-        y: 315
-        width: 21
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 913bd6f3d59e1eb60800000000000000
-      internalID: 7773751018523570969
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shop_2
-      rect:
-        serializedVersion: 2
-        x: 218
-        y: 244
-        width: 32
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d8e99a6d6c6010f60800000000000000
-      internalID: 7998681864261443213
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shop_3
-      rect:
-        serializedVersion: 2
-        x: 263
-        y: 237
-        width: 41
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 105f29815816da470800000000000000
-      internalID: 8407483303641412865
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: shop_4
-      rect:
-        serializedVersion: 2
-        x: 318
-        y: 219
-        width: 34
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f94263c5e54c1fff0800000000000000
-      internalID: -4006215097637729
+      spriteID: 744c193db614a5ed0800000000000000
+      internalID: -2424553518018739129
       vertices: []
       indices: 
       edges: []
@@ -225,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -235,11 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      shop_0: 6840857970483876212
-      shop_1: 7773751018523570969
-      shop_2: 7998681864261443213
-      shop_3: 8407483303641412865
-      shop_4: -4006215097637729
+      boss_0: -2424553518018739129
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

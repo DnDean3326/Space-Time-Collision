@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &40728826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1720,56 +1720,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48c64b021ee84942b9ec3d0596ea039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IgnoreButtonTransparency
---- !u!1 &1177849657
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1177849658}
-  - component: {fileID: 1177849659}
-  m_Layer: 0
-  m_Name: Enemy Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1177849658
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177849657}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1177849659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177849657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dbaa4380b896cb47957963f9a2f38ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  allEnemies:
-  - {fileID: 11400000, guid: 26f7472d970e39241a4be687dcc0e5b1, type: 2}
-  - {fileID: 11400000, guid: 88ec8a9771cccf44a8730ddc30d19e91, type: 2}
-  - {fileID: 11400000, guid: f87a5a695ef55474ea3f7429f6c59775, type: 2}
-  - {fileID: 11400000, guid: 60c625a2910cec4428dc399b440699e2, type: 2}
-  currentEnemies: []
 --- !u!1 &1252416176
 GameObject:
   m_ObjectHideFlags: 0
@@ -2258,99 +2208,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1468329660
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1468329661}
-  - component: {fileID: 1468329662}
-  - component: {fileID: 1468329664}
-  - component: {fileID: 1468329665}
-  - component: {fileID: 1468329663}
-  m_Layer: 0
-  m_Name: Party Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1468329661
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468329660}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1468329662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468329660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c76ca3126626f8e408399b1858ee33ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PartyManager
-  allMembers:
-  - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
-  - {fileID: 11400000, guid: 25d862b567b05f347b8e0159d6033c4a, type: 2}
-  - {fileID: 11400000, guid: 20fa378dba5af754d904596e26a7344a, type: 2}
-  currentParty: []
-  defaultPartyMembers:
-  - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
---- !u!114 &1468329663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468329660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff3eb153f1a3ea846b77b9563a9a5470, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RicochetBattleLogic
-  bulletList: 
-  bulletDisplays: []
---- !u!114 &1468329664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468329660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 349b3c3fdb97c26449df4b5af59569d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RepentantBattleLogic
---- !u!114 &1468329665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468329660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66b6d15754a4672478f949537ad5f437, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CowboyBattleLogic
-  currentActoutChance: 0
 --- !u!1 &1502735508
 GameObject:
   m_ObjectHideFlags: 0
@@ -3531,7 +3388,5 @@ SceneRoots:
   - {fileID: 806575641}
   - {fileID: 1389479302}
   - {fileID: 309857500}
-  - {fileID: 1468329661}
-  - {fileID: 1177849658}
   - {fileID: 137316296}
   - {fileID: 777989885}

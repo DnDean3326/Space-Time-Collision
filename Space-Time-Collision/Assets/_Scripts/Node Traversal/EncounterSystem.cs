@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EncounterSystem : MonoBehaviour
 {
 
-    [SerializeField] private Encounter[] availableEncounters;
-
+    [FormerlySerializedAs("availableEncounters")] [SerializeField] private Encounter[] easyEncounters;
+    [SerializeField] private Encounter[] normalEncounters;
+    [SerializeField] private Encounter[] minibossEncounters;
+    
     private EnemyManager enemyManager;
     private PlayerPrefs playerPrefs;
     
@@ -18,6 +21,6 @@ public class EncounterSystem : MonoBehaviour
     void Start()
     {
         int encounterToUse = playerPrefs.GetRunStatus();
-        enemyManager.GenerateEnemiesByEncounter(availableEncounters[encounterToUse]);
+        enemyManager.GenerateEnemiesByEncounter(easyEncounters[encounterToUse]);
     }
 }
