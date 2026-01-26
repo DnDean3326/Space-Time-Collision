@@ -33,4 +33,19 @@ public class RunInfo : MonoBehaviour
     {
         return currentNode;
     }
+
+    public int GetEncounterCount()
+    {
+        return encounterCount;
+    }
+
+    public void IncreaseEncounterCount()
+    {
+        encounterCount++;
+    }
+
+    public void EndRun()
+    {
+        Destroy(gameObject);
+    }
 }

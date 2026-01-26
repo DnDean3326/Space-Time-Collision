@@ -11,6 +11,7 @@ public class NodeManager : MonoBehaviour
     private List<NodeInfo> nodeInfos = new List<NodeInfo>();
     private int nodeCount = 0;
     private RunInfo runInfo;
+    private EncounterSystem encounterSystem;
     
     private static GameObject _instance;
     private const string NODE_SCENE = "NodeScene";
@@ -42,7 +43,8 @@ public class NodeManager : MonoBehaviour
     {
         if (scene.name != NODE_SCENE) { return; }
         print("Scene loaded: "  + scene.name);
-
+        
+        encounterSystem = FindFirstObjectByType<EncounterSystem>();
         UpdateNodeButtons();
     }
     
@@ -101,8 +103,15 @@ public class NodeManager : MonoBehaviour
         runInfo.SetCurrentNode(nodeIndex);
         switch (nodeInfos[nodeIndex]._nodeType) {
             case NodeInfo.NodeType.Combat:
+                encounterSystem.GenerateStandardEncounter();
+                SceneManager.LoadScene(BATTLE_SCENE);
+                break;
             case NodeInfo.NodeType.MiniBoss:
+                encounterSystem.GenerateMinibossEncounter();
+                SceneManager.LoadScene(BATTLE_SCENE);
+                break;
             case NodeInfo.NodeType.Boss:
+                // TODO Add boss spawn
                 SceneManager.LoadScene(BATTLE_SCENE);
                 break;
             case NodeInfo.NodeType.Event:

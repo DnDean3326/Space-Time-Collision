@@ -4,23 +4,36 @@ using UnityEngine.Serialization;
 public class EncounterSystem : MonoBehaviour
 {
 
-    [FormerlySerializedAs("availableEncounters")] [SerializeField] private Encounter[] easyEncounters;
+    [SerializeField] private Encounter[] easyEncounters;
     [SerializeField] private Encounter[] normalEncounters;
     [SerializeField] private Encounter[] minibossEncounters;
     
     private EnemyManager enemyManager;
-    private PlayerPrefs playerPrefs;
+    private RunInfo runInfo;
     
     private void Awake()
     {
         enemyManager = FindFirstObjectByType<EnemyManager>();
-        playerPrefs = FindFirstObjectByType<PlayerPrefs>();
+        runInfo = FindFirstObjectByType<RunInfo>();
+    }
+    
+
+    public void GenerateStandardEncounter()
+    {
+        int encounterToUse;
+        if (runInfo.GetEncounterCount() > 2) {
+            encounterToUse = Random.Range(0, normalEncounters.Length + 1);
+            enemyManager.GenerateEnemiesByEncounter(normalEncounters[encounterToUse]);
+        } else {
+            encounterToUse = Random.Range(0, easyEncounters.Length + 1);
+            enemyManager.GenerateEnemiesByEncounter(easyEncounters[encounterToUse]);
+        }
+        runInfo.IncreaseEncounterCount();
     }
 
-    
-    void Start()
+    public void GenerateMinibossEncounter()
     {
-        int encounterToUse = playerPrefs.GetRunStatus();
-        enemyManager.GenerateEnemiesByEncounter(easyEncounters[encounterToUse]);
+        int encounterToUse = Random.Range(0, minibossEncounters.Length + 1);
+        enemyManager.GenerateEnemiesByEncounter(minibossEncounters[encounterToUse]);
     }
 }
