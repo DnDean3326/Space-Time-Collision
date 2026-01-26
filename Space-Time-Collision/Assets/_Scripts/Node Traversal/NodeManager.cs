@@ -144,7 +144,6 @@ public struct NodeInfo
 
     public NodeInfo(int nodeNumber, NodeType nodeType, bool isCleared, List<int> connectedNodes)
     {
-        Debug.Log("Node " + nodeNumber + " created!");
         _nodeNumber = nodeNumber;
         _nodeType = nodeType;
         _isCleared = isCleared;

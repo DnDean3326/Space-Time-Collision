@@ -690,7 +690,11 @@ public class BattleSystem : MonoBehaviour
                                             brokenPlayerColumns++;
                                         }
                                     }
-                                    if (myBrain.enemyAbilities[i].ability.bannedColumns.Length > 0 &&
+                                    print(i);
+                                    print(myBrain.enemyAbilities[i].ability.bannedColumns.Count);
+                                    print(myBrain.enemyAbilities[i].ability.bannedColumns.Count > 0);
+                                    print(myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => (t + brokenPlayerColumns) == entity.xPos));
+                                    if (myBrain.enemyAbilities[i].ability.bannedColumns.Count > 0 &&
                                         myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => (t + brokenPlayerColumns) == entity.xPos)) {
                                         continue;
                                     }
@@ -1888,7 +1892,7 @@ public class BattleSystem : MonoBehaviour
                         brokenPlayerColumns++;
                     }
                 }
-                if (player.myAbilities[i].bannedColumns.Length > 0 &&
+                if (player.myAbilities[i].bannedColumns.Count > 0 &&
                     player.myAbilities[i].bannedColumns.Any(t => (t - brokenPlayerColumns) == player.xPos)) {
                     abilityImages[i].color = new Color(40,40,40);
                     abilityButtons[i].interactable = false;

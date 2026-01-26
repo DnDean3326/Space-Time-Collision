@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -163,7 +164,7 @@ public class Ability : ScriptableObject
     public int selfMax;
 
     [Header("Movement Values")]
-    public int[] bannedColumns;
+    public List<int> bannedColumns = new List<int>();
     public int selfXChange;
     public int selfYChange;
     public bool selfYChangeToCenter = false;
