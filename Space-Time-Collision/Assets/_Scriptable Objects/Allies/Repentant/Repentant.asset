@@ -24,7 +24,7 @@ MonoBehaviour:
   baseSpirit: 32
   basePower: 4
   baseSkill: 3
-  baseWit: 400
+  baseWit: 4
   baseMind: 4
   baseSpeed: 6
   baseLuck: 2

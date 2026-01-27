@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/Base Scenes/InnPositionScene.unity
     guid: 87b5c45bdc79498418b539e5b5c2364b
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/Run Scenes/NodeScene.unity
     guid: 0f54a08216a9efe4ca5bbeb3e0c533ef
   - enabled: 1
@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Scenes/Run Scenes/EventScene.unity
     guid: 8614e8188d202894d928c0a01a3a887e
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/Run Scenes/ShopScene.unity
     guid: 7ce2a1de4ed242b49960ced70305f3dc
   m_configObjects:
