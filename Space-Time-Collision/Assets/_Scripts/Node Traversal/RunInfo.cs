@@ -59,6 +59,11 @@ public class RunInfo : MonoBehaviour
         encounterCount++;
     }
 
+    public void IncreaseFunds(int increase)
+    {
+        funds += increase;
+    }
+
     public void EndRun()
     {
         Destroy(gameObject);

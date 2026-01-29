@@ -191,6 +191,9 @@ public class BattleSystem : MonoBehaviour
     public const float PowerStunMod = 2;
     public const float MindDebuffMod = 2;
     public const float LuckCritMod = 1;
+
+    private List<int> enemyFunds = new List<int>();
+    private int encounterFunds = 0;
     
     // Animator Constants
     private const string BATTLE_START_END = "EndTrigger";
@@ -218,6 +221,8 @@ public class BattleSystem : MonoBehaviour
     {
         StartCoroutine(StartRoutine());
         battleStartUI.SetActive(true);
+
+        encounterFunds += Random.Range(10, (15 + 1));
     }
 
     private void LinkCharacterLogics()
@@ -300,6 +305,7 @@ public class BattleSystem : MonoBehaviour
                 if (runInfo.GetCurrentNode() > 2) {
                     runInfo.SetCurrentNode(0);
                 }
+                runInfo.IncreaseFunds(encounterFunds);
                 SceneManager.LoadScene(BASE_SCENE);
             } else {
                 SceneManager.LoadScene(NODE_SCENE);
@@ -1223,6 +1229,8 @@ public class BattleSystem : MonoBehaviour
                 bossLogicList.Add(new BossLogicListing(tempObject, tempEntity));
             }
             
+            enemyFunds.Add(currentEnemies[i].fundDrop);
+            
             // Add the allied combatant to the all combatants and party combatant lists
             allCombatants.Add(tempEntity);
             enemyCombatants.Add(tempEntity);
@@ -1356,6 +1364,10 @@ public class BattleSystem : MonoBehaviour
             BattleEntity deadCombatant = null;
             if (allCombatants[i].currentHealth <= 0) {
                 deadCombatant = allCombatants[i];
+                if (!deadCombatant.isPlayer) {
+                    int enemyIndex = enemyCombatants.IndexOf(deadCombatant);
+                    encounterFunds += enemyFunds[enemyIndex];
+                }
                 allCombatants.RemoveAt(i);
             }
             if (deadCombatant != null) {
