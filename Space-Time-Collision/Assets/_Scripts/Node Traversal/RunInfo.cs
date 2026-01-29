@@ -8,6 +8,7 @@ public class RunInfo : MonoBehaviour
     private int eventCount;
     private int funds;
     [SerializeField] private int currentNode;
+    [SerializeField] private List<ConsumableInfo> consumableInventory = new List<ConsumableInfo>();
     
     private NodeManager nodeManager;
     
@@ -59,9 +60,24 @@ public class RunInfo : MonoBehaviour
         encounterCount++;
     }
 
-    public void IncreaseFunds(int increase)
+    public int GetFunds()
     {
-        funds += increase;
+        return funds;
+    }
+
+    public void ChangeFunds(int fundChange)
+    {
+        funds += fundChange;
+    }
+
+    public void AddConsumable(ConsumableInfo consumable)
+    {
+        consumableInventory.Add(consumable);
+    }
+
+    public void RemoveConsumable(int itemIndex)
+    {
+        consumableInventory.RemoveAt(itemIndex);
     }
 
     public void EndRun()

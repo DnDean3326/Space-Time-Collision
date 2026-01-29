@@ -4269,9 +4269,16 @@ public class BattleSystem : MonoBehaviour
         }
         
         // Heal the target
-        healTarget.currentDefense += restore; // restore HP
-        if (healTarget.currentDefense > healTarget.maxDefense) {
-            healTarget.currentDefense = healTarget.maxDefense;
+        if (activeAbility.attackType == Ability.AttackType.Health) {
+            healTarget.currentHealth += restore; // restore Health
+            if (healTarget.currentHealth > healTarget.maxHealth) {
+                healTarget.currentHealth = healTarget.maxHealth;
+            }
+        } else {
+            healTarget.currentDefense += restore; // restore Shields
+            if (healTarget.currentDefense > healTarget.maxDefense) {
+                healTarget.currentDefense = healTarget.maxDefense;
+            }
         }
         
         if (!abilityDuplicated) {
