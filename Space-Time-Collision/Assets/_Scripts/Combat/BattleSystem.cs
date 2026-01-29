@@ -305,7 +305,7 @@ public class BattleSystem : MonoBehaviour
                 if (runInfo.GetCurrentNode() > 2) {
                     runInfo.SetCurrentNode(0);
                 }
-                runInfo.IncreaseFunds(encounterFunds);
+                runInfo.ChangeFunds(encounterFunds);
                 SceneManager.LoadScene(BASE_SCENE);
             } else {
                 SceneManager.LoadScene(NODE_SCENE);
