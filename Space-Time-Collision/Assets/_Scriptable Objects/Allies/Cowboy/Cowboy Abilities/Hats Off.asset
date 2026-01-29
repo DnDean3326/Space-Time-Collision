@@ -24,7 +24,7 @@ MonoBehaviour:
   rangeMax: 2
   hasAccuracy: 0
   targetSelf: 0
-  attackType: 4
+  attackType: 5
   keyStat: 0
   statModifier: 0
   dmgMin: 0

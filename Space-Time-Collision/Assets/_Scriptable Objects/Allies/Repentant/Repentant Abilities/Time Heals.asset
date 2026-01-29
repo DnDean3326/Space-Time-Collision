@@ -24,7 +24,7 @@ MonoBehaviour:
   rangeMax: 2
   hasAccuracy: 1
   targetSelf: 1
-  attackType: 2
+  attackType: 3
   keyStat: 4
   statModifier: 1
   dmgMin: 7
@@ -61,9 +61,10 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  equipDescription: 'Type: Heal | Crit: 5%
+  equipDescription: 'Type: Heal (Shields) | Crit: 5%
 
-    Heal: 4-8 | Heal Modifier: Mind'
+    Heal: 4-8 | Heal Modifier:
+    Mind'
   description: 'Weight: Heavy | Cost: 3 SP
 
     CD: 2 | Range: 0-2
