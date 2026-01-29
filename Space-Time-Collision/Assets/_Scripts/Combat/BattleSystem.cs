@@ -301,11 +301,11 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.Won;
             yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
             print("Your party prevailed!");
+            runInfo.ChangeFunds(encounterFunds);
             if (playerPrefs.CheckDemoStatus()) {
                 if (runInfo.GetCurrentNode() > 2) {
                     runInfo.SetCurrentNode(0);
                 }
-                runInfo.ChangeFunds(encounterFunds);
                 SceneManager.LoadScene(BASE_SCENE);
             } else {
                 SceneManager.LoadScene(NODE_SCENE);
@@ -649,6 +649,7 @@ public class BattleSystem : MonoBehaviour
                     usedLightAction = true;
                     int abilityIndex = activeCharacter.myAbilities.IndexOf(abilityInUse);
                     activeCharacter.abilityCooldowns[abilityIndex] += abilityInUse.cooldown;
+                    ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]);
                 }
                 BackToAbilities();
             } else {
@@ -1006,7 +1007,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntity activeEntity)
     {
-        ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]); //TODO update this for cases where there is no target for active ability
+        ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]);
         
         // Call character turn end logic
         if (activeEntity.myName == "Renée") {
@@ -1845,6 +1846,7 @@ public class BattleSystem : MonoBehaviour
         allCombatants[characterIndex].combatMenuVisuals.ChangeResourcePreviewUIVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangePassButtonVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(true);
+        allCombatants[characterIndex].target = characterIndex;
     }
     
     public void ShowAbilityPreviewMenu(int characterIndex)

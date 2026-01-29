@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bola
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableInfo
   consumableName: Bola
-  consumableIcon: {fileID: 0}
+  consumableIcon: {fileID: 21300000, guid: 68639f1926e4fda42b6937a075d4174f, type: 3}
   consumablePrice: 7
-  linkedAbility: {fileID: 11400000, guid: 0462f64360ffed643b1b3321470a37d1, type: 2}
+  consumableAbility: {fileID: 11400000, guid: 0462f64360ffed643b1b3321470a37d1, type: 2}
+  itemDescription: 

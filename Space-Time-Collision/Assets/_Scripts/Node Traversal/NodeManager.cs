@@ -78,7 +78,7 @@ public class NodeManager : MonoBehaviour
         
         connectedNodes = new List<int> {4};
         AddNode(NodeInfo.NodeType.Combat, false, connectedNodes); // Node 2
-        AddNode(NodeInfo.NodeType.Event, false, connectedNodes); // Node 3
+        AddNode(NodeInfo.NodeType.Shop, false, connectedNodes); // Node 3
         
         connectedNodes = new List<int> {5, 6};
         AddNode(NodeInfo.NodeType.Combat, false, connectedNodes); // Node 4
@@ -105,6 +105,7 @@ public class NodeManager : MonoBehaviour
     public void NodeClick(int nodeIndex)
     {
         runInfo.SetCurrentNode(nodeIndex);
+        print(nodeInfos[nodeIndex]._nodeType);
         switch (nodeInfos[nodeIndex]._nodeType) {
             case NodeInfo.NodeType.Combat:
                 encounterSystem.GenerateStandardEncounter();

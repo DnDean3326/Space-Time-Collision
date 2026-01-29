@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Healing Potion
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableInfo
   consumableName: Healing Potion
-  consumableIcon: {fileID: 0}
+  consumableIcon: {fileID: 21300000, guid: ae0277a477639d04784421c3e64de892, type: 3}
   consumablePrice: 8
-  linkedAbility: {fileID: 11400000, guid: cdb2cc9fa664b97428239ba42ba30279, type: 2}
+  consumableAbility: {fileID: 11400000, guid: cdb2cc9fa664b97428239ba42ba30279, type: 2}
+  itemDescription: 

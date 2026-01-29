@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Grenade
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableInfo
   consumableName: Grenade
-  consumableIcon: {fileID: 0}
+  consumableIcon: {fileID: 21300000, guid: 1276d9c0c12c5dc4fb99b2a3099109fb, type: 3}
   consumablePrice: 6
-  linkedAbility: {fileID: 11400000, guid: 02e967bd4066b824c987d939257f93ec, type: 2}
+  consumableAbility: {fileID: 11400000, guid: 02e967bd4066b824c987d939257f93ec, type: 2}
+  itemDescription: 

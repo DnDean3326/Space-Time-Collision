@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Shadow Walkers Cloak
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableInfo
   consumableName: Shadow Walker's Cloak
-  consumableIcon: {fileID: 0}
+  consumableIcon: {fileID: 21300000, guid: 192e912f5e787134089a469b5bc69227, type: 3}
   consumablePrice: 11
-  linkedAbility: {fileID: 11400000, guid: 65a28db4729bf834ea4ecc9c3464c5e1, type: 2}
+  consumableAbility: {fileID: 11400000, guid: 65a28db4729bf834ea4ecc9c3464c5e1, type: 2}
+  itemDescription: 

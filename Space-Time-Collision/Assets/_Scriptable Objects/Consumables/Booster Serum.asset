@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Booster Serum
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableInfo
   consumableName: Booster Serum
-  consumableIcon: {fileID: 0}
+  consumableIcon: {fileID: 21300000, guid: 5fd2a1d28ce1a0047bc1eac9ac04fd9a, type: 3}
   consumablePrice: 9
-  linkedAbility: {fileID: 11400000, guid: 4f48f320dfbed5c469e981967c38f2db, type: 2}
+  consumableAbility: {fileID: 11400000, guid: 4f48f320dfbed5c469e981967c38f2db, type: 2}
+  itemDescription: 
