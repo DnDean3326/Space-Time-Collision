@@ -9,6 +9,7 @@ public class RunInfo : MonoBehaviour
     [SerializeField] private int funds;
     [SerializeField] private int currentNode;
     [SerializeField] private List<Consumable> consumableInventory = new List<Consumable>();
+    [SerializeField] private List<Talisman> talismanInventory = new List<Talisman>();
     
     private NodeManager nodeManager;
     
@@ -73,6 +74,11 @@ public class RunInfo : MonoBehaviour
     public void AddConsumable(Consumable consumable)
     {
         consumableInventory.Add(consumable);
+    }
+
+    public void AddTalisman(Talisman talisman)
+    {
+        talismanInventory.Add(talisman);
     }
 
     public void RemoveConsumable(int itemIndex)

@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 public class ItemManager : MonoBehaviour
 {
     [SerializeField] private List<ConsumableInfo> allConsumables;
+    [SerializeField] private List<TalismanInfo> allTalisman;
     [SerializeField] private int maxPriceIncrease = 10;
 
     public Consumable GetRandomConsumable()
@@ -15,6 +16,14 @@ public class ItemManager : MonoBehaviour
             consumable.consumablePrice, consumable.consumableAbility);
         newConsumable.IncreasePrice(Random.Range(0, (maxPriceIncrease + 1))); 
         return newConsumable;
+    }
+
+    public Talisman GetRandomTalisman()
+    {
+        TalismanInfo talisman = allTalisman[Random.Range(0, allTalisman.Count)];
+        Talisman newTalisman = new Talisman(talisman.talismanName, talisman.talismanIcon, talisman.talismanPrice);
+        newTalisman.IncreasePrice(Random.Range(0, (maxPriceIncrease + 1)));
+        return newTalisman;
     }
 }
 

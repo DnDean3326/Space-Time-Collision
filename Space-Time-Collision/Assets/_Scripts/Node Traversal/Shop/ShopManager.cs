@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
-    private List<Consumable> soldConsumables = new List<Consumable>();
-
     [SerializeField] private Image[] consumableImages;
     [SerializeField] private Image[] talismanImages;
     [SerializeField] private TextMeshProUGUI[] consumableText;
@@ -20,6 +18,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private int maxConsumables = 4;
     [SerializeField] private int maxTalisman = 4;
 
+    private List<Consumable> soldConsumables = new List<Consumable>();
+    private List<Talisman> soldTalismans = new List<Talisman>(); 
     private RunInfo runInfo;
     private ItemManager itemManager;
 
@@ -37,6 +37,7 @@ public class ShopManager : MonoBehaviour
             soldConsumables.Add(consumable);
         }
         SetConsumables();
+        SetTalisman();
         UpdateShopButtons();
     }
     
@@ -60,7 +61,12 @@ public class ShopManager : MonoBehaviour
     
     private void SetTalisman()
     {
-        
+        for (int i = 0; i < maxTalisman; i++) {
+            Talisman talisman = itemManager.GetRandomTalisman();
+            soldTalismans.Add(talisman);
+            talismanImages[i].sprite = talisman.GetIcon();
+            talismanText[i].text = "$" + talisman.GetPrice();
+        }
     }
 
     public void BuyConsumable(int index)
@@ -75,6 +81,11 @@ public class ShopManager : MonoBehaviour
     
     public void BuyTalisman(int index)
     {
-        
+        if (runInfo.GetFunds() > soldTalismans[index].GetPrice()) {
+            runInfo.ChangeFunds(-soldTalismans[index].GetPrice());
+            runInfo.AddTalisman(soldTalismans[index]);
+            soldTalismans[index] = null;
+        }
+        UpdateShopButtons();
     }
 }
