@@ -31,10 +31,10 @@ MonoBehaviour:
   dmgMax: 8
   critChance: 20
   extraCasts: 0
-  secondaryTarget: 0
+  secondaryTarget: 3
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 0
+  secondaryValue: 5
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
 
 
     Move
-    back 1 tile. Apply Off-Guard I.
+    back 1 tile. Deal 5 armor damage.
 
     On a crit apply Vulnerable II.
 
