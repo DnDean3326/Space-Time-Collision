@@ -10,6 +10,8 @@ public class ItemButtonController : MonoBehaviour
     [SerializeField] private List<Image> consumableBackgrounds;
     [SerializeField] private List<GameObject> consumableIconObjects;
     [SerializeField] private List<Image> consumableIcons;
+    [SerializeField] private GameObject talismanGrid;
+    [SerializeField] private GameObject talismanPrefab;
     private List<Consumable> consumableInventory;
     private List<Talisman> talismanInventory;
     private RunInfo runInfo;
@@ -33,6 +35,16 @@ public class ItemButtonController : MonoBehaviour
         consumableInventory = runInfo.GetConsumables();
         talismanInventory = runInfo.GetTalismans();
         UpdateItemButtons();
+        InstantiateTalisman();
+    }
+
+    private void InstantiateTalisman()
+    {
+        for (int i = 0; i < talismanInventory.Count; i++) {
+            GameObject tempTalisman = Instantiate(talismanPrefab, talismanGrid.transform);
+            TalismanDisplay talismanDisplay = tempTalisman.GetComponent<TalismanDisplay>();
+            talismanDisplay.SetTalisman(talismanInventory[i]);
+        }
     }
 
     private void UpdateItemButtons()
@@ -88,13 +100,6 @@ public class ItemButtonController : MonoBehaviour
         }
         
         string itemDescription = consumableInventory[index].GetItemDescription();
-        
-        Tooltip.ShowTooltip_Static("",itemDescription);
-    }
-
-    public void DisplayTalismanEffect(int index)
-    {
-        string itemDescription = talismanInventory[index].GetItemDescription();
         
         Tooltip.ShowTooltip_Static("",itemDescription);
     }

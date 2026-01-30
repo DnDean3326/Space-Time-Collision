@@ -18,13 +18,27 @@ public class ItemManager : MonoBehaviour
         return newConsumable;
     }
 
-    public Talisman GetRandomTalisman()
+    public List<Talisman> GetRandomTalisman(int count)
     {
-        TalismanInfo talisman = allTalisman[Random.Range(0, allTalisman.Count)];
-        Talisman newTalisman = new Talisman(talisman.talismanName, talisman.talismanIcon, talisman.talismanPrice,
-            talisman.talismanDescription);
-        newTalisman.IncreasePrice(Random.Range(0, (maxPriceIncrease + 1)));
-        return newTalisman;
+        List<Talisman> talismanList = new List<Talisman>();
+        List<TalismanInfo> talismanPool = new List<TalismanInfo>();
+        foreach (TalismanInfo talisman in allTalisman) {
+            talismanPool.Add(talisman);
+        }
+        for (int i = 0; i < count; i++) {
+            TalismanInfo talisman = talismanPool[Random.Range(0, talismanPool.Count)];
+            talismanPool.Remove(talisman);
+            Talisman newTalisman = new Talisman(talisman.talismanName, talisman.talismanIcon, talisman.talismanPrice,
+                talisman.talismanDescription);
+            newTalisman.IncreasePrice(Random.Range(0, (maxPriceIncrease + 1)));
+            talismanList.Add(newTalisman);
+        }
+        return talismanList;
+    }
+
+    public int GetTalismanCount()
+    {
+        return allTalisman.Count;
     }
 }
 

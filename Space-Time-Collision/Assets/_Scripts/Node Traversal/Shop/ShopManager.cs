@@ -56,7 +56,7 @@ public class ShopManager : MonoBehaviour
                 consumableButtons[i].interactable = true;
             }
         }
-        for (int i = 0; i < maxTalisman; i++) {
+        for (int i = 0; i < talismansForSale.Count; i++) {
             if (talismanSold[i]) {
                 // Place SOLD-OUT! graphic
                 talismanButtons[i].interactable = false;
@@ -83,12 +83,23 @@ public class ShopManager : MonoBehaviour
     
     private void SetTalisman()
     {
-        for (int i = 0; i < maxTalisman; i++) {
-            Talisman talisman = itemManager.GetRandomTalisman();
-            talismansForSale.Add(talisman);
-            talismanImages[i].sprite = talisman.GetIcon();
-            talismanText[i].text = "$" + talisman.GetPrice();
+        int count;
+        if (maxTalisman < (itemManager.GetTalismanCount() - runInfo.GetTalismanCount())) {
+            print("Max Talisman");
+            count = maxTalisman;
+        } else {
+            print("Remaining Talismans");
+            count = itemManager.GetTalismanCount() - runInfo.GetTalismanCount();
+        }
+        print("Count is: " + count);
+
+        List<Talisman> randomTalisman = itemManager.GetRandomTalisman(count);
+        
+        for (int i = 0; i < randomTalisman.Count; i++) {
+            talismanImages[i].sprite = randomTalisman[i].GetIcon();
+            talismanText[i].text = "$" + randomTalisman[i].GetPrice();
             talismanSold.Add(false);
+            talismansForSale.Add(randomTalisman[i]);
         }
     }
 

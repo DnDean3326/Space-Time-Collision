@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 3494695e9f68440f8b0a8400db473105
+guid: d54a8df475629427dbe12d2c96dba035
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7261323403473509586
-    second: boss 1_0
+      213: 5349358900144987140
+    second: event 1_0
   - first:
-      213: -3934055364342973861
-    second: boss 1_1
+      213: -7004212689657057018
+    second: event 1_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,12 +49,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 600
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -99,17 +99,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: boss 1_0
+      name: event 1_0
       rect:
         serializedVersion: 2
-        x: 186
-        y: 246
-        width: 228
-        height: 132
+        x: 173
+        y: 262
+        width: 229
+        height: 354
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2dcd44fc92765c460800000000000000
-      internalID: 7261323403473509586
+      spriteID: 40c573bd39dbc3a40800000000000000
+      internalID: 5349358900144987140
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boss 1_1
+      name: event 1_1
       rect:
         serializedVersion: 2
-        x: 193
-        y: 287
-        width: 214
-        height: 311
+        x: 254
+        y: 190
+        width: 53
+        height: 53
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b5afd995d7d6769c0800000000000000
-      internalID: -3934055364342973861
+      spriteID: 60135bd2ba90cce90800000000000000
+      internalID: -7004212689657057018
       vertices: []
       indices: 
       edges: []
@@ -150,7 +163,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      boss 1_0: 7261323403473509586
-      boss 1_1: -3934055364342973861
+      event 1_0: 5349358900144987140
+      event 1_1: -7004212689657057018
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
