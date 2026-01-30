@@ -63,7 +63,7 @@ MonoBehaviour:
   ignoreArmor: 0
   equipDescription: 'Type: Damage | Crit: 15%
 
-    DMG: 5-10 | DMG Modifier: Speed'
+    DMG: 11-16'
   description: 'Weight: Heavy | Cost: N/A
 
     CD: N/A | Range: 1-4
@@ -75,5 +75,4 @@ MonoBehaviour:
     This attack ignores Block. Move forward
     3 tiles.
 
-    Descension II: Increase the damage dealt by 2 + Agility and gain
-    Haste II.'
+    Descension II: Increase the damage dealt by 8 and gain Haste II.'

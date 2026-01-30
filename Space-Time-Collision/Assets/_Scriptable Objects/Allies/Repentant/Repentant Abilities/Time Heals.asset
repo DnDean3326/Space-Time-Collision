@@ -63,8 +63,7 @@ MonoBehaviour:
   ignoreArmor: 0
   equipDescription: 'Type: Heal (Shields) | Crit: 5%
 
-    Heal: 4-8 | Heal Modifier:
-    Mind'
+    Heal: 8-12'
   description: 'Weight: Heavy | Cost: 3 SP
 
     CD: 2 | Range: 0-2
@@ -74,4 +73,4 @@ MonoBehaviour:
     target 40 action points.
 
     Descension I: Increase the action points given
-    by 40 and increase the healing by 5 + Mind.'
+    by 40 and increase the healing by 9.'

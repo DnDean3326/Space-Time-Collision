@@ -63,8 +63,18 @@ MonoBehaviour:
   ignoreArmor: 0
   equipDescription: 'Type: Damage | Crit: 10%
 
-    DMG: 4-6 | DMG Modifier: Power
-    * 2'
-  description: "Weight: Heavy | Cost: N/A\nCD: 1 | Range: 1-3\n\nGain Vulnerable
-    I and Off-Guard I.\nDeal Armor damage equal to your Power. \nPush the target
-    back 2 tiles.\nAscension 1: Do not gain Vulnerable I."
+    DMG: 12-14'
+  description: 'Weight: Heavy | Cost: N/A
+
+    CD: 1 | Range: 1-3
+
+
+    Gain Vulnerable
+    I and Off-Guard I.
+
+    Deal 4 armor damage.
+
+    Push the target back 2 tiles.
+
+    Ascension
+    1: Do not gain Vulnerable I.'

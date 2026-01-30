@@ -63,12 +63,13 @@ MonoBehaviour:
   ignoreArmor: 0
   equipDescription: 'Type: Damage | Crit: 5%
 
-    DMG: 4-8 | DMG Modifier: Target
-    Debuffs * 2'
+    DMG: 4-8'
   description: 'Weight: Heavy | Cost: 2 SP
 
     CD: N/A | Range: 3-7
 
 
-    On a crit
-    apply Off-Guard II.'
+    Deal +2
+    damage for each debuff on the target.
+
+    On a crit apply Off-Guard II.'

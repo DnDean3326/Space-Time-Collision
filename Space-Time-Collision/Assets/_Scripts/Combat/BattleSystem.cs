@@ -5011,7 +5011,7 @@ public class BattleEntity
         speed = entitySpeed;
         luck = entityLuck;
 
-        critChance = (int)(skill * BattleSystem.SkillCritMod);
+        /*critChance = (int)(skill * BattleSystem.SkillCritMod);
         resistPierce = (int)(wit * BattleSystem.WitPierceMod);
         stunResist = entityStunResist + (int)(power * BattleSystem.PowerStunMod);
         debuffResist = entityDebuffResist + (int)(mind * BattleSystem.MindDebuffMod);
@@ -5022,7 +5022,15 @@ public class BattleEntity
             if (critResist < 0) {
                 critResist = 0;
             }
-        }
+        }*/
+
+        // Nulling stat secondary effects and innate resistances for simplicity of play
+        critChance = 0;
+        resistPierce = 0;
+        stunResist = 0;
+        debuffResist = 0;
+        ailmentResist = 0;
+        critResist = 0;
 
         activeAbility = null;
         

@@ -63,7 +63,7 @@ MonoBehaviour:
   ignoreArmor: 0
   equipDescription: 'Type: Damage | Crit: 15%
 
-    DMG: 2-8 | DMG Modifier: Skill'
+    DMG: 6-12'
   description: 'Weight: Medium | Cost: N/A
 
     CD: N/A | Range: 1-3

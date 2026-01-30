@@ -28,7 +28,7 @@ MonoBehaviour:
   keyStat: 1
   statModifier: 3
   dmgMin: 3
-  dmgMax: 5
+  dmgMax: 7
   critChance: 5
   extraCasts: 0
   secondaryTarget: 0
@@ -63,8 +63,7 @@ MonoBehaviour:
   ignoreArmor: 1
   equipDescription: 'Type: Damage | Crit: 5%
 
-    DMG: 3-5 | DMG Modifier: Power
-    * 3'
+    DMG: 15-19'
   description: 'Weight: Heavy | Cost: 8 Self-DMG
 
     CD: N/A | Range: 3-7

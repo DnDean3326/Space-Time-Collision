@@ -63,7 +63,7 @@ MonoBehaviour:
   ignoreArmor: 0
   equipDescription: 'Type: Damage | Crit: 15%
 
-    DMG: 3-6 | DMG Modifier: Wit'
+    DMG: 7-10'
   description: 'Weight: Medium | Cost: 3 SP
 
     CD: 1 | Range: 1-5
@@ -73,4 +73,4 @@ MonoBehaviour:
     the target''s action points by 50. Reduce the target''s Ascension tokens by 1.
 
     Descension
-    I: Increase the action point reduction by 50 and deal 3 + Wit extra damage.'
+    I: Increase the action point reduction by 50 and deal 7 extra damage.'

@@ -63,7 +63,7 @@ MonoBehaviour:
   ignoreArmor: 0
   equipDescription: 'Type: Damage | Crit: 5%
 
-    DMG: 3-10 | DMG Modifier: Wit'
+    DMG: 7-14'
   description: 'Weight: Heavy | Cost: 5 SP
 
     CD: 2 | Range: 1-3

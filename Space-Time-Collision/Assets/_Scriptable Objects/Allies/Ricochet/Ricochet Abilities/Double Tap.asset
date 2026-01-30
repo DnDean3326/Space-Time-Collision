@@ -63,7 +63,7 @@ MonoBehaviour:
   ignoreArmor: 0
   equipDescription: 'Type: Damage | Crit: 10%
 
-    DMG: 1-4 | DMG Modifier: Skill'
+    DMG: 5-9'
   description: 'Weight: Heavy | Cost: 2 Bullets
 
     CD: N/A | Range: 2-6
