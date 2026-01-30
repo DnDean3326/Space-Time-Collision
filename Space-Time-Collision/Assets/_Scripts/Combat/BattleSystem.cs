@@ -129,6 +129,7 @@ public class BattleSystem : MonoBehaviour
     private BattleCameraController cameraController;
     private RunInfo runInfo;
     private ItemButtonController itemButtonController;
+    private TalismanLogic talismanLogic;
     
     // Character Specific Logic
     private RepentantBattleLogic repentantLogic;
@@ -212,6 +213,7 @@ public class BattleSystem : MonoBehaviour
         cameraController = FindFirstObjectByType<BattleCameraController>();
         runInfo = FindFirstObjectByType<RunInfo>();
         itemButtonController = FindFirstObjectByType<ItemButtonController>();
+        talismanLogic = FindFirstObjectByType<TalismanLogic>();
         
         combatGrid.GetGridInfo(ref partyBattleGrid, ref enemyBattleGrid);
         LinkCharacterLogics();
@@ -273,6 +275,7 @@ public class BattleSystem : MonoBehaviour
                 allCombatants[i].actionPoints += allCombatants[i].speed * .01f;
             }
             GetTurnOrder();
+            talismanLogic.BattleStartTalisman();
             
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
             Destroy(battleStartUI);
@@ -3844,6 +3847,14 @@ public class BattleSystem : MonoBehaviour
                     ref selfXTravel, ref selfYTravel, ref selfTokens, ref selfTokensCount, ref targetTokens, ref targetTokensCount);
                 break;
         }
+
+        // Check Talisman Logic
+        if (attacker.isPlayer) {
+            int distance = CalculateTargetDistance(attacker, attackTarget);
+            talismanLogic.AttackTalisman(attacker, activeAbility, distance, ref targetTokens, ref targetTokensCount);
+        } else if (!attacker.isPlayer && attackTarget.isPlayer) {
+            talismanLogic.DefenseTalisman(attackTarget, ref critChance);
+        }
         
         // Reduce crit chance by target's crit resist
         critChance -= attackTarget.critResist;
@@ -3963,6 +3974,9 @@ public class BattleSystem : MonoBehaviour
         // Apply on crit tokens if attack crit
         if (isCrit) {
             SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+            if (attacker.isPlayer) {
+                talismanLogic.CritTalisman(ref selfTokens, ref selfTokensCount);
+            }
         }
         
         // Remove appropriate tokens
@@ -4168,6 +4182,14 @@ public class BattleSystem : MonoBehaviour
             ricochetLogic.RicochetHealLogic(healer, activeAbility, ref selfTokens, ref selfTokensCount);
         }
         
+        // Check Talisman Logic
+        if (healer.isPlayer) {
+            //int distance = CalculateTargetDistance(healer, healTarget);
+            //talismanLogic.AttackTalisman(activeAbility, distance, ref targetTokens, ref targetTokensCount);
+        } else if (!healer.isPlayer && healTarget.isPlayer) {
+            talismanLogic.DefenseTalisman(healTarget, ref critChance);
+        }
+        
         // Clear tokens from self
         if (activeAbility.targetTokensCleared.Length > 0) {
             foreach (Ability.TokenOption token in activeAbility.targetTokensCleared) {
@@ -4208,7 +4230,7 @@ public class BattleSystem : MonoBehaviour
                 // Check for extra casts
                 if (extraCastCount < activeAbility.extraCasts) {
                     extraCastCount++;
-                    yield return StartCoroutine(DamageAction(healer, healTarget, activeAbility));
+                    yield return StartCoroutine(HealAction(healer, healTarget, activeAbility));
                 }
                 
                 yield break;
@@ -4251,6 +4273,9 @@ public class BattleSystem : MonoBehaviour
         // Apply on crit tokens if attack crit
         if (isCrit) {
             SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+            if (healer.isPlayer) {
+                talismanLogic.CritTalisman(ref selfTokens, ref selfTokensCount);
+            }
         }
         
         // Remove appropriate tokens
@@ -4350,7 +4375,7 @@ public class BattleSystem : MonoBehaviour
         // Check for extra casts
         if (extraCastCount < activeAbility.extraCasts) {
             extraCastCount++;
-            yield return StartCoroutine(DamageAction(healer, healTarget, activeAbility));
+            yield return StartCoroutine(HealAction(healer, healTarget, activeAbility));
         }
     }
 
@@ -4394,6 +4419,14 @@ public class BattleSystem : MonoBehaviour
             ricochetLogic.RicochetBuffLogic(buffer, activeAbility, ref selfTokens, ref selfTokensCount);
         }
         
+        // Check Talisman Logic
+        if (buffer.isPlayer) {
+            //int distance = CalculateTargetDistance(buffer, buffTarget);
+            //talismanLogic.AttackTalisman(activeAbility, distance, ref targetTokens, ref targetTokensCount);
+        } else if (!buffer.isPlayer && buffTarget.isPlayer) {
+            talismanLogic.DefenseTalisman(buffTarget, ref critChance);
+        }
+        
         // Clear tokens from self
         if (activeAbility.targetTokensCleared.Length > 0 && !abilityDuplicated) {
             foreach (Ability.TokenOption token in activeAbility.selfTokensCleared) {
@@ -4435,7 +4468,7 @@ public class BattleSystem : MonoBehaviour
                 // Check for extra casts
                 if (extraCastCount < activeAbility.extraCasts) {
                     extraCastCount++;
-                    yield return StartCoroutine(DamageAction(buffer, buffTarget, activeAbility));
+                    yield return StartCoroutine(BuffAction(buffer, buffTarget, activeAbility));
                 }
                 
                 yield break;
@@ -4472,6 +4505,9 @@ public class BattleSystem : MonoBehaviour
         // Apply on crit tokens if attack crit
         if (isCrit) {
             SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+            if (buffer.isPlayer) {
+                talismanLogic.CritTalisman(ref selfTokens, ref selfTokensCount);
+            }
         }
         
         // Apply tokens to self
@@ -4518,7 +4554,7 @@ public class BattleSystem : MonoBehaviour
         // Check for extra casts
         if (extraCastCount < activeAbility.extraCasts) {
             extraCastCount++;
-            yield return StartCoroutine(DamageAction(buffer, buffTarget, activeAbility));
+            yield return StartCoroutine(BuffAction(buffer, buffTarget, activeAbility));
         }
         
         if (!abilityDuplicated) {
@@ -4577,6 +4613,13 @@ public class BattleSystem : MonoBehaviour
                 ref targetTokens, ref targetTokensCount);
         }
         
+        // Check Talisman Logic
+        if (debuffer.isPlayer) {
+            talismanLogic.DebuffTalisman(debuffer, activeAbility, ref targetTokens, ref targetTokensCount);
+        } else if (!debuffer.isPlayer && debuffTarget.isPlayer) {
+            talismanLogic.DefenseTalisman(debuffTarget, ref critChance);
+        }
+        
         // Reduce crit chance by target's crit resist
         critChance -= debuffTarget.critResist;
         if (critChance < 0) {
@@ -4624,7 +4667,7 @@ public class BattleSystem : MonoBehaviour
                 // Check for extra casts
                 if (extraCastCount < activeAbility.extraCasts) {
                     extraCastCount++;
-                    yield return StartCoroutine(DamageAction(debuffer, debuffTarget, activeAbility));
+                    yield return StartCoroutine(DebuffAction(debuffer, debuffTarget, activeAbility));
                 }
                 
                 yield break;
@@ -4639,6 +4682,9 @@ public class BattleSystem : MonoBehaviour
         // Apply on crit tokens if attack crit
         if (isCrit) {
             SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+            if (debuffer.isPlayer) {
+                talismanLogic.CritTalisman(ref selfTokens, ref selfTokensCount);
+            }
         }
         
         // Clear tokens from the target
@@ -4736,7 +4782,7 @@ public class BattleSystem : MonoBehaviour
         // Check for extra casts
         if (extraCastCount < activeAbility.extraCasts) {
             extraCastCount++;
-            yield return StartCoroutine(DamageAction(debuffer, debuffTarget, activeAbility));
+            yield return StartCoroutine(DebuffAction(debuffer, debuffTarget, activeAbility));
         }
     }
 
