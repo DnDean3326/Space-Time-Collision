@@ -35,6 +35,7 @@ public class ShopManager : MonoBehaviour
     private void Start()
     {
         fundDisplay.text = "$" + runInfo.GetFunds();
+        itemDescription.text = "";
         SetConsumables();
         SetTalisman();
         UpdateShopButtons();
@@ -109,5 +110,22 @@ public class ShopManager : MonoBehaviour
             talismanSold[index] = true;
         }
         UpdateShopButtons();
+    }
+
+    public void DisplayConsumableEffect(int index)
+    {
+        if (consumableSold[index]) { return; }
+        itemDescription.text = consumablesForSale[index].GetItemDescription();
+    }
+    
+    public void DisplayTalismanEffect(int index)
+    {
+        if (talismanSold[index]) { return; }
+        itemDescription.text = talismansForSale[index].GetItemDescription();
+    }
+
+    public void HideItemEffect()
+    {
+        itemDescription.text = "";
     }
 }

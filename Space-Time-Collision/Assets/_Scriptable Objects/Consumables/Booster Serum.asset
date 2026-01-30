@@ -16,7 +16,7 @@ MonoBehaviour:
   consumableIcon: {fileID: 21300000, guid: 5fd2a1d28ce1a0047bc1eac9ac04fd9a, type: 3}
   consumablePrice: 9
   consumableAbility: {fileID: 11400000, guid: 4f48f320dfbed5c469e981967c38f2db, type: 2}
-  itemDescription: 'Apply Poison Boost I and Rush I. On a crit apply an additional
-    Boost I.
+  itemDescription: 'Apply Boost I and Pierce I. On a crit apply an additional Boost
+    I.
 
-    Range: 0'
+    Range: Self'

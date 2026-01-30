@@ -18,4 +18,4 @@ MonoBehaviour:
   consumableAbility: {fileID: 11400000, guid: cdb2cc9fa664b97428239ba42ba30279, type: 2}
   itemDescription: 'Restore 10 HP.
 
-    Range: 0'
+    Range: Self'

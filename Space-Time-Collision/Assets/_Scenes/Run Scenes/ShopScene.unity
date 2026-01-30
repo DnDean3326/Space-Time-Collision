@@ -672,7 +672,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 243276156}
   m_SourcePrefab: {fileID: 100100000, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
 --- !u!224 &243276151 stripped
 RectTransform:
@@ -684,7 +687,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6475519141042903801, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
   m_PrefabInstance: {fileID: 243276150}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 243276155}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -712,6 +715,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &243276155 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+  m_PrefabInstance: {fileID: 243276150}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &243276156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243276155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: DisplayConsumableEffect
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 3
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: HideItemEffect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &313020787
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,7 +896,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 350364358}
   m_SourcePrefab: {fileID: 100100000, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
 --- !u!224 &350364353 stripped
 RectTransform:
@@ -855,7 +911,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6475519141042903801, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
   m_PrefabInstance: {fileID: 350364352}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 350364357}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -883,6 +939,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &350364357 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+  m_PrefabInstance: {fileID: 350364352}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &350364358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350364357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: DisplayConsumableEffect
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: HideItemEffect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &356312630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1002,7 +1108,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 356312636}
   m_SourcePrefab: {fileID: 100100000, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
 --- !u!224 &356312631 stripped
 RectTransform:
@@ -1014,7 +1123,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6475519141042903801, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
   m_PrefabInstance: {fileID: 356312630}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 356312635}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -1042,6 +1151,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &356312635 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+  m_PrefabInstance: {fileID: 356312630}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &356312636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356312635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: DisplayConsumableEffect
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: HideItemEffect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!224 &432665755
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1219,7 +1378,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 447206025}
   m_SourcePrefab: {fileID: 100100000, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
 --- !u!224 &447206020 stripped
 RectTransform:
@@ -1231,7 +1393,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6475519141042903801, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
   m_PrefabInstance: {fileID: 447206019}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 447206024}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -1259,6 +1421,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &447206024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+  m_PrefabInstance: {fileID: 447206019}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &447206025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447206024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: DisplayTalismanEffect
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 3
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: HideItemEffect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &520900023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1453,7 +1665,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 728208316}
   m_SourcePrefab: {fileID: 100100000, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
 --- !u!224 &728208311 stripped
 RectTransform:
@@ -1465,7 +1680,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6475519141042903801, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
   m_PrefabInstance: {fileID: 728208310}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 728208315}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -1493,6 +1708,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &728208315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+  m_PrefabInstance: {fileID: 728208310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &728208316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728208315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: DisplayTalismanEffect
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: HideItemEffect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &732750624
 GameObject:
   m_ObjectHideFlags: 0
@@ -2712,7 +2977,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1494797760}
   m_SourcePrefab: {fileID: 100100000, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
 --- !u!224 &1494797755 stripped
 RectTransform:
@@ -2724,7 +2992,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6475519141042903801, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
   m_PrefabInstance: {fileID: 1494797754}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1494797759}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -2752,6 +3020,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &1494797759 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+  m_PrefabInstance: {fileID: 1494797754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1494797760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494797759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: DisplayTalismanEffect
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: HideItemEffect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &1550389371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2867,7 +3185,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1550389377}
   m_SourcePrefab: {fileID: 100100000, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
 --- !u!224 &1550389372 stripped
 RectTransform:
@@ -2879,7 +3200,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6475519141042903801, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
   m_PrefabInstance: {fileID: 1550389371}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1550389376}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -2907,6 +3228,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &1550389376 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+  m_PrefabInstance: {fileID: 1550389371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1550389377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550389376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: DisplayTalismanEffect
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: HideItemEffect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1576123183
 GameObject:
   m_ObjectHideFlags: 0
@@ -3771,7 +4142,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1760244552}
   m_SourcePrefab: {fileID: 100100000, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
 --- !u!224 &1760244547 stripped
 RectTransform:
@@ -3783,7 +4157,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6475519141042903801, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
   m_PrefabInstance: {fileID: 1760244546}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1760244551}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -3811,6 +4185,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &1760244551 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7550380687588322879, guid: 6628dd8dfdbcded429cd0e7ed010bf51, type: 3}
+  m_PrefabInstance: {fileID: 1760244546}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1760244552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760244551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: DisplayConsumableEffect
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 209821499}
+          m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+          m_MethodName: HideItemEffect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1924597145
 GameObject:
   m_ObjectHideFlags: 0

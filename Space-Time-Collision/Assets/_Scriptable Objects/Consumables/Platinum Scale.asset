@@ -16,7 +16,7 @@ MonoBehaviour:
   consumableIcon: {fileID: 21300000, guid: a76eaf3898578a14198231c1cee85ccb, type: 3}
   consumablePrice: 8
   consumableAbility: {fileID: 11400000, guid: 50365dd7533680c4d80ee2a40c7d9218, type: 2}
-  itemDescription: 'Apply Poison Block+ I and Rush I. On a crit apply an additional
-    Block+ I.
+  itemDescription: 'Apply Block+ I and Rush I. On a crit apply an additional Block+
+    I.
 
-    Range: 0'
+    Range: Self'

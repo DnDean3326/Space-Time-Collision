@@ -18,4 +18,4 @@ MonoBehaviour:
   consumableAbility: {fileID: 11400000, guid: 61561bef0238dee4d88a80882344ef27, type: 2}
   itemDescription: 'Restore 8 SP.
 
-    Range: 0'
+    Range: Self'
