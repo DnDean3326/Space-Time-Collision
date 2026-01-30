@@ -3146,8 +3146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c288e6dedfb6a45a94e58308860515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunInfo
+  funds: 25
   currentNode: 0
   consumableInventory: []
+  talismanInventory: []
 --- !u!1 &1572907739
 GameObject:
   m_ObjectHideFlags: 0

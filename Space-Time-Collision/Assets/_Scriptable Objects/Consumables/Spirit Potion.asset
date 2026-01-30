@@ -16,4 +16,6 @@ MonoBehaviour:
   consumableIcon: {fileID: 21300000, guid: b3e360d5ae9be5542a967488d835d07e, type: 3}
   consumablePrice: 10
   consumableAbility: {fileID: 11400000, guid: 61561bef0238dee4d88a80882344ef27, type: 2}
-  itemDescription: 
+  itemDescription: 'Restore 8 SP.
+
+    Range: 0'

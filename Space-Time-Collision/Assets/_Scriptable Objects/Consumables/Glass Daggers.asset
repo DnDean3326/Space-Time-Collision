@@ -16,4 +16,6 @@ MonoBehaviour:
   consumableIcon: {fileID: 21300000, guid: 4d27c1278026fc64c830bd1ec1a5c5d4, type: 3}
   consumablePrice: 7
   consumableAbility: {fileID: 11400000, guid: 4e51d4f0cd875af468236b9282a7651a, type: 2}
-  itemDescription: 
+  itemDescription: 'Deal 2 + Skill damage twice.
+
+    Range: 1-3'

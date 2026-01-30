@@ -16,4 +16,7 @@ MonoBehaviour:
   consumableIcon: {fileID: 21300000, guid: 5195a2c021d9b7c4dbd00e01d3d329ff, type: 3}
   consumablePrice: 8
   consumableAbility: {fileID: 11400000, guid: a280b81b509ab8e48ba1f29d67447c2a, type: 2}
-  itemDescription: 
+  itemDescription: 'Apply Poison VI. On a critical hit apply an additional Poison
+    III.
+
+    Range: 2-5'

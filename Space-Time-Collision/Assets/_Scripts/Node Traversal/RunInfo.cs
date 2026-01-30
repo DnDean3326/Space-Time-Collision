@@ -76,14 +76,34 @@ public class RunInfo : MonoBehaviour
         consumableInventory.Add(consumable);
     }
 
+    public List<Consumable> GetConsumables()
+    {
+        return consumableInventory;
+    }
+
+    public int GetConsumableCount()
+    {
+        return consumableInventory.Count;
+    }
+
     public void AddTalisman(Talisman talisman)
     {
         talismanInventory.Add(talisman);
     }
-
-    public void RemoveConsumable(int itemIndex)
+    
+    public List<Talisman> GetTalismans()
     {
-        consumableInventory.RemoveAt(itemIndex);
+        return talismanInventory;
+    }
+    
+    public int GetTalismanCount()
+    {
+        return talismanInventory.Count;
+    }
+
+    public void RemoveConsumable(Consumable consumable)
+    {
+        consumableInventory.Remove(consumable);
     }
 
     public void EndRun()

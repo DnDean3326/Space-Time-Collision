@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
@@ -18,8 +19,10 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private int maxConsumables = 4;
     [SerializeField] private int maxTalisman = 4;
 
-    private List<Consumable> soldConsumables = new List<Consumable>();
-    private List<Talisman> soldTalismans = new List<Talisman>(); 
+    [SerializeField] private List<Consumable> consumablesForSale = new List<Consumable>();
+    [SerializeField] private List<Talisman> talismansForSale = new List<Talisman>();
+    private List<bool> consumableSold = new List<bool>();
+    private List<bool> talismanSold = new List<bool>();
     private RunInfo runInfo;
     private ItemManager itemManager;
 
@@ -32,10 +35,6 @@ public class ShopManager : MonoBehaviour
     private void Start()
     {
         fundDisplay.text = "$" + runInfo.GetFunds();
-        for (int i = 0; i < maxConsumables; i++) {
-            Consumable consumable = itemManager.GetRandomConsumable();
-            soldConsumables.Add(consumable);
-        }
         SetConsumables();
         SetTalisman();
         UpdateShopButtons();
@@ -45,7 +44,28 @@ public class ShopManager : MonoBehaviour
     {
         fundDisplay.text = "$" + runInfo.GetFunds();
         for (int i = 0; i < maxConsumables; i++) {
-            consumableButtons[i].interactable = runInfo.GetFunds() > soldConsumables[i].GetPrice();
+            if (consumableSold[i]) {
+                // Place SOLD-OUT! graphic
+                consumableButtons[i].interactable = false;
+                continue;
+            }
+            if (runInfo.GetFunds() < consumablesForSale[i].GetPrice() || runInfo.GetConsumableCount() >= 5) {
+                consumableButtons[i].interactable = false;
+            } else {
+                consumableButtons[i].interactable = true;
+            }
+        }
+        for (int i = 0; i < maxTalisman; i++) {
+            if (talismanSold[i]) {
+                // Place SOLD-OUT! graphic
+                talismanButtons[i].interactable = false;
+                continue;
+            }
+            if (runInfo.GetFunds() < consumablesForSale[i].GetPrice()) {
+                talismanButtons[i].interactable = false;
+            } else {
+                talismanButtons[i].interactable = true;
+            }
         }
     }
     
@@ -53,9 +73,10 @@ public class ShopManager : MonoBehaviour
     {
         for (int i = 0; i < maxConsumables; i++) {
             Consumable consumable = itemManager.GetRandomConsumable();
-            soldConsumables.Add(consumable);
+            consumablesForSale.Add(consumable);
             consumableImages[i].sprite = consumable.GetIcon();
             consumableText[i].text = "$" + consumable.GetPrice();
+            consumableSold.Add(false);
         }
     }
     
@@ -63,28 +84,29 @@ public class ShopManager : MonoBehaviour
     {
         for (int i = 0; i < maxTalisman; i++) {
             Talisman talisman = itemManager.GetRandomTalisman();
-            soldTalismans.Add(talisman);
+            talismansForSale.Add(talisman);
             talismanImages[i].sprite = talisman.GetIcon();
             talismanText[i].text = "$" + talisman.GetPrice();
+            talismanSold.Add(false);
         }
     }
 
     public void BuyConsumable(int index)
     {
-        if (runInfo.GetFunds() > soldConsumables[index].GetPrice()) {
-            runInfo.ChangeFunds(-soldConsumables[index].GetPrice());
-            runInfo.AddConsumable(soldConsumables[index]);
-            soldConsumables[index] = null;
+        if (runInfo.GetFunds() > consumablesForSale[index].GetPrice()) {
+            runInfo.ChangeFunds(-consumablesForSale[index].GetPrice());
+            runInfo.AddConsumable(consumablesForSale[index]);
+            consumableSold[index] = true;
         }
         UpdateShopButtons();
     }
     
     public void BuyTalisman(int index)
     {
-        if (runInfo.GetFunds() > soldTalismans[index].GetPrice()) {
-            runInfo.ChangeFunds(-soldTalismans[index].GetPrice());
-            runInfo.AddTalisman(soldTalismans[index]);
-            soldTalismans[index] = null;
+        if (runInfo.GetFunds() > talismansForSale[index].GetPrice()) {
+            runInfo.ChangeFunds(-talismansForSale[index].GetPrice());
+            runInfo.AddTalisman(talismansForSale[index]);
+            talismanSold[index] = true;
         }
         UpdateShopButtons();
     }

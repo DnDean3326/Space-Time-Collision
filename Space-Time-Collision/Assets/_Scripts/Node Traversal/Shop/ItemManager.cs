@@ -13,7 +13,7 @@ public class ItemManager : MonoBehaviour
     {
         ConsumableInfo consumable = allConsumables[Random.Range(0, allConsumables.Count)];
         Consumable newConsumable = new Consumable(consumable.consumableName, consumable.consumableIcon,
-            consumable.consumablePrice, consumable.consumableAbility);
+            consumable.consumablePrice, consumable.consumableAbility, consumable.itemDescription);
         newConsumable.IncreasePrice(Random.Range(0, (maxPriceIncrease + 1))); 
         return newConsumable;
     }
@@ -21,7 +21,8 @@ public class ItemManager : MonoBehaviour
     public Talisman GetRandomTalisman()
     {
         TalismanInfo talisman = allTalisman[Random.Range(0, allTalisman.Count)];
-        Talisman newTalisman = new Talisman(talisman.talismanName, talisman.talismanIcon, talisman.talismanPrice);
+        Talisman newTalisman = new Talisman(talisman.talismanName, talisman.talismanIcon, talisman.talismanPrice,
+            talisman.talismanDescription);
         newTalisman.IncreasePrice(Random.Range(0, (maxPriceIncrease + 1)));
         return newTalisman;
     }
@@ -30,18 +31,19 @@ public class ItemManager : MonoBehaviour
 [Serializable]
 public class Consumable
 {
-    private string _consumableName;
-    private Sprite _consumableIcon;
+    [SerializeField] private string _consumableName;
+    [SerializeField]private Sprite _consumableIcon;
     private int _consumablePrice;
-
     private Ability _linkedAbility;
+    private string _itemDescription;
 
-    public Consumable(string  consumableName, Sprite consumableIcon, int consumablePrice,  Ability linkedAbility)
+    public Consumable(string  consumableName, Sprite consumableIcon, int consumablePrice,  Ability linkedAbility,  string itemDescription)
     {
         _consumableName = consumableName;
         _consumableIcon = consumableIcon;
         _consumablePrice = consumablePrice;
         _linkedAbility = linkedAbility;
+        _itemDescription = itemDescription;
     }
 
     public void IncreasePrice(int priceIncrease)
@@ -68,20 +70,27 @@ public class Consumable
     {
         return _linkedAbility;
     }
+    
+    public string GetItemDescription()
+    {
+        return _itemDescription;
+    }
 }
 
 [Serializable]
 public class Talisman
 {
-    private string _talismanName;
-    private Sprite _talismanIcon;
+    [SerializeField] private string _talismanName;
+    [SerializeField] private Sprite _talismanIcon;
     private int _talismanPrice;
+    private string _itemDescription;
 
-    public Talisman(string talismanName, Sprite talismanIcon, int talismanPrice)
+    public Talisman(string talismanName, Sprite talismanIcon, int talismanPrice, string itemDescription)
     {
         _talismanName = talismanName;
         _talismanIcon = talismanIcon;
         _talismanPrice = talismanPrice;
+        _itemDescription = itemDescription;
     }
 
     public void IncreasePrice(int priceIncrease)
@@ -102,5 +111,10 @@ public class Talisman
     public int GetPrice()
     {
         return _talismanPrice;
+    }
+    
+    public string GetItemDescription()
+    {
+        return _itemDescription;
     }
 }

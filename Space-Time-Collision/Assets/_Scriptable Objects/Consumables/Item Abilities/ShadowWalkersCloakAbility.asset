@@ -23,7 +23,7 @@ MonoBehaviour:
   rangeMin: 0
   rangeMax: 0
   hasAccuracy: 0
-  targetSelf: 0
+  targetSelf: 1
   attackType: 0
   keyStat: 0
   statModifier: 0

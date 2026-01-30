@@ -312,6 +312,8 @@ MonoBehaviour:
   itemDescription: {fileID: 1385650936}
   maxConsumables: 4
   maxTalisman: 4
+  consumablesForSale: []
+  talismansForSale: []
 --- !u!1001 &239395706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3354,6 +3356,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c28db058b4d82864ca1d934277c49a8a, type: 2}
   - {fileID: 11400000, guid: 50b94a0500319594a9961b94d9394566, type: 2}
   - {fileID: 11400000, guid: 4d682a0c195ead5478008ffac63c8fef, type: 2}
+  allTalisman:
+  - {fileID: 11400000, guid: 9f6e645327396704fa1b8f8fc954617e, type: 2}
+  - {fileID: 11400000, guid: 00e2d0cadabca754195722fdb114ad24, type: 2}
+  - {fileID: 11400000, guid: 7efbf873798b92947a648ae3e7575722, type: 2}
+  - {fileID: 11400000, guid: f4e8a37b870b8f24eb38b9742a6b75b6, type: 2}
+  - {fileID: 11400000, guid: 5c272e72228f20b46ab8fc74e55673eb, type: 2}
+  - {fileID: 11400000, guid: 6bc33e0f325f68244939b3f889869ac1, type: 2}
   maxPriceIncrease: 5
 --- !u!1 &1702931189
 GameObject:
@@ -4294,6 +4303,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2106799406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2106799407}
+  - component: {fileID: 2106799408}
+  m_Layer: 0
+  m_Name: ShopNavigation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2106799407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106799406}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2106799408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106799406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ce5d1115f875094c8570adbc40565f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopNavigation
 --- !u!1 &2115274243
 GameObject:
   m_ObjectHideFlags: 0
@@ -4413,7 +4466,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2115274245}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2106799408}
+        m_TargetAssemblyTypeName: ShopNavigation, Assembly-CSharp
+        m_MethodName: BackToNodes
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4426,3 +4491,4 @@ SceneRoots:
   - {fileID: 1924597148}
   - {fileID: 209821498}
   - {fileID: 1689625156}
+  - {fileID: 2106799407}

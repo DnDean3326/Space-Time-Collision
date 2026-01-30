@@ -33,7 +33,7 @@ public class NodeManager : MonoBehaviour
     {
         runInfo = FindFirstObjectByType<RunInfo>();
         SceneManager.sceneLoaded += OnSceneLoaded;
-        runInfo.SetCurrentNode(0);
+        runInfo.SetCurrentNode(1); // Default value is 0
         
         GenerateSetNodes();
     }
@@ -105,7 +105,6 @@ public class NodeManager : MonoBehaviour
     public void NodeClick(int nodeIndex)
     {
         runInfo.SetCurrentNode(nodeIndex);
-        print(nodeInfos[nodeIndex]._nodeType);
         switch (nodeInfos[nodeIndex]._nodeType) {
             case NodeInfo.NodeType.Combat:
                 encounterSystem.GenerateStandardEncounter();

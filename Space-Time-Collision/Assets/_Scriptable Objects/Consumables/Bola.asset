@@ -16,4 +16,7 @@ MonoBehaviour:
   consumableIcon: {fileID: 21300000, guid: 68639f1926e4fda42b6937a075d4174f, type: 3}
   consumablePrice: 7
   consumableAbility: {fileID: 11400000, guid: 0462f64360ffed643b1b3321470a37d1, type: 2}
-  itemDescription: 
+  itemDescription: 'Apply Vulnerable I and Restrict I. On a critical hit apply an
+    additional Vulnerable.
+
+    Range: 1-3'
