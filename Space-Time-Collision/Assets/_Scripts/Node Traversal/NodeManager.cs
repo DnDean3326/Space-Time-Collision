@@ -53,9 +53,6 @@ public class NodeManager : MonoBehaviour
     {
         int currentNode = runInfo.GetCurrentNode();
         List<int> connectedNodes = nodeInfos[currentNode]._connectedNodes;
-        foreach (int connectedNode in connectedNodes) {
-            print("Connected connectedNodes: " + connectedNode);
-        }
         for (int i = 0; i < nodeButtons.Count; i++) {
             var button = nodeButtons[i];
             if (connectedNodes.Contains(i)) {

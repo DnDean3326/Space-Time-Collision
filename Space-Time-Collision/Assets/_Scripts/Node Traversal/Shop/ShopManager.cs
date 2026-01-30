@@ -105,7 +105,7 @@ public class ShopManager : MonoBehaviour
 
     public void BuyConsumable(int index)
     {
-        if (runInfo.GetFunds() > consumablesForSale[index].GetPrice()) {
+        if (runInfo.GetFunds() >= consumablesForSale[index].GetPrice()) {
             runInfo.ChangeFunds(-consumablesForSale[index].GetPrice());
             runInfo.AddConsumable(consumablesForSale[index]);
             consumableSold[index] = true;
@@ -115,7 +115,7 @@ public class ShopManager : MonoBehaviour
     
     public void BuyTalisman(int index)
     {
-        if (runInfo.GetFunds() > talismansForSale[index].GetPrice()) {
+        if (runInfo.GetFunds() >= talismansForSale[index].GetPrice()) {
             runInfo.ChangeFunds(-talismansForSale[index].GetPrice());
             runInfo.AddTalisman(talismansForSale[index]);
             talismanSold[index] = true;

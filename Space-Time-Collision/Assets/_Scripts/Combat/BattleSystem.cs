@@ -1036,9 +1036,10 @@ public class BattleSystem : MonoBehaviour
                 && allCombatants[currentPlayer].activeAbility.abilityWeight != Ability.AbilityWeight.Light) {
                 combatGrid.DisableGridButtons(targetIsEnemy);
             }
-        }if (allCombatants[currentPlayer].activeAbility.abilityType == Ability.AbilityType.Movement
-             && allCombatants[currentPlayer].activeAbility.abilityWeight != Ability.AbilityWeight.Light) {
-            combatGrid.DisableGridButtons(targetIsEnemy);
+            if (allCombatants[currentPlayer].activeAbility.abilityType == Ability.AbilityType.Movement
+                && allCombatants[currentPlayer].activeAbility.abilityWeight != Ability.AbilityWeight.Light) {
+                combatGrid.DisableGridButtons(targetIsEnemy);
+            }
         }
         
         // Trigger Ailments
@@ -1802,8 +1803,10 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
-        if (entity.activeAbility.abilityType == Ability.AbilityType.Movement) {
-            StartCoroutine(MoveToPosition(entity, oldPos, newPos)); //TODO Reenable this if it does not work
+        if (entity.activeAbility != null) {
+            if (entity.activeAbility.abilityType == Ability.AbilityType.Movement) {
+                StartCoroutine(MoveToPosition(entity, oldPos, newPos)); //TODO Reenable this if it does not work
+            }
         }
         yield break;
     }
@@ -2210,6 +2213,7 @@ public class BattleSystem : MonoBehaviour
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeBackButtonVisibility(false);
+            allCombatants[currentPlayer].combatMenuVisuals.ChangePassButtonVisibility(false);
             StartCoroutine(EndRoutine(allCombatants[currentPlayer]));
         }
     }

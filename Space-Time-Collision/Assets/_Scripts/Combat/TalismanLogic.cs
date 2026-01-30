@@ -12,7 +12,7 @@ public class TalismanLogic : MonoBehaviour
     
     private void Awake()
     {
-        battleSystem = GetComponent<BattleSystem>();
+        battleSystem = FindFirstObjectByType<BattleSystem>();
         runInfo = FindFirstObjectByType<RunInfo>();
         talismanList = runInfo.GetTalismans();
     }
