@@ -86,11 +86,11 @@ GameObject:
   - component: {fileID: 5185791323852028160}
   - component: {fileID: 8351624761902970635}
   - component: {fileID: 3337940759762288156}
-  - component: {fileID: 6319263548823516676}
+  - component: {fileID: 6459626225516880526}
   - component: {fileID: 2390703867072137166}
   - component: {fileID: 1794049181681056969}
   m_Layer: 5
-  m_Name: Character Slot
+  m_Name: Party Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,9 +170,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6319263548823516676}
-        m_TargetAssemblyTypeName: PartySelectButton, Assembly-CSharp
-        m_MethodName: DisplayPartyMember
+      - m_Target: {fileID: 6459626225516880526}
+        m_TargetAssemblyTypeName: AllySelectButton, Assembly-CSharp
+        m_MethodName: CallChangePartyMember
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -182,7 +182,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6319263548823516676
+--- !u!114 &6459626225516880526
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,9 +191,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5498545890024106390}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c03b76aae885e9a43a616cc7d6bf8659, type: 3}
+  m_Script: {fileID: 11500000, guid: 42dcda751638c0f4b85633a8ad858506, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PartySelectButton
+  m_EditorClassIdentifier: Assembly-CSharp::AllySelectButton
 --- !u!114 &2390703867072137166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6353093858699801210, guid: 263dfef21e0084e35a976f131843ef0a, type: 3}
+  m_Sprite: {fileID: -1815639519076386392, guid: 1babb357e312c40c2acb875d663ac11d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -346,8 +346,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 7.5}
-  m_SizeDelta: {x: 196, y: 175}
+  m_AnchoredPosition: {x: 0, y: 10}
+  m_SizeDelta: {x: 196, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6506796905309055309
 CanvasRenderer:

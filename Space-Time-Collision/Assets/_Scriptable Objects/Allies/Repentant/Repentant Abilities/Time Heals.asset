@@ -61,9 +61,7 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  equipDescription: 'Type: Heal (Shields) | Crit: 5%
-
-    Heal: 8-12'
+  equipDescription: 'Type: Heal (Shields) | Crit: 5% | Heal: 8-12'
   description: 'Weight: Heavy | Cost: 3 SP
 
     CD: 2 | Range: 0-2

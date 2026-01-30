@@ -61,9 +61,7 @@ MonoBehaviour:
   ignoreDodge: 1
   ignoreWard: 0
   ignoreArmor: 0
-  equipDescription: 'Type: Damage | Crit: 5%
-
-    DMG: 7-14'
+  equipDescription: 'Type: Damage | Crit: 5% | DMG: 7-14'
   description: 'Weight: Heavy | Cost: 5 SP
 
     CD: 2 | Range: 1-3
