@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TalismanInfo
   talismanName: Adamantine Ore
   talismanIcon: {fileID: 0}
-  talismanPrice: 0
-  talismanDescription: 
+  talismanPrice: 18
+  talismanDescription: 'The crit chance of enemy abilities against your party is
+
+    reduced
+    by 3% for each point of armor the party member
+
+    has.'

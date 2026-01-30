@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TalismanInfo
   talismanName: Spiky Snowball
   talismanIcon: {fileID: 0}
-  talismanPrice: 0
-  talismanDescription: 
+  talismanPrice: 26
+  talismanDescription: When a party member scores a critical hit they gain Boost
+    I.

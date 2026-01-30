@@ -49,11 +49,11 @@ MonoBehaviour:
   targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 0200000014000000
+  targetTokensApplied: 0100000014000000
   targetTokenCountApplied: 0100000001000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
-  targetCritTokensApplied: 02000000
+  targetCritTokensApplied: 01000000
   targetCritTokenCountApplied: 01000000
   selfTokensCleared: 
   targetTokensCleared: 

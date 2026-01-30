@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TalismanInfo
   talismanName: Spirit Shield
   talismanIcon: {fileID: 0}
-  talismanPrice: 0
-  talismanDescription: 
+  talismanPrice: 21
+  talismanDescription: 'At the start of combat each party member gains Block II
+
+    but
+    reduces their current SP by 10% of their maximum. '

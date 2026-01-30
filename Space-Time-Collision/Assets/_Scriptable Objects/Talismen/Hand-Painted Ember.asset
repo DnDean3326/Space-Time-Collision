@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TalismanInfo
   talismanName: Hand-Painted Ember
   talismanIcon: {fileID: 0}
-  talismanPrice: 0
-  talismanDescription: 
+  talismanPrice: 20
+  talismanDescription: 'Magic damage and debuff abilities your party use apply
+
+    Burn
+    II but cost 1 more SP.'
