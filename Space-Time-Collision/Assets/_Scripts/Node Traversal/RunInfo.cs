@@ -7,7 +7,7 @@ public class RunInfo : MonoBehaviour
     private bool easyEncountersOver;
     private Encounter previousEncounter;
     private int eventCount;
-    private List<EventInfo> completedEvents;
+    private List<EventInfo> completedEvents = new List<EventInfo>();
     [SerializeField] private int funds;
     [SerializeField] private int currentNode;
     [SerializeField] private List<Consumable> consumableInventory = new List<Consumable>();
@@ -76,6 +76,11 @@ public class RunInfo : MonoBehaviour
         encounterCount++;
     }
 
+    public void MarkEventCompleted(EventInfo completedEvent)
+    {
+        completedEvents.Add(completedEvent);
+    }
+
     public List<EventInfo> GetCompletedEvents()
     {
         return completedEvents;
@@ -134,5 +139,28 @@ public class RunInfo : MonoBehaviour
     public void EndRun()
     {
         Destroy(gameObject);
+    }
+}
+
+[System.Serializable]
+public class InitialTokenInfo
+{
+    private string _tokenName;
+    private int _tokenCount;
+    
+    public InitialTokenInfo(string tokenName, int tokenCount)
+    {
+        _tokenName = tokenName;
+        _tokenCount = tokenCount;
+    }
+    
+    public string GetTokenName()
+    {
+        return _tokenName;
+    }
+
+    public int GetTokenCount()
+    {
+        return _tokenCount;
     }
 }

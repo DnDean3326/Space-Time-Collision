@@ -1203,6 +1203,11 @@ public class BattleSystem : MonoBehaviour
 
             FindMyGridPosition(tempEntity);
             
+            // Add Start of combat tokens
+            foreach (InitialTokenInfo initialToken in currentParty[i].initialTokens) {
+                AddTokens(tempEntity, tempEntity, initialToken.GetTokenName(), initialToken.GetTokenCount(), 100);
+            }
+            
             // Add the allied combatant to the all combatants and party combatant lists
             allCombatants.Add(tempEntity);
             partyCombatants.Add(tempEntity);
@@ -1257,6 +1262,11 @@ public class BattleSystem : MonoBehaviour
             }
             
             enemyFunds.Add(currentEnemies[i].fundDrop);
+            
+            // Add Start of combat tokens
+            foreach (InitialTokenInfo initialToken in currentEnemies[i].initialTokens) {
+                AddTokens(tempEntity, tempEntity, initialToken.GetTokenName(), initialToken.GetTokenCount(), 100);
+            }
             
             // Add the allied combatant to the all combatants and party combatant lists
             allCombatants.Add(tempEntity);

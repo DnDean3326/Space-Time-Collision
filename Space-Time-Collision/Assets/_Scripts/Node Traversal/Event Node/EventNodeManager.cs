@@ -6,8 +6,16 @@ public class EventNodeManager : MonoBehaviour
     [SerializeField] private List<EventInfo> allEvents;
     private RunInfo runInfo;
     
+    private static GameObject _instance;
+    
     private void Awake()
     {
+        if (_instance != null) {
+            Destroy(gameObject);
+        } else {
+            _instance = gameObject;
+        }
+        DontDestroyOnLoad(gameObject);
         runInfo = FindFirstObjectByType<RunInfo>();
     }
 

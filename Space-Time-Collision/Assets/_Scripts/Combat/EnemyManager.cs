@@ -141,4 +141,5 @@ public class Enemy
     public EnemyBrain enemyBrain;
     
     public List<Ability> abilities;
+    public List<InitialTokenInfo> initialTokens = new List<InitialTokenInfo>();
 }

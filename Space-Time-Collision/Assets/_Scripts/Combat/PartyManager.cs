@@ -163,6 +163,7 @@ public class PartyMember
     public GameObject allyMenuVisualPrefab; // what will be displayed on the map
 
     public List<Ability> activeAbilities;
+    public List<InitialTokenInfo> initialTokens = new List<InitialTokenInfo>();
     
     public Token lineBreakToken;
     public int lineBreakTokenCount;

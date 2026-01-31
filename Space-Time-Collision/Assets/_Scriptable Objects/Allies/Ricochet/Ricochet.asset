@@ -16,7 +16,7 @@ MonoBehaviour:
   allyTurnPortrait: {fileID: 21300000, guid: a0f45d8c8e72b493685c53a36a57a656, type: 3}
   allyCombatSprite: {fileID: 21300000, guid: 9e619f768c52847ee92feb5e692ed3ff, type: 3}
   allySquarePortrait: {fileID: 21300000, guid: c5f48ac201e2449e2be1dfc70e58cbd2, type: 3}
-  allyShadowPortrait: {fileID: 21300000, guid: dd483117f2ccc46f4827533a5ae0a0ad, type: 3}
+  allyShadowPortrait: {fileID: 21300000, guid: 46eaad7696524469f8a25dc8bedc1865, type: 3}
   allySignature: {fileID: 21300000, guid: 6bad6fa72da254ee3b1d5e1977b0b10b, type: 3}
   baseHealth: 25
   baseDefense: 20
