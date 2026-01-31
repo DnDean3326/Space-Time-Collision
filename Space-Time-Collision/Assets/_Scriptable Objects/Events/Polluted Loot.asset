@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e4fafc6c03f7a49b6d2a8b3143e463, type: 3}
+  m_Name: Polluted Loot
+  m_EditorClassIdentifier: Assembly-CSharp::EventInfo
+  eventName: Polluted Loot
+  eventDescription: As your squad travels the through the dense tangle of mushrooms
+    that dominates the reality's surface you sense a powerful magic aura. When they
+    investigate they find the source of the aura is surrounded by clearly poisonous
+    fauna, and the corpses of other travelers.
+  eventOptions:
+  - 'No risk, no reward. Take the relic.
+
+    [Gain a random Talisman. The party
+    begins the next combat with Poison IV]'
+  - 'A little bit of body looting never hurt anyone, right?
+
+    [+10 Gold, gain
+    a random Consumable, and -5 HP to the party.]'
+  - 'Better to learn from their mistakes.
+
+    [A random ally begins the next combat
+    with Dodge II]'
+  eventResults:
+  - 'You order the team to navigate the fauna and secure the Talisman. They don''t
+    protest, but you sense their hesistation and eventually their frustration as
+    their lungs fill with the noxious fumes. They do manage to secure the relic,
+    which is what truly matters. '
+  - You order the team to take what they can from the corpses and leave. They move
+    quickly, but not so quick as to avoid the fumes. As soon the gear is secured
+    thea team abandons the site, albeit a bit worse for wear.
+  - 'Your order the team to leave it alone. They don''t protest, moving quickly and
+    carefully from the scene. You hope this gruesome scene will inspire caution in
+    the hours to come. '

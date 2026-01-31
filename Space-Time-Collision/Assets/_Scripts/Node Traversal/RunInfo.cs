@@ -4,8 +4,10 @@ using UnityEngine;
 public class RunInfo : MonoBehaviour
 {
     private int encounterCount;
+    private bool easyEncountersOver;
     private Encounter previousEncounter;
     private int eventCount;
+    private List<EventInfo> completedEvents;
     [SerializeField] private int funds;
     [SerializeField] private int currentNode;
     [SerializeField] private List<Consumable> consumableInventory = new List<Consumable>();
@@ -50,15 +52,38 @@ public class RunInfo : MonoBehaviour
 
         return null;
     }
-    
+
     public int GetEncounterCount()
     {
         return encounterCount;
+    }
+    
+    public bool GetEncounterStatus()
+    {
+        if (!easyEncountersOver && encounterCount > 2) {
+            easyEncountersOver = true;
+        } 
+        return easyEncountersOver;
+    }
+
+    public void ChangeEncounterStatus(bool status)
+    {
+        easyEncountersOver = status;
     }
 
     public void IncreaseEncounterCount()
     {
         encounterCount++;
+    }
+
+    public List<EventInfo> GetCompletedEvents()
+    {
+        return completedEvents;
+    }
+
+    public int GetEventCompletedCount()
+    {
+        return completedEvents.Count;
     }
 
     public int GetFunds()

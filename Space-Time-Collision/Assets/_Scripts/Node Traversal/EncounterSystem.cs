@@ -31,7 +31,7 @@ public class EncounterSystem : MonoBehaviour
     {
         int encounterToUse;
         Encounter previousEncounter;
-        if (runInfo.GetEncounterCount() > 2) {
+        if (runInfo.GetEncounterStatus()) {
             previousEncounter = runInfo.GetPreviousEncounter();
             if (previousEncounter != null && normalEncounters.Any(t => t == previousEncounter)) {
                 normalEncounters.Remove(previousEncounter);

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e4fafc6c03f7a49b6d2a8b3143e463, type: 3}
+  m_Name: Weary Walkers
+  m_EditorClassIdentifier: Assembly-CSharp::EventInfo
+  eventName: Weary Walkers
+  eventDescription: 'After a days worth of travel your squad nearly collapses under
+    their own weight. If they continue at this pace there will surely be consequences,
+    but the hand that hesistates never finishes the task. '
+  eventOptions:
+  - 'They''ve earned the rest. Let them sleep until morning.
+
+    [The party regains
+    20 HP and 8 SP, but future encounters are more dangerous.]'
+  - 'They can rest, but only for a moment. Any longer will have consequences.
+
+    [The
+    party regains 8 HP, but enemies begin the next combat with Block I.]'
+  - 'They march on. If they stop moving this world will never let them start moving
+    again.
+
+    [The party loses 3 HP, but begins the next combat with Rush I.] '
+  eventResults:
+  - 'You let the team know they''ve earned a rest. The thank you and quickly turn
+    in for the night. While they rest you hear the natives of the world wander, multiply,
+    and mutate. Your kindness may reveal itself to be a cruelity. '
+  - 'You let the team know they have an hour to use as they see fit. Nobody wastes
+    time thanking you, they simply drop their gear and do their best to rest. They''re
+    spry when the rest ends, but so are the foes that have encroached. '
+  - You simply say, "March on. You can stop when you're dead". The team talks back
+    and you ignore them. They can hate you all they want, but they will live to do
+    so.

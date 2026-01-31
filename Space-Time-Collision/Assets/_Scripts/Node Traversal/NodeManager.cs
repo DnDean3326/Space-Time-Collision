@@ -11,6 +11,7 @@ public class NodeManager : MonoBehaviour
     private int nodeCount = 0;
     private RunInfo runInfo;
     private EncounterSystem encounterSystem;
+    private EventNodeManager eventNodeManager;
     private NodeButtonContainer buttonContainer;
     
     private static GameObject _instance;
@@ -44,6 +45,7 @@ public class NodeManager : MonoBehaviour
 
         buttonContainer = FindFirstObjectByType<NodeButtonContainer>();
         encounterSystem = FindFirstObjectByType<EncounterSystem>();
+        eventNodeManager = FindFirstObjectByType<EventNodeManager>();
         
         nodeButtons = buttonContainer.GetNodeButtons();
         UpdateNodeButtons();
@@ -116,6 +118,7 @@ public class NodeManager : MonoBehaviour
                 SceneManager.LoadScene(BATTLE_SCENE);
                 break;
             case NodeInfo.NodeType.Event:
+                eventNodeManager.GenerateNodeEvent();
                 SceneManager.LoadScene(EVENT_SCENE);
                 break;
             case NodeInfo.NodeType.Shop:
