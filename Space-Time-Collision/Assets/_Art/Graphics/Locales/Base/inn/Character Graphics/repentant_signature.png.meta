@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 4d7dfcc6ee06e4df990a8ae31254f3a9
+guid: a6c021d8b311945a0ad9926f0f41cf39
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6506797296710850087
-    second: renee_signature_0
+      213: 8712678624903271085
+    second: repentatnt_signature_0
+  - first:
+      213: 329582149082688981
+    second: repentatnt_signature_1
+  - first:
+      213: 6674414294218418606
+    second: repentatnt_signature_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +30,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -96,30 +102,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: renee_signature_0
+      name: repentatnt_signature_0
       rect:
         serializedVersion: 2
-        x: 76
-        y: 540
-        width: 437
-        height: 222
+        x: 125
+        y: 808
+        width: 234
+        height: 266
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9d9e318455633b5a0800000000000000
-      internalID: -6506797296710850087
+      spriteID: da29f7f2c07a9e870800000000000000
+      internalID: 8712678624903271085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentatnt_signature_1
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 903
+        width: 293
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dd2268e739e29400800000000000000
+      internalID: 329582149082688981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repentatnt_signature_2
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 1001
+        width: 94
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea9ada2207840ac50800000000000000
+      internalID: 6674414294218418606
       vertices: []
       indices: 
       edges: []
@@ -148,7 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      renee_signature_0: -6506797296710850087
+      repentatnt_signature_0: 8712678624903271085
+      repentatnt_signature_1: 329582149082688981
+      repentatnt_signature_2: 6674414294218418606
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
