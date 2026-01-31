@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 46eaad7696524469f8a25dc8bedc1865
+guid: a3065c433455f44a39f81c97952f7b4d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1181879668024616389
-    second: tre_inn_sprite_0
+      213: -2799025756769327729
+    second: p_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 108
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tre_inn_sprite_0
+      name: p_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5c52dd3db41e66010800000000000000
-      internalID: 1181879668024616389
+      spriteID: f85689277ecd729d0800000000000000
+      internalID: -2799025756769327729
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      tre_inn_sprite_0: 1181879668024616389
+      p_0: -2799025756769327729
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
