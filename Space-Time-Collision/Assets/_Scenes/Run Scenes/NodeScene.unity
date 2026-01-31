@@ -588,6 +588,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 03407e9ef4ff68a44a317f1f5b028872, type: 2}
     - {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
     - {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
+    initialTokens: []
     lineBreakToken: {fileID: 11400000, guid: 150ec9065214cb143b7090fa3821c806, type: 2}
     lineBreakTokenCount: 1
   - memberName: Bune
@@ -625,6 +626,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4f43de50d16ea224fac7538c943b43de, type: 2}
     - {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
     - {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
+    initialTokens: []
     lineBreakToken: {fileID: 11400000, guid: ecf5cb58eac38024995ede0188254e77, type: 2}
     lineBreakTokenCount: 1
   - memberName: Tre
@@ -662,6 +664,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f609df36696dfbd4fa01fd6c5189354a, type: 2}
     - {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
     - {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
+    initialTokens: []
     lineBreakToken: {fileID: 11400000, guid: 096701f00a8463647a9b41da08bcc634, type: 2}
     lineBreakTokenCount: 1
 --- !u!4 &219063094
@@ -2819,6 +2822,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1302517176}
+  - component: {fileID: 1302517177}
   m_Layer: 0
   m_Name: ItemManager
   m_TagString: Untagged
@@ -2841,6 +2845,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1302517177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302517175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e569936b3248194fbfc7392d5a91241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemManager
+  allConsumables:
+  - {fileID: 11400000, guid: a13f44019c3feec4f8771dcc7810caff, type: 2}
+  - {fileID: 11400000, guid: b14b6aee5d8e4954fbae6879b63e7cf4, type: 2}
+  - {fileID: 11400000, guid: ca19823f6f24c8449ad9f6bf75f02c7f, type: 2}
+  - {fileID: 11400000, guid: 460dd99269749834ca7f5ebafaf5c47c, type: 2}
+  - {fileID: 11400000, guid: a493523fa491dce40a131415c525619f, type: 2}
+  - {fileID: 11400000, guid: 055cf63c384354c45ad30281753d9ecb, type: 2}
+  - {fileID: 11400000, guid: c354b4ccfa00cbd438ee59567b9a996c, type: 2}
+  - {fileID: 11400000, guid: c28db058b4d82864ca1d934277c49a8a, type: 2}
+  - {fileID: 11400000, guid: 50b94a0500319594a9961b94d9394566, type: 2}
+  - {fileID: 11400000, guid: 4d682a0c195ead5478008ffac63c8fef, type: 2}
+  allTalisman:
+  - {fileID: 11400000, guid: 9f6e645327396704fa1b8f8fc954617e, type: 2}
+  - {fileID: 11400000, guid: 00e2d0cadabca754195722fdb114ad24, type: 2}
+  - {fileID: 11400000, guid: 7efbf873798b92947a648ae3e7575722, type: 2}
+  - {fileID: 11400000, guid: f4e8a37b870b8f24eb38b9742a6b75b6, type: 2}
+  - {fileID: 11400000, guid: 5c272e72228f20b46ab8fc74e55673eb, type: 2}
+  - {fileID: 11400000, guid: 6bc33e0f325f68244939b3f889869ac1, type: 2}
+  maxPriceIncrease: 5
 --- !u!1 &1304388108
 GameObject:
   m_ObjectHideFlags: 0
@@ -3461,6 +3496,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2ad28d8f392727a40b94d3dbfb4a17f9, type: 2}
   minibossEncounters:
   - {fileID: 11400000, guid: 38b27e57d98b49a4788941d0456041b0, type: 2}
+  bossEncounter: {fileID: 11400000, guid: 38b27e57d98b49a4788941d0456041b0, type: 2}
   demoEncounters: []
 --- !u!4 &1516717407
 Transform:

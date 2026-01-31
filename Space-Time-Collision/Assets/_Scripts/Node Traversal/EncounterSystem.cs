@@ -9,6 +9,7 @@ public class EncounterSystem : MonoBehaviour
     [SerializeField] private List<Encounter> easyEncounters;
     [SerializeField] private List<Encounter> normalEncounters;
     [SerializeField] private List<Encounter> minibossEncounters;
+    [SerializeField] private Encounter bossEncounter;
     [SerializeField] private List<Encounter> demoEncounters;
     
     private EnemyManager enemyManager;
@@ -60,5 +61,11 @@ public class EncounterSystem : MonoBehaviour
         int encounterToUse = Random.Range(0, minibossEncounters.Count);
         runInfo.SetPreviousEncounter(minibossEncounters[encounterToUse]);
         enemyManager.GenerateEnemiesByEncounter(minibossEncounters[encounterToUse]);
+    }
+
+    public void GenerateBossEncounter()
+    {
+        runInfo.SetPreviousEncounter(bossEncounter);
+        enemyManager.GenerateEnemiesByEncounter(bossEncounter);
     }
 }

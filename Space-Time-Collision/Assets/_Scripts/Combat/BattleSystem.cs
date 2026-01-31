@@ -217,9 +217,9 @@ public class BattleSystem : MonoBehaviour
         
         combatGrid.GetGridInfo(ref partyBattleGrid, ref enemyBattleGrid);
         LinkCharacterLogics();
+        InitializeBattleTokens();
         CreatePartyEntities();
         CreateEnemyEntities();
-        InitializeBattleTokens();
     }
     
     private void Start()
@@ -1214,14 +1214,14 @@ public class BattleSystem : MonoBehaviour
 
             FindMyGridPosition(tempEntity);
             
+            // Add the allied combatant to the all combatants and party combatant lists
+            allCombatants.Add(tempEntity);
+            partyCombatants.Add(tempEntity);
+            
             // Add Start of combat tokens
             foreach (InitialTokenInfo initialToken in currentParty[i].initialTokens) {
                 AddTokens(tempEntity, tempEntity, initialToken.GetTokenName(), initialToken.GetTokenCount(), 100);
             }
-            
-            // Add the allied combatant to the all combatants and party combatant lists
-            allCombatants.Add(tempEntity);
-            partyCombatants.Add(tempEntity);
         }
     }
     
@@ -1274,14 +1274,14 @@ public class BattleSystem : MonoBehaviour
             
             enemyFunds.Add(currentEnemies[i].fundDrop);
             
+            // Add the allied combatant to the all combatants and party combatant lists
+            allCombatants.Add(tempEntity);
+            enemyCombatants.Add(tempEntity);
+            
             // Add Start of combat tokens
             foreach (InitialTokenInfo initialToken in currentEnemies[i].initialTokens) {
                 AddTokens(tempEntity, tempEntity, initialToken.GetTokenName(), initialToken.GetTokenCount(), 100);
             }
-            
-            // Add the allied combatant to the all combatants and party combatant lists
-            allCombatants.Add(tempEntity);
-            enemyCombatants.Add(tempEntity);
         }
     }
 
@@ -3127,12 +3127,12 @@ public class BattleSystem : MonoBehaviour
                 if (tokenName == "Haste" || tokenName == "Slow") {
                     GetTurnOrder();
                 }
+                
+                // Check and mark unique tokens added
+                if (recipientEntity.myName == "Bune" && tokenAdded.tokenName == "Vice") {
+                    cowboyLogic.GainedVice(true);
+                }
             }
-        }
-        
-        // Check and mark unique tokens added
-        if (recipientEntity.myName == "Bune" && tokenAdded.tokenName == "Vice") {
-            cowboyLogic.GainedVice(true);
         }
 
         if (resistPierce != PREVIEW_RESIST_PIERCE) {

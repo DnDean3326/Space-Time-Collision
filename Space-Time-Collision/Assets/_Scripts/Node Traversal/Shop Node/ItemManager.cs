@@ -8,7 +8,19 @@ public class ItemManager : MonoBehaviour
     [SerializeField] private List<ConsumableInfo> allConsumables;
     [SerializeField] private List<TalismanInfo> allTalisman;
     [SerializeField] private int maxPriceIncrease = 10;
+    
+    private static GameObject _instance;
 
+    private void Awake()
+    {
+        if (_instance != null) {
+            Destroy(gameObject);
+        } else {
+            _instance = gameObject;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+    
     public Consumable GetRandomConsumable()
     {
         ConsumableInfo consumable = allConsumables[Random.Range(0, allConsumables.Count)];

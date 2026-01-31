@@ -26,6 +26,7 @@ public class EventNodeSystem : MonoBehaviour
     {
         eventNodeManager = FindFirstObjectByType<EventNodeManager>();
         itemManager = FindFirstObjectByType<ItemManager>();
+        partyManager = FindFirstObjectByType<PartyManager>();
         runInfo = FindFirstObjectByType<RunInfo>();
         foreach (GameObject obj in eventButtonObjects) {
             eventButtons.Add(obj.GetComponent<Button>());

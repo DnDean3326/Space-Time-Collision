@@ -112,7 +112,7 @@ public class NodeManager : MonoBehaviour
                 SceneManager.LoadScene(BATTLE_SCENE);
                 break;
             case NodeInfo.NodeType.Boss:
-                // TODO Add boss spawn
+                encounterSystem.GenerateBossEncounter();
                 SceneManager.LoadScene(BATTLE_SCENE);
                 break;
             case NodeInfo.NodeType.Event:
