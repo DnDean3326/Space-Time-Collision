@@ -64,31 +64,73 @@ public class EventNodeSystem : MonoBehaviour
 
     private void ApplyEventEffects(int option)
     {
+        List<PartyMember> partyMembers = partyManager.GetCurrentParty();
         switch (myEvent.eventName) {
             case "Polluted Loot":
+                InitialTokenInfo tempToken;
                 switch (option) {
                     case 0:
                         List<Talisman> droppedTalisman = itemManager.GetRandomTalisman(1);
                         runInfo.AddTalisman(droppedTalisman[0]);
-                        List<PartyMember> partyMembers = partyManager.GetCurrentParty();
+                        
+                        tempToken = new InitialTokenInfo("Poison", 4);
                         foreach (PartyMember member in partyMembers) {
-                            InitialTokenInfo tempToken = new InitialTokenInfo("Poison", 4);
                             member.initialTokens.Add(tempToken);
                         }
                         break;
                     case 1:
+                        runInfo.ChangeFunds(5);
+                        
+                        if (runInfo.GetConsumableCount() < 5) {
+                            Consumable droppedConsumable = itemManager.GetRandomConsumable();
+                            runInfo.AddConsumable(droppedConsumable);
+                        }
+                        
+                        foreach (PartyMember member in partyMembers) {
+                            member.currentHealth -= 5;
+                        }
                         break;
                     case 2:
+                        PartyMember randomMember = partyMembers[Random.Range(0, partyMembers.Count)];
+                        tempToken = new InitialTokenInfo("Dodge", 2);
+                        randomMember.initialTokens.Add(tempToken);
                         break;
                 }
                 break;
             case "Weary Walkers":
                 switch (option) {
                     case 0:
+                        foreach (PartyMember member in partyMembers) {
+                            member.currentHealth += 20;
+                            if (member.currentHealth > member.maxHealth) {
+                                member.currentHealth = member.maxHealth;
+                            }
+                            
+                            member.currentSpirit += 8;
+                            if (member.currentSpirit > member.maxSpirit) {
+                                member.currentSpirit = member.maxSpirit;
+                            }
+                        }
+                        
+                        runInfo.ChangeEncounterStatus(true);
                         break;
                     case 1:
+                        foreach (PartyMember member in partyMembers) {
+                            member.currentHealth += 8;
+                            if (member.currentHealth > member.maxHealth) {
+                                member.currentHealth = member.maxHealth;
+                            }
+                        }
+
+                        EnemyInitialTokenInfo enemyToken = new EnemyInitialTokenInfo("Block", 1, true);
+                        runInfo.AddEnemyInitialToken(enemyToken);
                         break;
                     case 2:
+                        tempToken = new InitialTokenInfo("Rush", 1);
+                        foreach (PartyMember member in partyMembers) {
+                            member.currentHealth -= 3;
+                            member.initialTokens.Add(tempToken);
+                        }
                         break;
                 }
                 break;
@@ -103,5 +145,6 @@ public class EventNodeSystem : MonoBehaviour
                 }
                 break;
         }
+        partyManager.UpdatePartyStatus();
     }
 }

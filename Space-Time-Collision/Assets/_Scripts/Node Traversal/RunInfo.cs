@@ -8,6 +8,9 @@ public class RunInfo : MonoBehaviour
     private Encounter previousEncounter;
     private int eventCount;
     private List<EventInfo> completedEvents = new List<EventInfo>();
+    
+    private List<EnemyInitialTokenInfo> enemyInitialTokens = new List<EnemyInitialTokenInfo>();
+    
     [SerializeField] private int funds;
     [SerializeField] private int currentNode;
     [SerializeField] private List<Consumable> consumableInventory = new List<Consumable>();
@@ -25,8 +28,6 @@ public class RunInfo : MonoBehaviour
             _instance = gameObject;
         }
         DontDestroyOnLoad(gameObject);
-        
-        nodeManager = FindFirstObjectByType<NodeManager>();
     }
 
     public void SetCurrentNode(int nodeIndex)
@@ -89,6 +90,21 @@ public class RunInfo : MonoBehaviour
     public int GetEventCompletedCount()
     {
         return completedEvents.Count;
+    }
+
+    public List<EnemyInitialTokenInfo> GetEnemyInitialTokens()
+    {
+        return enemyInitialTokens;
+    }
+
+    public void AddEnemyInitialToken(EnemyInitialTokenInfo enemyToken)
+    {
+        enemyInitialTokens.Add(enemyToken);
+    }
+    
+    public void ClearEnemyInitialTokens()
+    {
+        enemyInitialTokens.Clear();
     }
 
     public int GetFunds()
@@ -162,5 +178,35 @@ public class InitialTokenInfo
     public int GetTokenCount()
     {
         return _tokenCount;
+    }
+}
+
+[System.Serializable]
+public class EnemyInitialTokenInfo
+{
+    private string _tokenName;
+    private int _tokenCount;
+    private bool _applyToAll;
+    
+    public EnemyInitialTokenInfo(string tokenName, int tokenCount, bool applyToAll)
+    {
+        _tokenName = tokenName;
+        _tokenCount = tokenCount;
+        _applyToAll = applyToAll;
+    }
+    
+    public string GetTokenName()
+    {
+        return _tokenName;
+    }
+
+    public int GetTokenCount()
+    {
+        return _tokenCount;
+    }
+
+    public bool GetApplyToAll()
+    {
+        return _applyToAll;
     }
 }

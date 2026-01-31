@@ -91,15 +91,26 @@ public class PartyManager : MonoBehaviour
     
     public List<PartyMember> GetCurrentParty()
     {
-        List<PartyMember> aliveParty = new List<PartyMember>();
-        aliveParty = currentParty;
+        List<PartyMember> aliveParty = currentParty;
         for (int i = 0; i < aliveParty.Count; i++) {
             if (aliveParty[i].currentHealth <= 0) {
                 aliveParty.RemoveAt(i);
             }
         }
         return aliveParty;
-        
+    }
+
+    public void UpdatePartyStatus()
+    {
+        List<PartyMember> deadMembers = new List<PartyMember>();
+        foreach (PartyMember member in currentParty) {
+            if (member.currentHealth <= 0) {
+                deadMembers.Add(member);
+            }
+        }
+        foreach (PartyMember member in deadMembers) {
+            currentParty.Remove(member);
+        }
     }
 
     public List<Ability> GetActiveAbilities(int partyIndex)
@@ -122,7 +133,6 @@ public class PartyManager : MonoBehaviour
     {
         currentParty.Clear();
     }
-    
 }
 
 [System.Serializable]

@@ -276,6 +276,17 @@ public class BattleSystem : MonoBehaviour
             }
             GetTurnOrder();
             talismanLogic.BattleStartTalisman();
+            foreach (EnemyInitialTokenInfo enemyToken in runInfo.GetEnemyInitialTokens()) {
+                if (enemyToken.GetApplyToAll()) {
+                    foreach (BattleEntity enemy in enemyCombatants) {
+                        AddTokens(enemy, enemy, enemyToken.GetTokenName(), enemyToken.GetTokenCount(), 100);
+                    }
+                } else {
+                    BattleEntity randomEnemy = enemyCombatants[Random.Range(0, enemyCombatants.Count)];
+                    AddTokens(randomEnemy, randomEnemy, enemyToken.GetTokenName(), enemyToken.GetTokenCount(), 100);
+                }
+            }
+            runInfo.ClearEnemyInitialTokens();
             
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
             Destroy(battleStartUI);
