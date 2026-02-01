@@ -33,7 +33,7 @@ public class NodeManager : MonoBehaviour
     {
         runInfo = FindFirstObjectByType<RunInfo>();
         SceneManager.sceneLoaded += OnSceneLoaded;
-        runInfo.SetCurrentNode(4); // Default value is 0
+        runInfo.SetCurrentNode(0); // Default value is 0
         
         GenerateSetNodes();
     }
