@@ -906,7 +906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BaseNavigation
   voidObject: {fileID: 607395380}
   innObject: {fileID: 1530114403}
-  innLantern: {fileID: 0}
+  innLantern: {fileID: 261009563}
 --- !u!114 &295525973
 MonoBehaviour:
   m_ObjectHideFlags: 0
