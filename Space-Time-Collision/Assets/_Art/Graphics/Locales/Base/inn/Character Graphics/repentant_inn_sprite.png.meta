@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7ea1155c615de47689a466479bf64f39
+guid: dca949a6eafcf4cffb7e582d6cdf421a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2799025756769327729
-    second: p_0
+      213: 4896245487760294656
+    second: repentant_inn_sprite 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: p_0
+      name: repentant_inn_sprite 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f85689277ecd729d0800000000000000
-      internalID: -2799025756769327729
+      spriteID: 003cf076455f2f340800000000000000
+      internalID: 4896245487760294656
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      p_0: -2799025756769327729
+      repentant_inn_sprite 1_0: 4896245487760294656
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
