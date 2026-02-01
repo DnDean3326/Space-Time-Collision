@@ -7,12 +7,12 @@ public class BaseNavigation : MonoBehaviour
 {
     [SerializeField] private GameObject voidObject;
     [SerializeField] private GameObject innObject;
+    [SerializeField] private GameObject innLantern;
     
     private const string RUN_SCENE = "NodeScene";
     private const string TEST_BATTLE = "BattleScene";
     private const string INN_SCENE = "InnScene";
-
-    private GameObject innLantern;
+    
     private Button voidButton;
     private Button innButton;
     private InnAnimationScript innAnimationScript;
