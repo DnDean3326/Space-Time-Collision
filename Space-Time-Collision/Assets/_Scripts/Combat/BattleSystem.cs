@@ -2238,6 +2238,7 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.PlayerTurn) {
             usedAbility = false;
             StopAllCoroutines();
+            allCombatants[currentPlayer].target = currentPlayer;
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);

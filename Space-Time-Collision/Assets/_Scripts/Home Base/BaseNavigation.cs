@@ -12,6 +12,7 @@ public class BaseNavigation : MonoBehaviour
     private const string TEST_BATTLE = "BattleScene";
     private const string INN_SCENE = "InnScene";
 
+    private GameObject innLantern;
     private Button voidButton;
     private Button innButton;
     private InnAnimationScript innAnimationScript;
@@ -40,8 +41,10 @@ public class BaseNavigation : MonoBehaviour
         }
 
         if (partyManager.GetCurrentParty().Count == 0) {
+            innLantern.SetActive(true);
             voidButton.interactable = false;
         } else  {
+            innLantern.SetActive(false);
             voidButton.interactable = true;
         }
     }

@@ -243,6 +243,7 @@ MonoBehaviour:
   easyEncounters: []
   normalEncounters: []
   minibossEncounters: []
+  bossEncounter: {fileID: 0}
   demoEncounters:
   - {fileID: 11400000, guid: 7ea9302733ef8ee478f6781b38110ea8, type: 2}
   - {fileID: 11400000, guid: 2ad28d8f392727a40b94d3dbfb4a17f9, type: 2}
@@ -700,6 +701,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222600934}
+  m_CullTransparentMesh: 1
+--- !u!1 &261009563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 261009564}
+  - component: {fileID: 261009566}
+  - component: {fileID: 261009565}
+  m_Layer: 5
+  m_Name: Inn Lantern
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &261009564
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261009563}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1530114404}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 428.5, y: 282.1}
+  m_SizeDelta: {x: 280, y: 295}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &261009565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261009563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 4036bc53852cf45678f173847d3c7f05, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &261009566
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261009563}
   m_CullTransparentMesh: 1
 --- !u!1 &295525967
 GameObject:
@@ -1646,8 +1722,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   publicDemo: 0
-  didTutorial: 1
-  didVoidTutorial: 1
+  didTutorial: 0
+  didVoidTutorial: 0
 --- !u!4 &777989885
 Transform:
   m_ObjectHideFlags: 0
@@ -2658,6 +2734,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 261009564}
   - {fileID: 847381348}
   - {fileID: 410729856}
   m_Father: {fileID: 295525971}
@@ -2806,9 +2883,9 @@ MonoBehaviour:
     the Lady Oblivion, a primordial being set on bringing everything in the multiverse
     to an end... <i>but she's not in the game yet</i>. Instead you'll need to defeat
     the Obliw\xFFrm Larve, a creature infected by the Lady Oblivion's nihlism who
-    threatens to destroy the world it resides in.\n\nTo reach it you'll need to fight
-    your way through two waves of monsters as well as the Obliw\xFFrm itself and
-    its allies.\n\nTo begin, you'll need to assemble a party at the inn."
+    threatens to destroy the reality it resides in.\n\nTo reach it you'll need to
+    fight your way through two waves of monsters as well as the Obliw\xFFrm itself
+    and its allies.\n\nTo begin, you'll need to assemble a party at the inn."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ef1ded2ea7a0ca5439368ba3ac8d9a10, type: 2}
   m_sharedMaterial: {fileID: 8640452615087068443, guid: ef1ded2ea7a0ca5439368ba3ac8d9a10, type: 2}
