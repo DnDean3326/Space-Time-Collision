@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spirit Shield
   m_EditorClassIdentifier: Assembly-CSharp::TalismanInfo
   talismanName: Spirit Shield
-  talismanIcon: {fileID: 0}
+  talismanIcon: {fileID: 21300000, guid: 67f7e1fbe0d5e1b4286ee321a338abd9, type: 3}
   talismanPrice: 21
   talismanDescription: 'At the start of combat each party member gains Block II
 

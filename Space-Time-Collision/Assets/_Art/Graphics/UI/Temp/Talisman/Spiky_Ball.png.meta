@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: c5f3b03b7ecb146e7bca80181675ce51
+guid: 0cac81b1f1b40214b9e68e5171ec94c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5232826986466269045
-    second: p_4_0
-  - first:
-      213: -3169349515081256869
-    second: p_4_1
+      213: 55824786843760989
+    second: Spiky_Ball_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -54,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 108
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -116,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: p_4_0
+      name: Spiky_Ball_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 587
-        width: 934
-        height: 331
+        y: 0
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,30 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b88a99c94934167b0800000000000000
-      internalID: -5232826986466269045
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: p_4_1
-      rect:
-        serializedVersion: 2
-        x: 986
-        y: 587
-        width: 934
-        height: 331
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b50768078653404d0800000000000000
-      internalID: -3169349515081256869
+      spriteID: d59fb7d095456c000800000000000000
+      internalID: 55824786843760989
       vertices: []
       indices: 
       edges: []
@@ -173,8 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      p_4_0: -5232826986466269045
-      p_4_1: -3169349515081256869
+      Spiky_Ball_0: 55824786843760989
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

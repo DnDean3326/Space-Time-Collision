@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   enemyName: Viral Seeker
   enemyPortrait: {fileID: 21300000, guid: e13010ed089b3174da401d9ba7901a6f, type: 3}
-  baseHealth: 26
-  baseDefense: 8
+  baseHealth: 17
+  baseDefense: 12
   baseArmor: 1
   baseSpirit: 17
   basePower: 1

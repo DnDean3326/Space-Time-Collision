@@ -46,6 +46,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private Transform eteMainPos;
     [SerializeField] private Transform eteTargetPos;
     [SerializeField] private Transform eteSoloPos;
+    [SerializeField] private GameObject[] topMenuObjects;
 
     [Header("Grid Locations")]
     [SerializeField] private List<GridTile> partyBattleGrid = new List<GridTile>();
@@ -1100,6 +1101,10 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator ChangeToActionCameras(BattleEntity mainEntity, BattleEntity targetEntity)
     {
+        foreach (GameObject menu in topMenuObjects) {
+            menu.SetActive(false);
+        }
+        
         foreach (Transform child in visualsObject.transform) {
             child.gameObject.SetActive(false);
         }
@@ -1158,6 +1163,9 @@ public class BattleSystem : MonoBehaviour
         
         foreach (Transform child in visualsObject.transform) {
             child.gameObject.SetActive(true);
+        }
+        foreach (GameObject menu in topMenuObjects) {
+            menu.SetActive(true);
         }
         cameraController.SetMainCamera();
     }

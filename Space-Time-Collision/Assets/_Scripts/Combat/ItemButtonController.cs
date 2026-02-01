@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ItemButtonController : MonoBehaviour
@@ -16,8 +16,10 @@ public class ItemButtonController : MonoBehaviour
     private List<Talisman> talismanInventory;
     private RunInfo runInfo;
     private BattleSystem battleSystem;
+    private Scene currentScene;
     private int consumableSelected;
 
+    private const string BATTLE_SCENE = "BattleScene";
     private readonly Color32 damageBGColor = new Color32(177, 2, 37, 255);
     private readonly Color32 healBGColor = new Color32(83, 183, 122, 255);
     private readonly Color32 buffBGColor = new Color32(28, 113, 162, 255);
@@ -27,7 +29,10 @@ public class ItemButtonController : MonoBehaviour
     private void Awake()
     {
         runInfo = FindFirstObjectByType<RunInfo>();
-        battleSystem = FindFirstObjectByType<BattleSystem>();
+        currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == BATTLE_SCENE) {
+            battleSystem = FindFirstObjectByType<BattleSystem>();
+        }
     }
 
     private void Start()
@@ -89,13 +94,16 @@ public class ItemButtonController : MonoBehaviour
 
     public void UseConsumable()
     {
+        if (currentScene.name != BATTLE_SCENE) {
+            return;
+        }
         runInfo.RemoveConsumable(consumableInventory[consumableSelected]);
         UpdateItemButtons();
     }
 
     public void DisplayConsumableEffect(int index)
     {
-        if (consumableInventory.Count >= index) {
+        if (consumableInventory.Count <= index) {
             return;
         }
         

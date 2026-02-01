@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a8bfd5ac891c6445796cb72531ee8b6d
+guid: d5314cb27c3f92a4d831b5fbfca54b8b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2178778258198427115
-    second: p_7_0
+      213: -2379433052430597005
+    second: Flower_of_Fire_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 108
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: p_7_0
+      name: Flower_of_Fire_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1920
-        height: 286
+        width: 30
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 51a0db3c7bc63c1e0800000000000000
-      internalID: -2178778258198427115
+      spriteID: 3740d0fde3e8afed0800000000000000
+      internalID: -2379433052430597005
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      p_7_0: -2178778258198427115
+      Flower_of_Fire_0: -2379433052430597005
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

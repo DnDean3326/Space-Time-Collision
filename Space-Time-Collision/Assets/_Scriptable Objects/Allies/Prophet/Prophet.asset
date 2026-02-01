@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Prophet
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
   allyName: Mephi
-  allyTurnPortrait: {fileID: 0}
+  allyTurnPortrait: {fileID: 21300000, guid: a47760e61ef604b2b8864a7bcc36d0a1, type: 3}
   allyCombatSprite: {fileID: 0}
-  allySquarePortrait: {fileID: 0}
+  allySquarePortrait: {fileID: 21300000, guid: 36b1b085a8e5c49d69b18b41f3323a3c, type: 3}
   allyShadowPortrait: {fileID: 0}
   allySignature: {fileID: 0}
   baseHealth: 0

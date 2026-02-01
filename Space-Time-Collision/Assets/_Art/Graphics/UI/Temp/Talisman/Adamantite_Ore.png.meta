@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 51cb66e21a8e1471a8db2e2bf6bf4d6d
+guid: 08d019a0a611dcd4a82240bf9a0fae32
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5297516728495893392
-    second: p_2_0
+      213: -4212321265994723551
+    second: Adamantite_Ore_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 108
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: p_2_0
+      name: Adamantite_Ore_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 627
-        width: 1920
-        height: 453
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 07410565a907b76b0800000000000000
-      internalID: -5297516728495893392
+      spriteID: 12f8f8c5024da85c0800000000000000
+      internalID: -4212321265994723551
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      p_2_0: -5297516728495893392
+      Adamantite_Ore_0: -4212321265994723551
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

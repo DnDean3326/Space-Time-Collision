@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 52a45e45a522a4a6e8075b9a644f18c7
+guid: 67f7e1fbe0d5e1b4286ee321a338abd9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8207838662651688710
-    second: p_1_0
+      213: -5036595815100785058
+    second: Ankh_Shield_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 108
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: p_1_0
+      name: Ankh_Shield_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1920
-        height: 671
+        width: 30
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6073215d6c918e170800000000000000
-      internalID: 8207838662651688710
+      spriteID: e5ed2bb8aca6a1ab0800000000000000
+      internalID: -5036595815100785058
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      p_1_0: 8207838662651688710
+      Ankh_Shield_0: -5036595815100785058
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
