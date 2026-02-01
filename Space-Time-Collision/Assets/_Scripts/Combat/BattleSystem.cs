@@ -19,9 +19,9 @@ public class BattleSystem : MonoBehaviour
         PlayerTurn,
         EnemyTurn,
         Targeting,
-        End,
-        Won,
-        Lost
+        TurnEnd,
+        Victory,
+        Defeat
     }
     
     private enum DuplicationType
@@ -118,7 +118,7 @@ public class BattleSystem : MonoBehaviour
     
     [Header("UI")]
     [SerializeField] private GameObject combatStartUI;
-    [SerializeField] private Animator combatStartUIAnimator;
+    [SerializeField] private Animator combatEndUIAnimator;
     
     private PartyManager partyManager;
     private EnemyManager enemyManager;
@@ -175,6 +175,7 @@ public class BattleSystem : MonoBehaviour
     private const float COMBAT_BEGIN_DELAY = 1.75f;
     private const float CAMERA_MOVE_DELAY = 0.25f;
     private const float TURN_ACTION_DELAY = 1.5f;
+    private const float END_DELAY = 2.5f;
     private const float ABILITY_ANIMATION_DELAY = 0f;
     private const float AILMENT_DAMAGE_DELAY = 0.5f;
     private const float DEATH_DELAY = 3f;
@@ -184,8 +185,7 @@ public class BattleSystem : MonoBehaviour
     private const float MAX_ACTION_START = 100f;
     private const int MAX_INDIVIDUAL_DISPLAY = 5;
     private const int PREVIEW_RESIST_PIERCE = 500;
-    private const int PLAYER_NONMOVE_ABILITIES = 4;
-    private const float MOVE_SPEED = 1f; // For eventual use with moving unit in real time from one tile to another
+    private const int PLAYER_NONMOVE_ABILITIES = 5;
     private const string NODE_SCENE = "NodeScene";
     private const string BASE_SCENE = "BaseScene";
     
@@ -200,7 +200,7 @@ public class BattleSystem : MonoBehaviour
     private int encounterFunds = 0;
     
     // Animator Constants
-    private const string BATTLE_START_END = "EndTrigger";
+    private const string VICTORY_TRIGGER = "StartTrigger";
 
     private void Awake()
     {
@@ -308,7 +308,7 @@ public class BattleSystem : MonoBehaviour
         
         // if no party members remain -> battle is lost
         if (partyCombatants.Count <= 0) {
-            state = BattleState.Lost;
+            state = BattleState.Defeat;
             yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
             print("GAME OVER! \n Go to game over screen.");
             playerPrefs.SetRunStatus(0);
@@ -316,8 +316,9 @@ public class BattleSystem : MonoBehaviour
         }
         // if no enemies remain -> battle is won
         if (enemyCombatants.Count <= 0) {
-            state = BattleState.Won;
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
+            state = BattleState.Victory;
+            combatEndUIAnimator.SetTrigger(VICTORY_TRIGGER);
+            yield return new WaitForSeconds(END_DELAY);  // wait a few seconds
             print("Your party prevailed!");
             runInfo.ChangeFunds(encounterFunds);
             if (playerPrefs.CheckDemoStatus()) {
@@ -680,7 +681,7 @@ public class BattleSystem : MonoBehaviour
                 }
                 BackToAbilities();
             } else {
-                state  = BattleState.End;
+                state  = BattleState.TurnEnd;
                 StartCoroutine(EndRoutine(activeCharacter));
                 yield break;
             }
@@ -833,7 +834,7 @@ public class BattleSystem : MonoBehaviour
                             AddTokens(activeEnemy, activeEnemy, abilityUsed.ability.selfTokensApplied[i].ToString(), 
                                 abilityUsed.ability.selfTokenCountApplied[i], 0);
                         }
-                        state  = BattleState.End;
+                        state  = BattleState.TurnEnd;
                         StartCoroutine(EndRoutine(activeEnemy));
                         yield break;
                         
@@ -1024,7 +1025,7 @@ public class BattleSystem : MonoBehaviour
                 }
             }
             
-            state  = BattleState.End;
+            state  = BattleState.TurnEnd;
             StartCoroutine(EndRoutine(activeEnemy));
             yield break;
         } else {
@@ -1042,7 +1043,6 @@ public class BattleSystem : MonoBehaviour
         }
         
         // If a move action was used, turn off move buttons
-        print(allCombatants[currentPlayer].myName);
         if (allCombatants[currentPlayer].activeAbility != null) {
             if (allCombatants[currentPlayer].activeAbility.abilityType == Ability.AbilityType.Movement
                 && allCombatants[currentPlayer].activeAbility.abilityWeight != Ability.AbilityWeight.Light) {
@@ -3623,7 +3623,7 @@ public class BattleSystem : MonoBehaviour
         
         entity.battleVisuals.UpdateTokens(entity.activeTokens);
         if (isStunned) {
-            state = BattleState.End;
+            state = BattleState.TurnEnd;
         }
     }
 
@@ -3791,7 +3791,7 @@ public class BattleSystem : MonoBehaviour
 
         cowboyLogic.ResetCowboyActout();
         
-        state = BattleState.End;
+        state = BattleState.TurnEnd;
         StartCoroutine(EndRoutine(cowboy));
         yield break;
     }
