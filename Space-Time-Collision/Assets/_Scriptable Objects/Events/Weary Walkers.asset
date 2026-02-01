@@ -27,18 +27,25 @@ MonoBehaviour:
     and mutate. Your kindness may reveal itself to be a cruelity.
 
 
-    [The party
-    regains 20 HP and 8 SP, but future encounters are more dangerous.] '
+    The entire
+    party regains 20 HP and 8 SP.
+
+    Future encounters are more dangerous.'
   - 'You let the team know they have an hour to use as they see fit. Nobody wastes
     time thanking you, they simply drop their gear and do their best to rest. They''re
     spry when the rest ends, but so are the foes that have encroached.
 
 
-    [The
-    party regains 8 HP, but enemies begin the next combat with Block I.] '
+    The
+    entire party regains 8 HP.
+
+    Enemies begin the next combat with Block I. '
   - 'You simply say, "March on. You can stop when you''re dead". The team talks back
     and you ignore them. They can hate you all they want, but they will live to do
     so.
 
 
-    [The party loses 3 HP, but begins the next combat with Rush I.]'
+    The enitre party loses 3 HP.
+
+    The entire party begins the next
+    combat with Rush I.'

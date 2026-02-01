@@ -19,7 +19,16 @@ public class EventNodeSystem : MonoBehaviour
     private RunInfo runInfo;
     private EventInfo myEvent;
     private bool optionSelected = false;
-    
+
+    private const string RANDOM_GOLD = "[+X Gold]";
+    private const string GOLD_GAIN_1 = "The party gains ";
+    private const string GOLD_GAIN_2 = " gold.";
+    private const string RANDOM_CONSUMABLE = "[+Random Consumable]";
+    private const string CONSUMABLE_GAIN_1 = "The party finds a ";
+    private const string CONSUMABLE_GAIN_2 = " consumable.";
+    private const string RANDOM_TALISMAN = "[+Random Talisman]";
+    private const string TALISMAN_GAIN_1 = "The party finds a ";
+    private const string TALISMAN_GAIN_2 = " talisman";
     private const string NODE_SCENE = "NodeScene";
 
     private void Awake()
@@ -51,7 +60,6 @@ public class EventNodeSystem : MonoBehaviour
     {
         if (!optionSelected) {
             ApplyEventEffects(option);
-            eventDescriptionText.text = myEvent.eventResults[option];
             for (int i = 1; i < eventButtonObjects.Length; i++) {
                 eventButtonObjects[i].SetActive(false);
             }
@@ -66,9 +74,11 @@ public class EventNodeSystem : MonoBehaviour
     private void ApplyEventEffects(int option)
     {
         List<PartyMember> partyMembers = partyManager.GetCurrentParty();
+        InitialTokenInfo tempToken;
+        int randomGold;
+        string eventResults = myEvent.eventResults[option];
         switch (myEvent.eventName) {
             case "Polluted Loot":
-                InitialTokenInfo tempToken;
                 switch (option) {
                     case 0:
                         List<Talisman> droppedTalisman = itemManager.GetRandomTalisman(1);
@@ -78,18 +88,26 @@ public class EventNodeSystem : MonoBehaviour
                         foreach (PartyMember member in partyMembers) {
                             member.initialTokens.Add(tempToken);
                         }
+                        eventResults = eventResults.Replace(RANDOM_TALISMAN, TALISMAN_GAIN_1 + droppedTalisman[0].GetName() + TALISMAN_GAIN_2);
+                        
                         break;
                     case 1:
-                        runInfo.ChangeFunds(5);
+                        randomGold = Random.Range(5, 10 + 1);
+                        runInfo.ChangeFunds(randomGold);
+                        eventResults = eventResults.Replace(RANDOM_GOLD, GOLD_GAIN_1 + randomGold + GOLD_GAIN_2);
                         
                         if (runInfo.GetConsumableCount() < 5) {
                             Consumable droppedConsumable = itemManager.GetRandomConsumable();
                             runInfo.AddConsumable(droppedConsumable);
+                            eventResults = eventResults.Replace(RANDOM_CONSUMABLE, CONSUMABLE_GAIN_1 + droppedConsumable + CONSUMABLE_GAIN_2);
+                        } else {
+                            eventResults = eventResults.Replace(RANDOM_CONSUMABLE, "");
                         }
                         
                         foreach (PartyMember member in partyMembers) {
                             member.currentHealth -= 5;
                         }
+                        
                         break;
                     case 2:
                         PartyMember randomMember = partyMembers[Random.Range(0, partyMembers.Count)];
@@ -147,5 +165,6 @@ public class EventNodeSystem : MonoBehaviour
                 break;
         }
         partyManager.UpdatePartyStatus();
+        eventDescriptionText.text = eventResults;
     }
 }

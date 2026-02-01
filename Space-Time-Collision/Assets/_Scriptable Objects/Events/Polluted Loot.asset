@@ -30,18 +30,24 @@ MonoBehaviour:
     which is what truly matters.
 
 
-    [Gain a random Talisman. The party begins
-    the next combat with Poison IV] '
+    [+Random Talisman]
+
+    The party begins the
+    next combat with Poison IV. '
   - 'You order the team to take what they can from the corpses and leave. They move
     quickly, but not so quick as to avoid the fumes. As soon the gear is secured
     thea team abandons the site, albeit a bit worse for wear.
 
 
-    [+5 Gold, gain
-    a random Consumable, and -5 HP to the party.]'
+    [+X Gold]
+
+    [+Random
+    Consumable]
+
+    The entire party loses 5 HP.'
   - 'Your order the team to leave it alone. They don''t protest, moving quickly and
     carefully from the scene. You hope this gruesome scene will inspire caution in
     the hours to come.
 
 
-    [A random ally begins the next combat with Dodge II] '
+    A random ally begins the next combat with Dodge II. '
