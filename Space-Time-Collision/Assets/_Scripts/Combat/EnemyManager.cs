@@ -74,6 +74,8 @@ public class EnemyManager : MonoBehaviour
                 newEnemy.debuffResist = allEnemies[i].baseDebuffResist;
                 newEnemy.ailmentResist = allEnemies[i].baseAilmentResist;
                 
+                newEnemy.fundDrop = Random.Range(allEnemies[i].minFund, allEnemies[i].maxFund + 1);
+                
                 newEnemy.enemyVisualPrefab = allEnemies[i].enemyBattleVisualPrefab;
                 
                 newEnemy.enemyBrain = allEnemies[i].baseEnemyBrain;
@@ -132,9 +134,12 @@ public class Enemy
     public int stunResist;
     public int debuffResist;
     public int ailmentResist;
+
+    public int fundDrop;
     
     public GameObject enemyVisualPrefab; // what will be displayed in the battle scene
     public EnemyBrain enemyBrain;
     
     public List<Ability> abilities;
+    public List<InitialTokenInfo> initialTokens = new List<InitialTokenInfo>();
 }

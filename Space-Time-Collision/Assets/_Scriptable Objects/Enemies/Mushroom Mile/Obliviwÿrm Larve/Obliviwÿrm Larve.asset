@@ -27,5 +27,7 @@ MonoBehaviour:
   baseStunResist: 20
   baseDebuffResist: 0
   baseAilmentResist: 10
+  minFund: 5
+  maxFund: 7
   enemyBattleVisualPrefab: {fileID: 5517501371679542808, guid: 085adfdfeea97114b93457b83f7f4437, type: 3}
   baseEnemyBrain: {fileID: 11400000, guid: 29b213118ecd2644db1cff99a7fb6a4e, type: 2}

@@ -33,7 +33,7 @@ public class NodeManager : MonoBehaviour
     {
         runInfo = FindFirstObjectByType<RunInfo>();
         SceneManager.sceneLoaded += OnSceneLoaded;
-        runInfo.SetCurrentNode(0);
+        runInfo.SetCurrentNode(0); // Default value is 0
         
         GenerateSetNodes();
     }
@@ -53,9 +53,6 @@ public class NodeManager : MonoBehaviour
     {
         int currentNode = runInfo.GetCurrentNode();
         List<int> connectedNodes = nodeInfos[currentNode]._connectedNodes;
-        foreach (int connectedNode in connectedNodes) {
-            print("Connected connectedNodes: " + connectedNode);
-        }
         for (int i = 0; i < nodeButtons.Count; i++) {
             var button = nodeButtons[i];
             if (connectedNodes.Contains(i)) {
@@ -78,7 +75,7 @@ public class NodeManager : MonoBehaviour
         
         connectedNodes = new List<int> {4};
         AddNode(NodeInfo.NodeType.Combat, false, connectedNodes); // Node 2
-        AddNode(NodeInfo.NodeType.Event, false, connectedNodes); // Node 3
+        AddNode(NodeInfo.NodeType.Shop, false, connectedNodes); // Node 3
         
         connectedNodes = new List<int> {5, 6};
         AddNode(NodeInfo.NodeType.Combat, false, connectedNodes); // Node 4
@@ -115,7 +112,7 @@ public class NodeManager : MonoBehaviour
                 SceneManager.LoadScene(BATTLE_SCENE);
                 break;
             case NodeInfo.NodeType.Boss:
-                // TODO Add boss spawn
+                encounterSystem.GenerateBossEncounter();
                 SceneManager.LoadScene(BATTLE_SCENE);
                 break;
             case NodeInfo.NodeType.Event:

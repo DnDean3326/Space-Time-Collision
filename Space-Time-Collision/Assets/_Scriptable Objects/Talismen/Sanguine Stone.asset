@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13285f069a7d6a94299805782832ae86, type: 3}
+  m_Name: Sanguine Stone
+  m_EditorClassIdentifier: Assembly-CSharp::TalismanInfo
+  talismanName: Sanguine Stone
+  talismanIcon: {fileID: 21300000, guid: df7fade5b64c61a4180285cec708b525, type: 3}
+  talismanPrice: 23
+  talismanDescription: Melee damage abilities your party uses apply Bleed II.

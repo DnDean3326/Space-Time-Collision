@@ -21,6 +21,9 @@ public class EnemyInfo : ScriptableObject
     public int baseStunResist;
     public int baseDebuffResist;
     public int baseAilmentResist;
+
+    public int minFund;
+    public int maxFund;
     
     public GameObject enemyBattleVisualPrefab; // what will be displayed in the battle scene
     

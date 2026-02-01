@@ -30,11 +30,6 @@ public class BattleVisuals : MonoBehaviour
     private RectTransform ailmentDisplayRect;
 
     private BattleEntity me;
-    //private int maxHealth;
-    //private int currentHealth;
-    //private int maxDefense;
-    //private int currentDefense;
-    //private int armor;
     private bool wasSharingRow;
     
     private Animator myAnimator;

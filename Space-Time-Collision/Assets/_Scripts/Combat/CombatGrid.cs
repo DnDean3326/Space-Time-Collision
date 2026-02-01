@@ -146,8 +146,8 @@ public class CombatGrid : MonoBehaviour
 
     public void DisplayValidLineBreakTiles(BattleEntity user, int frontRow)
     {
-        int moveMinRange = user.myAbilities[user.activeAbility].rangeMin;
-        int moveMaxRange = user.myAbilities[user.activeAbility].rangeMax;
+        int moveMinRange = user.activeAbility.rangeMin;
+        int moveMaxRange = user.activeAbility.rangeMax;
         int distance;
         
         foreach (GridTile tile in enemyGrid) {
@@ -167,8 +167,8 @@ public class CombatGrid : MonoBehaviour
     public void DisplayValidTiles(BattleEntity user, Ability.AbilityType abilityType,
         bool targetingEnemy, bool canTargetSelf)
     {
-        int abilityMinRange = user.myAbilities[user.activeAbility].rangeMin;
-        int abilityMaxRange = user.myAbilities[user.activeAbility].rangeMax;
+        int abilityMinRange = user.activeAbility.rangeMin;
+        int abilityMaxRange = user.activeAbility.rangeMax;
         int distance;
         
         SetGridImages(abilityType, targetingEnemy);

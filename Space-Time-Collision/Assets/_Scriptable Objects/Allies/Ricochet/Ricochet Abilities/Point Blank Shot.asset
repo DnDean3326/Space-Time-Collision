@@ -31,10 +31,10 @@ MonoBehaviour:
   dmgMax: 8
   critChance: 20
   extraCasts: 0
-  secondaryTarget: 0
+  secondaryTarget: 3
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 0
+  secondaryValue: 5
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
@@ -61,17 +61,14 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  equipDescription: 'Type: Damage | Crit: 20%
-
-    DMG: 3-8 | DMG Modifier: Skill
-    *2'
+  equipDescription: 'Type: Damage | Crit: 20% | DMG: 13-18'
   description: 'Weight: Heavy | Cost: 1 Bullet
 
     CD: N/A | Range: 1
 
 
     Move
-    back 1 tile. Apply Off-Guard I.
+    back 1 tile. Deal 5 armor damage.
 
     On a crit apply Vulnerable II.
 

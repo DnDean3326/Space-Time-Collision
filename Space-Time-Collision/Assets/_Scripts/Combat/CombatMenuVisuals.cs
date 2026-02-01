@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 public class CombatMenuVisuals : MonoBehaviour
 {
     [Header("Resource Displays")]
-    [SerializeField] private Slider spiritBar;
+    [SerializeField] private Image spiritBar;
     [SerializeField] private TextMeshProUGUI spText;
     [SerializeField] private List<GameObject> bulletDisplays;
     
@@ -160,8 +160,8 @@ public class CombatMenuVisuals : MonoBehaviour
             return;
         }
         
-        spiritBar.maxValue = me.maxSpirit;
-        spiritBar.value = me.currentSpirit;
+        float spPercent = ((float)me.currentSpirit / me.maxSpirit);
+        spiritBar.fillAmount = spPercent;
         
         spText.text = "SP: " + me.currentSpirit + " / " + me.maxSpirit;
     }
@@ -175,8 +175,8 @@ public class CombatMenuVisuals : MonoBehaviour
             return;
         }
         
-        spiritBar.maxValue = me.maxSpirit;
-        spiritBar.value = preview;
+        float spPercent = ((float)me.currentSpirit / me.maxSpirit);
+        spiritBar.fillAmount = spPercent;
         
         spText.text = "SP: " + preview + " / " + me.maxSpirit;
     }
@@ -190,7 +190,7 @@ public class CombatMenuVisuals : MonoBehaviour
 
     public void ChangeResourcePreviewUIVisibility(bool visible)
     {
-        resourcePreviewUI.SetActive(visible);
+        //resourcePreviewUI.SetActive(visible);
     }
 
     public void ChangeAbilityPreviewUIVisibility(bool visible)

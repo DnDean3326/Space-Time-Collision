@@ -4,10 +4,17 @@ using UnityEngine;
 public class RunInfo : MonoBehaviour
 {
     private int encounterCount;
+    private bool easyEncountersOver;
     private Encounter previousEncounter;
     private int eventCount;
-    private int funds;
+    private List<EventInfo> completedEvents = new List<EventInfo>();
+    
+    private List<EnemyInitialTokenInfo> enemyInitialTokens = new List<EnemyInitialTokenInfo>();
+    
+    [SerializeField] private int funds;
     [SerializeField] private int currentNode;
+    [SerializeField] private List<Consumable> consumableInventory = new List<Consumable>();
+    [SerializeField] private List<Talisman> talismanInventory = new List<Talisman>();
     
     private NodeManager nodeManager;
     
@@ -21,8 +28,6 @@ public class RunInfo : MonoBehaviour
             _instance = gameObject;
         }
         DontDestroyOnLoad(gameObject);
-        
-        nodeManager = FindFirstObjectByType<NodeManager>();
     }
 
     public void SetCurrentNode(int nodeIndex)
@@ -48,10 +53,23 @@ public class RunInfo : MonoBehaviour
 
         return null;
     }
-    
+
     public int GetEncounterCount()
     {
         return encounterCount;
+    }
+    
+    public bool GetEncounterStatus()
+    {
+        if (!easyEncountersOver && encounterCount > 2) {
+            easyEncountersOver = true;
+        } 
+        return easyEncountersOver;
+    }
+
+    public void ChangeEncounterStatus(bool status)
+    {
+        easyEncountersOver = status;
     }
 
     public void IncreaseEncounterCount()
@@ -59,8 +77,136 @@ public class RunInfo : MonoBehaviour
         encounterCount++;
     }
 
+    public void MarkEventCompleted(EventInfo completedEvent)
+    {
+        completedEvents.Add(completedEvent);
+    }
+
+    public List<EventInfo> GetCompletedEvents()
+    {
+        return completedEvents;
+    }
+
+    public int GetEventCompletedCount()
+    {
+        return completedEvents.Count;
+    }
+
+    public List<EnemyInitialTokenInfo> GetEnemyInitialTokens()
+    {
+        return enemyInitialTokens;
+    }
+
+    public void AddEnemyInitialToken(EnemyInitialTokenInfo enemyToken)
+    {
+        enemyInitialTokens.Add(enemyToken);
+    }
+    
+    public void ClearEnemyInitialTokens()
+    {
+        enemyInitialTokens.Clear();
+    }
+
+    public int GetFunds()
+    {
+        return funds;
+    }
+
+    public void ChangeFunds(int fundChange)
+    {
+        funds += fundChange;
+    }
+
+    public void AddConsumable(Consumable consumable)
+    {
+        consumableInventory.Add(consumable);
+    }
+
+    public List<Consumable> GetConsumables()
+    {
+        return consumableInventory;
+    }
+
+    public int GetConsumableCount()
+    {
+        return consumableInventory.Count;
+    }
+
+    public void AddTalisman(Talisman talisman)
+    {
+        talismanInventory.Add(talisman);
+    }
+    
+    public List<Talisman> GetTalismans()
+    {
+        return talismanInventory;
+    }
+    
+    public int GetTalismanCount()
+    {
+        return talismanInventory.Count;
+    }
+
+    public void RemoveConsumable(Consumable consumable)
+    {
+        consumableInventory.Remove(consumable);
+    }
+
     public void EndRun()
     {
         Destroy(gameObject);
+    }
+}
+
+[System.Serializable]
+public class InitialTokenInfo
+{
+    private string _tokenName;
+    private int _tokenCount;
+    
+    public InitialTokenInfo(string tokenName, int tokenCount)
+    {
+        _tokenName = tokenName;
+        _tokenCount = tokenCount;
+    }
+    
+    public string GetTokenName()
+    {
+        return _tokenName;
+    }
+
+    public int GetTokenCount()
+    {
+        return _tokenCount;
+    }
+}
+
+[System.Serializable]
+public class EnemyInitialTokenInfo
+{
+    private string _tokenName;
+    private int _tokenCount;
+    private bool _applyToAll;
+    
+    public EnemyInitialTokenInfo(string tokenName, int tokenCount, bool applyToAll)
+    {
+        _tokenName = tokenName;
+        _tokenCount = tokenCount;
+        _applyToAll = applyToAll;
+    }
+    
+    public string GetTokenName()
+    {
+        return _tokenName;
+    }
+
+    public int GetTokenCount()
+    {
+        return _tokenCount;
+    }
+
+    public bool GetApplyToAll()
+    {
+        return _applyToAll;
     }
 }

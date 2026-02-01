@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerPrefs : MonoBehaviour
 {
-    [SerializeField] bool publicDemo = false;
-    private bool didTutorial = false;
-    private bool didVoidTutorial = false;
+    [SerializeField] private bool publicDemo = false;
+    [SerializeField] private bool didTutorial = false;
+    [SerializeField] private bool didVoidTutorial = false;
     private int runStatus = 0;
     
     private static GameObject _instance;

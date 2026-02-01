@@ -28,7 +28,7 @@ MonoBehaviour:
   keyStat: 2
   statModifier: 1
   dmgMin: 4
-  dmgMax: 8
+  dmgMax: 9
   critChance: 15
   extraCasts: 0
   secondaryTarget: 0
@@ -61,9 +61,7 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  equipDescription: 'Type: Damage | Crit: 15%
-
-    DMG: 4-8 | DMG Modifier: Skill'
+  equipDescription: 'Type: Damage | Crit: 15% | DMG: 9-14'
   description: 'Weight: Heavy | Cost: 1 Bullet
 
     CD: N/A | Range: 3-8

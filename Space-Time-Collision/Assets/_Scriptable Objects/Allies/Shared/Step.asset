@@ -24,7 +24,7 @@ MonoBehaviour:
   rangeMax: 1
   hasAccuracy: 0
   targetSelf: 0
-  attackType: 0
+  attackType: 5
   keyStat: 0
   statModifier: 0
   dmgMin: 0
@@ -66,5 +66,5 @@ MonoBehaviour:
 
     CD: N/A | Range: Self
 
-    Move
-    up to 1 tile.'
+    Move up
+    to 1 tile.'

@@ -27,14 +27,14 @@ MonoBehaviour:
   attackType: 1
   keyStat: 2
   statModifier: 1
-  dmgMin: 5
-  dmgMax: 7
+  dmgMin: 6
+  dmgMax: 8
   critChance: 20
   extraCasts: 0
   secondaryTarget: 3
   secondaryStat: 0
   secondaryStatModifier: 0
-  secondaryValue: 2
+  secondaryValue: 3
   selfTarget: 0
   selfStat: 0
   selfStatModifier: 0
@@ -60,16 +60,14 @@ MonoBehaviour:
   ignoreBlock: 0
   ignoreDodge: 0
   ignoreWard: 0
-  ignoreArmor: 0
-  equipDescription: 'Type: Damage | Crit: 20%
-
-    DMG: 5-7 | DMG Modifier: Skill'
+  ignoreArmor: 1
+  equipDescription: 'Type: Damage | Crit: 20% | DMG: 10-12'
   description: 'Weight: Heavy | Cost: N/A
 
     CD: 1 | Range: 3-8
 
 
-    Deal 2 armor
-    damage.
+    Deal 3 armor
+    damage and ignore armor.
 
     On a crit apply Vulnerable I.'

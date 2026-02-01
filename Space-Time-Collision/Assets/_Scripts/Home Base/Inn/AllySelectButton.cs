@@ -18,9 +18,9 @@ public class AllySelectButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
     
     // OnClick Methods
 
-    public void CallAddPartyMember()
+    public void CallChangePartyMember()
     {
-        innFunctionality.AddPartyMember(myAlly);
+        innFunctionality.ChangePartyMember(myAlly);
     }
 
     // OnPointerEnter Methods
@@ -28,7 +28,6 @@ public class AllySelectButton : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (myAlly == null) { return; }
-        innFunctionality.DisplayAllyInfo(myAlly);
         innFunctionality.DisplayAllyDescription(myAlly);
     }
     

@@ -28,7 +28,8 @@ public class Ability : ScriptableObject
         Melee,
         Ranged,
         Magic,
-        Tech,
+        Shields,
+        Health,
         None
     }
 

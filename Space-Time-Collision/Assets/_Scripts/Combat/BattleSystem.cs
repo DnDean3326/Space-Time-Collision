@@ -19,9 +19,9 @@ public class BattleSystem : MonoBehaviour
         PlayerTurn,
         EnemyTurn,
         Targeting,
-        End,
-        Won,
-        Lost
+        TurnEnd,
+        Victory,
+        Defeat
     }
     
     private enum DuplicationType
@@ -46,6 +46,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private Transform eteMainPos;
     [SerializeField] private Transform eteTargetPos;
     [SerializeField] private Transform eteSoloPos;
+    [SerializeField] private GameObject[] topMenuObjects;
 
     [Header("Grid Locations")]
     [SerializeField] private List<GridTile> partyBattleGrid = new List<GridTile>();
@@ -117,7 +118,7 @@ public class BattleSystem : MonoBehaviour
     
     [Header("UI")]
     [SerializeField] private GameObject combatStartUI;
-    [SerializeField] private Animator combatStartUIAnimator;
+    [SerializeField] private Animator combatEndUIAnimator;
     
     private PartyManager partyManager;
     private EnemyManager enemyManager;
@@ -128,6 +129,8 @@ public class BattleSystem : MonoBehaviour
     private PlayerPrefs playerPrefs;
     private BattleCameraController cameraController;
     private RunInfo runInfo;
+    private ItemButtonController itemButtonController;
+    private TalismanLogic talismanLogic;
     
     // Character Specific Logic
     private RepentantBattleLogic repentantLogic;
@@ -141,6 +144,7 @@ public class BattleSystem : MonoBehaviour
     private bool targetSelected;
     private bool targetIsEnemy;
     private bool usedAbility;
+    private bool consumableUsed;
     private bool usedLightAction;
     private bool brokeRow;
     private bool abilityDuplicated = false;
@@ -171,6 +175,7 @@ public class BattleSystem : MonoBehaviour
     private const float COMBAT_BEGIN_DELAY = 1.75f;
     private const float CAMERA_MOVE_DELAY = 0.25f;
     private const float TURN_ACTION_DELAY = 1.5f;
+    private const float END_DELAY = 2.5f;
     private const float ABILITY_ANIMATION_DELAY = 0f;
     private const float AILMENT_DAMAGE_DELAY = 0.5f;
     private const float DEATH_DELAY = 3f;
@@ -180,8 +185,7 @@ public class BattleSystem : MonoBehaviour
     private const float MAX_ACTION_START = 100f;
     private const int MAX_INDIVIDUAL_DISPLAY = 5;
     private const int PREVIEW_RESIST_PIERCE = 500;
-    private const int PLAYER_NONMOVE_ABILITIES = 4;
-    private const float MOVE_SPEED = 1f; // For eventual use with moving unit in real time from one tile to another
+    private const int PLAYER_NONMOVE_ABILITIES = 5;
     private const string NODE_SCENE = "NodeScene";
     private const string BASE_SCENE = "BaseScene";
     
@@ -191,9 +195,12 @@ public class BattleSystem : MonoBehaviour
     public const float PowerStunMod = 2;
     public const float MindDebuffMod = 2;
     public const float LuckCritMod = 1;
+
+    private List<int> enemyFunds = new List<int>();
+    private int encounterFunds = 0;
     
     // Animator Constants
-    private const string BATTLE_START_END = "EndTrigger";
+    private const string VICTORY_TRIGGER = "StartTrigger";
 
     private void Awake()
     {
@@ -202,22 +209,26 @@ public class BattleSystem : MonoBehaviour
         tokenManager = FindFirstObjectByType<TokenManager>();
         turnOrderDisplay = FindFirstObjectByType<TurnOrderDisplay>();
         combatGrid = FindFirstObjectByType<CombatGrid>();
-        abilityNameDisplay = FindFirstObjectByType<AbilityNameDisplay>();
+        //abilityNameDisplay = FindFirstObjectByType<AbilityNameDisplay>();
         playerPrefs =  FindFirstObjectByType<PlayerPrefs>();
         cameraController = FindFirstObjectByType<BattleCameraController>();
         runInfo = FindFirstObjectByType<RunInfo>();
+        itemButtonController = FindFirstObjectByType<ItemButtonController>();
+        talismanLogic = FindFirstObjectByType<TalismanLogic>();
         
         combatGrid.GetGridInfo(ref partyBattleGrid, ref enemyBattleGrid);
         LinkCharacterLogics();
+        InitializeBattleTokens();
         CreatePartyEntities();
         CreateEnemyEntities();
-        InitializeBattleTokens();
     }
     
     private void Start()
     {
         StartCoroutine(StartRoutine());
         battleStartUI.SetActive(true);
+
+        encounterFunds += Random.Range(10, (15 + 1));
     }
 
     private void LinkCharacterLogics()
@@ -258,13 +269,25 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.Start) {
             SetAbilityBar();
-            abilityNameDisplay.HideAbilityInfo();
+            //abilityNameDisplay.HideAbilityInfo();
             
             for (int i = 0; i < allCombatants.Count; i++) {
                 allCombatants[i].actionPoints = Random.Range(1, MAX_ACTION_START + 1);
                 allCombatants[i].actionPoints += allCombatants[i].speed * .01f;
             }
             GetTurnOrder();
+            talismanLogic.BattleStartTalisman();
+            foreach (EnemyInitialTokenInfo enemyToken in runInfo.GetEnemyInitialTokens()) {
+                if (enemyToken.GetApplyToAll()) {
+                    foreach (BattleEntity enemy in enemyCombatants) {
+                        AddTokens(enemy, enemy, enemyToken.GetTokenName(), enemyToken.GetTokenCount(), 100);
+                    }
+                } else {
+                    BattleEntity randomEnemy = enemyCombatants[Random.Range(0, enemyCombatants.Count)];
+                    AddTokens(randomEnemy, randomEnemy, enemyToken.GetTokenName(), enemyToken.GetTokenCount(), 100);
+                }
+            }
+            runInfo.ClearEnemyInitialTokens();
             
             yield return new WaitForSeconds(COMBAT_BEGIN_DELAY);
             Destroy(battleStartUI);
@@ -285,7 +308,7 @@ public class BattleSystem : MonoBehaviour
         
         // if no party members remain -> battle is lost
         if (partyCombatants.Count <= 0) {
-            state = BattleState.Lost;
+            state = BattleState.Defeat;
             yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
             print("GAME OVER! \n Go to game over screen.");
             playerPrefs.SetRunStatus(0);
@@ -293,9 +316,11 @@ public class BattleSystem : MonoBehaviour
         }
         // if no enemies remain -> battle is won
         if (enemyCombatants.Count <= 0) {
-            state = BattleState.Won;
-            yield return new WaitForSeconds(TURN_ACTION_DELAY);  // wait a few seconds
+            state = BattleState.Victory;
+            combatEndUIAnimator.SetTrigger(VICTORY_TRIGGER);
+            yield return new WaitForSeconds(END_DELAY);  // wait a few seconds
             print("Your party prevailed!");
+            runInfo.ChangeFunds(encounterFunds);
             if (playerPrefs.CheckDemoStatus()) {
                 if (runInfo.GetCurrentNode() > 2) {
                     runInfo.SetCurrentNode(0);
@@ -310,7 +335,7 @@ public class BattleSystem : MonoBehaviour
             FindMyGridPosition(entity);
         }
         
-        abilityNameDisplay.HideAbilityInfo();
+        //abilityNameDisplay.HideAbilityInfo();
         
         if (state == BattleState.Battle) {
             while (preparedCombatants.Count <= 0) {
@@ -440,7 +465,7 @@ public class BattleSystem : MonoBehaviour
             
             BattleEntity activeCharacter = allCombatants[currentPlayer];
             BattleEntity targetCharacter = null;
-            Ability abilityInUse = activeCharacter.myAbilities[activeCharacter.activeAbility];
+            Ability abilityInUse = activeCharacter.activeAbility;
             
             int tempTarget;
             SetAbilityValuesForDisplay();
@@ -454,7 +479,7 @@ public class BattleSystem : MonoBehaviour
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
                     
-                    abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
+                    //abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
                     activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
@@ -486,7 +511,7 @@ public class BattleSystem : MonoBehaviour
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
                     
-                    abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
+                    //abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
                     activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
@@ -518,7 +543,7 @@ public class BattleSystem : MonoBehaviour
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
                     
-                    abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
+                    //abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
                     activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
@@ -550,7 +575,7 @@ public class BattleSystem : MonoBehaviour
                     yield return new WaitUntil(() => targetSelected);
                     targetCharacter = allCombatants[activeCharacter.target];
                     
-                    abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
+                    //abilityNameDisplay.DisplayAbilityInfo(activeCharacter, targetCharacter, abilityInUse);
                     
                     activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
@@ -627,6 +652,7 @@ public class BattleSystem : MonoBehaviour
                     break;
                 default:
                     print("Unsupported ability type of " + allCombatants[currentPlayer].activeAbilityType + " supplied.");
+                    activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeBackButtonVisibility(false);
@@ -639,14 +665,23 @@ public class BattleSystem : MonoBehaviour
                     int tokenPosition = activeCharacter.activeTokens.FindIndex(t => t.tokenName == "Rush");
                     activeCharacter.activeTokens.RemoveAt(tokenPosition);
                     activeCharacter.battleVisuals.UpdateTokens(activeCharacter.activeTokens);
+                    ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]);
                 } else {
                     usedLightAction = true;
                     int abilityIndex = activeCharacter.myAbilities.IndexOf(abilityInUse);
-                    activeCharacter.abilityCooldowns[abilityIndex] += abilityInUse.cooldown;
+                    if (activeCharacter.myAbilities.Any(t => t == abilityInUse)) {
+                        activeCharacter.abilityCooldowns[abilityIndex] += abilityInUse.cooldown;
+                    }
+
+                    if (consumableUsed) {
+                        consumableUsed = false;
+                        DepleteConsumable();
+                    }
+                    ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]);
                 }
                 BackToAbilities();
             } else {
-                state  = BattleState.End;
+                state  = BattleState.TurnEnd;
                 StartCoroutine(EndRoutine(activeCharacter));
                 yield break;
             }
@@ -760,7 +795,7 @@ public class BattleSystem : MonoBehaviour
                     abilityThreshold += validAbilities[i].abilityPriority;
                     if (enemyDecision <= abilityThreshold) {
                         abilityUsed = validAbilities[i];
-                        activeEnemy.activeAbility = myBrain.enemyAbilities.IndexOf(abilityUsed);
+                        activeEnemy.activeAbility = abilityUsed.ability;
                         break;
                     }
                 }
@@ -799,7 +834,7 @@ public class BattleSystem : MonoBehaviour
                             AddTokens(activeEnemy, activeEnemy, abilityUsed.ability.selfTokensApplied[i].ToString(), 
                                 abilityUsed.ability.selfTokenCountApplied[i], 0);
                         }
-                        state  = BattleState.End;
+                        state  = BattleState.TurnEnd;
                         StartCoroutine(EndRoutine(activeEnemy));
                         yield break;
                         
@@ -965,23 +1000,23 @@ public class BattleSystem : MonoBehaviour
             
                 activeEnemy.target = allCombatants.IndexOf(abilityTarget);
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
-                abilityNameDisplay.DisplayAbilityInfo(activeEnemy, abilityTarget, abilityUsed.ability);
+                //abilityNameDisplay.DisplayAbilityInfo(activeEnemy, abilityTarget, abilityUsed.ability);
                 switch (abilityUsed.ability.abilityType) {
                     case Ability.AbilityType.Damage:
                         yield return StartCoroutine(ChangeToActionCameras(activeEnemy, abilityTarget));
-                        yield return StartCoroutine(DamageAction(activeEnemy, abilityTarget, myBrain.enemyAbilities.IndexOf(abilityUsed)));
+                        yield return StartCoroutine(DamageAction(activeEnemy, abilityTarget, abilityUsed.ability));
                         break;
                     case Ability.AbilityType.Debuff:
                         yield return StartCoroutine(ChangeToActionCameras(activeEnemy, abilityTarget));
-                        yield return StartCoroutine(DebuffAction(activeEnemy, abilityTarget, myBrain.enemyAbilities.IndexOf(abilityUsed)));
+                        yield return StartCoroutine(DebuffAction(activeEnemy, abilityTarget, abilityUsed.ability));
                         break;
                     case Ability.AbilityType.Heal:
                         yield return StartCoroutine(ChangeToActionCameras(activeEnemy, abilityTarget));
-                        yield return StartCoroutine(HealAction(activeEnemy, abilityTarget, myBrain.enemyAbilities.IndexOf(abilityUsed)));
+                        yield return StartCoroutine(HealAction(activeEnemy, abilityTarget, abilityUsed.ability));
                         break;
                     case Ability.AbilityType.Buff:
                         yield return StartCoroutine(ChangeToActionCameras(activeEnemy, abilityTarget));
-                        yield return StartCoroutine(BuffAction(activeEnemy, abilityTarget, myBrain.enemyAbilities.IndexOf(abilityUsed)));
+                        yield return StartCoroutine(BuffAction(activeEnemy, abilityTarget, abilityUsed.ability));
                         break;
                     default:
                         print("Invalid ability type of " + abilityUsed.ability.abilityType +
@@ -990,7 +1025,7 @@ public class BattleSystem : MonoBehaviour
                 }
             }
             
-            state  = BattleState.End;
+            state  = BattleState.TurnEnd;
             StartCoroutine(EndRoutine(activeEnemy));
             yield break;
         } else {
@@ -1000,7 +1035,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntity activeEntity)
     {
-        ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]); //TODO update this for cases where there is no target for active ability
+        ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]);
         
         // Call character turn end logic
         if (activeEntity.myName == "Renée") {
@@ -1008,9 +1043,15 @@ public class BattleSystem : MonoBehaviour
         }
         
         // If a move action was used, turn off move buttons
-        if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement
-            && allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityWeight != Ability.AbilityWeight.Light) {
-            combatGrid.DisableGridButtons(targetIsEnemy);
+        if (allCombatants[currentPlayer].activeAbility != null) {
+            if (allCombatants[currentPlayer].activeAbility.abilityType == Ability.AbilityType.Movement
+                && allCombatants[currentPlayer].activeAbility.abilityWeight != Ability.AbilityWeight.Light) {
+                combatGrid.DisableGridButtons(targetIsEnemy);
+            }
+            if (allCombatants[currentPlayer].activeAbility.abilityType == Ability.AbilityType.Movement
+                && allCombatants[currentPlayer].activeAbility.abilityWeight != Ability.AbilityWeight.Light) {
+                combatGrid.DisableGridButtons(targetIsEnemy);
+            }
         }
         
         // Trigger Ailments
@@ -1026,7 +1067,10 @@ public class BattleSystem : MonoBehaviour
         }
         // Start the cooldown of the used ability
         if (usedAbility) {
-            activeEntity.abilityCooldowns[activeEntity.activeAbility] = activeEntity.myAbilities[activeEntity.activeAbility].cooldown;
+            if (activeEntity.myAbilities.Any(t => t == activeEntity.activeAbility)) {
+                int abilityIndex = activeEntity.myAbilities.IndexOf(activeEntity.activeAbility);
+                activeEntity.abilityCooldowns[abilityIndex] = activeEntity.myAbilities[abilityIndex].cooldown;
+            }
         }
             
         // Reset turn-related values
@@ -1035,6 +1079,7 @@ public class BattleSystem : MonoBehaviour
         usedLightAction = false;
         usedAbility = true;
         abilityDuplicated = false;
+        consumableUsed = false;
         extraCastCount = 0;
         duplicationType = DuplicationType.None;
         activeEntity.wasDamagedLastTurn = false;
@@ -1056,6 +1101,10 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator ChangeToActionCameras(BattleEntity mainEntity, BattleEntity targetEntity)
     {
+        foreach (GameObject menu in topMenuObjects) {
+            menu.SetActive(false);
+        }
+        
         foreach (Transform child in visualsObject.transform) {
             child.gameObject.SetActive(false);
         }
@@ -1115,6 +1164,9 @@ public class BattleSystem : MonoBehaviour
         foreach (Transform child in visualsObject.transform) {
             child.gameObject.SetActive(true);
         }
+        foreach (GameObject menu in topMenuObjects) {
+            menu.SetActive(true);
+        }
         cameraController.SetMainCamera();
     }
     
@@ -1173,6 +1225,11 @@ public class BattleSystem : MonoBehaviour
             // Add the allied combatant to the all combatants and party combatant lists
             allCombatants.Add(tempEntity);
             partyCombatants.Add(tempEntity);
+            
+            // Add Start of combat tokens
+            foreach (InitialTokenInfo initialToken in currentParty[i].initialTokens) {
+                AddTokens(tempEntity, tempEntity, initialToken.GetTokenName(), initialToken.GetTokenCount(), 100);
+            }
         }
     }
     
@@ -1223,9 +1280,16 @@ public class BattleSystem : MonoBehaviour
                 bossLogicList.Add(new BossLogicListing(tempObject, tempEntity));
             }
             
+            enemyFunds.Add(currentEnemies[i].fundDrop);
+            
             // Add the allied combatant to the all combatants and party combatant lists
             allCombatants.Add(tempEntity);
             enemyCombatants.Add(tempEntity);
+            
+            // Add Start of combat tokens
+            foreach (InitialTokenInfo initialToken in currentEnemies[i].initialTokens) {
+                AddTokens(tempEntity, tempEntity, initialToken.GetTokenName(), initialToken.GetTokenCount(), 100);
+            }
         }
     }
 
@@ -1356,6 +1420,10 @@ public class BattleSystem : MonoBehaviour
             BattleEntity deadCombatant = null;
             if (allCombatants[i].currentHealth <= 0) {
                 deadCombatant = allCombatants[i];
+                if (!deadCombatant.isPlayer) {
+                    int enemyIndex = enemyCombatants.IndexOf(deadCombatant);
+                    encounterFunds += enemyFunds[enemyIndex];
+                }
                 allCombatants.RemoveAt(i);
             }
             if (deadCombatant != null) {
@@ -1491,7 +1559,7 @@ public class BattleSystem : MonoBehaviour
 
     public void MoveOrTargetCheck(int positionIndex)
     {
-        if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType ==
+        if (allCombatants[currentPlayer].activeAbility.abilityType ==
             Ability.AbilityType.Movement) {
             if (positionIndex > 15) {
                 int rowTarget = enemyBattleGrid[positionIndex - 16].xPos;
@@ -1508,7 +1576,7 @@ public class BattleSystem : MonoBehaviour
             }
         } else {
             bool isTargetingEnemies = true;
-            switch (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType) {
+            switch (allCombatants[currentPlayer].activeAbility.abilityType) {
                 case Ability.AbilityType.Damage:
                 case Ability.AbilityType.Debuff:
                     isTargetingEnemies = true;
@@ -1764,8 +1832,10 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
-        if (entity.myAbilities[entity.activeAbility].abilityType == Ability.AbilityType.Movement) {
-            StartCoroutine(MoveToPosition(entity, oldPos, newPos)); //TODO Reenable this if it does not work
+        if (entity.activeAbility != null) {
+            if (entity.activeAbility.abilityType == Ability.AbilityType.Movement) {
+                StartCoroutine(MoveToPosition(entity, oldPos, newPos)); //TODO Reenable this if it does not work
+            }
         }
         yield break;
     }
@@ -1833,6 +1903,7 @@ public class BattleSystem : MonoBehaviour
         allCombatants[characterIndex].combatMenuVisuals.ChangeResourcePreviewUIVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangePassButtonVisibility(true);
         allCombatants[characterIndex].combatMenuVisuals.ChangeAbilityEffectTextVisibility(true);
+        allCombatants[characterIndex].target = characterIndex;
     }
     
     public void ShowAbilityPreviewMenu(int characterIndex)
@@ -1961,7 +2032,7 @@ public class BattleSystem : MonoBehaviour
 
     public void PreviewSelfGain(BattleEntity playerEntity)
     {
-        Ability activeAbility = playerEntity.myAbilities[playerEntity.activeAbility];
+        Ability activeAbility = playerEntity.activeAbility;
 
         if (activeAbility.selfMin != activeAbility.selfMax) { return; }
         
@@ -1993,7 +2064,7 @@ public class BattleSystem : MonoBehaviour
     
     private void EndSelfGainPreview(BattleEntity activeEntity)
     {
-        Ability activeAbility = allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility];
+        Ability activeAbility = allCombatants[currentPlayer].activeAbility;
         
         if (activeAbility.selfMin != activeAbility.selfMax) { return; }
         
@@ -2023,7 +2094,7 @@ public class BattleSystem : MonoBehaviour
     public void PreviewTargetResourceValue(BattleEntity targetEntity)
     {
         BattleEntity playerEntity = allCombatants[currentPlayer];
-        Ability activeAbility = playerEntity.myAbilities[playerEntity.activeAbility];
+        Ability activeAbility = playerEntity.activeAbility;
         int tempInt;
         switch (activeAbility.secondaryTarget) {
             case Ability.SecondaryTarget.Spirit:
@@ -2065,7 +2136,7 @@ public class BattleSystem : MonoBehaviour
 
     private void EndTargetResourcePreview(BattleEntity targetEntity)
     {
-        Ability activeAbility = allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility];
+        Ability activeAbility = allCombatants[currentPlayer].activeAbility;
         switch (activeAbility.secondaryTarget) {
             case Ability.SecondaryTarget.Spirit:
                 if (targetEntity.isPlayer) {
@@ -2139,12 +2210,26 @@ public class BattleSystem : MonoBehaviour
         }
         PreviewTurnOrder();
     }
+
+    public void SetConsumableAbility(Ability consumableAbility)
+    {
+        BattleEntity currentPlayerEntity = allCombatants[currentPlayer];
+        currentPlayerEntity.activeAbilityType = consumableAbility.abilityType.ToString();
+        currentPlayerEntity.activeAbility = consumableAbility;
+        abilitySelected = true;
+        consumableUsed = true;
+    }
+
+    private void DepleteConsumable()
+    {
+        itemButtonController.UseConsumable();
+    }
     
     public void SetCurrentAbilityType(int abilityIndex)
     {
         BattleEntity currentPlayerEntity = allCombatants[currentPlayer];
         currentPlayerEntity.activeAbilityType = currentPlayerEntity.myAbilities[abilityIndex].abilityType.ToString();
-        currentPlayerEntity.activeAbility = abilityIndex;
+        currentPlayerEntity.activeAbility = currentPlayerEntity.myAbilities[abilityIndex];
         abilitySelected = true;
     }
 
@@ -2157,6 +2242,7 @@ public class BattleSystem : MonoBehaviour
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeBackButtonVisibility(false);
+            allCombatants[currentPlayer].combatMenuVisuals.ChangePassButtonVisibility(false);
             StartCoroutine(EndRoutine(allCombatants[currentPlayer]));
         }
     }
@@ -2172,7 +2258,7 @@ public class BattleSystem : MonoBehaviour
             allCombatants[currentPlayer].combatMenuVisuals.ChangeAbilityEffectTextVisibility(false);
             allCombatants[currentPlayer].combatMenuVisuals.ChangeBackButtonVisibility(false);
             combatGrid.HideTiles(targetIsEnemy);
-            if (allCombatants[currentPlayer].myAbilities[allCombatants[currentPlayer].activeAbility].abilityType == Ability.AbilityType.Movement) {
+            if (allCombatants[currentPlayer].activeAbility.abilityType == Ability.AbilityType.Movement) {
                 combatGrid.HideTiles(!targetIsEnemy);
                 combatGrid.DisableGridButtons(targetIsEnemy);
                 combatGrid.DisableGridButtons(!targetIsEnemy);
@@ -2188,7 +2274,7 @@ public class BattleSystem : MonoBehaviour
     private void SetTargets(int characterIndex)
     {
         BattleEntity activeEntity = allCombatants[characterIndex];
-        Ability activeAbility = activeEntity.myAbilities[activeEntity.activeAbility];
+        Ability activeAbility = activeEntity.activeAbility;
         targetList.Clear();
         
         if (targetIsEnemy) {
@@ -2254,24 +2340,24 @@ public class BattleSystem : MonoBehaviour
             ref max, ref crit);
         
         // Check for damage abilities
-        if (activeEntity.myAbilities[activeEntity.activeAbility].abilityType == Ability.AbilityType.Damage) {
+        if (activeEntity.activeAbility.abilityType == Ability.AbilityType.Damage) {
             RunAbilityAgainstSelfTokens(activeEntity, ref abilityModifier, ref singleValue, ref acc, ref min, ref max, ref crit);
-            RunAbilityAgainstTargetTokens(activeEntity, targetEntity, activeEntity.myAbilities[activeEntity.activeAbility],
+            RunAbilityAgainstTargetTokens(activeEntity, targetEntity, activeEntity.activeAbility,
                 ref singleValue, ref acc, ref min, ref max, ref crit);
         }
         
         // Check against heal affecting tokens
-        if (activeEntity.myAbilities[activeEntity.activeAbility].abilityType == Ability.AbilityType.Heal) {
+        if (activeEntity.activeAbility.abilityType == Ability.AbilityType.Heal) {
             RunHealAgainstSelfTokens(activeEntity, ref abilityModifier, ref singleValue, ref acc, ref min, ref max, ref crit);
         }
         
         // Check against debuff affecting tokens
-        if (activeEntity.myAbilities[activeEntity.activeAbility].abilityType == Ability.AbilityType.Debuff) {
+        if (activeEntity.activeAbility.abilityType == Ability.AbilityType.Debuff) {
             RunDebuffAgainstSelfTokens(activeEntity, ref isCrit, ref acc, ref crit);
             RunDebuffAgainstTargetTokens(activeEntity, targetEntity, ref isCrit, ref acc , ref crit);
         }
 
-        switch (activeEntity.myAbilities[activeEntity.activeAbility].abilityType) {
+        switch (activeEntity.activeAbility.abilityType) {
             case Ability.AbilityType.Damage:
             case Ability.AbilityType.Debuff:
                 crit -= allCombatants[target].critResist;
@@ -2293,7 +2379,7 @@ public class BattleSystem : MonoBehaviour
         if (activeEntity.activeAbilityType == "Damage") {
             isDamage = true;
             if (!IgnoreArmorWithTokens(activeEntity, targetEntity) &&
-                !activeEntity.myAbilities[activeEntity.activeAbility].ignoreArmor) {
+                !activeEntity.activeAbility.ignoreArmor) {
                 min -= targetEntity.currentArmor;
                 max -= targetEntity.currentArmor;
             }
@@ -2318,9 +2404,9 @@ public class BattleSystem : MonoBehaviour
         bool hasSpeedToken = false;
         int speedTokenIndex = 10;
 
-        for (int i = 0; i < activeEntity.myAbilities[activeEntity.activeAbility].targetTokensApplied.Length; i++) {
-            if (activeEntity.myAbilities[activeEntity.activeAbility].targetTokensApplied[i] == Ability.TokenOption.Haste ||
-                activeEntity.myAbilities[activeEntity.activeAbility].targetTokensApplied[i] == Ability.TokenOption.Slow) {
+        for (int i = 0; i < activeEntity.activeAbility.targetTokensApplied.Length; i++) {
+            if (activeEntity.activeAbility.targetTokensApplied[i] == Ability.TokenOption.Haste ||
+                activeEntity.activeAbility.targetTokensApplied[i] == Ability.TokenOption.Slow) {
                 hasSpeedToken = true;
                 speedTokenIndex = i;
             }
@@ -2334,8 +2420,8 @@ public class BattleSystem : MonoBehaviour
                 }
             }
             
-            ChangeTurnSpeed(tempList, activeEntity.myAbilities[activeEntity.activeAbility].targetTokensApplied[speedTokenIndex],
-                activeEntity.myAbilities[activeEntity.activeAbility].targetTokenCountApplied[speedTokenIndex]);
+            ChangeTurnSpeed(tempList, activeEntity.activeAbility.targetTokensApplied[speedTokenIndex],
+                activeEntity.activeAbility.targetTokenCountApplied[speedTokenIndex]);
         }
         
         CheckTurnTarget(targetEntity);
@@ -2503,10 +2589,10 @@ public class BattleSystem : MonoBehaviour
         return enemies[Random.Range(0, enemies.Count)]; // return a random party member
     }
 
-    private int GetAbilityModifier(BattleEntity activeEntity, int activeAbilityIndex)
+    private int GetAbilityModifier(BattleEntity activeEntity, Ability activeAbility)
     {
-        Ability.KeyStat abilityKey = activeEntity.myAbilities[activeAbilityIndex].keyStat;
-        int abilityKeyMod = activeEntity.myAbilities[activeAbilityIndex].statModifier;
+        Ability.KeyStat abilityKey = activeAbility.keyStat;
+        int abilityKeyMod = activeAbility.statModifier;
         int abilityModifier = 0;
         int tempInt = 0;
         
@@ -2560,10 +2646,10 @@ public class BattleSystem : MonoBehaviour
         return abilityModifier;
     }
 
-    private int GetAbilityModifierAgainstTarget(BattleEntity activeEntity, BattleEntity targetEntity, int activeAbilityIndex)
+    private int GetAbilityModifierAgainstTarget(BattleEntity activeEntity, BattleEntity targetEntity, Ability activeAbility)
     {
-        Ability.KeyStat abilityKey = activeEntity.myAbilities[activeAbilityIndex].keyStat;
-        int abilityKeyMod = activeEntity.myAbilities[activeAbilityIndex].statModifier;
+        Ability.KeyStat abilityKey = activeAbility.keyStat;
+        int abilityKeyMod = activeAbility.statModifier;
         int abilityModifier = 0;
         int tempInt = 0;
         
@@ -2629,10 +2715,10 @@ public class BattleSystem : MonoBehaviour
         return abilityModifier;
     }
 
-    private int GetSecondaryAbilityModifier(BattleEntity activeEntity, int activeAbilityIndex)
+    private int GetSecondaryAbilityModifier(BattleEntity activeEntity, Ability activeAbility)
     {
-        string secondaryKey = activeEntity.myAbilities[activeAbilityIndex].secondaryStat.ToString();
-        int secondaryKeyMod = activeEntity.myAbilities[activeAbilityIndex].secondaryStatModifier;
+        string secondaryKey = activeEntity.activeAbility.secondaryStat.ToString();
+        int secondaryKeyMod = activeEntity.activeAbility.secondaryStatModifier;
         int secondaryModifier = 0;
         
         switch (secondaryKey)
@@ -2670,9 +2756,9 @@ public class BattleSystem : MonoBehaviour
         abilityModifier = GetAbilityModifier(activeEntity, activeEntity.activeAbility);
         
         isCrit = false;
-        min = activeEntity.myAbilities[activeEntity.activeAbility].dmgMin + abilityModifier;
-        max = activeEntity.myAbilities[activeEntity.activeAbility].dmgMax + abilityModifier;
-        crit = activeEntity.critChance + activeEntity.myAbilities[activeEntity.activeAbility].critChance;
+        min = activeEntity.activeAbility.dmgMin + abilityModifier;
+        max = activeEntity.activeAbility.dmgMax + abilityModifier;
+        crit = activeEntity.critChance + activeEntity.activeAbility.critChance;
     }
 
     private void SetAbilityValuesAgainstTarget(BattleEntity activeEntity, BattleEntity targetEntity,
@@ -2681,15 +2767,15 @@ public class BattleSystem : MonoBehaviour
         abilityModifier = GetAbilityModifierAgainstTarget(activeEntity, targetEntity, activeEntity.activeAbility);
         
         isCrit = false;
-        min = activeEntity.myAbilities[activeEntity.activeAbility].dmgMin + abilityModifier;
-        max = activeEntity.myAbilities[activeEntity.activeAbility].dmgMax + abilityModifier;
-        crit = activeEntity.critChance + activeEntity.myAbilities[activeEntity.activeAbility].critChance;
+        min = activeEntity.activeAbility.dmgMin + abilityModifier;
+        max = activeEntity.activeAbility.dmgMax + abilityModifier;
+        crit = activeEntity.critChance + activeEntity.activeAbility.critChance;
     }
 
     private void SetSecondaryAbilityValues(BattleEntity activeEntity, ref int secondaryAbilityModifier, ref int secondaryValue)
     {
         secondaryAbilityModifier = GetSecondaryAbilityModifier(activeEntity, activeEntity.activeAbility);
-        secondaryValue += secondaryAbilityModifier + activeEntity.myAbilities[activeEntity.activeAbility].secondaryValue;
+        secondaryValue += secondaryAbilityModifier + activeEntity.activeAbility.secondaryValue;
     }
 
     private void RunAbilityAgainstSelfTokens(BattleEntity activeEntity, ref int abilityModifier,
@@ -2726,7 +2812,7 @@ public class BattleSystem : MonoBehaviour
                 break;
             }
             // Check for Blind tokens
-            if (token.tokenName == "Blind" && activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+            if (token.tokenName == "Blind" && activeEntity.activeAbility.hasAccuracy) {
                 acc *= (1 - blindToken.tokenValue);
                 break;
             }
@@ -2760,7 +2846,7 @@ public class BattleSystem : MonoBehaviour
                 break;
             }
             // Check for Blind tokens
-            if (token.tokenName == "Blind" && activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+            if (token.tokenName == "Blind" && activeEntity.activeAbility.hasAccuracy) {
                 acc *= (1 - blindToken.tokenValue);
                 break;
             }
@@ -2790,11 +2876,11 @@ public class BattleSystem : MonoBehaviour
 
             // Check for Dodge tokens
             if (token.tokenName == "DodgePlus" && !hasPrecision  && !ability.ignoreDodge &&
-                activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+                activeEntity.activeAbility.hasAccuracy) {
                 acc = (acc * (1 - dodgePlusToken.tokenValue));
                 break;
             } else if (token.tokenName == "Dodge" && !hasPrecision  && !ability.ignoreDodge && 
-                       activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+                       activeEntity.activeAbility.hasAccuracy) {
                 acc = (acc * (1 - dodgeToken.tokenValue));
                 break;
             }
@@ -2811,7 +2897,7 @@ public class BattleSystem : MonoBehaviour
                 break;
             }
             // Check for Blind tokens
-            if (token.tokenName == "Blind" && activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+            if (token.tokenName == "Blind" && activeEntity.activeAbility.hasAccuracy) {
                 acc *= (1 - blindToken.tokenValue);
                 break;
             }
@@ -2828,7 +2914,7 @@ public class BattleSystem : MonoBehaviour
                 break;
             }
             // Check for Blind tokens
-            if (token.tokenName == "Blind" && activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+            if (token.tokenName == "Blind" && activeEntity.activeAbility.hasAccuracy) {
                 acc *= (1 - blindToken.tokenValue);
                 break;
             }
@@ -2839,16 +2925,16 @@ public class BattleSystem : MonoBehaviour
         ref float acc, ref int crit)
     {
         bool hasPrecision = activeEntity.activeTokens.Any(t => t.tokenName == "Precision");
-        Ability activeAbility = activeEntity.myAbilities[activeEntity.activeAbility];
+        Ability activeAbility = activeEntity.activeAbility;
         
         foreach (BattleToken token in activeEntity.activeTokens) {
             // Check for Dodge tokens
             if (token.tokenName == "DodgePlus" && !hasPrecision  && !activeAbility.ignoreDodge &&
-                activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+                activeEntity.activeAbility.hasAccuracy) {
                 acc = (acc * (1 - dodgePlusToken.tokenValue));
                 break;
             } else if (token.tokenName == "Dodge" && !hasPrecision  && !activeAbility.ignoreDodge && 
-                       activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+                       activeEntity.activeAbility.hasAccuracy) {
                 acc = (acc * (1 - dodgeToken.tokenValue));
                 break;
             }
@@ -2966,10 +3052,10 @@ public class BattleSystem : MonoBehaviour
                                                applyingEntity.activeTokens.All(t => "Precision" != t.tokenName):
                 case Token.TokenType.Debuff when recipientEntity.activeTokens.Any(t => "Ward" == t.tokenName) &&
                                                  applyingEntity.activeTokens.All(t => "Precision" != t.tokenName) && 
-                                                 !applyingEntity.myAbilities[recipientEntity.activeAbility].ignoreWard:
+                                                 !applyingEntity.activeAbility.ignoreWard:
                 case Token.TokenType.Ailments when recipientEntity.activeTokens.Any(t => "Ward" == t.tokenName) &&
                                                    applyingEntity.activeTokens.All(t => "Precision" != t.tokenName) && 
-                                                   !applyingEntity.myAbilities[recipientEntity.activeAbility].ignoreWard:
+                                                   !applyingEntity.activeAbility.ignoreWard:
                     return;
             }
 
@@ -3049,12 +3135,12 @@ public class BattleSystem : MonoBehaviour
                 if (tokenName == "Haste" || tokenName == "Slow") {
                     GetTurnOrder();
                 }
+                
+                // Check and mark unique tokens added
+                if (recipientEntity.myName == "Bune" && tokenAdded.tokenName == "Vice") {
+                    cowboyLogic.GainedVice(true);
+                }
             }
-        }
-        
-        // Check and mark unique tokens added
-        if (recipientEntity.myName == "Bune" && tokenAdded.tokenName == "Vice") {
-            cowboyLogic.GainedVice(true);
         }
 
         if (resistPierce != PREVIEW_RESIST_PIERCE) {
@@ -3239,7 +3325,7 @@ public class BattleSystem : MonoBehaviour
             }
             
             // Check for Blind tokens
-            if (t.tokenName == "Blind" && activeEntity.myAbilities[activeEntity.activeAbility].hasAccuracy) {
+            if (t.tokenName == "Blind" && activeEntity.activeAbility.hasAccuracy) {
                 tokensToRemove.Add(t.tokenName);
             }
             
@@ -3537,7 +3623,7 @@ public class BattleSystem : MonoBehaviour
         
         entity.battleVisuals.UpdateTokens(entity.activeTokens);
         if (isStunned) {
-            state = BattleState.End;
+            state = BattleState.TurnEnd;
         }
     }
 
@@ -3628,7 +3714,7 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(TURN_ACTION_DELAY);
             
         actOutAbility = Random.Range(1, PLAYER_NONMOVE_ABILITIES + 1);
-        cowboy.activeAbility = actOutAbility;
+        cowboy.activeAbility = cowboy.myAbilities[actOutAbility];
 
         bool targetingFoes = true;
         switch (cowboy.myAbilities[actOutAbility].abilityType) {
@@ -3683,16 +3769,16 @@ public class BattleSystem : MonoBehaviour
             
         switch (cowboy.myAbilities[actOutAbility].abilityType) {
             case Ability.AbilityType.Damage:
-                yield return StartCoroutine(DamageAction(cowboy, abilityTarget, actOutAbility));
+                yield return StartCoroutine(DamageAction(cowboy, abilityTarget, cowboy.activeAbility));
                 break;
             case Ability.AbilityType.Debuff:
-                yield return StartCoroutine(DebuffAction(cowboy, abilityTarget, actOutAbility));
+                yield return StartCoroutine(DebuffAction(cowboy, abilityTarget, cowboy.activeAbility));
                 break;
             case  Ability.AbilityType.Heal:
-                yield return StartCoroutine(HealAction(cowboy, abilityTarget, actOutAbility));
+                yield return StartCoroutine(HealAction(cowboy, abilityTarget, cowboy.activeAbility));
                 break;
             case  Ability.AbilityType.Buff:
-                yield return StartCoroutine(BuffAction(cowboy, abilityTarget, actOutAbility));
+                yield return StartCoroutine(BuffAction(cowboy, abilityTarget, cowboy.activeAbility));
                 break;
             default:
                 print("Invalid ability type of " + cowboy.myAbilities[actOutAbility].abilityType + " called.");
@@ -3705,15 +3791,13 @@ public class BattleSystem : MonoBehaviour
 
         cowboyLogic.ResetCowboyActout();
         
-        state = BattleState.End;
+        state = BattleState.TurnEnd;
         StartCoroutine(EndRoutine(cowboy));
         yield break;
     }
     
-    private IEnumerator DamageAction(BattleEntity attacker, BattleEntity attackTarget, int activeAbilityIndex)
+    private IEnumerator DamageAction(BattleEntity attacker, BattleEntity attackTarget, Ability activeAbility)
     {
-        Ability activeAbility = attacker.myAbilities[activeAbilityIndex];
-        
         print(attacker.myName + " used " + activeAbility.abilityName + " against " + attackTarget.myName);
         
         // Declare damage values
@@ -3796,6 +3880,14 @@ public class BattleSystem : MonoBehaviour
                     ref selfXTravel, ref selfYTravel, ref selfTokens, ref selfTokensCount, ref targetTokens, ref targetTokensCount);
                 break;
         }
+
+        // Check Talisman Logic
+        if (attacker.isPlayer) {
+            int distance = CalculateTargetDistance(attacker, attackTarget);
+            talismanLogic.AttackTalisman(attacker, activeAbility, distance, ref targetTokens, ref targetTokensCount);
+        } else if (!attacker.isPlayer && attackTarget.isPlayer) {
+            talismanLogic.DefenseTalisman(attackTarget, ref critChance);
+        }
         
         // Reduce crit chance by target's crit resist
         critChance -= attackTarget.critResist;
@@ -3847,14 +3939,14 @@ public class BattleSystem : MonoBehaviour
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
 
                 if (!abilityDuplicated) {
-                    yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                    yield return StartCoroutine(ConsumeResources(activeAbility));
                 }
                 SaveResources();
                 
                 // Check for extra casts
                 if (extraCastCount < activeAbility.extraCasts) {
                     extraCastCount++;
-                    yield return StartCoroutine(DamageAction(attacker, attackTarget, activeAbilityIndex));
+                    yield return StartCoroutine(DamageAction(attacker, attackTarget, activeAbility));
                 }
                 
                 yield break;
@@ -3869,7 +3961,7 @@ public class BattleSystem : MonoBehaviour
                 maxDamageRange = 0;
             }
             damage = (int)(maxDamageRange * CRIT_DAMAGE_MODIFIER);
-            if (!IgnoreArmorWithTokens(attacker, attackTarget) && !attacker.myAbilities[attacker.activeAbility].ignoreArmor) {
+            if (!IgnoreArmorWithTokens(attacker, attackTarget) && !attacker.activeAbility.ignoreArmor) {
                 damage -= attackTarget.currentArmor;
             }
             if (damage < 1) {
@@ -3885,7 +3977,7 @@ public class BattleSystem : MonoBehaviour
                 maxDamageRange = 0;
             }
             damage = Random.Range(minDamageRange, maxDamageRange + 1);
-            if (!IgnoreArmorWithTokens(attacker, attackTarget) && !attacker.myAbilities[attacker.activeAbility].ignoreArmor) {
+            if (!IgnoreArmorWithTokens(attacker, attackTarget) && !attacker.activeAbility.ignoreArmor) {
                 damage -= attackTarget.currentArmor;
             }
             if (damage < 0) {
@@ -3915,6 +4007,9 @@ public class BattleSystem : MonoBehaviour
         // Apply on crit tokens if attack crit
         if (isCrit) {
             SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+            if (attacker.isPlayer) {
+                talismanLogic.CritTalisman(ref selfTokens, ref selfTokensCount);
+            }
         }
         
         // Remove appropriate tokens
@@ -4003,7 +4098,7 @@ public class BattleSystem : MonoBehaviour
         attackTarget.damagedBy = allCombatants.IndexOf(attacker);
 
         if (!abilityDuplicated && extraCastCount == 0) {
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+            yield return StartCoroutine(ConsumeResources(activeAbility));
         }
         SaveResources();
         if (attackTarget.isPlayer) {
@@ -4029,14 +4124,14 @@ public class BattleSystem : MonoBehaviour
                 int ricochetTargetIndex = Random.Range(0, ricochetTargetList.Count);
                 abilityDuplicated = true;
                 duplicationType = DuplicationType.Ricochet;
-                yield return StartCoroutine(DamageAction(attacker, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
+                yield return StartCoroutine(DamageAction(attacker, ricochetTargetList[ricochetTargetIndex], activeAbility));
             }
         }
 
         // Check for extra casts
         if (extraCastCount < activeAbility.extraCasts) {
             extraCastCount++;
-            yield return StartCoroutine(DamageAction(attacker, attackTarget, activeAbilityIndex));
+            yield return StartCoroutine(DamageAction(attacker, attackTarget, activeAbility));
         }
         
         // Check character logic post-attack
@@ -4050,10 +4145,8 @@ public class BattleSystem : MonoBehaviour
         }
     }
     
-    private IEnumerator HealAction(BattleEntity healer, BattleEntity healTarget, int activeAbilityIndex)
+    private IEnumerator HealAction(BattleEntity healer, BattleEntity healTarget, Ability activeAbility)
     {
-        Ability activeAbility = healer.myAbilities[activeAbilityIndex];
-        
         // Declare heal values
         int restore;
         int restoreModifier = 0;
@@ -4122,6 +4215,14 @@ public class BattleSystem : MonoBehaviour
             ricochetLogic.RicochetHealLogic(healer, activeAbility, ref selfTokens, ref selfTokensCount);
         }
         
+        // Check Talisman Logic
+        if (healer.isPlayer) {
+            //int distance = CalculateTargetDistance(healer, healTarget);
+            //talismanLogic.AttackTalisman(activeAbility, distance, ref targetTokens, ref targetTokensCount);
+        } else if (!healer.isPlayer && healTarget.isPlayer) {
+            talismanLogic.DefenseTalisman(healTarget, ref critChance);
+        }
+        
         // Clear tokens from self
         if (activeAbility.targetTokensCleared.Length > 0) {
             foreach (Ability.TokenOption token in activeAbility.targetTokensCleared) {
@@ -4155,14 +4256,14 @@ public class BattleSystem : MonoBehaviour
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
 
                 if (!abilityDuplicated) {
-                    yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                    yield return StartCoroutine(ConsumeResources(activeAbility));
                 }
                 SaveResources();
                 
                 // Check for extra casts
                 if (extraCastCount < activeAbility.extraCasts) {
                     extraCastCount++;
-                    yield return StartCoroutine(DamageAction(healer, healTarget, activeAbilityIndex));
+                    yield return StartCoroutine(HealAction(healer, healTarget, activeAbility));
                 }
                 
                 yield break;
@@ -4205,6 +4306,9 @@ public class BattleSystem : MonoBehaviour
         // Apply on crit tokens if attack crit
         if (isCrit) {
             SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+            if (healer.isPlayer) {
+                talismanLogic.CritTalisman(ref selfTokens, ref selfTokensCount);
+            }
         }
         
         // Remove appropriate tokens
@@ -4257,13 +4361,20 @@ public class BattleSystem : MonoBehaviour
         }
         
         // Heal the target
-        healTarget.currentDefense += restore; // restore HP
-        if (healTarget.currentDefense > healTarget.maxDefense) {
-            healTarget.currentDefense = healTarget.maxDefense;
+        if (activeAbility.attackType == Ability.AttackType.Health) {
+            healTarget.currentHealth += restore; // restore Health
+            if (healTarget.currentHealth > healTarget.maxHealth) {
+                healTarget.currentHealth = healTarget.maxHealth;
+            }
+        } else {
+            healTarget.currentDefense += restore; // restore Shields
+            if (healTarget.currentDefense > healTarget.maxDefense) {
+                healTarget.currentDefense = healTarget.maxDefense;
+            }
         }
         
         if (!abilityDuplicated) {
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+            yield return StartCoroutine(ConsumeResources(activeAbility));
         }
         SaveResources();
         // Update the UI
@@ -4290,21 +4401,19 @@ public class BattleSystem : MonoBehaviour
                 int ricochetTargetIndex = Random.Range(0, ricochetTargetList.Count);
                 abilityDuplicated = true;
                 duplicationType = DuplicationType.Ricochet;
-                yield return StartCoroutine(HealAction(healer, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
+                yield return StartCoroutine(HealAction(healer, ricochetTargetList[ricochetTargetIndex], activeAbility));
             }
         }
         
         // Check for extra casts
         if (extraCastCount < activeAbility.extraCasts) {
             extraCastCount++;
-            yield return StartCoroutine(DamageAction(healer, healTarget, activeAbilityIndex));
+            yield return StartCoroutine(HealAction(healer, healTarget, activeAbility));
         }
     }
 
-    private IEnumerator BuffAction(BattleEntity buffer, BattleEntity buffTarget, int activeAbilityIndex)
+    private IEnumerator BuffAction(BattleEntity buffer, BattleEntity buffTarget, Ability activeAbility)
     {
-        Ability activeAbility = buffer.myAbilities[activeAbilityIndex];
-        
         int abilityModifier = 0;
         bool isCrit = false;
         float acc = 100;
@@ -4343,6 +4452,14 @@ public class BattleSystem : MonoBehaviour
             ricochetLogic.RicochetBuffLogic(buffer, activeAbility, ref selfTokens, ref selfTokensCount);
         }
         
+        // Check Talisman Logic
+        if (buffer.isPlayer) {
+            //int distance = CalculateTargetDistance(buffer, buffTarget);
+            //talismanLogic.AttackTalisman(activeAbility, distance, ref targetTokens, ref targetTokensCount);
+        } else if (!buffer.isPlayer && buffTarget.isPlayer) {
+            talismanLogic.DefenseTalisman(buffTarget, ref critChance);
+        }
+        
         // Clear tokens from self
         if (activeAbility.targetTokensCleared.Length > 0 && !abilityDuplicated) {
             foreach (Ability.TokenOption token in activeAbility.selfTokensCleared) {
@@ -4377,14 +4494,14 @@ public class BattleSystem : MonoBehaviour
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
                 
                 if (!abilityDuplicated) {
-                    yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                    yield return StartCoroutine(ConsumeResources(activeAbility));
                 }
                 SaveResources();
                 
                 // Check for extra casts
                 if (extraCastCount < activeAbility.extraCasts) {
                     extraCastCount++;
-                    yield return StartCoroutine(DamageAction(buffer, buffTarget, activeAbilityIndex));
+                    yield return StartCoroutine(BuffAction(buffer, buffTarget, activeAbility));
                 }
                 
                 yield break;
@@ -4421,6 +4538,9 @@ public class BattleSystem : MonoBehaviour
         // Apply on crit tokens if attack crit
         if (isCrit) {
             SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+            if (buffer.isPlayer) {
+                talismanLogic.CritTalisman(ref selfTokens, ref selfTokensCount);
+            }
         }
         
         // Apply tokens to self
@@ -4441,7 +4561,7 @@ public class BattleSystem : MonoBehaviour
         }
         
         if (!abilityDuplicated) {
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+            yield return StartCoroutine(ConsumeResources(activeAbility));
         }
         SaveResources();
         
@@ -4460,14 +4580,14 @@ public class BattleSystem : MonoBehaviour
                 int ricochetTargetIndex = Random.Range(0, ricochetTargetList.Count);
                 abilityDuplicated = true;
                 duplicationType = DuplicationType.Ricochet;
-                yield return StartCoroutine(BuffAction(buffer, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
+                yield return StartCoroutine(BuffAction(buffer, ricochetTargetList[ricochetTargetIndex], activeAbility));
             }
         }
         
         // Check for extra casts
         if (extraCastCount < activeAbility.extraCasts) {
             extraCastCount++;
-            yield return StartCoroutine(DamageAction(buffer, buffTarget, activeAbilityIndex));
+            yield return StartCoroutine(BuffAction(buffer, buffTarget, activeAbility));
         }
         
         if (!abilityDuplicated) {
@@ -4479,10 +4599,8 @@ public class BattleSystem : MonoBehaviour
         }
     }
     
-    private IEnumerator DebuffAction(BattleEntity debuffer, BattleEntity debuffTarget, int activeAbilityIndex)
+    private IEnumerator DebuffAction(BattleEntity debuffer, BattleEntity debuffTarget, Ability activeAbility)
     {
-        Ability activeAbility = debuffer.myAbilities[activeAbilityIndex];
-        
         int abilityModifier = 0;
         bool isCrit = false;
         float acc = 100;
@@ -4528,6 +4646,13 @@ public class BattleSystem : MonoBehaviour
                 ref targetTokens, ref targetTokensCount);
         }
         
+        // Check Talisman Logic
+        if (debuffer.isPlayer) {
+            talismanLogic.DebuffTalisman(debuffer, activeAbility, ref targetTokens, ref targetTokensCount);
+        } else if (!debuffer.isPlayer && debuffTarget.isPlayer) {
+            talismanLogic.DefenseTalisman(debuffTarget, ref critChance);
+        }
+        
         // Reduce crit chance by target's crit resist
         critChance -= debuffTarget.critResist;
         if (critChance < 0) {
@@ -4568,14 +4693,14 @@ public class BattleSystem : MonoBehaviour
                 yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
                 if (!abilityDuplicated) {
-                    yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+                    yield return StartCoroutine(ConsumeResources(activeAbility));
                 }
                 SaveResources();
                 
                 // Check for extra casts
                 if (extraCastCount < activeAbility.extraCasts) {
                     extraCastCount++;
-                    yield return StartCoroutine(DamageAction(debuffer, debuffTarget, activeAbilityIndex));
+                    yield return StartCoroutine(DebuffAction(debuffer, debuffTarget, activeAbility));
                 }
                 
                 yield break;
@@ -4590,6 +4715,9 @@ public class BattleSystem : MonoBehaviour
         // Apply on crit tokens if attack crit
         if (isCrit) {
             SetAbilityCritTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
+            if (debuffer.isPlayer) {
+                talismanLogic.CritTalisman(ref selfTokens, ref selfTokensCount);
+            }
         }
         
         // Clear tokens from the target
@@ -4661,7 +4789,7 @@ public class BattleSystem : MonoBehaviour
         }
         
         if (!abilityDuplicated) {
-            yield return StartCoroutine(ConsumeResources(activeAbilityIndex));
+            yield return StartCoroutine(ConsumeResources(activeAbility));
         }
         SaveResources();
         
@@ -4680,22 +4808,22 @@ public class BattleSystem : MonoBehaviour
                 int ricochetTargetIndex = Random.Range(0, ricochetTargetList.Count);
                 abilityDuplicated = true;
                 duplicationType = DuplicationType.Ricochet;
-                yield return StartCoroutine(DebuffAction(debuffer, ricochetTargetList[ricochetTargetIndex], activeAbilityIndex));
+                yield return StartCoroutine(DebuffAction(debuffer, ricochetTargetList[ricochetTargetIndex], activeAbility));
             }
         }
         
         // Check for extra casts
         if (extraCastCount < activeAbility.extraCasts) {
             extraCastCount++;
-            yield return StartCoroutine(DamageAction(debuffer, debuffTarget, activeAbilityIndex));
+            yield return StartCoroutine(DebuffAction(debuffer, debuffTarget, activeAbility));
         }
     }
 
-    private IEnumerator ConsumeResources(int activeAbilityIndex)
+    private IEnumerator ConsumeResources(Ability activeAbility)
     {
         // Reduce the user's resource 
-        string resourceConsumed = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costResource.ToString();
-        int resourceCost = allCombatants[currentPlayer].myAbilities[activeAbilityIndex].costAmount;
+        string resourceConsumed = activeAbility.costResource.ToString();
+        int resourceCost = activeAbility.costAmount;
 
         switch (resourceConsumed)
         {
@@ -4744,7 +4872,7 @@ public class BattleSystem : MonoBehaviour
             self.activeTokens.Any(t => t.tokenName == "AntiHeal")) return;
         
         int gainValue;
-        int abilityMod = GetAbilityModifier(self, self.myAbilities.IndexOf(ability));
+        int abilityMod = GetAbilityModifier(self, self.activeAbility);
         if (isCrit) {
             gainValue = (int)((ability.selfMax + abilityMod) * 1.5f);
         } else {
@@ -4832,7 +4960,7 @@ public class BattleEntity
     
     public string activeAbilityType;
     public int target;
-    public int activeAbility;
+    public Ability activeAbility;
     public int level;
     
     public int xPos;
@@ -4912,7 +5040,7 @@ public class BattleEntity
         speed = entitySpeed;
         luck = entityLuck;
 
-        critChance = (int)(skill * BattleSystem.SkillCritMod);
+        /*critChance = (int)(skill * BattleSystem.SkillCritMod);
         resistPierce = (int)(wit * BattleSystem.WitPierceMod);
         stunResist = entityStunResist + (int)(power * BattleSystem.PowerStunMod);
         debuffResist = entityDebuffResist + (int)(mind * BattleSystem.MindDebuffMod);
@@ -4923,7 +5051,17 @@ public class BattleEntity
             if (critResist < 0) {
                 critResist = 0;
             }
-        }
+        }*/
+
+        // Nulling stat secondary effects and innate resistances for simplicity of play
+        critChance = 0;
+        resistPierce = 0;
+        stunResist = 0;
+        debuffResist = 0;
+        ailmentResist = 0;
+        critResist = 0;
+
+        activeAbility = null;
         
         activeTokens = new List<BattleToken>();
     }

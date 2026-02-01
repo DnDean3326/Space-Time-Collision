@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13285f069a7d6a94299805782832ae86, type: 3}
+  m_Name: Spirit Shield
+  m_EditorClassIdentifier: Assembly-CSharp::TalismanInfo
+  talismanName: Spirit Shield
+  talismanIcon: {fileID: 21300000, guid: 67f7e1fbe0d5e1b4286ee321a338abd9, type: 3}
+  talismanPrice: 21
+  talismanDescription: 'At the start of combat each party member gains Block II
+
+    but
+    reduces their current SP by 10% of their maximum. '
