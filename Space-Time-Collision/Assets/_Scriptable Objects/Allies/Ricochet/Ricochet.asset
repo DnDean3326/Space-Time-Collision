@@ -23,7 +23,7 @@ MonoBehaviour:
   baseArmor: 3
   baseSpirit: 0
   basePower: 2
-  baseSkill: 5
+  baseSkill: 500
   baseWit: 4
   baseMind: 1
   baseSpeed: 4
