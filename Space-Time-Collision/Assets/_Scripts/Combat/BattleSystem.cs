@@ -321,11 +321,9 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(END_DELAY);  // wait a few seconds
             print("Your party prevailed!");
             runInfo.ChangeFunds(encounterFunds);
-            if (playerPrefs.CheckDemoStatus()) {
-                if (runInfo.GetCurrentNode() > 2) {
-                    runInfo.SetCurrentNode(0);
-                }
+            if (runInfo.GetCurrentNode() == 9) {
                 SceneManager.LoadScene(BASE_SCENE);
+                playerPrefs.SetHasWonStatus(true);
             } else {
                 SceneManager.LoadScene(NODE_SCENE);
             }

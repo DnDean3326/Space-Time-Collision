@@ -33,7 +33,7 @@ public class TutorialText : MonoBehaviour
             tutorialBox.SetActive(false);
         }
 
-        if (playerPrefs.CheckDemoStatus() && runInfo.GetEncounterCount() > 2) {
+        if (playerPrefs.GetHasWonStatus()) {
             victoryBox.SetActive(true);
             Time.timeScale = 0;
         } else {

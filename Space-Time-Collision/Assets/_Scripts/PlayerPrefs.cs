@@ -8,6 +8,7 @@ public class PlayerPrefs : MonoBehaviour
     [SerializeField] private bool didTutorial = false;
     [SerializeField] private bool didVoidTutorial = false;
     private int runStatus = 0;
+    private bool hasWon;
     
     private static GameObject _instance;
     
@@ -19,6 +20,17 @@ public class PlayerPrefs : MonoBehaviour
             _instance = gameObject;
         }
         DontDestroyOnLoad(gameObject);
+        SetHasWonStatus(false);
+    }
+
+    public void SetHasWonStatus(bool status)
+    {
+        hasWon = status;
+    }
+
+    public bool GetHasWonStatus()
+    {
+        return hasWon;
     }
 
     public bool CheckDemoStatus()
