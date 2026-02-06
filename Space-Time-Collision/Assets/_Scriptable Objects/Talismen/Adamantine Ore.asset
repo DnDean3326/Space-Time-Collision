@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Adamantine Ore
   m_EditorClassIdentifier: Assembly-CSharp::TalismanInfo
   talismanName: Adamantine Ore
-  talismanIcon: {fileID: 21300000, guid: 08d019a0a611dcd4a82240bf9a0fae32, type: 3}
+  talismanIcon: {fileID: 21300000, guid: f1b1450d25a28164f8cb4ea4b82bde8d, type: 3}
   talismanPrice: 18
   talismanDescription: 'The crit chance of enemy abilities against your party is
 

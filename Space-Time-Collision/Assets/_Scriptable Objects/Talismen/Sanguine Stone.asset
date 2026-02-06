@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Sanguine Stone
   m_EditorClassIdentifier: Assembly-CSharp::TalismanInfo
   talismanName: Sanguine Stone
-  talismanIcon: {fileID: 21300000, guid: df7fade5b64c61a4180285cec708b525, type: 3}
+  talismanIcon: {fileID: 21300000, guid: 0eb4e8cf4fd6e8c41ae8754e18bc4061, type: 3}
   talismanPrice: 23
   talismanDescription: Melee damage abilities your party uses apply Bleed II.

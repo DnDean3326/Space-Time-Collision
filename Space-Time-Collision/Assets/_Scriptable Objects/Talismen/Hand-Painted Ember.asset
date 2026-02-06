@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hand-Painted Ember
   m_EditorClassIdentifier: Assembly-CSharp::TalismanInfo
   talismanName: Hand-Painted Ember
-  talismanIcon: {fileID: 21300000, guid: d5314cb27c3f92a4d831b5fbfca54b8b, type: 3}
+  talismanIcon: {fileID: 21300000, guid: 8bddc7465c7007f4480d3d24ba30de5f, type: 3}
   talismanPrice: 20
   talismanDescription: 'Magic damage and debuff abilities your party use apply
 
