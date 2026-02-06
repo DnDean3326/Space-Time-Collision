@@ -635,6 +635,10 @@ public class BattleSystem : MonoBehaviour
                     
                     targetSelected = false;
                     yield return new WaitUntil(() => targetSelected);
+
+                    if (activeCharacter.myName == "Tre") {
+                        ricochetLogic.RicochetMoveLogic(activeCharacter, activeCharacter.activeAbility);
+                    }
                     
                     activeCharacter.combatMenuVisuals.ChangeAbilitySelectUIVisibility(false);
                     activeCharacter.combatMenuVisuals.ChangeAbilityPreviewUIVisibility(false);

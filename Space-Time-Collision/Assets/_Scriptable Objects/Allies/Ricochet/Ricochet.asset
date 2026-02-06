@@ -49,8 +49,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aa715397420e6964aba317e1e5c04a50, type: 2}
   - {fileID: 11400000, guid: da5676ab5430a6249ab03500d5069d16, type: 2}
   - {fileID: 11400000, guid: 1566e28c186fbb74db25d0d13f0ef0c5, type: 2}
-  stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
-  sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
+  stepAbility: {fileID: 11400000, guid: 7c1b3c12216c97d45a393f55539fa7cd, type: 2}
+  sprintAbility: {fileID: 11400000, guid: c5acc5c581403c3438b2c2de77d71f1b, type: 2}
   baseLineBreakToken: {fileID: 11400000, guid: 096701f00a8463647a9b41da08bcc634, type: 2}
   baseLineBreakTokenCount: 1
   characterDescription: "Ricochet is a long ranged fighter who mixes powerful\nattacks
