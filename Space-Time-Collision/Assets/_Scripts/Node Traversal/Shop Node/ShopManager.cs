@@ -85,13 +85,10 @@ public class ShopManager : MonoBehaviour
     {
         int count;
         if (maxTalisman < (itemManager.GetTalismanCount() - runInfo.GetTalismanCount())) {
-            print("Max Talisman");
             count = maxTalisman;
         } else {
-            print("Remaining Talismans");
             count = itemManager.GetTalismanCount() - runInfo.GetTalismanCount();
         }
-        print("Count is: " + count);
 
         List<Talisman> randomTalisman = itemManager.GetRandomTalisman(count);
         
