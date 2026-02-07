@@ -16,7 +16,7 @@ MonoBehaviour:
   enemyPortrait: {fileID: 0}
   baseHealth: 6
   baseDefense: 17
-  baseArmor: 0
+  baseArmor: 1
   baseSpirit: 0
   basePower: 2
   baseSkill: 3

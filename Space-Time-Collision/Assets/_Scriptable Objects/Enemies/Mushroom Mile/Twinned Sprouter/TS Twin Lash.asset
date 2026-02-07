@@ -19,7 +19,7 @@ MonoBehaviour:
   abilityWeight: 0
   costResource: 0
   costAmount: 0
-  cooldown: 0
+  cooldown: 1
   rangeMin: 1
   rangeMax: 3
   hasAccuracy: 1

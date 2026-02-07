@@ -1280,6 +1280,8 @@ public class BattleSystem : MonoBehaviour
                 GameObject tempObject = tempEntity.myVisuals.transform.Find("Obliviwyrm Script").gameObject;
                 tempObject.GetComponent<ObliviwyrmLogic>().SetMe(tempEntity);
                 bossLogicList.Add(new BossLogicListing(tempObject, tempEntity));
+            } else if (tempEntity.myName == "Stalker") {
+                AddTokens(tempEntity, tempEntity, "Stealth", Random.Range(1, 2 + 1), 0);
             }
             
             enemyFunds.Add(currentEnemies[i].fundDrop);

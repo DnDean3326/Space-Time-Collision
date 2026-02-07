@@ -3638,6 +3638,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 88ec8a9771cccf44a8730ddc30d19e91, type: 2}
   - {fileID: 11400000, guid: f87a5a695ef55474ea3f7429f6c59775, type: 2}
   - {fileID: 11400000, guid: 60c625a2910cec4428dc399b440699e2, type: 2}
+  - {fileID: 11400000, guid: ce1603de98c942546b07fc20447621a5, type: 2}
+  - {fileID: 11400000, guid: 2dbff0a3d29d97c4589684d0be53ddf8, type: 2}
   currentEnemies: []
 --- !u!4 &1463222519
 Transform:
@@ -3687,8 +3689,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ea9302733ef8ee478f6781b38110ea8, type: 2}
   - {fileID: 11400000, guid: fc6b112e66ffa5243bd7e2011f1848a6, type: 2}
   - {fileID: 11400000, guid: 2600421272c4d0c4b99d6c0e3abf66cd, type: 2}
+  - {fileID: 11400000, guid: adc3b887d6e07894f9cb90ed0f1df4ec, type: 2}
+  - {fileID: 11400000, guid: 819ad9ffc959e1d47b0ac312b8e18351, type: 2}
+  - {fileID: 11400000, guid: 4f6da7158e00db240987d07e83e401f8, type: 2}
   normalEncounters:
   - {fileID: 11400000, guid: 2ad28d8f392727a40b94d3dbfb4a17f9, type: 2}
+  - {fileID: 11400000, guid: a75bbfb5d61e37049a1155e83226fdf8, type: 2}
+  - {fileID: 11400000, guid: 3e4d7d24388bc1244a8052fe839439d9, type: 2}
+  - {fileID: 11400000, guid: 0c2004ab101d677419bf7ec97d8d37b1, type: 2}
   minibossEncounters:
   - {fileID: 11400000, guid: 38b27e57d98b49a4788941d0456041b0, type: 2}
   bossEncounter: {fileID: 11400000, guid: 38b27e57d98b49a4788941d0456041b0, type: 2}
