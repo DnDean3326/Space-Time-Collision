@@ -1188,6 +1188,8 @@ public class BattleSystem : MonoBehaviour
             menu.SetActive(true);
         }
         cameraController.SetMainCamera();
+        
+        yield return new WaitForSeconds(1.5f);
     }
     
     private void CreatePartyEntities()

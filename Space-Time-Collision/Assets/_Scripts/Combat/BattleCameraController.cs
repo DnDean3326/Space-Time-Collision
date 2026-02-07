@@ -82,8 +82,8 @@ public class BattleCameraController : MonoBehaviour
     private IEnumerator PlayerToPlayerCamera()
     {
         mainCamera.gameObject.SetActive(false);
-        playerVsEnemyCamera.gameObject.SetActive(false);
-        playerToPlayerCamera.gameObject.SetActive(true);
+        playerVsEnemyCamera.gameObject.SetActive(true);
+        playerToPlayerCamera.gameObject.SetActive(false);
         enemyToEnemyCamera.gameObject.SetActive(false);
         blackBackground.SetActive(true);
         zoomBackground.SetActive(true);
@@ -94,9 +94,9 @@ public class BattleCameraController : MonoBehaviour
     private IEnumerator EnemyToEnemyCamera()
     {
         mainCamera.gameObject.SetActive(false);
-        playerVsEnemyCamera.gameObject.SetActive(false);
+        playerVsEnemyCamera.gameObject.SetActive(true);
         playerToPlayerCamera.gameObject.SetActive(false);
-        enemyToEnemyCamera.gameObject.SetActive(true);
+        enemyToEnemyCamera.gameObject.SetActive(false);
         blackBackground.SetActive(true);
         zoomBackground.SetActive(true);
         yield return new WaitForSeconds(cameraMoveDelay);
