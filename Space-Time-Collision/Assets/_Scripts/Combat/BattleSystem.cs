@@ -173,8 +173,8 @@ public class BattleSystem : MonoBehaviour
     private int yChange = 0;
     
     private const float COMBAT_BEGIN_DELAY = 1.75f;
-    private const float CAMERA_MOVE_DELAY = 0.25f;
-    private const float TURN_ACTION_DELAY = 1.5f;
+    private const float CAMERA_MOVE_DELAY = 0.4f;
+    private const float TURN_ACTION_DELAY = 1.6f;
     private const float END_DELAY = 2.5f;
     private const float ABILITY_ANIMATION_DELAY = 0f;
     private const float AILMENT_DAMAGE_DELAY = 0.5f;
@@ -261,6 +261,11 @@ public class BattleSystem : MonoBehaviour
     public BattleEntity GetActiveEntity()
     {
         return allCombatants[currentPlayer];
+    }
+
+    public float GetCameraMoveSpeed()
+    {
+        return CAMERA_MOVE_DELAY;
     }
     
     // Battle state routines
@@ -667,7 +672,7 @@ public class BattleSystem : MonoBehaviour
                     int tokenPosition = activeCharacter.activeTokens.FindIndex(t => t.tokenName == "Rush");
                     activeCharacter.activeTokens.RemoveAt(tokenPosition);
                     activeCharacter.battleVisuals.UpdateTokens(activeCharacter.activeTokens);
-                    ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]);
+                    StartCoroutine(ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]));
                 } else {
                     usedLightAction = true;
                     int abilityIndex = activeCharacter.myAbilities.IndexOf(abilityInUse);
@@ -679,7 +684,7 @@ public class BattleSystem : MonoBehaviour
                         consumableUsed = false;
                         DepleteConsumable();
                     }
-                    ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]);
+                    StartCoroutine(ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]));
                 }
                 BackToAbilities();
             } else {
@@ -1037,7 +1042,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntity activeEntity)
     {
-        ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]);
+        StartCoroutine(ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]));
         
         // Call character turn end logic
         if (activeEntity.myName == "Renée") {
@@ -1110,6 +1115,18 @@ public class BattleSystem : MonoBehaviour
         foreach (Transform child in visualsObject.transform) {
             child.gameObject.SetActive(false);
         }
+        
+        if (mainEntity.isPlayer && targetEntity.isPlayer) {
+            cameraController.SetPlayerToPlayerCamera();
+        } else if (!mainEntity.isPlayer && !targetEntity.isPlayer) {
+            cameraController.SetEnemyToEnemyCamera();
+        } else {
+            cameraController.SetPlayerVsEnemyCamera();
+        }
+
+        float partialDelay = CAMERA_MOVE_DELAY - 0.15f;
+        yield return new WaitForSeconds(partialDelay);
+
         if (mainEntity.isPlayer && targetEntity.isPlayer) {
             if (mainEntity == targetEntity) {
                 mainEntity.myVisuals.transform.position = ptpSoloPos.position;
@@ -1117,7 +1134,6 @@ public class BattleSystem : MonoBehaviour
                 mainEntity.myVisuals.transform.position = ptpMainPos.position;
                 targetEntity.myVisuals.transform.position = ptpTargetPos.position;
             }
-            cameraController.SetPlayerToPlayerCamera();
         } else if (!mainEntity.isPlayer && !targetEntity.isPlayer) {
             if (mainEntity == targetEntity) {
                 mainEntity.myVisuals.transform.position = eteSoloPos.position;
@@ -1125,7 +1141,6 @@ public class BattleSystem : MonoBehaviour
                 mainEntity.myVisuals.transform.position = eteMainPos.position;
                 targetEntity.myVisuals.transform.position = eteTargetPos.position;
             }
-            cameraController.SetEnemyToEnemyCamera();
         } else {
             if (mainEntity.isPlayer) {
                 mainEntity.myVisuals.transform.position = pvePlayerPos.position;
@@ -1137,17 +1152,20 @@ public class BattleSystem : MonoBehaviour
             } else {
                 targetEntity.myVisuals.transform.position = pveEnemyPos.position;
             }
-            cameraController.SetPlayerVsEnemyCamera();
         }
+
         mainEntity.myVisuals.SetActive(true);
         targetEntity.myVisuals.SetActive(true);
-        yield return new WaitForSeconds(CAMERA_MOVE_DELAY);
+        
+        yield return new WaitForSeconds(CAMERA_MOVE_DELAY - partialDelay);
     }
 
-    private void ChangeToMainCamera(BattleEntity mainEntity, BattleEntity targetEntity)
+    private IEnumerator ChangeToMainCamera(BattleEntity mainEntity, BattleEntity targetEntity)
     {
         Vector3 mainPos;
         Vector3 targetPos;
+        
+        yield return new WaitForSeconds(CAMERA_MOVE_DELAY);
         
         if (mainEntity.isPlayer) {
             mainPos = partyBattleGrid.Find(t => t.occupiedBy == mainEntity).gridTransform.position;

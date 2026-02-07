@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Twinned Sprouter
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   enemyName: Twinned Sprouter
-  enemyPortrait: {fileID: 0}
+  enemyPortrait: {fileID: 21300000, guid: b1e7f2cbd6af542a3bcc113febdfee9c, type: 3}
   baseHealth: 8
   baseDefense: 10
   baseArmor: 2
