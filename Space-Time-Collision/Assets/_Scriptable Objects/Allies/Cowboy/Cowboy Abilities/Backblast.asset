@@ -41,18 +41,18 @@ MonoBehaviour:
   selfMin: 0
   selfMax: 0
   bannedColumns: 
-  selfXChange: -1
+  selfXChange: 0
   selfYChange: 0
   selfYChangeToCenter: 0
-  targetXChange: 0
+  targetXChange: 2
   targetYChange: 0
   targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
   targetTokensApplied: 
   targetTokenCountApplied: 
-  selfCritTokensApplied: 
-  selfCritTokenCountApplied: 
+  selfCritTokensApplied: 01000000
+  selfCritTokenCountApplied: 01000000
   targetCritTokensApplied: 
   targetCritTokenCountApplied: 
   selfTokensCleared: 
@@ -67,7 +67,7 @@ MonoBehaviour:
     CD: 1 | Range: 1-3
 
 
-    Push yourself
-    1 tile to the left.
+    Push the
+    target 2 tiles the to right.
 
-    Push the target 1 tile to the right.'
+    Gain Block I on a crit.'

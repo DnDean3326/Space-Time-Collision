@@ -177,6 +177,14 @@ public class RicochetBattleLogic : MonoBehaviour
         UpdateBulletPreviews();
     }
 
+    private void ManuallyRemoveBullet()
+    {
+        bulletList.RemoveAt(0);
+        bulletDisplays.RemoveAt(0);
+        BulletDisplay tempBullet = CreateUnknownBullet();
+        bulletDisplays.Add(tempBullet);
+    }
+
     private void UpdateRevealedBullets(List<BulletType> bulletsRevealed)
     {
         bulletDisplays.Clear();
@@ -464,6 +472,23 @@ public class RicochetBattleLogic : MonoBehaviour
 
         SetBulletText(ricochet, bulletsUsed);
     }
+    
+    public void RicochetDebuffLogic(BattleEntity ricochet, Ability activeAbility, ref List<BattleToken> selfTokens,
+        ref List<int> selfTokensCount)
+    {
+        List<BulletType> bulletsUsed;
+        switch (activeAbility.abilityName) {
+            case "EMP":
+                bulletsUsed = CheckCurrentBullets(1);
+                UpdateRevealedBullets(bulletsUsed);
+                break;
+            case "Flashbang":
+                bulletsUsed = CheckCurrentBullets(1);
+                UpdateRevealedBullets(bulletsUsed);
+                break;
+        }
+            
+    }
 
     public void RicochetHealLogic(BattleEntity ricochet, Ability activeAbility, ref List<BattleToken> selfTokens,
         ref List<int> selfTokensCount)
@@ -472,7 +497,7 @@ public class RicochetBattleLogic : MonoBehaviour
         switch (activeAbility.abilityName) {
             case "Shield Battery":
                 bulletsUsed = CheckCurrentBullets(1);
-                UpdateRevealedBullets(bulletsUsed); // TODO Reveal the next (bulletsUsed) bullets in the clip
+                UpdateRevealedBullets(bulletsUsed);
                 break;
         }
             
@@ -514,7 +539,19 @@ public class RicochetBattleLogic : MonoBehaviour
                 break;
             case "Calculate":
                 bulletsUsed = CheckCurrentBullets(1);
-                UpdateRevealedBullets(bulletsUsed);
+                if (bulletsUsed.Contains(BulletType.Blank)) {
+                    ManuallyRemoveBullet();
+                }
+                selfTokens.Add(battleSystem.GetTokenIdentity("Critical"));
+                selfTokensCount.Add(1);
+                break;
+            case "Killseeker":
+                bulletsUsed = CheckCurrentBullets(1);
+                if (bulletsUsed.Contains(BulletType.Blank)) {
+                    ManuallyRemoveBullet();
+                }
+                selfTokens.Add(battleSystem.GetTokenIdentity("BoostPlus"));
+                selfTokensCount.Add(1);
                 break;
         }
     }

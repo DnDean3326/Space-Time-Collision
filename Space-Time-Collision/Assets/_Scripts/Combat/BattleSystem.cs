@@ -4620,7 +4620,7 @@ public class BattleSystem : MonoBehaviour
                 if (activeAbility.costResource == Ability.CostResource.Spirit) {
                     ricochetLogic.ReduceBulletCount(activeAbility);
                 }
-            }
+            } 
         }
     }
     
@@ -4669,6 +4669,8 @@ public class BattleSystem : MonoBehaviour
             repentantLogic.RepentantAbilityLogic(debuffer, debuffTarget, activeAbility, ref minDamageRange,
                 ref maxDamageRange, ref secondaryDamage, ref critChance, ref selfTokens, ref selfTokensCount,
                 ref targetTokens, ref targetTokensCount);
+        } else if (debuffer.myName == "Tre") {
+            ricochetLogic.RicochetBuffLogic(debuffer, activeAbility, ref selfTokens, ref selfTokensCount);
         }
         
         // Check Talisman Logic

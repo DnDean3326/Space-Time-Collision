@@ -48,7 +48,7 @@ MonoBehaviour:
   targetYChange: 0
   targetYChangeToCenter: 0
   selfTokensApplied: 0d0000000f000000
-  selfTokenCountApplied: 0100000001000000
+  selfTokenCountApplied: 0100000002000000
   targetTokensApplied: 
   targetTokenCountApplied: 
   selfCritTokensApplied: 
@@ -68,4 +68,7 @@ MonoBehaviour:
 
 
     Gain Precision
-    I, Ricochet I, and reveal the next bullet.'
+    I, and Ricochet II.
+
+    If the next bullet is a misfire, remove it and gain
+    Crit I.'

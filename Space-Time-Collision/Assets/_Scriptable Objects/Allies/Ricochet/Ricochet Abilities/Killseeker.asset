@@ -68,4 +68,6 @@ MonoBehaviour:
 
 
     Gain Killseeker
-    III.'
+    III.
+
+    If the next bullet is a misfire, remove it and gain Boost+ I.'

@@ -15,20 +15,20 @@ MonoBehaviour:
   abilityName: Ravages of Time
   abilityLevel: 1
   abilityIcon: {fileID: 0}
-  abilityType: 3
+  abilityType: 0
   abilityWeight: 1
   costResource: 1
   costAmount: 5
   cooldown: 2
-  rangeMin: 0
+  rangeMin: 1
   rangeMax: 4
   hasAccuracy: 1
   targetSelf: 0
   attackType: 2
   keyStat: 0
   statModifier: 0
-  dmgMin: 0
-  dmgMax: 0
+  dmgMin: 2
+  dmgMax: 5
   critChance: 20
   extraCasts: 0
   secondaryTarget: 4
@@ -61,7 +61,7 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  equipDescription: 'Type: Damage | Crit: 20% | DMG: 4-8'
+  equipDescription: 'Type: Damage | Crit: 20% | DMG: 2-5'
   description: 'Weight: Medium | Cost: 5 SP
 
     CD: 2 | Range: 1-4

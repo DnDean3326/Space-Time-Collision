@@ -27,8 +27,8 @@ MonoBehaviour:
   attackType: 3
   keyStat: 4
   statModifier: 1
-  dmgMin: 7
-  dmgMax: 15
+  dmgMin: 4
+  dmgMax: 8
   critChance: 5
   extraCasts: 0
   secondaryTarget: 4
@@ -62,7 +62,7 @@ MonoBehaviour:
   ignoreWard: 0
   ignoreArmor: 0
   equipDescription: 'Type: Heal (Shields) | Crit: 5% | Heal: 8-12'
-  description: 'Weight: Heavy | Cost: 3 SP
+  description: 'Weight: Heavy | Cost: 4 SP
 
     CD: 2 | Range: 0-2
 
