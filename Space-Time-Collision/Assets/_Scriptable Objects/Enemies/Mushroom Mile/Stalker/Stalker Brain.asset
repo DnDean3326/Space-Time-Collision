@@ -33,6 +33,11 @@ MonoBehaviour:
     targetMethod: 2
     targetQualifier: 5
     randomChance: 12
+  - ability: {fileID: 11400000, guid: 148a491986f457140bf4a17f70fb1ae2, type: 2}
+    abilityPriority: 30
+    targetMethod: 2
+    targetQualifier: 1
+    randomChance: 0
   - ability: {fileID: 11400000, guid: 7fd57c0c85875f842a8ffd9fecffda5e, type: 2}
     abilityPriority: 10
     targetMethod: 0

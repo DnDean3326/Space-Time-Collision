@@ -723,15 +723,15 @@ public class BattleSystem : MonoBehaviour
                                     distance >= myBrain.enemyAbilities[i].ability.rangeMin &&
                                     entity.activeTokens.All(t => t.tokenName != "Stealth"))  {
                                     
-                                    int brokenPlayerColumns = 0;
+                                    int brokenEnemyColumns = 0;
                                     bool[] lineBrokenStatus = combatGrid.GetLineBreakInfo();
                                     foreach (bool isBroken in lineBrokenStatus) {
                                         if (isBroken) {
-                                            brokenPlayerColumns++;
+                                            brokenEnemyColumns++;
                                         }
                                     }
                                     if (myBrain.enemyAbilities[i].ability.bannedColumns.Count > 0 &&
-                                        myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => (t + brokenPlayerColumns) == entity.xPos)) {
+                                        myBrain.enemyAbilities[i].ability.bannedColumns.Any(t => (t - brokenEnemyColumns) == entity.xPos)) {
                                         continue;
                                     }
                                     validAbilities.Add(myBrain.enemyAbilities[i]);
