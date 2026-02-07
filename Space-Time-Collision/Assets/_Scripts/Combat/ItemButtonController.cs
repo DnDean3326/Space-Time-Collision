@@ -52,7 +52,7 @@ public class ItemButtonController : MonoBehaviour
         }
     }
 
-    private void UpdateItemButtons()
+    public void UpdateItemButtons()
     {
         for (int i = 0; i < consumableInventory.Count; i++) {
             consumableButtons[i].interactable = true;

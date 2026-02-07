@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -7,6 +8,13 @@ public class BattleCameraController : MonoBehaviour
     private CinemachineCamera playerVsEnemyCamera;
     private CinemachineCamera playerToPlayerCamera;
     private CinemachineCamera enemyToEnemyCamera;
+    private BattleSystem battleSystem;
+
+    [SerializeField] private GameObject mainBackground;
+    [SerializeField] private GameObject blackBackground;
+    [SerializeField] private GameObject zoomBackground;
+
+    private float cameraMoveDelay;
 
     private void Awake()
     {
@@ -14,39 +22,84 @@ public class BattleCameraController : MonoBehaviour
         playerVsEnemyCamera = transform.GetChild(1).GetComponent<CinemachineCamera>();
         playerToPlayerCamera = transform.GetChild(2).GetComponent<CinemachineCamera>();
         enemyToEnemyCamera = transform.GetChild(3).GetComponent<CinemachineCamera>();
+        battleSystem = FindFirstObjectByType<BattleSystem>();
 
         SetMainCamera();
     }
 
+    private void Start()
+    {
+        mainBackground.SetActive(true);
+        blackBackground.SetActive(false);
+        zoomBackground.SetActive(false);
+        cameraMoveDelay = battleSystem.GetCameraMoveSpeed();
+    }
+    
     public void SetMainCamera()
+    {
+        StartCoroutine(MainCamera());
+    }
+    
+    public void SetPlayerVsEnemyCamera()
+    {
+        StartCoroutine(PlayerVsEnemyCamera());
+    }
+    
+    public void SetPlayerToPlayerCamera()
+    {
+        StartCoroutine(PlayerToPlayerCamera());
+    }
+    
+    public void SetEnemyToEnemyCamera()
+    {
+        StartCoroutine(EnemyToEnemyCamera());
+    }
+    
+    private IEnumerator MainCamera()
     {
         mainCamera.gameObject.SetActive(true);
         playerVsEnemyCamera.gameObject.SetActive(false);
         playerToPlayerCamera.gameObject.SetActive(false);
         enemyToEnemyCamera.gameObject.SetActive(false);
+        mainBackground.SetActive(true);
+        blackBackground.SetActive(false);
+        zoomBackground.SetActive(false);
+        yield break;
     }
-    
-    public void SetPlayerVsEnemyCamera()
+
+    private IEnumerator PlayerVsEnemyCamera()
     {
         mainCamera.gameObject.SetActive(false);
         playerVsEnemyCamera.gameObject.SetActive(true);
         playerToPlayerCamera.gameObject.SetActive(false);
         enemyToEnemyCamera.gameObject.SetActive(false);
+        blackBackground.SetActive(true);
+        zoomBackground.SetActive(true);
+        yield return new WaitForSeconds(cameraMoveDelay);
+        mainBackground.SetActive(false);
     }
     
-    public void SetPlayerToPlayerCamera()
+    private IEnumerator PlayerToPlayerCamera()
     {
         mainCamera.gameObject.SetActive(false);
         playerVsEnemyCamera.gameObject.SetActive(false);
         playerToPlayerCamera.gameObject.SetActive(true);
         enemyToEnemyCamera.gameObject.SetActive(false);
+        blackBackground.SetActive(true);
+        zoomBackground.SetActive(true);
+        yield return new WaitForSeconds(cameraMoveDelay);
+        mainBackground.SetActive(false);
     }
-    
-    public void SetEnemyToEnemyCamera()
+
+    private IEnumerator EnemyToEnemyCamera()
     {
         mainCamera.gameObject.SetActive(false);
         playerVsEnemyCamera.gameObject.SetActive(false);
         playerToPlayerCamera.gameObject.SetActive(false);
         enemyToEnemyCamera.gameObject.SetActive(true);
+        blackBackground.SetActive(true);
+        zoomBackground.SetActive(true);
+        yield return new WaitForSeconds(cameraMoveDelay);
+        mainBackground.SetActive(false);
     }
 }

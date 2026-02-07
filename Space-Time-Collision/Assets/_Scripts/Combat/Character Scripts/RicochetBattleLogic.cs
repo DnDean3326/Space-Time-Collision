@@ -519,6 +519,20 @@ public class RicochetBattleLogic : MonoBehaviour
         }
     }
 
+    public void RicochetMoveLogic(BattleEntity ricochet, Ability activeAbility)
+    {
+        switch (activeAbility.abilityName) {
+            case "Step":
+                bulletList = GenerateBulletClip(BulletType.Critical, 2, 1);
+                meRicochet.currentSpirit = bulletList.Count;
+                break;
+            case "Sprint":
+                bulletList = GenerateBulletClip(BulletType.Critical, 3, 1);
+                meRicochet.currentSpirit = bulletList.Count;
+                break;
+        }
+    }
+
     public void RicochetTurnEndLogic(BattleEntity ricochet, Ability activeAbility)
     {
         if (activeAbility.abilityName == "Strafe Shooting") {

@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AllyInfo
   allyName: Mephi
   allyTurnPortrait: {fileID: 21300000, guid: a47760e61ef604b2b8864a7bcc36d0a1, type: 3}
-  allyCombatSprite: {fileID: 0}
+  allyCombatSprite: {fileID: 21300000, guid: 76dd3254c8eec44f2a6e03b0e5c955e0, type: 3}
   allySquarePortrait: {fileID: 21300000, guid: 36b1b085a8e5c49d69b18b41f3323a3c, type: 3}
   allyShadowPortrait: {fileID: 0}
   allySignature: {fileID: 0}
-  baseHealth: 0
-  baseDefense: 0
+  baseHealth: 22
+  baseDefense: 28
   baseArmor: 0
-  baseSpirit: 0
-  basePower: 0
-  baseSkill: 0
-  baseWit: 0
-  baseMind: 0
-  baseSpeed: 0
-  baseLuck: 0
+  baseSpirit: 42
+  basePower: 2
+  baseSkill: 1
+  baseWit: 4
+  baseMind: 5
+  baseSpeed: 3
+  baseLuck: 4
   baseStunResist: 0
   baseDebuffResist: 0
   baseAilmentResist: 0
@@ -35,8 +35,8 @@ MonoBehaviour:
   allyMenuVisualPrefab: {fileID: 0}
   abilities: []
   equippedAbilities: []
-  stepAbility: {fileID: 0}
-  sprintAbility: {fileID: 0}
-  baseLineBreakToken: {fileID: 0}
-  baseLineBreakTokenCount: 0
+  stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
+  sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
+  baseLineBreakToken: {fileID: 11400000, guid: 5c2921ee1b67851439ff74a615aa249f, type: 2}
+  baseLineBreakTokenCount: 1
   characterDescription: 

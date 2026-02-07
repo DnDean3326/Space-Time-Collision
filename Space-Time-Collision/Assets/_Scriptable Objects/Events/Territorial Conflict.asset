@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e4fafc6c03f7a49b6d2a8b3143e463, type: 3}
+  m_Name: Territorial Conflict
+  m_EditorClassIdentifier: Assembly-CSharp::EventInfo
+  eventName: Territorial Conflict
+  eventDescription: As your team is navigating the terrain they come to a sudden
+    stop. Before you have a chance to ask why they point further ahead where the
+    local species, the insectoids and fungi, are in the middle of a conflict. You
+    would walk away, but you could also influcence the conflict to come...
+  eventOptions:
+  - '[Fight] Order your team to intervene on behalf of of the insectoids. Better
+    to deal with insectoids than hordes of fungi. '
+  - '[Fight] Command the team to attack the insectoids. Their adapations are an equal
+    threat to you and the insectoids.'
+  - Let them kill one another, you don't have time to pick fights that don't involve
+    you.
+  eventResults:
+  - 'As the last fungi falls you order your squad to keep their weapons up, but quickly
+    find the order to be unnecessary. The insectoids simply walk by, making no efforts
+    to continue the violence. In their wake you find a piece of broken carapace,
+    proof of your deeds today.
+
+
+    The party obtains an Insectoid Carapace talisman. '
+  - 'When the dust settles your team is surrounded by insectoids. You grit your teeth,
+    expecting you act of kindness to not go unpunished. Instead, the fungi present
+    a you with a flask containing a strange liquid. The moment you take it the creatures
+    disappear. If this is their thank you, you''re certain it will be short lived.
+
+
+    The
+    party obtains a Fungal Brew consumable. '
+  - Your team lays low skulks away, what surely would have been a blood conflict.

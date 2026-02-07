@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5782dc23fa4eeec42a4c49f3a6e34bdb, type: 3}
+  m_Name: TS Brain
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
+  enemyAbilities:
+  - ability: {fileID: 11400000, guid: 2688a28e4b14f1c4abf5d959703ad221, type: 2}
+    abilityPriority: 5
+    targetMethod: 0
+    targetQualifier: 0
+    randomChance: 0
+  - ability: {fileID: 11400000, guid: a8326aa4f9ca5b447915ac69c97e718a, type: 2}
+    abilityPriority: 3
+    targetMethod: 2
+    targetQualifier: 2
+    randomChance: 8
+  - ability: {fileID: 11400000, guid: 605062b5525e03c4c87806eb60a653d8, type: 2}
+    abilityPriority: 6
+    targetMethod: 2
+    targetQualifier: 3
+    randomChance: 4
+  - ability: {fileID: 11400000, guid: dec103a21f8234643bfc161cec60cde6, type: 2}
+    abilityPriority: 4
+    targetMethod: 1
+    targetQualifier: 1
+    randomChance: 6
+  - ability: {fileID: 11400000, guid: 7f52b32296192c8448c8ef8fdb0b60dc, type: 2}
+    abilityPriority: 12
+    targetMethod: 0
+    targetQualifier: 0
+    randomChance: 0

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360c2d98c31379b4d968bbe8ba200b37, type: 3}
+  m_Name: Stalker
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
+  enemyName: Stalker
+  enemyPortrait: {fileID: 21300000, guid: a1ec29de72d614a0fbf86af57e285739, type: 3}
+  baseHealth: 6
+  baseDefense: 17
+  baseArmor: 1
+  baseSpirit: 0
+  basePower: 2
+  baseSkill: 3
+  baseWit: 3
+  baseMind: 1
+  baseSpeed: 4
+  baseLuck: 2
+  baseStunResist: 0
+  baseDebuffResist: 0
+  baseAilmentResist: 0
+  minFund: 1
+  maxFund: 3
+  enemyBattleVisualPrefab: {fileID: 2615556968665746137, guid: 6afd87e591e5942429c6af64eb626004, type: 3}
+  baseEnemyBrain: {fileID: 11400000, guid: 94a4bb7fbd3957b4190ac734dad59384, type: 2}
