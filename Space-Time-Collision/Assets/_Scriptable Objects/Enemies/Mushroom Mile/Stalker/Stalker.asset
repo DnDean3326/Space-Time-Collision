@@ -12,22 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360c2d98c31379b4d968bbe8ba200b37, type: 3}
   m_Name: Stalker
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
-  enemyName: 
+  enemyName: Stalker
   enemyPortrait: {fileID: 0}
-  baseHealth: 0
-  baseDefense: 0
+  baseHealth: 6
+  baseDefense: 17
   baseArmor: 0
   baseSpirit: 0
-  basePower: 0
-  baseSkill: 0
-  baseWit: 0
-  baseMind: 0
-  baseSpeed: 0
-  baseLuck: 0
+  basePower: 2
+  baseSkill: 3
+  baseWit: 3
+  baseMind: 1
+  baseSpeed: 4
+  baseLuck: 2
   baseStunResist: 0
   baseDebuffResist: 0
   baseAilmentResist: 0
-  minFund: 0
-  maxFund: 0
-  enemyBattleVisualPrefab: {fileID: 0}
-  baseEnemyBrain: {fileID: 0}
+  minFund: 1
+  maxFund: 3
+  enemyBattleVisualPrefab: {fileID: 2615556968665746137, guid: 6afd87e591e5942429c6af64eb626004, type: 3}
+  baseEnemyBrain: {fileID: 11400000, guid: 94a4bb7fbd3957b4190ac734dad59384, type: 2}

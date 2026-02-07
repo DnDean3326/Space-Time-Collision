@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5782dc23fa4eeec42a4c49f3a6e34bdb, type: 3}
+  m_Name: Stalker Brain
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
+  enemyAbilities:
+  - ability: {fileID: 11400000, guid: 09e5bb653439a14468d4cd7cb51879ab, type: 2}
+    abilityPriority: 7
+    targetMethod: 1
+    targetQualifier: 1
+    randomChance: 8
+  - ability: {fileID: 11400000, guid: 0ad49c795ee564a44a75ded6b42c9cad, type: 2}
+    abilityPriority: 2
+    targetMethod: 0
+    targetQualifier: 0
+    randomChance: 0
+  - ability: {fileID: 11400000, guid: f9ceb6713daf5064698a0759de7bff0c, type: 2}
+    abilityPriority: 6
+    targetMethod: 1
+    targetQualifier: 5
+    randomChance: 6
+  - ability: {fileID: 11400000, guid: 510b571c9c631544793260559d436817, type: 2}
+    abilityPriority: 4
+    targetMethod: 2
+    targetQualifier: 5
+    randomChance: 12
+  - ability: {fileID: 11400000, guid: 7fd57c0c85875f842a8ffd9fecffda5e, type: 2}
+    abilityPriority: 10
+    targetMethod: 0
+    targetQualifier: 0
+    randomChance: 0

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360c2d98c31379b4d968bbe8ba200b37, type: 3}
+  m_Name: Twin Sprouter
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
+  enemyName: Twinned Sprouter
+  enemyPortrait: {fileID: 0}
+  baseHealth: 10
+  baseDefense: 15
+  baseArmor: 2
+  baseSpirit: 0
+  basePower: 3
+  baseSkill: 1
+  baseWit: 1
+  baseMind: 2
+  baseSpeed: 3
+  baseLuck: 4
+  baseStunResist: 0
+  baseDebuffResist: 0
+  baseAilmentResist: 0
+  minFund: 2
+  maxFund: 4
+  enemyBattleVisualPrefab: {fileID: 8899801826767971880, guid: 29f5f0afc1157fe4bb3f7f7fa24ef8bd, type: 3}
+  baseEnemyBrain: {fileID: 0}
