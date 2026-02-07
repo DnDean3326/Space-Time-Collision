@@ -25,11 +25,13 @@ public class ShopManager : MonoBehaviour
     private List<bool> talismanSold = new List<bool>();
     private RunInfo runInfo;
     private ItemManager itemManager;
+    private ItemButtonController itemButtonController;
 
     private void Awake()
     {
         runInfo = FindFirstObjectByType<RunInfo>();
         itemManager = FindFirstObjectByType<ItemManager>();
+        itemButtonController = FindFirstObjectByType<ItemButtonController>();
     }
 
     private void Start()
@@ -62,7 +64,7 @@ public class ShopManager : MonoBehaviour
                 talismanButtons[i].interactable = false;
                 continue;
             }
-            if (runInfo.GetFunds() < consumablesForSale[i].GetPrice()) {
+            if (runInfo.GetFunds() < talismansForSale[i].GetPrice()) {
                 talismanButtons[i].interactable = false;
             } else {
                 talismanButtons[i].interactable = true;
@@ -108,6 +110,7 @@ public class ShopManager : MonoBehaviour
             consumableSold[index] = true;
         }
         UpdateShopButtons();
+        itemButtonController.UpdateItemButtons();
     }
     
     public void BuyTalisman(int index)
@@ -118,6 +121,7 @@ public class ShopManager : MonoBehaviour
             talismanSold[index] = true;
         }
         UpdateShopButtons();
+        itemButtonController.UpdateItemButtons();
     }
 
     public void DisplayConsumableEffect(int index)
