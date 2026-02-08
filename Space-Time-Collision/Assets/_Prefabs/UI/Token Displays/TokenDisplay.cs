@@ -16,17 +16,22 @@ public class TokenDisplay : MonoBehaviour
 
     private void Awake()
     {
-        tokenDisplay = gameObject;
-        tokenCountShadow = tokenDisplay.transform.GetChild(0).gameObject;
-        tokenCountText = tokenDisplay.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        tokenShadow = tokenDisplay.transform.GetChild(2).GetComponent<Image>();
-        tokenSlot = tokenDisplay.transform.GetChild(3).GetComponent<Image>();
+        LinkObjects();
         
         tokenDisplay.SetActive(false);
         tokenCountShadow.SetActive(false);
         tokenCountText.enabled = false;
         tokenShadow.enabled = false;
         tokenSlot.enabled = false;
+    }
+
+    private void LinkObjects()
+    {
+        tokenDisplay = gameObject;
+        tokenCountShadow = tokenDisplay.transform.GetChild(0).gameObject;
+        tokenCountText = tokenDisplay.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        tokenShadow = tokenDisplay.transform.GetChild(2).GetComponent<Image>();
+        tokenSlot = tokenDisplay.transform.GetChild(3).GetComponent<Image>();
     }
 
     public void SetMyToken(BattleToken token)
@@ -36,6 +41,10 @@ public class TokenDisplay : MonoBehaviour
 
     public void DisplayToken()
     {
+        if (tokenDisplay != gameObject) {
+            LinkObjects();
+        }
+        
         if (myToken.tokenCount > 0) {
             tokenDisplay.SetActive(true);
             tokenSlot.sprite = myToken.tokenIcon;
