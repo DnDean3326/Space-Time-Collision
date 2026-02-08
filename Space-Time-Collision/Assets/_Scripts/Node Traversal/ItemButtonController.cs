@@ -40,6 +40,7 @@ public class ItemButtonController : MonoBehaviour
         consumableInventory = runInfo.GetConsumables();
         talismanInventory = runInfo.GetTalismans();
         UpdateItemButtons();
+        InstantiateTalisman();
     }
 
     private void InstantiateTalisman()
@@ -49,6 +50,13 @@ public class ItemButtonController : MonoBehaviour
             TalismanDisplay talismanDisplay = tempTalisman.GetComponent<TalismanDisplay>();
             talismanDisplay.SetTalisman(talismanInventory[i]);
         }
+    }
+
+    public void AddTalismanToDisplay(Talisman talisman)
+    {
+        GameObject tempTalisman = Instantiate(talismanPrefab, talismanGrid.transform);
+        TalismanDisplay talismanDisplay = tempTalisman.GetComponent<TalismanDisplay>();
+        talismanDisplay.SetTalisman(talisman);
     }
 
     public void UpdateItemButtons()
@@ -80,8 +88,6 @@ public class ItemButtonController : MonoBehaviour
             consumableIconObjects[i].SetActive(false);
             consumableBackgrounds[i].color = emptyBGColor;
         }
-        
-        InstantiateTalisman();
     }
 
     public void DisplayConsumable(int index)

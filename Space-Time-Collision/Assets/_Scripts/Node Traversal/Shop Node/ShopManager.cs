@@ -121,7 +121,7 @@ public class ShopManager : MonoBehaviour
             talismanSold[index] = true;
         }
         UpdateShopButtons();
-        itemButtonController.UpdateItemButtons();
+        itemButtonController.AddTalismanToDisplay(talismansForSale[index]);
     }
 
     public void DisplayConsumableEffect(int index)

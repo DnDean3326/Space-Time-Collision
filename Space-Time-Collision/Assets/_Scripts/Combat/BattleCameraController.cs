@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleCameraController : MonoBehaviour
 {
@@ -8,11 +9,14 @@ public class BattleCameraController : MonoBehaviour
     private CinemachineCamera playerVsEnemyCamera;
     private CinemachineCamera playerToPlayerCamera;
     private CinemachineCamera enemyToEnemyCamera;
+    private SpriteRenderer zoomSprite;
     private BattleSystem battleSystem;
 
     [SerializeField] private GameObject mainBackground;
     [SerializeField] private GameObject blackBackground;
     [SerializeField] private GameObject zoomBackground;
+    [SerializeField] private Sprite clearBackgroundSprite;
+    [SerializeField] private Sprite blurryBackgroundSprite;
 
     private float cameraMoveDelay;
 
@@ -23,6 +27,7 @@ public class BattleCameraController : MonoBehaviour
         playerToPlayerCamera = transform.GetChild(2).GetComponent<CinemachineCamera>();
         enemyToEnemyCamera = transform.GetChild(3).GetComponent<CinemachineCamera>();
         battleSystem = FindFirstObjectByType<BattleSystem>();
+        zoomSprite = zoomBackground.GetComponent<SpriteRenderer>();
 
         SetMainCamera();
     }
@@ -74,8 +79,10 @@ public class BattleCameraController : MonoBehaviour
         playerToPlayerCamera.gameObject.SetActive(false);
         enemyToEnemyCamera.gameObject.SetActive(false);
         blackBackground.SetActive(true);
+        zoomSprite.sprite = blurryBackgroundSprite;
         zoomBackground.SetActive(true);
         yield return new WaitForSeconds(cameraMoveDelay);
+        zoomSprite.sprite = clearBackgroundSprite;
         mainBackground.SetActive(false);
     }
     
@@ -86,8 +93,10 @@ public class BattleCameraController : MonoBehaviour
         playerToPlayerCamera.gameObject.SetActive(false);
         enemyToEnemyCamera.gameObject.SetActive(false);
         blackBackground.SetActive(true);
+        zoomSprite.sprite = blurryBackgroundSprite;
         zoomBackground.SetActive(true);
         yield return new WaitForSeconds(cameraMoveDelay);
+        zoomSprite.sprite = clearBackgroundSprite;
         mainBackground.SetActive(false);
     }
 
@@ -98,8 +107,10 @@ public class BattleCameraController : MonoBehaviour
         playerToPlayerCamera.gameObject.SetActive(false);
         enemyToEnemyCamera.gameObject.SetActive(false);
         blackBackground.SetActive(true);
+        zoomSprite.sprite = blurryBackgroundSprite;
         zoomBackground.SetActive(true);
         yield return new WaitForSeconds(cameraMoveDelay);
+        zoomSprite.sprite = clearBackgroundSprite;
         mainBackground.SetActive(false);
     }
 }

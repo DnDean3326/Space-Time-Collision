@@ -75,7 +75,5 @@ MonoBehaviour:
 
     Crit Bullet: Move one extra tile.
 
-    Incendiary
-    Bullet: Apply Burn II.
-
-    Misfire: Instead reduce the damage dealt by 4.'
+    Misfire:
+    Instead reduce the damage dealt by 4.'

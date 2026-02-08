@@ -1006,7 +1006,6 @@ public class BattleSystem : MonoBehaviour
                 }
             
                 activeEnemy.target = allCombatants.IndexOf(abilityTarget);
-                yield return new WaitForSeconds(TURN_ACTION_DELAY + 1f);
                 //abilityNameDisplay.DisplayAbilityInfo(activeEnemy, abilityTarget, abilityUsed.ability);
                 switch (abilityUsed.ability.abilityType) {
                     case Ability.AbilityType.Damage:
@@ -1031,7 +1030,6 @@ public class BattleSystem : MonoBehaviour
                         yield break;
                 }
             }
-            
             state  = BattleState.TurnEnd;
             StartCoroutine(EndRoutine(activeEnemy));
             yield break;
@@ -1042,7 +1040,8 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator EndRoutine(BattleEntity activeEntity)
     {
-        StartCoroutine(ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]));
+        yield return StartCoroutine(ChangeToMainCamera(activeEntity, allCombatants[activeEntity.target]));
+        
         
         // Call character turn end logic
         if (activeEntity.myName == "Renée") {
@@ -1203,7 +1202,7 @@ public class BattleSystem : MonoBehaviour
         }
         cameraController.SetMainCamera();
         
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(CAMERA_MOVE_DELAY);
     }
     
     private void CreatePartyEntities()
@@ -2138,13 +2137,13 @@ public class BattleSystem : MonoBehaviour
             case Ability.SecondaryTarget.Spirit:
                 if (targetEntity.isPlayer) {
                     tempInt = activeAbility.costAmount;
-                    targetEntity.combatMenuVisuals.PreviewSpirit(tempInt);
+                    targetEntity.combatMenuVisuals.PreviewSpirit(targetEntity.currentSpirit - tempInt);
                 }
                 break;
             case Ability.SecondaryTarget.Armor:
                 tempInt = targetEntity.currentArmor - activeAbility.secondaryValue;
                 if (tempInt < 0) { tempInt = 0;}
-                targetEntity.battleVisuals.PreviewArmor(tempInt);
+                targetEntity.battleVisuals.PreviewArmor(targetEntity.currentArmor - tempInt);
                 break;
             case Ability.SecondaryTarget.ActionPoints:
                 List<BattleEntity> tempList = new List<BattleEntity>();
@@ -3741,8 +3740,14 @@ public class BattleSystem : MonoBehaviour
     {
         int cowboyIndex = allCombatants.IndexOf(cowboy);
         StopCoroutine(PlayerTurnRoutine(cowboyIndex));
+
+        yield return new WaitForSeconds(CAMERA_MOVE_DELAY);
+        StartCoroutine(ChangeToActionCameras(cowboy, cowboy));
         cowboy.battleVisuals.PlayActOutAnimation();
-        print("Bune acts out due to boredom!");
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(ChangeToMainCamera(cowboy, cowboy));
+        yield return new WaitForSeconds(CAMERA_MOVE_DELAY + 0.1f);
+        
         yield return new WaitForSeconds(TURN_ACTION_DELAY);
         
         BattleEntity abilityTarget = null;

@@ -16188,6 +16188,8 @@ MonoBehaviour:
   mainBackground: {fileID: 676894894}
   blackBackground: {fileID: 100494056}
   zoomBackground: {fileID: 1188242301}
+  clearBackgroundSprite: {fileID: 21300000, guid: afffe01bf08ff486d8773487a5975b53, type: 3}
+  blurryBackgroundSprite: {fileID: 21300000, guid: 7ccf3fd41e180415fa291870501e2e15, type: 3}
 --- !u!1 &1770837320
 GameObject:
   m_ObjectHideFlags: 0
