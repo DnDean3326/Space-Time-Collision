@@ -672,9 +672,9 @@ public class BattleSystem : MonoBehaviour
                     int tokenPosition = activeCharacter.activeTokens.FindIndex(t => t.tokenName == "Rush");
                     activeCharacter.activeTokens.RemoveAt(tokenPosition);
                     activeCharacter.battleVisuals.UpdateTokens(activeCharacter.activeTokens);
-                    StartCoroutine(ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]));
                 } else {
                     usedLightAction = true;
+                    StartCoroutine(ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]));
                     int abilityIndex = activeCharacter.myAbilities.IndexOf(abilityInUse);
                     if (activeCharacter.myAbilities.Any(t => t == abilityInUse)) {
                         activeCharacter.abilityCooldowns[abilityIndex] += abilityInUse.cooldown;
@@ -1006,7 +1006,7 @@ public class BattleSystem : MonoBehaviour
                 }
             
                 activeEnemy.target = allCombatants.IndexOf(abilityTarget);
-                yield return new WaitForSeconds(TURN_ACTION_DELAY);
+                yield return new WaitForSeconds(TURN_ACTION_DELAY + 1f);
                 //abilityNameDisplay.DisplayAbilityInfo(activeEnemy, abilityTarget, abilityUsed.ability);
                 switch (abilityUsed.ability.abilityType) {
                     case Ability.AbilityType.Damage:
@@ -1108,6 +1108,14 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator ChangeToActionCameras(BattleEntity mainEntity, BattleEntity targetEntity)
     {
+        foreach (GameObject tile in combatGrid.GetPartyTiles()) {
+            tile.SetActive(false);
+        }
+        
+        foreach (GameObject tile in combatGrid.GetEnemyTiles()) {
+            tile.SetActive(false);
+        }
+        
         foreach (GameObject menu in topMenuObjects) {
             menu.SetActive(false);
         }
@@ -1186,6 +1194,12 @@ public class BattleSystem : MonoBehaviour
         }
         foreach (GameObject menu in topMenuObjects) {
             menu.SetActive(true);
+        }
+        foreach (GameObject tile in combatGrid.GetPartyTiles()) {
+            tile.SetActive(false);
+        }
+        foreach (GameObject tile in combatGrid.GetEnemyTiles()) {
+            tile.SetActive(false);
         }
         cameraController.SetMainCamera();
         

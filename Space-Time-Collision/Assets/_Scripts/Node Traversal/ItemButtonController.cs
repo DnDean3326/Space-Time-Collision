@@ -40,7 +40,6 @@ public class ItemButtonController : MonoBehaviour
         consumableInventory = runInfo.GetConsumables();
         talismanInventory = runInfo.GetTalismans();
         UpdateItemButtons();
-        InstantiateTalisman();
     }
 
     private void InstantiateTalisman()
@@ -81,6 +80,8 @@ public class ItemButtonController : MonoBehaviour
             consumableIconObjects[i].SetActive(false);
             consumableBackgrounds[i].color = emptyBGColor;
         }
+        
+        InstantiateTalisman();
     }
 
     public void DisplayConsumable(int index)

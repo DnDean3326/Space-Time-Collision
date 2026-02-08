@@ -50,7 +50,17 @@ public class CombatGrid : MonoBehaviour
     {
         return lineBroken;
     }
-    
+
+    public GameObject[] GetPartyTiles()
+    {
+        return partyGridObjects;
+    }
+
+    public GameObject[] GetEnemyTiles()
+    {
+        return enemyGridObjects;
+    }
+        
     public void GetGridInfo(ref List<GridTile> partyBattleGrid, ref List<GridTile> enemyBattleGrid)
     {
         for (int i = 0; i < partyGrid.Length; i++) {
