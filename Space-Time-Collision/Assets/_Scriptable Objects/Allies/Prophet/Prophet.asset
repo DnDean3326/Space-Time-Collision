@@ -31,8 +31,8 @@ MonoBehaviour:
   baseStunResist: 0
   baseDebuffResist: 0
   baseAilmentResist: 0
-  allyBattleVisualPrefab: {fileID: 0}
-  allyMenuVisualPrefab: {fileID: 0}
+  allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 5fca960e01ddca949b8ee46f353adcf7, type: 3}
+  allyMenuVisualPrefab: {fileID: 4016972724149583921, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
   abilities: []
   equippedAbilities: []
   stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
