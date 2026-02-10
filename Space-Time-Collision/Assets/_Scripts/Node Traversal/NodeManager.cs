@@ -33,7 +33,7 @@ public class NodeManager : MonoBehaviour
     {
         runInfo = FindFirstObjectByType<RunInfo>();
         SceneManager.sceneLoaded += OnSceneLoaded;
-        runInfo.SetCurrentNode(0); // Default value is 0
+        runInfo.SetCurrentNode(1); // Default value is 0
         
         GenerateSetNodes();
     }
@@ -73,18 +73,26 @@ public class NodeManager : MonoBehaviour
         connectedNodes = new List<int> {2, 3};
         AddNode(NodeInfo.NodeType.Combat, false, connectedNodes); // Node 1
         
-        connectedNodes = new List<int> {4};
+        connectedNodes = new List<int> {4, 5};
         AddNode(NodeInfo.NodeType.Combat, false, connectedNodes); // Node 2
-        AddNode(NodeInfo.NodeType.Shop, false, connectedNodes); // Node 3
         
         connectedNodes = new List<int> {5, 6};
-        AddNode(NodeInfo.NodeType.Combat, false, connectedNodes); // Node 4
+        AddNode(NodeInfo.NodeType.Event, false, connectedNodes); // Node 3
+        
+        connectedNodes = new List<int> {7};
+        AddNode(NodeInfo.NodeType.Shop, false, connectedNodes); // Node 4
         
         connectedNodes = new List<int> {7, 8};
         AddNode(NodeInfo.NodeType.Event, false, connectedNodes); // Node 5
+        
+        connectedNodes = new List<int> {8};
         AddNode(NodeInfo.NodeType.Combat, false, connectedNodes); // Node 6
         
-        connectedNodes = new List<int> {9};
+        connectedNodes = new List<int> {9, 10};
+        AddNode(NodeInfo.NodeType.Combat, false, connectedNodes); // Node 7
+        AddNode(NodeInfo.NodeType.Combat, false, connectedNodes); // Node 8
+        
+        connectedNodes = new List<int> {11};
         AddNode(NodeInfo.NodeType.Shop, false, connectedNodes); // Node 7
         AddNode(NodeInfo.NodeType.Event, false, connectedNodes); // Node 8
         

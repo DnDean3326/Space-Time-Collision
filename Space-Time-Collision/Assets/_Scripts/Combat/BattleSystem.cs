@@ -267,6 +267,11 @@ public class BattleSystem : MonoBehaviour
     {
         return CAMERA_MOVE_DELAY;
     }
+
+    public bool CheckLightActionStatus()
+    {
+        return usedLightAction;
+    }
     
     // Battle state routines
 
@@ -674,7 +679,6 @@ public class BattleSystem : MonoBehaviour
                     activeCharacter.battleVisuals.UpdateTokens(activeCharacter.activeTokens);
                 } else {
                     usedLightAction = true;
-                    StartCoroutine(ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]));
                     int abilityIndex = activeCharacter.myAbilities.IndexOf(abilityInUse);
                     if (activeCharacter.myAbilities.Any(t => t == abilityInUse)) {
                         activeCharacter.abilityCooldowns[abilityIndex] += abilityInUse.cooldown;
@@ -684,8 +688,8 @@ public class BattleSystem : MonoBehaviour
                         consumableUsed = false;
                         DepleteConsumable();
                     }
-                    StartCoroutine(ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]));
                 }
+                yield return StartCoroutine(ChangeToMainCamera(activeCharacter, allCombatants[activeCharacter.target]));
                 BackToAbilities();
             } else {
                 state  = BattleState.TurnEnd;

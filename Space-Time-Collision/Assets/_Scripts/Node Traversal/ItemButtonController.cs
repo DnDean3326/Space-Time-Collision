@@ -104,6 +104,9 @@ public class ItemButtonController : MonoBehaviour
         if (currentScene.name != BATTLE_SCENE) {
             return;
         }
+        if (battleSystem.CheckLightActionStatus()) {
+            return;
+        }
         runInfo.RemoveConsumable(consumableInventory[consumableSelected]);
         UpdateItemButtons();
     }
