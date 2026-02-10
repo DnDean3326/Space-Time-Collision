@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Treatment Kit
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableInfo
   consumableName: Treatment Kit
-  consumableIcon: {fileID: 21300000, guid: 055d507a0bbcd3b41b8a960f2cb5fffb, type: 3}
+  consumableIcon: {fileID: 21300000, guid: e5e2db6f8c8a62449be7205005b5e978, type: 3}
   consumablePrice: 10
   consumableAbility: {fileID: 11400000, guid: 9aa57aab222bbfa4d96c1ea768268bdf, type: 2}
   itemDescription: 'Remove all debuffs from the target and restore 2HP for each token
