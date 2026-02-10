@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f1b1450d25a28164f8cb4ea4b82bde8d
+guid: a32a2395459a6a3478147c1078f9ce01
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8502641991178436993
-    second: adamantine_ore_0
+      213: 1142389180072759289
+    second: shadow_cloak_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: adamantine_ore_0
+      name: shadow_cloak_0
       rect:
         serializedVersion: 2
-        x: 45
-        y: 1
-        width: 528
-        height: 598
+        x: 0
+        y: 0
+        width: 576
+        height: 581
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f7e3d7f682c800a80800000000000000
-      internalID: -8502641991178436993
+      spriteID: 9ff8c7918e49adf00800000000000000
+      internalID: 1142389180072759289
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      adamantine_ore_0: -8502641991178436993
+      shadow_cloak_0: 1142389180072759289
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
