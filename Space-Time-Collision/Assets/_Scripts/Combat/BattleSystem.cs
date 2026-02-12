@@ -110,6 +110,9 @@ public class BattleSystem : MonoBehaviour
     private BattleToken ascensionToken;
     private BattleToken killseekerToken;
     private BattleToken viceToken;
+    private BattleToken confidenceProphecy;
+    private BattleToken friendshipProphecy;
+    private BattleToken doomProphecy;
     
     // Ailment Counters
     private BattleToken bleedCounter;
@@ -313,7 +316,6 @@ public class BattleSystem : MonoBehaviour
     {
         // Remove any dead combatants from the combat
         yield return StartCoroutine(FixResources());
-        
         yield return StartCoroutine(RemoveDeadCombatants());
         
         // if no party members remain -> battle is lost
@@ -329,7 +331,6 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.Victory;
             combatEndUIAnimator.SetTrigger(VICTORY_TRIGGER);
             yield return new WaitForSeconds(END_DELAY);  // wait a few seconds
-            print("Your party prevailed!");
             runInfo.ChangeFunds(encounterFunds);
             if (runInfo.GetCurrentNode() == 9) {
                 SceneManager.LoadScene(BASE_SCENE);
@@ -1390,6 +1391,9 @@ public class BattleSystem : MonoBehaviour
         ascensionToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Ascension");
         killseekerToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Killseeker");
         viceToken = allTokens.SingleOrDefault(obj => obj.tokenName == "Vice");
+        confidenceProphecy = allTokens.SingleOrDefault(obj => obj.tokenName == "ConfidenceProphecy");
+        friendshipProphecy = allTokens.SingleOrDefault(obj => obj.tokenName == "FriendshipProphecy");
+        doomProphecy = allTokens.SingleOrDefault(obj => obj.tokenName == "DoomProphecy");
         
         // Set ailment counters
         bleedCounter = allTokens.SingleOrDefault(obj => obj.tokenName == "Bleed");
@@ -3891,6 +3895,9 @@ public class BattleSystem : MonoBehaviour
         List<BattleToken> selfTokens = new List<BattleToken>();
         List<int> selfTokensCount = new List<int>();
 
+        int healAmount = 0;
+        bool tokenHeal = false;
+
         SetAbilityTokens(ref targetTokens, ref targetTokensCount, ref selfTokens, ref selfTokensCount, activeAbility);
 
         if (abilityDuplicated) {
@@ -3956,6 +3963,37 @@ public class BattleSystem : MonoBehaviour
         if ((selfXTravel != 0 || selfYTravel != 0) && !abilityDuplicated) {
             if (attacker.activeTokens.All(t => t.tokenName != "Restrict")) {
                 StartCoroutine(ChangeGridPosition(attacker, selfXTravel, selfYTravel));
+            }
+        }
+        
+        // Apply Prophecy Tokens
+        if (partyCombatants.Any(t => t.myName == "Mephi")) {
+            if (attacker.activeTokens.Any(t => t.tokenName == "FriendshipProphecy")
+                && (targetTokens.Count >= 2 || selfTokens.Count >= 2)) {
+                BattleEntity prophetEntity = partyCombatants.Find(t => t.myName == "Mephi");
+                BattleToken tokenToAdd = allTokens.Find(t => t.tokenName == "Boost");
+                BattleToken friendshipProphecy = attacker.activeTokens.Find(t => t.tokenName == "FriendshipProphecy");
+                selfTokens.Add(tokenToAdd);
+                selfTokensCount.Add(1);
+                AddTokens(prophetEntity, prophetEntity, "Boost", 1, 100);
+                attacker.activeTokens.Remove(friendshipProphecy);
+            }
+            
+            if (attacker.activeTokens.Any(t => t.tokenName == "ConfidenceProphecy")) {
+                BattleEntity prophetEntity = partyCombatants.Find(t => t.myName == "Mephi");
+                healAmount = prophetEntity.mind;
+                attacker.currentDefense += healAmount; // restore Shields
+                if (attacker.currentDefense > attacker.maxDefense) {
+                    attacker.currentDefense = attacker.maxDefense;
+                }
+                prophetEntity.currentDefense += healAmount; // restore Shields
+                if (prophetEntity.currentDefense > prophetEntity.maxDefense) {
+                    prophetEntity.currentDefense = prophetEntity.maxDefense;
+                }
+                SaveResources();
+                // Update the UI
+                attacker.UpdatePlayerUI();
+                prophetEntity.UpdatePlayerUI();
             }
         }
         
@@ -4033,6 +4071,18 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
+        if (partyCombatants.Any(t => t.myName == "Mephi")) {
+            if (attacker.activeTokens.Any(t => t.tokenName == "DoomProphecy")) {
+                BattleEntity prophetEntity = partyCombatants.Find(t => t.myName == "Mephi");
+                BattleToken tokenToAdd = allTokens.Find(t => t.tokenName == "Vulnerable");
+                selfTokens.Add(tokenToAdd);
+                selfTokensCount.Add(1);
+                if (isCrit) {
+                    AddTokens(prophetEntity, prophetEntity, "Critical", 1, 0);
+                }
+            }
+        }
+
         // Clear tokens from the target
         if (activeAbility.targetTokensCleared.Length > 0) {
             foreach (Ability.TokenOption token in activeAbility.targetTokensCleared) {
@@ -4096,6 +4146,9 @@ public class BattleSystem : MonoBehaviour
         
         // Play combat animations
         attackTarget.battleVisuals.PlayHitAnimation(damage, isCrit); // target plays on hit animation
+        if (tokenHeal) {
+            attacker.battleVisuals.PlayHealAnimation(healAmount, false);
+        }
         if (!abilityDuplicated && extraCastCount == 0) {
             attacker.battleVisuals.PlayAttackAnimation(); // play the attack animation
             yield return new WaitForSeconds(TURN_ACTION_DELAY);
@@ -4287,6 +4340,20 @@ public class BattleSystem : MonoBehaviour
             }
         }
         
+        // Apply Prophecy Tokens
+        if (partyCombatants.Any(t => t.myName == "Mephi")) {
+            if (healer.activeTokens.Any(t => t.tokenName == "FriendshipProphecy")
+                && (targetTokens.Count >= 2 || selfTokens.Count >= 2)) {
+                BattleEntity prophetEntity = partyCombatants.Find(t => t.myName == "Mephi");
+                BattleToken tokenToAdd = allTokens.Find(t => t.tokenName == "Boost");
+                BattleToken friendshipProphecy = healer.activeTokens.Find(t => t.tokenName == "FriendshipProphecy");
+                selfTokens.Add(tokenToAdd);
+                selfTokensCount.Add(1);
+                AddTokens(prophetEntity, prophetEntity, "Boost", 1, 100);
+                healer.activeTokens.Remove(friendshipProphecy);
+            }
+        }
+
         // Check for hit
         if (activeAbility.hasAccuracy) {
             int accRoll = Random.Range(1, 101);
@@ -4524,6 +4591,20 @@ public class BattleSystem : MonoBehaviour
             }
         }
         
+        // Apply Prophecy Tokens
+        if (partyCombatants.Any(t => t.myName == "Mephi")) {
+            if (buffer.activeTokens.Any(t => t.tokenName == "FriendshipProphecy")
+                && (targetTokens.Count >= 2 || selfTokens.Count >= 2)) {
+                BattleEntity prophetEntity = partyCombatants.Find(t => t.myName == "Mephi");
+                BattleToken tokenToAdd = allTokens.Find(t => t.tokenName == "Boost");
+                BattleToken friendshipProphecy = buffer.activeTokens.Find(t => t.tokenName == "FriendshipProphecy");
+                selfTokens.Add(tokenToAdd);
+                selfTokensCount.Add(1);
+                AddTokens(prophetEntity, prophetEntity, "Boost", 1, 100);
+                buffer.activeTokens.Remove(friendshipProphecy);
+            }
+        }
+        
         // Check for hit
         if (activeAbility.hasAccuracy) {
             int accRoll = Random.Range(1, 101);
@@ -4722,6 +4803,20 @@ public class BattleSystem : MonoBehaviour
         if ((selfXTravel != 0 || selfYTravel != 0) && !abilityDuplicated) {
             if (debuffer.activeTokens.All(t => t.tokenName != "Restrict")) {
                 StartCoroutine(ChangeGridPosition(debuffer, selfXTravel, selfYTravel));
+            }
+        }
+        
+        // Apply Prophecy Tokens
+        if (partyCombatants.Any(t => t.myName == "Mephi")) {
+            if (debuffer.activeTokens.Any(t => t.tokenName == "FriendshipProphecy")
+                && (targetTokens.Count >= 2 || selfTokens.Count >= 2)) {
+                BattleEntity prophetEntity = partyCombatants.Find(t => t.myName == "Mephi");
+                BattleToken tokenToAdd = allTokens.Find(t => t.tokenName == "Boost");
+                BattleToken friendshipProphecy = debuffer.activeTokens.Find(t => t.tokenName == "FriendshipProphecy");
+                selfTokens.Add(tokenToAdd);
+                selfTokensCount.Add(1);
+                AddTokens(prophetEntity, prophetEntity, "Boost", 1, 100);
+                debuffer.activeTokens.Remove(friendshipProphecy);
             }
         }
         

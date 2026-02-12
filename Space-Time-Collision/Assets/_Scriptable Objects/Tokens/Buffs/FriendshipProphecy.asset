@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3fd5e77bf9d6d448a6b471671072d1, type: 3}
+  m_Name: FriendshipProphecy
+  m_EditorClassIdentifier: Assembly-CSharp::Token
+  tokenName: FriendshipProphecy
+  displayName: Friendship Prophecy
+  tokenIcon: {fileID: 21300000, guid: a50429c4f9c92634c9fd09e5aa71aa1b, type: 3}
+  tokenType: 0
+  tokenValue: 0
+  tokenCap: 1
+  tokenInverses: []
+  isUnique: 1
+  tokenDescription: 'When you apply two or more tokens with a single ability you
+    and Mephi both gain Boost I.
+
+    This token is removed after triggering.'

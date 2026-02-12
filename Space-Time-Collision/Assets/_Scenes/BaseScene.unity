@@ -298,6 +298,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e8225391d4574084f8e143069a7215b7, type: 2}
   - {fileID: 11400000, guid: c5ec40e6881d86948bb3974dd29b1127, type: 2}
   - {fileID: 11400000, guid: ecf5cb58eac38024995ede0188254e77, type: 2}
+  - {fileID: 11400000, guid: c2218e71000f0a145af2bb7fac51f00f, type: 2}
+  - {fileID: 11400000, guid: c879c19d06e9dd64d98817da0f36dd8a, type: 2}
   - {fileID: 11400000, guid: b0847607d0292204aafd0415dba58592, type: 2}
   - {fileID: 11400000, guid: db26c35e4ab6869449f7bf05ded86e30, type: 2}
   - {fileID: 11400000, guid: 596290b16018fb741a213f856d3e0015, type: 2}
@@ -311,6 +313,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2f679c912e0a6d84b8505e2989eb75fc, type: 2}
   - {fileID: 11400000, guid: 5e0d02eca971bad48bd0f7e0210bcb1c, type: 2}
   - {fileID: 11400000, guid: 40d1f1344fc24e940b402efdfed6f0f9, type: 2}
+  - {fileID: 11400000, guid: c681cd8199e0b514e9eaa7751223aa77, type: 2}
   allTokensList: []
 --- !u!4 &137316296
 Transform:

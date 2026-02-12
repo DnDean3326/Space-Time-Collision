@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3fd5e77bf9d6d448a6b471671072d1, type: 3}
+  m_Name: ConfidenceProphecy
+  m_EditorClassIdentifier: Assembly-CSharp::Token
+  tokenName: ConfidenceProphecy
+  displayName: Confidence Prophecy
+  tokenIcon: {fileID: 21300000, guid: 50a3a624499a9a041a463624a07ff935, type: 3}
+  tokenType: 0
+  tokenValue: 5
+  tokenCap: 1
+  tokenInverses: []
+  isUnique: 1
+  tokenDescription: Whenever you attack you and Mephi regain 5 Shields.
