@@ -10,6 +10,28 @@ public class ProphetBattleLogic : MonoBehaviour
         battleSystem = bSystem;
     }
 
+    public bool ProphetUseLogic(BattleEntity prophet, Ability ability)
+    {
+        bool blockAbility = false;
+        switch (ability.abilityName) {
+            case "Restorative Burst":
+                int buffCount = 0;
+                foreach (BattleToken token in prophet.activeTokens) {
+                    if (token.tokenType == Token.TokenType.Buff) {
+                        buffCount += token.tokenCount;
+                    }
+                }
+
+                if (buffCount < 3) {
+                    blockAbility = true;
+                }
+                break;
+            default:
+                break;
+        }
+        
+        return blockAbility;
+    }
     
     public void ProphetHealLogic(Ability activeAbility, ref bool overheal, ref int secondaryRestore)
     {

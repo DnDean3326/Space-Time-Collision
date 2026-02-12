@@ -1998,6 +1998,13 @@ public class BattleSystem : MonoBehaviour
                     abilityAvailable.Add(false);
                     continue;
                 }
+            } else if (player.myName == "Mephi") {
+                if (prophetLogic.ProphetUseLogic(player, player.activeAbility)) {
+                    abilityImages[i].color = new Color(40,40,40);
+                    abilityButtons[i].interactable = false;
+                    abilityAvailable.Add(false);
+                    continue;
+                }
             }
             if (player.abilityCooldowns[i] > 0 || player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Heavy && usedLightAction || 
                 player.myAbilities[i].abilityWeight == Ability.AbilityWeight.Light && usedLightAction) {
