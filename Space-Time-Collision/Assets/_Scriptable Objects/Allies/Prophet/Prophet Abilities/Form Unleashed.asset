@@ -19,7 +19,7 @@ MonoBehaviour:
   abilityWeight: 0
   costResource: 1
   costAmount: 3
-  cooldown: 1
+  cooldown: 2
   rangeMin: 1
   rangeMax: 6
   hasAccuracy: 1
@@ -27,8 +27,8 @@ MonoBehaviour:
   attackType: 2
   keyStat: 3
   statModifier: 0
-  dmgMin: 3
-  dmgMax: 6
+  dmgMin: 4
+  dmgMax: 10
   critChance: 10
   extraCasts: 0
   secondaryTarget: 1
@@ -57,9 +57,18 @@ MonoBehaviour:
   targetCritTokenCountApplied: 
   selfTokensCleared: 
   targetTokensCleared: 
-  ignoreBlock: 0
+  ignoreBlock: 1
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  equipDescription: 
-  description: 
+  equipDescription: 'Type: Damage | Crit: 10%
+
+    DMG: 8-14'
+  description: 'Weight: Heavy | Cost: 3 SP
+
+    CD: 2 | Range: 1-6
+
+    Ignore Block.
+
+    Deal
+    +1 damage for each buff token you have.'

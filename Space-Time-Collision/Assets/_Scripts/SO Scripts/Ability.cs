@@ -123,7 +123,11 @@ public class Ability : ScriptableObject
         
         Bleed,
         Burn,
-        Poison
+        Poison,
+        
+        ConfidenceProphecy,
+        FriendshipProphecy,
+        DoomProphecy
     }
     
     [Header("Ability Basics")]

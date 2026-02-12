@@ -139,6 +139,7 @@ public class BattleSystem : MonoBehaviour
     private RepentantBattleLogic repentantLogic;
     private CowboyBattleLogic cowboyLogic;
     private RicochetBattleLogic ricochetLogic;
+    private ProphetBattleLogic prophetLogic;
     
     private int currentPlayer;
     private int extraCastCount = 0;
@@ -244,6 +245,9 @@ public class BattleSystem : MonoBehaviour
         
         ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
         ricochetLogic.RicochetBattleSystemLink(this);
+        
+        prophetLogic = FindFirstObjectByType<ProphetBattleLogic>();
+        prophetLogic.ProphetBattleSystemLink(this);
     }
 
     public List<BattleEntity> GetPartyList()
@@ -254,6 +258,11 @@ public class BattleSystem : MonoBehaviour
     public List<BattleEntity> GetEnemyList()
     {
         return enemyCombatants;
+    }
+    
+    public List<BattleEntity> GetCombatantsList()
+    {
+        return allCombatants;
     }
 
     public List<BattleEntity> GetTargetList()
@@ -3090,6 +3099,16 @@ public class BattleSystem : MonoBehaviour
         string inverseTwo;
         BattleToken tokenAdded = allTokens.FirstOrDefault(t => tokenName == t.tokenName);
 
+        if (tokenAdded.tokenName is "ConfidenceProphecy" or "FriendshipProphecy" or "DoomProphecy") {
+            foreach (BattleEntity combatant in allCombatants) {
+                if (combatant.activeTokens.All(token => token.tokenName != tokenAdded.tokenName)) {
+                    continue;
+                }
+                BattleToken prevProphecy = combatant.activeTokens.Find(token => token.tokenName == tokenAdded.tokenName);
+                combatant.activeTokens.Remove(prevProphecy);
+            }
+        }
+
         if (recipientEntity.currentDefense > 0 && tokenName == "Bleed") { return; }
 
         if (tokenAdded != null) {
@@ -4307,6 +4326,8 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
+        bool overheal = false;
+
         // Check character logic
         if (healer.myName == "Renée") {
             repentantLogic.RepentantAbilityLogic(healer, healTarget, activeAbility, ref minDamageRange,
@@ -4314,6 +4335,8 @@ public class BattleSystem : MonoBehaviour
                 ref targetTokens, ref targetTokensCount);
         } else if (healer.myName == "Tre") {
             ricochetLogic.RicochetHealLogic(healer, activeAbility, ref selfTokens, ref selfTokensCount);
+        } else if (healer.myName == "Mephi") {
+            prophetLogic.ProphetHealLogic(activeAbility, ref overheal, ref secondaryRestore);
         }
         
         // Check Talisman Logic
@@ -4476,15 +4499,26 @@ public class BattleSystem : MonoBehaviour
         }
         
         // Heal the target
-        if (activeAbility.attackType == Ability.AttackType.Health) {
-            healTarget.currentHealth += restore; // restore Health
-            if (healTarget.currentHealth > healTarget.maxHealth) {
-                healTarget.currentHealth = healTarget.maxHealth;
+        if (!overheal) {
+            if (activeAbility.attackType == Ability.AttackType.Health) {
+                healTarget.currentHealth += restore; // restore Health
+                if (healTarget.currentHealth > healTarget.maxHealth) {
+                    healTarget.currentHealth = healTarget.maxHealth;
+                }
+            } else {
+                healTarget.currentDefense += restore; // restore Shields
+                if (healTarget.currentDefense > healTarget.maxDefense) {
+                    healTarget.currentDefense = healTarget.maxDefense;
+                }
             }
         } else {
-            healTarget.currentDefense += restore; // restore Shields
-            if (healTarget.currentDefense > healTarget.maxDefense) {
-                healTarget.currentDefense = healTarget.maxDefense;
+            if (healTarget.currentHealth + restore > healTarget.maxHealth) {
+                healTarget.currentHealth = healTarget.maxHealth;
+                int overhealAmt = restore - (healTarget.maxHealth - healTarget.currentHealth);
+                healTarget.currentDefense += overhealAmt;
+                if (healTarget.currentDefense > healTarget.maxDefense) {
+                    healTarget.currentDefense = healTarget.maxDefense;
+                }
             }
         }
         

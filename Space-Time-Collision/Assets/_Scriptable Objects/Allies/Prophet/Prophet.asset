@@ -33,8 +33,22 @@ MonoBehaviour:
   baseAilmentResist: 0
   allyBattleVisualPrefab: {fileID: 3261590451165467516, guid: 5fca960e01ddca949b8ee46f353adcf7, type: 3}
   allyMenuVisualPrefab: {fileID: 4016972724149583921, guid: 7c351ba6e1e74a94ca7af6b8ff2685c6, type: 3}
-  abilities: []
-  equippedAbilities: []
+  abilities:
+  - {fileID: 11400000, guid: 77a10a2302cf9be4db185f99fae51d9a, type: 2}
+  - {fileID: 11400000, guid: dab7857fe4159ee42a36032134426aaf, type: 2}
+  - {fileID: 11400000, guid: 6d50649e4de286044afac537eb1116a4, type: 2}
+  - {fileID: 11400000, guid: 6992ee9db20f0064a90a65d6477ff8ff, type: 2}
+  - {fileID: 11400000, guid: cc177f43252a8fa4ba3c5dff24e38152, type: 2}
+  - {fileID: 11400000, guid: 68a62f15fc0a0cc4e896c9a1eda98da2, type: 2}
+  - {fileID: 11400000, guid: 0f24e6c05b40daa44b827c690ed8c59c, type: 2}
+  - {fileID: 11400000, guid: f316ddd121e84e24abb482cb1d9d10cd, type: 2}
+  - {fileID: 11400000, guid: 3677a9f3093e564428c7ef72cdc188c0, type: 2}
+  equippedAbilities:
+  - {fileID: 11400000, guid: 6992ee9db20f0064a90a65d6477ff8ff, type: 2}
+  - {fileID: 11400000, guid: cc177f43252a8fa4ba3c5dff24e38152, type: 2}
+  - {fileID: 11400000, guid: 77a10a2302cf9be4db185f99fae51d9a, type: 2}
+  - {fileID: 11400000, guid: 3677a9f3093e564428c7ef72cdc188c0, type: 2}
+  - {fileID: 11400000, guid: 6d50649e4de286044afac537eb1116a4, type: 2}
   stepAbility: {fileID: 11400000, guid: ab7b2555a9ef5c6498463d3c13b4528d, type: 2}
   sprintAbility: {fileID: 11400000, guid: a19908541066aa8409f285dc2695a111, type: 2}
   baseLineBreakToken: {fileID: 11400000, guid: 5c2921ee1b67851439ff74a615aa249f, type: 2}

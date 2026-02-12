@@ -12,24 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d9c7430fc621e459ce83b70b675777, type: 3}
   m_Name: Even Bugs Fight Back
   m_EditorClassIdentifier: Assembly-CSharp::Ability
-  abilityName: 
+  abilityName: Even Bugs Fight Back
   abilityLevel: 1
   abilityIcon: {fileID: 0}
   abilityType: 1
   abilityWeight: 1
   costResource: 1
-  costAmount: 3
+  costAmount: 4
   cooldown: 0
   rangeMin: 1
   rangeMax: 3
-  hasAccuracy: 0
+  hasAccuracy: 1
   targetSelf: 0
   attackType: 3
-  keyStat: 0
-  statModifier: 0
-  dmgMin: 0
-  dmgMax: 0
-  critChance: 0
+  keyStat: 4
+  statModifier: 1
+  dmgMin: 1
+  dmgMax: 5
+  critChance: 10
   extraCasts: 0
   secondaryTarget: 0
   secondaryStat: 0
@@ -49,8 +49,8 @@ MonoBehaviour:
   targetYChangeToCenter: 0
   selfTokensApplied: 
   selfTokenCountApplied: 
-  targetTokensApplied: 
-  targetTokenCountApplied: 
+  targetTokensApplied: 28000000
+  targetTokenCountApplied: 01000000
   selfCritTokensApplied: 
   selfCritTokenCountApplied: 
   targetCritTokensApplied: 
@@ -61,5 +61,12 @@ MonoBehaviour:
   ignoreDodge: 0
   ignoreWard: 0
   ignoreArmor: 0
-  equipDescription: 
-  description: 
+  equipDescription: 'Type: Heal (Shields) | Crit: 10%
+
+    Heal: 6-10'
+  description: 'Weight: Heavy | Cost: 4 SP
+
+    CD: N/A | Range: 1-3
+
+    Apply
+    Confidence Prophecy.'
