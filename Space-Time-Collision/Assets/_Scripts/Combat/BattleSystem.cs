@@ -1897,16 +1897,6 @@ public class BattleSystem : MonoBehaviour
     public IEnumerator MoveToPosition(BattleEntity entity, Vector3 startPos, Vector3 endPos)
     {
         entity.myVisuals.transform.position = endPos;
-        
-        /*bool isMoving = true;
-        while (isMoving) {
-            entity.myVisuals.transform.position = Vector3.MoveTowards(startPos, endPos, MOVE_SPEED * Time.deltaTime);
-            
-            if (entity.myVisuals.transform.position == endPos) {
-                isMoving = false;
-            }
-        }*/
-
         yield break;
     }
 
