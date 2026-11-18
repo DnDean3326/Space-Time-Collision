@@ -490,7 +490,6 @@ GameObject:
   - component: {fileID: 221141746}
   - component: {fileID: 221141745}
   - component: {fileID: 221141744}
-  - component: {fileID: 221141747}
   m_Layer: 0
   m_Name: PartyManager
   m_TagString: Untagged
@@ -529,7 +528,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6197cb95c04e32949b4b708b57a9fcb6, type: 2}
   - {fileID: 11400000, guid: 25d862b567b05f347b8e0159d6033c4a, type: 2}
   - {fileID: 11400000, guid: 20fa378dba5af754d904596e26a7344a, type: 2}
-  - {fileID: 11400000, guid: c2528866af88bc94a862f90bb8226c9a, type: 2}
   currentParty: []
 --- !u!114 &221141744
 MonoBehaviour:
@@ -570,18 +568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349b3c3fdb97c26449df4b5af59569d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RepentantBattleLogic
---- !u!114 &221141747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 221141741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04ae1676491e4234bad8718b6527d889, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ProphetBattleLogic
 --- !u!1 &222600934
 GameObject:
   m_ObjectHideFlags: 0

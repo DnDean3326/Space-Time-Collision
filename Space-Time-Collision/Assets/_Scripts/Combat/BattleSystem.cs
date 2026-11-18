@@ -245,9 +245,6 @@ public class BattleSystem : MonoBehaviour
         
         ricochetLogic = FindFirstObjectByType<RicochetBattleLogic>();
         ricochetLogic.RicochetBattleSystemLink(this);
-        
-        prophetLogic = FindFirstObjectByType<ProphetBattleLogic>();
-        prophetLogic.ProphetBattleSystemLink(this);
     }
 
     public List<BattleEntity> GetPartyList()
